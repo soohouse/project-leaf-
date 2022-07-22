@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- mybatis에서 null값이 전달되어 부적합한 열 유형 : 1111 에러가 뜨는 것을 조치하기 위한 mybatis 설정 파일 -->
+
+<configuration>
+
+	<settings>
+		<!-- MyBatis에서는 쿼리에 매핑되는 파라미터에 NULL이 들어가면 무조건 에러가 발생한다. -->
+		<!-- value에 전달할 값이 null일 경우에 처리할 값을 지정하게 되면 그 값으로 데이터베이스에 값이 세팅되어 에러가 발생하지 않는다. -->
+		<!-- <setting name="jdbcTypeForNull" value="VARCHAR" /> -->
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		
+		<!-- 데이터베이스로부터의 응답을 얼마나 오래 기다릴지를 판단하는 시간을 설정, 3000초를 넘어가면 응답 포기 -->
+		<setting name="defaultStatementTimeout" value="3000"/>
+	</settings>
+
+</configuration>

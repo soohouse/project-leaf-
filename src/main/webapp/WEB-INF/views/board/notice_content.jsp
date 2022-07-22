@@ -22,23 +22,28 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
+   <style>
+
+ 
+   </style>
    
 </head>
 <body>
 
-<%@ include file="include/header.jsp" %>
+<%@ include file="../include/header.jsp" %>
 	   
 	<div class="mainbox">
 	
-		<!-- 이곳에다가 div 생성해서 만드시면 될겁니다~~ -->
-		<div class="mydiv">
-			
-		</div>
+		<p>룰루</p>
 		  
-		<%@ include file="include/footer.jsp" %>
+		
 	   
+	   
+	    <%@ include file="../include/footer.jsp" %>
 	</div>
    
+   
+  
 </body>
 </html>
 
