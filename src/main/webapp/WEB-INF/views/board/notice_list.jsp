@@ -77,7 +77,7 @@
                  </select>
                  
                  
-                <table class="table table-striped"  style="text-align: center; border: 2px solid #737373">
+                <table class="table table-bordered"  style="text-align: center; border: 2px solid #737373">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center;">번호</th>

@@ -24,6 +24,15 @@
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
 
+ 	.tbody {
+ 		width: 100%;
+ 	
+ 	}
+
+    .td{
+        
+        height:350px;
+    }
  
    </style>
    
@@ -34,8 +43,50 @@
 	   
 	<div class="mainbox">
 	
-		<p>룰루</p>
-		  
+        <section>
+            <div class="container">
+				<div class="row">
+					 <h2>공지사항</h2>
+                	 <hr class="headline">
+				
+                     <div class="container my-1 col-lg-8 col-md-10 col-sm-12">
+                        <div class="row">
+                            <table class="table">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th scope="col" style="width: 60%"><h4>[기업] 공지사항 1 </h4>
+                                            <br>
+                                            <img src="img/logo2.png"> 관리자
+</th>
+                                        <th scope="col" style="width: 40%" class="text-right">
+                                            2022-07-22 &nbsp;&nbsp; 조회수 : 95
+                                            <br> </th>
+                                    </tr>
+                                </thead>
+                 
+                                <tbody>
+                                    <tr>
+                                        
+                                        <td>
+                                        
+                                        	관리자입니다.
+
+                                            기업 회원분들에게 알려드립니다.
+                                            2022년 7월 18일 기업 회원 데이터베이스 점검 예정입니다.
+                                            기업 회원분들께서는 해당 기간에는 로그인을 자제해주시길 바라며,
+                                            변경사항을 꼭 저장해주시기 바랍니다.
+                                            
+                                            감사합니다.
+                                         </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                        </div>
+                    </div>
+				</div>
+			</div> 
+        </section> 
 		
 	   
 	   
