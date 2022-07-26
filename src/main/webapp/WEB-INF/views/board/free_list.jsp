@@ -69,13 +69,13 @@
         <div class="container">
             <div class="row">
 
-                <h2>공지사항</h2>
+                <h2>자유게시판</h2>
                 <hr class="headline">
                  <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='notice_write'">글쓰기</button>
+                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='free_write'">작성하기</button>
                  
                  
                 <table class="table table-bordered"  style="text-align: center;">
@@ -94,26 +94,26 @@
                     
                         <tr>
                             <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='notice_content'">공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a onclick="location.href='free_content'">안녕하세요. 오늘 처음 가입했습니다^^</a></td>
+                            <td>Hong123</td>
+                            <td>1시간 전</td>
+                            <td>85</td>
                         </tr>
 
                         <tr>
                             <td>2</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>아 프로젝트 너무 어렵다 ..</a></td>
+                            <td>Kim123</td>
+                            <td>2022-07-16</td>
+                            <td>162</td>
                         </tr>
 
                         <tr>
                             <td>3</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>오늘 날씨가 진짜 덥네요~~</a></td>
+                            <td>Test22</td>
+                            <td>2022-07-15</td>
+                            <td>224</td>
                         </tr>
                       
 									

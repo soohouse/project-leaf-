@@ -60,7 +60,7 @@
 					    	</tbody>
 		    	    	</table>
     	    			<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
-    	    			<input type="submit" class="btn btn-primary pull-right" value="목록">
+    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="목록">
 					</div>
 				</div>
 			</div>		   

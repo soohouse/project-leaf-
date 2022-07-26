@@ -37,30 +37,30 @@
 		<section>
 			<div class="container">
 				<div class="row">
-					 <h2>공지사항</h2>
+					 <h2>Q&A</h2>
                 	 <hr class="headline">
 				
 					<div class="col-lg-8 col-md-10 col-sm-12">
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
 				    	    	<tr>
-				    	    		<th colspan= "2">공지사항 제목</th>
+				    	    		<th colspan= "2">질문 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" class="form-control" placeholder="Q.경력이 없어도 프로젝트에 지원할 수 있을까요...?" maxlength="50" ></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
 					    		<tr>
-				    	    		<th colspan= "2">공지사항 내용</th>
+				    	    		<th colspan= "2">질문 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+					    			<td><textarea class="form-control" placeholder="질문 드립니다... 제가 어쩌구저쩌구" maxlength="2048" style= "height:350px" ></textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="수정하기">
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="목록">
+		    	    	<input type="submit" class="btn btn-primary pull-right" onclick="location.href='data_list'" value="목록">
+    	    			<input type="submit" class="btn btn-info pull-right" onclick="location.href='data_list'" value="수정하기">
 					</div>
 				</div>
 			</div>		   

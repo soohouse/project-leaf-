@@ -46,6 +46,50 @@ public class JSController {
 		return "/board/qa_modify";
 	}
 	
+	@GetMapping("/free_list")
+	public String free_list() {
+		return "/board/free_list";
+	}
+	
+	@GetMapping("/free_write")
+	public String free_write() {
+		return "/board/free_write";
+	}
+	
+	@GetMapping("/free_content")
+	public String free_content() {
+		return "/board/free_content";
+	}
+
+	@GetMapping("/free_modify")
+	public String free_modify() {
+		return "/board/free_modify";
+	}
+	
+	@GetMapping("/data_list")
+	public String data_list() {
+		return "/board/data_list";
+	}
+	
+	@GetMapping("/data_write")
+	public String data_write() {
+		return "/board/data_write";
+	}
+	
+	@GetMapping("/data_content")
+	public String data_content() {
+		return "/board/data_content";
+	}
+
+	@GetMapping("/data_modify")
+	public String data_modify() {
+		return "/board/data_modify";
+	}
+	
+	@GetMapping("/dev_list")
+	public String dev_list() {
+		return "/board/dev_list";
+	}
 	
 	
 }

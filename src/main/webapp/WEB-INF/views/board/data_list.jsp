@@ -69,13 +69,13 @@
         <div class="container">
             <div class="row">
 
-                <h2>공지사항</h2>
+                <h2>자료실</h2>
                 <hr class="headline">
                  <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='notice_write'">글쓰기</button>
+                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='data_write'">작성하기</button>
                  
                  
                 <table class="table table-bordered"  style="text-align: center;">
@@ -94,26 +94,29 @@
                     
                         <tr>
                             <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='notice_content'">공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a onclick="location.href='data_content'">와이어프레임 설계 툴 공유합니다.</a>
+                            <a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a></td>
+                            <td>Hong123</td>
+                            <td>1시간 전</td>
+                            <td>95</td>
                         </tr>
 
                         <tr>
                             <td>2</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>c++ 임베디드 시스템 제어 코드 공유</a>
+                            <a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a></td>
+                            <td>kim123</td>
+                            <td>2022-07-16</td>
+                            <td>162</td>
                         </tr>
 
                         <tr>
                             <td>3</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>안드로이드 메뉴 xml 코드 공유합니다~~</a>
+                            <a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a></td>
+                            <td>Test22</td>
+                            <td>2022-07-15</td>
+                            <td>224</td>
                         </tr>
                       
 									

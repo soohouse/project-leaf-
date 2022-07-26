@@ -37,30 +37,38 @@
 		<section>
 			<div class="container">
 				<div class="row">
-					 <h2>공지사항</h2>
+					 <h2>자료실</h2>
                 	 <hr class="headline">
 				
 					<div class="col-lg-8 col-md-10 col-sm-12">
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
 				    	    	<tr>
-				    	    		<th colspan= "2">공지사항 제목</th>
+				    	    		<th colspan= "2">게시글 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" class="form-control" placeholder="게시글 제목을 입력하세요." maxlength="50" ></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
 					    		<tr>
-				    	    		<th colspan= "2">공지사항 내용</th>
+				    	    		<th colspan= "2">게시글 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+					    			<td><textarea class="form-control" placeholder="게시글 내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
 					    		</tr>
+					    		
 					    	</tbody>
+					    	
+					    		
 		    	    	</table>
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="수정하기">
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="목록">
+		    	    			<tr>
+						    		<th>파일업로드</th>
+									<td><input type="file" name="uploadFile"></td>	
+								</tr>
+		    	    	
+    	    			<input type="submit" class="btn btn-success pull-right" value="등록">
+    	    			<input type="submit" class="btn btn-primary pull-right" value="목록">
 					</div>
 				</div>
 			</div>		   

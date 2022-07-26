@@ -46,7 +46,7 @@
         <section>
             <div class="container">
 				<div class="row">
-					 <h2>공지사항</h2>
+					 <h2>Q&A</h2>
                 	 <hr class="headline">
 				
                      <div class="container my-1 col-lg-8 col-md-10 col-sm-12">
@@ -54,14 +54,14 @@
                             <table class="table">
                                 <thead>
                                     <tr class="table-active">
-                                        <th scope="col" style="width: 60%"><h4>[기업] 공지사항 1 </h4>
-                                            <br><br><br>
-                                            <img src="img/logo2.png"> 관리자
-</th>
+                                        <th scope="col" style="width: 60%"><h4>A. 경력이 없어도 프로젝트에 지원할 수 있을까요...?
+											<br><br><br>
+                                            <img src="/img/logo2.png"> kim1234
+										</th>
                                         <th scope="col" style="width: 40%" class="text-right">
-                                        <a type="submit" class="btn mb-2" style="color:red;">삭제</a>
+                                        <a type="submit" class="btn mb-2" style="color:red;">삭제</a> </h4>
                                         <br><br><br>
-                                            2022-07-22 &nbsp;&nbsp; 조회수 : 95
+                                            55분전 &nbsp;&nbsp; 조회수 : 2
                                             <br> </th>
                                     </tr>
                                 </thead>
@@ -71,20 +71,19 @@
                                         
                                         <td style="width: 70%" class="text-left">
                                         
-                                        	관리자입니다.<br>
+                                        	물론입니다!!<br>
 											<br>
-                                            기업 회원분들에게 알려드립니다.<br>
-                                            2022년 7월 18일 기업 회원 데이터베이스 점검 예정입니다.<br>
-                                            기업 회원분들께서는 해당 기간에는 로그인을 자제해주시길 바라며,<br>
-                                            변경사항을 꼭 저장해주시기 바랍니다.<br>
-                                            <br>
-                                            감사합니다.
+                                            비전공자라도 충분히 프로젝트에 지원할 수 있습니다.<br>
+                                            부담갖지 마시고 얼른 지원해보세요~<br>
+                                           
                                          </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <input type="submit" class="btn btn-info pull-right" onclick="location.href='notice_modify'" value="수정하기">
-                            <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='notice_list'">목록</button>
+                             <a type="submit" class=" mb-2 pull-left">신고하기</a>
+                             <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='qa_list'">목록 </button>
+                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='qa_modify'">수정 </button>
+                             <button type="submit" class="btn btn-success mb-2 pull-right">답변하기 </button>
                             <hr />
                         </div>
                     </div>

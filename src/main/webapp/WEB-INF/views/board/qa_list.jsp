@@ -48,7 +48,9 @@
     border-radius: 5px;
    }
 
- 
+	.text-center #active-button {
+	background: #92bce0;
+	}
 
 
    
@@ -69,16 +71,16 @@
         <div class="container">
             <div class="row">
 
-                <h2>공지사항</h2>
+                <h2>Q&A</h2>
                 <hr class="headline">
                  <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='notice_write'">글쓰기</button>
+                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='qa_write'">질문하기</button>
                  
                  
-                <table class="table table-bordered"  style="text-align: center;">
+                <table class="table table-bordered"  style="text-align: center; border: 1px gray">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center;">번호</th>
@@ -94,26 +96,42 @@
                     
                         <tr>
                             <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='notice_content'">공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a onclick="location.href='qa_content'">Q.경력이 없어도 프로젝트에 지원할 수 있을까요...?</a></td>
+                            <td>Hong123</td>
+                            <td>1시간 전</td>
+                            <td>4</td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td style="text-align: left;"><a>A.경력이 없어도 프로젝트에 지원할 수 있을까요...?</a></td>
+                            <td>kim1234</td>
+                            <td>55분 전</td>
+                            <td>2</td>
                         </tr>
 
                         <tr>
                             <td>2</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
+                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
+                            <td>Hong123</td>
                             <td>2022-07-22</td>
-                            <td>3</td>
+                            <td>12</td>
                         </tr>
-
+                        
                         <tr>
                             <td>3</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
+                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
+                            <td>Hong123</td>
                             <td>2022-07-22</td>
-                            <td>3</td>
+                            <td>12</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>4</td>
+                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
+                            <td>Hong123</td>
+                            <td>2022-07-22</td>
+                            <td>12</td>
                         </tr>
                       
 									
@@ -138,13 +156,13 @@
 
             <div class="text-center">
                 <ul class="pagination pagination-sm">
-                    <li><a href="#"><<</a></li>
+                    <li id="active-button"><a href="#"><<</a></li>
                     <li class="active"><a href="#">1</a></li>
                     <li><a href="#">2</a></li>
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
                     <li><a href="#">5</a></li>
-                    <li><a href="#">>></a></li>
+                    <li id="active-button"><a href="#">>></a></li>
                 </ul>
             </div>
         </div> 

@@ -69,23 +69,23 @@
         <div class="container">
             <div class="row">
 
-                <h2>공지사항</h2>
+                <h2>개발자 목록</h2>
                 <hr class="headline">
                  <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='notice_write'">글쓰기</button>
-                 
+
                  
                 <table class="table table-bordered"  style="text-align: center;">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center;">번호</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">제목</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">작성자</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">등록일자</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">조회수</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">ID</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">이름</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">전화번호</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">이메일</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">비고</th>
                             
                         </tr>
                     </thead>
@@ -94,26 +94,29 @@
                     
                         <tr>
                             <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='notice_content'">공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>kim1234</a></td>
+                            <td>김철수</td>
+                            <td>010-1111-1111</td>
+                            <td>kim1234@naver.com</td>
+                            <td></td>
                         </tr>
 
                         <tr>
                             <td>2</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
+                            <td style="text-align: left;"><a>hong123</a></td>
                             <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td>010-2222-2222</td>
+                            <td>hong123@gmail.com</td>
+                            <td></td>
                         </tr>
 
                         <tr>
                             <td>3</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>kim1234</a></td>
+                            <td>김철</td>
+                            <td>010-1111-1111</td>
+                            <td>kim123@naver.com</td>
+                            <td></td>
                         </tr>
                       
 									
@@ -125,9 +128,9 @@
                 <form class="form-inline d-flex justify-content-end" method="GET", th:action="@{/board/boardList}" th:value="${param.searchText}">
 				            <div class="form-group mx-sm-3 mb-2 pull-right">
 				                <select class="foot-control" >
-                                    <option>제목</option>
-                                    <option>작성자</option>
-                                    <option>등록일자</option>
+                                    <option>ID</option>
+                                    <option>이름</option>
+                                    <option>전화번호</option>
                                  </select>
 				                <input type="text" class="form-control" id="searchText" name="searchText" placeholder="검색어를 입력하세요.">
 				            	<button type="submit" class="btn btn-primary mb-2">검색 </button>
