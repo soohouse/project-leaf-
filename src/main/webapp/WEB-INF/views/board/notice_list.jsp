@@ -24,10 +24,10 @@
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
    
-   .mainbox .hr .headline {
-   	text-align: left;
-   	color : black;
-   	border: 1px;
+   .borderline {
+   	border-bottom: solid lightgray;
+    margin-top: 10px;
+    margin-bottom: 10px;
    }
    
    .head-control {
@@ -70,7 +70,7 @@
             <div class="row">
 
                 <h2>공지사항</h2>
-                <hr class="headline">
+                <hr class="borderline">
                  <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>

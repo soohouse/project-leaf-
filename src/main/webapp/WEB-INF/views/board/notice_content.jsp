@@ -33,6 +33,40 @@
         
         height:350px;
     }
+    
+    .borderline {
+    	border-bottom: solid lightgray;
+    	margin-top: 10px;
+    	margin-bottom: 10px;
+    	
+    }
+    
+    .maintitle {
+    	margin-left : 30px;
+    	margin-top : 20px;
+    }
+    
+    .table>thead>tr>th {
+    	border-bottom: 0px;
+    	
+    }
+    
+    .table>tbody>tr>td {
+    	border-top: 0px;
+    }
+    
+    .headtable {
+    
+    }
+    
+    .table>tr>.table-active {
+    	margin: 30px;
+    }
+    
+    .bottomtable {
+    	margin-top:30px;
+    
+    }
  
    </style>
    
@@ -46,30 +80,34 @@
         <section>
             <div class="container">
 				<div class="row">
-					 <h2>공지사항</h2>
-                	 <hr class="headline">
+					 <h4 class="maintitle">공지사항</h4>
+                	 
 				
                      <div class="container my-1 col-lg-8 col-md-10 col-sm-12">
+                     <hr class="borderline">
                         <div class="row">
                             <table class="table">
                                 <thead>
-                                    <tr class="table-active">
-                                        <th scope="col" style="width: 60%"><h4>[기업] 공지사항 1 </h4>
-                                            <br><br><br>
-                                            <img src="img/logo2.png"> 관리자
-</th>
-                                        <th scope="col" style="width: 40%" class="text-right">
-                                        <a type="submit" class="btn mb-2" style="color:red;">삭제</a>
-                                        <br><br><br>
-                                            2022-07-22 &nbsp;&nbsp; 조회수 : 95
-                                            <br> </th>
-                                    </tr>
+                                    <div class="table-active">
+                                     	<div class="headtable">
+	                                        <div scope="col" style="width: 60%"><h4>[기업] 공지사항 1 </h4>
+	                                            <img src="resources/img/logo2.png" width="60px"> 관리자
+											</div>
+											<div style="float: right;">
+		                                        <div>
+		                                        	<a type="submit" class="btn mb-2" style="color:red; ">삭제</a>
+		                                        </div>
+		                                        <div >
+		                                            2022-07-22 &nbsp;&nbsp; 조회수 : 95
+		                                        </div>
+	                                        </div>
+                                       	</div>
+                                     </div>
                                 </thead>
                  
                                 <tbody>
-                                    <tr>
-                                        
-                                        <td style="width: 70%" class="text-left">
+                               
+                                        <div style="width: 70%" class="text-left">
                                         
                                         	관리자입니다.<br>
 											<br>
@@ -79,13 +117,14 @@
                                             변경사항을 꼭 저장해주시기 바랍니다.<br>
                                             <br>
                                             감사합니다.
-                                         </td>
-                                    </tr>
+                                         </div>
+                                   
                                 </tbody>
                             </table>
+                            <hr class="borderline" />
                             <input type="submit" class="btn btn-info pull-right" onclick="location.href='notice_modify'" value="수정하기">
                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='notice_list'">목록</button>
-                            <hr />
+                            
                         </div>
                     </div>
 				</div>
