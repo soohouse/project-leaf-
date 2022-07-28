@@ -21,6 +21,7 @@
    
    <!-- 개인 디자인 추가, ?after를 붙이면 기존에 동일한 이름의 파일을 인식하는것이 아닌 새로운 파일을 인식하게 된다. -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
@@ -49,30 +50,36 @@
         <section>
             <div class="container">
 				<div class="row">
-					 <h2>자유게시판</h2>
-                	 <hr class="headline">
+					 <!-- 메인화면 공지사항 상단 -->
+			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
+			            	<span class="main-notice-title">자유게시판</span>
+			            </a>
 				
-                     <div class="container my-1 col-lg-8 col-md-10 col-sm-12">
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr class="table-active">
-                                        <th scope="col" style="width: 60%"><h4>안녕하세요~ 오늘 처음 가입했습니다^^</h4>
-                                            <br><br><br>
-                                            <img src="img/logo2.png">hong123
-</th>
-                                        <th scope="col" style="width: 40%" class="text-right">
-                                        <a type="submit" class="btn mb-2" style="color:red;">삭제</a>
-                                        <br><br><br>
-                                            55분전 &nbsp;&nbsp; 조회수 : 2
-                                            <br> </th>
-                                    </tr>
-                                </thead>
-                 
-                                <tbody>
-                                    <tr>
-                                        
-                                        <td style="width: 70%" class="text-left">
+                     <div class="container my-1" >
+                        <div class="row" style="margin-bottom:50px;">
+                        	<div class="free_content" >
+                                    <div class="free_content_up" style="margin-left:30px;" >
+		                                        <div class="free_title" scope="col" style="width: 100%;">
+		                                        	<h4 style="display:inline-block;">안녕하세요~ 오늘 처음 가입했습니다^^ </h4>
+			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right;">삭제</a>
+		                                        </div>
+		                                        
+		                                        <div style="margin-top:30px;">
+			                                        <div class="free_writer" style="display: inline-block;">
+			                                            <img src="resources/img/logo2.png" width="50px" > hong123
+		                                       		</div>
+		                                       		<div style="display:inline-block; float:right; margin-top:10px;">
+				                                        <div style="display:inline-block;" >
+				                                            55분전
+				                                        </div>
+				                                        <div style="display:inline-block;">
+				                                        	조회수 : 2
+				                                        </div>
+			                                        </div>
+		                                        </div>
+                                    </div>
+
+                                    <div class="free_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
                                         	안녕하세요~ 오늘 처음 가입했습니다 ^^<br>
                                         	잘 부탁드립니다!!<br>
@@ -80,25 +87,16 @@
                                             개발 경험은 많이 없지만... 좋은 곳에서 좋은 분들에게 많은 것을 배우고 가고 싶습니다.<br>
                                             열심히 하겠습니다!! 감사합니다.<br>
                                            
-                                         </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            
-                            
-                            
-
-                            <hr />
+                                    </div>
+                            </div>
+                 
                         </div>
                         <table class="table table-borderless"  style="text-align: center;">
 			                    <thead>
-			                        <tr>
-			                            <th style="background-color: #bbd0e7; text-align: left;">전체댓글</th>
-			                            <th style="background-color: #bbd0e7; text-align: center;"></th>
-			                            <th style="background-color: #bbd0e7; text-align: center;"></th>
-			                            <th style="background-color: #bbd0e7; text-align: center;"></th>
-			                            <th style="background-color: #bbd0e7; text-align: center;"></th>
-			                        </tr>
+			                        <div style="background-color: #bbd0e7;" >
+			                            <div style=" text-align: left; margin-left:10px; padding-top:10px;">전체댓글
+			                            	<p style="color:red; display:inline-block; ">4</p></div>
+			                        </div> 
 			                    </thead>
 			                    
 			                    <tbody>
@@ -156,11 +154,21 @@
 						                    <li><a href="#">>></a></li>
 						                </ul>
 						                
-						                <ul>
-			                        	<li style="text-align:left;">회원만댓글 작성이 가능합니다.</li>
-			                        </ul>
-						              </div>
-			                
+						                <div style="background-color:#bbd0e7; height: 120px; ">
+				                        		<div style="text-align:left; margin: 10px 10px 10px 10px; padding-top:10px;">회원만 댓글 작성이 가능합니다.</div>
+				                        		<div>
+				                        			<div>
+						                        		<textarea type="text" class="form-control col-md-8 col-sm-10" 
+															placeholder="댓글을 입력하세요." name="replyContent" maxlength="2048" style="float:left; width:85%;  margin-left:30px;">
+														</textarea>
+													</div>
+													<div style=" margin-bottom:10px; float:right; margin-right: 40px; width:5%;">
+														<input type="submit" class="btn" value="댓글입력" style="height:54px;">
+													</div>
+												</div>
+												
+										</div>
+			                <div style="margin-top:20px;">
 			                 <button type="submit" class=" mb-2 pull-left">신고하기 </button>
 			                 <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='free_modify'">수정 </button>
                              <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>

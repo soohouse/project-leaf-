@@ -20,6 +20,7 @@
    
    <!-- 개인 디자인 추가, ?after를 붙이면 기존에 동일한 이름의 파일을 인식하는것이 아닌 새로운 파일을 인식하게 된다. -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
@@ -70,9 +71,10 @@
         
         <div class="container">
             <div class="row">
-
-                <h2>Q&A</h2>
-                <hr class="headline">
+						<!-- 메인화면 공지사항 상단 -->
+			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
+			            	<span class="main-notice-title">Q&A</span>
+			            </a>
                  <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>

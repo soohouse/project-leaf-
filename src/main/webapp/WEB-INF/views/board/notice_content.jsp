@@ -20,6 +20,7 @@
    
    <!-- 개인 디자인 추가, ?after를 붙이면 기존에 동일한 이름의 파일을 인식하는것이 아닌 새로운 파일을 인식하게 된다. -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
@@ -35,7 +36,7 @@
     }
     
     .borderline {
-    	border-bottom: solid lightgray;
+    	border-bottom:0.5px solid black;
     	margin-top: 10px;
     	margin-bottom: 10px;
     	
@@ -46,22 +47,12 @@
     	margin-top : 20px;
     }
     
-    .table>thead>tr>th {
-    	border-bottom: 0px;
-    	
-    }
-    
-    .table>tbody>tr>td {
-    	border-top: 0px;
-    }
+  
     
     .headtable {
     
     }
-    
-    .table>tr>.table-active {
-    	margin: 30px;
-    }
+
     
     .bottomtable {
     	margin-top:30px;
@@ -80,34 +71,38 @@
         <section>
             <div class="container">
 				<div class="row">
-					 <h4 class="maintitle">공지사항</h4>
+					 <!-- 메인화면 공지사항 상단 -->
+			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
+			            	<span class="main-notice-title">공지사항</span>
+			            </a>
                 	 
 				
-                     <div class="container my-1 col-lg-8 col-md-10 col-sm-12">
-                     <hr class="borderline">
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <div class="table-active">
-                                     	<div class="headtable">
-	                                        <div scope="col" style="width: 60%"><h4>[기업] 공지사항 1 </h4>
-	                                            <img src="resources/img/logo2.png" width="60px"> 관리자
-											</div>
-											<div style="float: right;">
-		                                        <div>
-		                                        	<a type="submit" class="btn mb-2" style="color:red; ">삭제</a>
+                     <div class="container my-1">
+
+                        <div class="row" >
+                            <div class="notice_content" >
+                            	<div class="notice_content_up" style="margin-left:30px;" >
+		                                        <div class="notice_title" scope="col" style="width: 100%;">
+		                                        	<h4 style="display:inline-block;">[기업] 공지사항 1 </h4>
+			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right;">삭제</a>
 		                                        </div>
-		                                        <div >
-		                                            2022-07-22 &nbsp;&nbsp; 조회수 : 95
+		                                        
+		                                        <div style="margin-top:30px;">
+			                                        <div class="notice_writer" style="display: inline-block;">
+			                                            <img src="resources/img/logo2.png" width="50px" > kim1234
+		                                       		</div>
+		                                       		<div style="display:inline-block; float:right; margin-top:10px;">
+				                                        <div style="display:inline-block;" >
+				                                            2022-07-22
+				                                        </div>
+				                                        <div style="display:inline-block;">
+				                                        	조회수 : 95
+				                                        </div>
+			                                        </div>
 		                                        </div>
-	                                        </div>
-                                       	</div>
-                                     </div>
-                                </thead>
-                 
-                                <tbody>
-                               
-                                        <div style="width: 70%" class="text-left">
+                                    </div>
+
+                                    <div class="notice_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
                                         	관리자입니다.<br>
 											<br>
@@ -117,10 +112,9 @@
                                             변경사항을 꼭 저장해주시기 바랍니다.<br>
                                             <br>
                                             감사합니다.
-                                         </div>
-                                   
-                                </tbody>
-                            </table>
+                                           
+                                    </div>
+                 			</div>
                             <hr class="borderline" />
                             <input type="submit" class="btn btn-info pull-right" onclick="location.href='notice_modify'" value="수정하기">
                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='notice_list'">목록</button>

@@ -20,6 +20,7 @@
    
    <!-- 개인 디자인 추가, ?after를 붙이면 기존에 동일한 이름의 파일을 인식하는것이 아닌 새로운 파일을 인식하게 된다. -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
@@ -32,6 +33,30 @@
     .td{
         
         height:350px;
+    }
+    
+       .borderline {
+    	border-bottom:0.5px solid black;
+    	margin-top: 10px;
+    	margin-bottom: 10px;
+    	
+    }
+    
+    .maintitle {
+    	margin-left : 30px;
+    	margin-top : 20px;
+    }
+    
+  
+    
+    .headtable {
+    
+    }
+
+    
+    .bottomtable {
+    	margin-top:30px;
+    
     }
  
    </style>
@@ -46,45 +71,49 @@
         <section>
             <div class="container">
 				<div class="row">
-					 <h2>Q&A</h2>
-                	 <hr class="headline">
-				
-                     <div class="container my-1 col-lg-8 col-md-10 col-sm-12">
+					 <!-- 메인화면 공지사항 상단 -->
+			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
+			            	<span class="main-notice-title">Q&A</span>
+			            </a>
+                     <div class="container my-1">
                         <div class="row">
-                            <table class="table">
-                                <thead>
-                                    <tr class="table-active">
-                                        <th scope="col" style="width: 60%"><h4>A. 경력이 없어도 프로젝트에 지원할 수 있을까요...?
-											<br><br><br>
-                                            <img src="/img/logo2.png"> kim1234
-										</th>
-                                        <th scope="col" style="width: 40%" class="text-right">
-                                        <a type="submit" class="btn mb-2" style="color:red;">삭제</a> </h4>
-                                        <br><br><br>
-                                            55분전 &nbsp;&nbsp; 조회수 : 2
-                                            <br> </th>
-                                    </tr>
-                                </thead>
-                 
-                                <tbody>
-                                    <tr>
-                                        
-                                        <td style="width: 70%" class="text-left">
+                            <div class="qa_content" >
+                                    <div class="qa_content_up" style="margin-left:30px;" >
+		                                        <div class="qa_title" scope="col" style="width: 100%;">
+		                                        	<h4 style="display:inline-block;">A. 경력이 없어도 프로젝트에 지원할 수 있을까요...? </h4>
+			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right;">삭제</a>
+		                                        </div>
+		                                        
+		                                        <div style="margin-top:30px;">
+			                                        <div class="qa_writer" style="display: inline-block;">
+			                                            <img src="resources/img/logo2.png" width="50px" > kim1234
+		                                       		</div>
+		                                       		<div style="display:inline-block; float:right; margin-top:10px;">
+				                                        <div style="display:inline-block;" >
+				                                            55분전
+				                                        </div>
+				                                        <div style="display:inline-block;">
+				                                        	조회수 : 2
+				                                        </div>
+			                                        </div>
+		                                        </div>
+                                    </div>
+
+                                    <div class="qa_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
                                         	물론입니다!!<br>
 											<br>
                                             비전공자라도 충분히 프로젝트에 지원할 수 있습니다.<br>
                                             부담갖지 마시고 얼른 지원해보세요~<br>
                                            
-                                         </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                             <a type="submit" class=" mb-2 pull-left">신고하기</a>
+                                    </div>
+                            </div>
+                             <hr class="borderline" />
+                             <a type="submit" class=" mb-2" style="margin-left:20px;">신고하기</a>
                              <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='qa_list'">목록 </button>
                              <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='qa_modify'">수정 </button>
                              <button type="submit" class="btn btn-success mb-2 pull-right">답변하기 </button>
-                            <hr />
+                           
                         </div>
                     </div>
 				</div>
