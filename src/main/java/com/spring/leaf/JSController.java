@@ -91,6 +91,11 @@ public class JSController {
 		return "/board/dev_list";
 	}
 	
+	@GetMapping("/support_result_check")
+	public String support_result_check() {
+		return "/board/support_result_check";
+	}
+	
 	
 }
 

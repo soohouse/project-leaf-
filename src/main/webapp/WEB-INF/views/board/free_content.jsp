@@ -35,6 +35,10 @@
         
         height:350px;
     }
+    
+    .freetitle {
+    
+    }
  
    </style>
    
@@ -58,17 +62,17 @@
                      <div class="container my-1" >
                         <div class="row" style="margin-bottom:50px;">
                         	<div class="free_content" >
-                                    <div class="free_content_up" style="margin-left:30px;" >
-		                                        <div class="free_title" scope="col" style="width: 100%;">
+                                   <div class="free_content_up" style="margin-left:30px;" >
+		                                        <div class="free_title_up" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<h4 style="display:inline-block;">안녕하세요~ 오늘 처음 가입했습니다^^ </h4>
-			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right;">삭제</a>
+			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
 		                                        </div>
 		                                        
-		                                        <div style="margin-top:30px;">
+		                                        <div class="free_title_down" style="margin-top:30px;">
 			                                        <div class="free_writer" style="display: inline-block;">
 			                                            <img src="resources/img/logo2.png" width="50px" > hong123
 		                                       		</div>
-		                                       		<div style="display:inline-block; float:right; margin-top:10px;">
+		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 				                                        <div style="display:inline-block;" >
 				                                            55분전
 				                                        </div>
@@ -91,11 +95,12 @@
                             </div>
                  
                         </div>
-                        <table class="table table-borderless"  style="text-align: center;">
+                        <table class="table table-borderless"  style="text-align: center; font-size:12px;">
 			                    <thead>
-			                        <div style="background-color: #bbd0e7;" >
-			                            <div style=" text-align: left; margin-left:10px; padding-top:10px;">전체댓글
-			                            	<p style="color:red; display:inline-block; ">4</p></div>
+			                        <div style="background-color: #bbd0e7; " >
+			                            <div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
+			                            	<p style="color:red; display:inline-block; ">4</p>
+			                            </div>
 			                        </div> 
 			                    </thead>
 			                    
@@ -158,9 +163,7 @@
 				                        		<div style="text-align:left; margin: 10px 10px 10px 10px; padding-top:10px;">회원만 댓글 작성이 가능합니다.</div>
 				                        		<div>
 				                        			<div>
-						                        		<textarea type="text" class="form-control col-md-8 col-sm-10" 
-															placeholder="댓글을 입력하세요." name="replyContent" maxlength="2048" style="float:left; width:85%;  margin-left:30px;">
-														</textarea>
+						                        		<textarea type="text" class="form-control col-md-8 col-sm-10" placeholder="댓글을 입력하세요." name="replyContent" maxlength="2048" style="float:left; width:85%;  margin-left:30px;"></textarea>
 													</div>
 													<div style=" margin-bottom:10px; float:right; margin-right: 40px; width:5%;">
 														<input type="submit" class="btn" value="댓글입력" style="height:54px;">
@@ -169,9 +172,9 @@
 												
 										</div>
 			                <div style="margin-top:20px;">
-			                 <button type="submit" class=" mb-2 pull-left">신고하기 </button>
-			                 <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='free_modify'">수정 </button>
-                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
+				                 <button type="submit" class=" mb-2 pull-left">신고하기 </button>
+				                 <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='free_modify'">수정 </button>
+	                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
                     		</div>
                     
                     

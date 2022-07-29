@@ -25,10 +25,10 @@
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
    
-   .borderline {
-   	border-bottom: solid lightgray;
-    margin-top: 10px;
-    margin-bottom: 10px;
+   .mainbox .hr .headline {
+   	text-align: left;
+   	color : black;
+   	border: 1px;
    }
    
    .head-control {
@@ -49,7 +49,6 @@
     border-radius: 5px;
    }
 
-	
  
 
 
@@ -70,25 +69,24 @@
         
         <div class="container">
             <div class="row">
-						<!-- 메인화면 공지사항 상단 -->
+				<!-- 메인화면 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">공지사항</span>
+			            	<span class="main-notice-title">지원 결과 조회</span>
 			            </a>
-                 <select class="head-control mx-sm-3 mb-2" >
+                 <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='notice_write'">글쓰기</button>
-                 
+
                  
                 <table class="table table-bordered"  style="text-align: center;">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center;">번호</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">제목</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">작성자</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">등록일자</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">조회수</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">프로젝트 명</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">지원날짜</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">모집기간</th>
+                            <th style="background-color: #bbd0e7; text-align: center;">결과</th>
                             
                         </tr>
                     </thead>
@@ -97,26 +95,34 @@
                     
                         <tr>
                             <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='notice_content'">공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>2022년 환경 푸르미 프로젝트 개발자 모집</a></td>
+                            <td>2022.07.14</td>
+                            <td>2022.07.10 ~ 2022.07.22</td>
+                            <td style="color:green;">1차 서류 심사중</td>
                         </tr>
 
                         <tr>
                             <td>2</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>2022년 환경 푸르미 프로젝트 개발자 모집</a></td>
+                            <td>2022.07.14</td>
+                            <td>2022.07.10 ~ 2022.07.22</td>
+                            <td style="color:blue;" >2차 면접 인터뷰 심사중</td>
                         </tr>
 
                         <tr>
                             <td>3</td>
-                            <td style="text-align: left;"><a>공지사항 테스트</a></td>
-                            <td>홍길동</td>
-                            <td>2022-07-22</td>
-                            <td>3</td>
+                            <td style="text-align: left;"><a>2022년 환경 푸르미 프로젝트 개발자 모집</a></td>
+                            <td>2022.07.14</td>
+                            <td>2022.07.10 ~ 2022.07.22</td>
+                            <td style="color:red;">불합격</td>
+                        </tr>
+                        
+                         <tr>
+                            <td>4</td>
+                            <td style="text-align: left;"><a>2022년 환경 푸르미 프로젝트 개발자 모집</a></td>
+                            <td>2022.07.14</td>
+                            <td>2022.07.10 ~ 2022.07.22</td>
+                            <td style="color:lightpurple;">진행중</td>
                         </tr>
                       
 									
@@ -125,12 +131,12 @@
                     </tbody>
                 </table>
                 
-                <form class="form-inline d-flex justify-content-end" >
+                <form class="form-inline d-flex justify-content-end" method="GET", th:action="@{/board/boardList}" th:value="${param.searchText}">
 				            <div class="form-group mx-sm-3 mb-2 pull-right">
 				                <select class="foot-control" >
-                                    <option>제목</option>
-                                    <option>작성자</option>
-                                    <option>등록일자</option>
+                                    <option>프로젝트 명</option>
+                                    <option>지원날짜</option>
+                                    <option>결과</option>
                                  </select>
 				                <input type="text" class="form-control" id="searchText" name="searchText" placeholder="검색어를 입력하세요.">
 				            	<button type="submit" class="btn btn-primary mb-2">검색 </button>
@@ -141,7 +147,7 @@
 
             <div class="text-center">
                 <ul class="pagination pagination-sm">
-                    <li><a href="#"><<</a></li>
+                    <li class="disabled"><a href="#""><<</a></li>
                     <li class="active"><a href="#">1</a></li>
                     <li><a href="#">2</a></li>
                     <li><a href="#">3</a></li>

@@ -82,16 +82,16 @@
                         <div class="row" >
                             <div class="notice_content" >
                             	<div class="notice_content_up" style="margin-left:30px;" >
-		                                        <div class="notice_title" scope="col" style="width: 100%;">
+		                                        <div class="notice_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<h4 style="display:inline-block;">[기업] 공지사항 1 </h4>
-			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right;">삭제</a>
+			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
 		                                        </div>
 		                                        
 		                                        <div style="margin-top:30px;">
 			                                        <div class="notice_writer" style="display: inline-block;">
 			                                            <img src="resources/img/logo2.png" width="50px" > kim1234
 		                                       		</div>
-		                                       		<div style="display:inline-block; float:right; margin-top:10px;">
+		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 				                                        <div style="display:inline-block;" >
 				                                            2022-07-22
 				                                        </div>
