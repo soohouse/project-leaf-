@@ -3,7 +3,7 @@
 
 	<footer>
 		  <div class="notice_box">
-		    <a href="/"><span class="sidebar-icon"><i class="fa fa-building"></i></span> Leaf Project</a>
+		    <a href="/"><span class="sidebar-icon"><i class="fa fa-building"></i></span> RunWith</a>
 		  </div>
 		    <div class="area_user">
 		      <div class="area_user_row">
