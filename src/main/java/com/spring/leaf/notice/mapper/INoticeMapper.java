@@ -9,16 +9,16 @@ import com.spring.leaf.notice.command.NoticeVO;
 public interface INoticeMapper {
 	
 	//공지사항 글 등록
-	void regist(NoticeVO vo);
+	void noticeWrite(NoticeVO vo);
 	
 	//공지사항 글 목록
-	List<NoticeVO> getList();
+	List<NoticeVO> noticeList();
 	
 	//공지사항 총 게시물 수
 	
 	
 	//공지사항 상세보기
-	NoticeVO getContent(int noticeNo);
+	NoticeVO noticeContent(int noticeNo);
 	
 	//공지사항 수정
 	void update(NoticeVO vo);
