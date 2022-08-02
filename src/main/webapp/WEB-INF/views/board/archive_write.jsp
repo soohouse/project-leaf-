@@ -38,36 +38,40 @@
 		<section>
 			<div class="container">
 				<div class="row">
-					 <!-- 공지사항 상단 -->
+					 <!-- 메인화면 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">공지사항</span>
+			            	<span class="main-notice-title">자료실</span>
 			            </a>
+				
 					<div class="col-lg-8 col-md-10 col-sm-12">
-						<form action="<c:url value='/notice/noticeWrite'/>" method="post" name="noticeWriteform">
-			    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
-				    	    	<thead>
-					    	    	<tr>
-					    	    		<th colspan= "2">공지사항 제목</th>
-					    	    	</tr>
-					    	    	<tr>
-						    			<td><input type="text" name="noticeTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
-						    			<td><input type="hidden" name="noticeWriter" value="${user.userID}"></td>
-						    		</tr>
-						    		
-				    	    	</thead>
-						    	<tbody>
-						    		<tr>
-					    	    		<th colspan= "2">공지사항 내용</th>
-					    	    	</tr>
-						    		<tr>
-						    			<td><textarea class="form-control" name="noticeContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
-						    		</tr>
-						    	</tbody>
-			    	    	</table>
+		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
+			    	    	<thead>
+				    	    	<tr>
+				    	    		<th colspan= "2">게시글 제목</th>
+				    	    	</tr>
+				    	    	<tr>
+					    			<td><input type="text" class="form-control" placeholder="게시글 제목을 입력하세요." maxlength="50" ></td>
+					    		</tr>
+			    	    	</thead>
+					    	<tbody>
+					    		<tr>
+				    	    		<th colspan= "2">게시글 내용</th>
+				    	    	</tr>
+					    		<tr>
+					    			<td><textarea class="form-control" placeholder="게시글 내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+					    		</tr>
+					    		
+					    	</tbody>
+					    	
+					    		
+		    	    	</table>
+		    	    			<tr>
+						    		<th>파일업로드</th>
+									<td><input type="file" name="uploadFile"></td>	
+								</tr>
 		    	    	
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="글쓰기">
-    	    			<input type="button" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="목록">
-    	    			</form>
+    	    			<input type="submit" class="btn btn-success pull-right" value="등록">
+    	    			<input type="submit" class="btn btn-primary pull-right" value="목록">
 					</div>
 				</div>
 			</div>		   

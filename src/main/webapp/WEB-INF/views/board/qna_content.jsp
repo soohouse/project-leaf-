@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -36,7 +35,7 @@
         height:350px;
     }
     
-    .borderline {
+       .borderline {
     	border-bottom:0.5px solid black;
     	margin-top: 10px;
     	margin-bottom: 10px;
@@ -72,49 +71,49 @@
         <section>
             <div class="container">
 				<div class="row">
-					 <!-- 공지사항 상단 -->
+					 <!-- 메인화면 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">공지사항</span>
+			            	<span class="main-notice-title">Q&A</span>
 			            </a>
-                	 
-				
                      <div class="container my-1">
-
-                        <div class="row" >
-                      		<!-- 공지사항 글 상세보기  -->
-                            <div class="notice_content" >
-                            	<div class="notice_content_up" style="margin-left:30px;" >
-		                                        <div class="notice_title" scope="col" style="width: 100%;  margin-top:10px;">
-		                                        	<input type="hidden" value="${notice.noticeNo}">
-		                                        	<h4 style="display:inline-block;">${notice.noticeTitle}</h4>
+                        <div class="row">
+                            <div class="qa_content" >
+                                    <div class="qa_content_up" style="margin-left:30px;" >
+		                                        <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
+		                                        	<h4 style="display:inline-block;">A. 경력이 없어도 프로젝트에 지원할 수 있을까요...? </h4>
 			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
 		                                        </div>
 		                                        
 		                                        <div style="margin-top:30px;">
-			                                        <div class="notice_writer" style="display: inline-block;">
-			                                            <img src="resources/img/logo2.png" width="50px" > ${notice.noticeWriter}
+			                                        <div class="qa_writer" style="display: inline-block;">
+			                                            <img src="resources/img/logo2.png" width="50px" > kim1234
 		                                       		</div>
 		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 				                                        <div style="display:inline-block;" >
-				                                            <fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" />
+				                                            55분전
 				                                        </div>
 				                                        <div style="display:inline-block;">
-				                                        	조회수 : 95
+				                                        	조회수 : 2
 				                                        </div>
 			                                        </div>
 		                                        </div>
                                     </div>
 
-                                    <div class="notice_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+                                    <div class="qa_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
-                                        	${notice.noticeContent}
+                                        	물론입니다!!<br>
+											<br>
+                                            비전공자라도 충분히 프로젝트에 지원할 수 있습니다.<br>
+                                            부담갖지 마시고 얼른 지원해보세요~<br>
                                            
                                     </div>
-	                 		</div>
-	                            <hr class="borderline" />
-	                            <input type="submit" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify"/>'" value="수정하기">
-	                            <button type="submit" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'">목록</button>
-                       
+                            </div>
+                             <hr class="borderline" />
+                             <a type="submit" class=" mb-2" style="margin-left:20px;">신고하기</a>
+                             <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='qna_list'">목록 </button>
+                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='qna_modify'">수정 </button>
+                             <button type="submit" class="btn btn-success mb-2 pull-right">답변하기 </button>
+                           
                         </div>
                     </div>
 				</div>
@@ -134,14 +133,6 @@
 
 <script>
 
-
- 	// 목록 버튼
-	$(function() {
-		$('#btn-notice-list').click(function() {
-			location.href='<c:url value="/notice/noticeList"/>';
-		})
-		
-	});
 
 
 </script>

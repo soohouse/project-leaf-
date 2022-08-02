@@ -17,4 +17,5 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<setting name="defaultStatementTimeout" value="3000"/>
 	</settings>
 
+
 </configuration>

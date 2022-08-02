@@ -36,7 +36,7 @@
 		<!-- 즉, mappers 폴더 안에 어떤 폴더가 있고, 그 하위의 파일은 뭐뭐뭐Mapper.xml 파일이다 -->
 		<!-- SQL의 LIKE 절 중 %와 비슷함. % %, %Mapper.xml -->
 		<property name="configLocation" value="/WEB-INF/spring/mybatis-config.xml" />		<!-- mybatis 설정 추가 -->
-		<!--  <property name="mapperLocations" value="classpath:/mappers/*.xml" /> -->
+		<property name="mapperLocations" value="classpath:/mappers/*.xml" />
 	</bean>
 	
 	
@@ -44,7 +44,12 @@
 	<!-- sqlSessionFactory가 xml 파일을 클래스로 바꾸고 bean 등록 하려는데 마땅한 타입이 없으므로 -->
 	<!-- 해당 패키지를 검색해서 발견된 인터페이스 객체를 빈으로 등록하고 주입시킨다. -->
 	
-	<!-- 테스트를 위한 ITestMapper를 연결 -->
-
+	<!-- 일반회원 IUserMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.user.mapper"/>
+	<!-- 기업회원 ICompanyMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.company.mapper"/>
+	<!-- 공지사항 INoticeMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.notice.mapper"/>
+	
 	
 </beans>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.company.mapper.ICompanyMapper">
+
+	<!-- CompanyVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyMap 선언 -->
+	<resultMap type="com.spring.leaf.company.command.CompanyVO" id="CompanyMap">
+		<id property="companyNO" column="company_NO" />
+		<result property="companyID" column="company_ID" />
+		<result property="companyPW" column="company_PW" />
+		<result property="companyName" column="company_name" />
+		<result property="companyEmail1" column="company_email1" />
+		<result property="companyEmail2" column="company_email2" />
+		<result property="companyPhone1" column="company_phone1" />
+		<result property="companyPhone2" column="company_phone2" />
+		<result property="companyPhone3" column="company_phone3" />
+		<result property="companyAddress1" column="company_address1" />
+		<result property="companyAddress2" column="company_address2" />
+		<result property="companyAddress3" column="company_address3" />
+		<result property="companyDate" column="company_date" />
+		<result property="companyIntro" column="company_intro" />
+		<result property="commonCODE" column="common_CODE" />
+	</resultMap>
+	
+	
+	<!-- 기업 회원가입 INSERT 쿼리 -->
+	<insert id="companyRegist">
+		INSERT INTO company
+			(company_ID, company_PW, company_name, company_email1, company_email2,
+			company_phone1, company_phone2, company_phone3, 
+			company_address1, company_address2, company_address3, company_intro)
+		VALUES
+			(#{companyID}, #{companyPW}, #{companyName}, #{companyEmail1}, #{companyEmail2},
+			#{companyPhone1}, #{companyPhone2}, #{companyPhone3},
+			#{companyAddress1}, #{companyAddress2}, #{companyAddress3}, #{companyIntro})
+	</insert>
+	
+	
+	<!-- 기업 아이디 중복체크 SELECT 쿼리 -->
+	<select id="companyIDCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM company
+		WHERE company_ID = #{companyID}
+	</select>
+	
+	
+	<!-- 기업 이메일 중복체크 SELECT 쿼리 -->
+	<select id="companyEmailCheck" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM company
+		WHERE company_email1 = #{company_email1}
+		AND company_email2 = #{company_email2}
+	</select>
+	
+	
+	<!-- 기업회원 정보 SELECT 쿼리 -->
+	<select id="companyGetInfo" resultMap="CompanyMap">
+		SELECT *
+		FROM company
+		WHERE company_ID = #{companyID}
+	</select>
+
+</mapper>

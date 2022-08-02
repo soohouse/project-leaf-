@@ -8,7 +8,7 @@ import com.spring.leaf.notice.command.NoticeVO;
 
 public interface INoticeService {
 	
-	//공지사항 글 등록
+		//공지사항 글 등록
 		void noticeWrite(NoticeVO vo);
 		
 		//공지사항 글 목록

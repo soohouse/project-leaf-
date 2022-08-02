@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -28,7 +29,10 @@ public class NoticeController {
 	
 	//공지사항 목록 페이지로 이동 요청
 	@GetMapping("/noticeList")
-	public String noticeList( ) {
+	public String noticeList(Model model) {
+		
+		model.addAttribute("noticeList", service.noticeList());
+		
 		return "/board/notice_list";
 	}
 	
@@ -46,25 +50,21 @@ public class NoticeController {
 		
 		return "redirect:/noticeList";
 	}
-	
-	//공지사항 목록 화면
-	@GetMapping("/noticeList")
-	public void noticeList(Model model) {
-		
-		System.out.println(model);
-		
-		model.addAttribute("noticeList", service.noticeList());
-	
-	}
-	
-	
-	//글 상세보기 처리
-	@GetMapping("/noticeContent")
-	public String noticeContent(Model model) {
-		
-		model.addAttribute(model);
-		
-		return "redirect:/noticeContent";
-	}
 
+	
+	//글 상세보기
+	@GetMapping("/noticeContent/{noticeNo}")
+	public String noticeContent(@PathVariable int noticeNo, Model model) {
+		
+		model.addAttribute("notice", service.noticeContent(noticeNo));
+		
+		return "board/notice_content";
+	}
+	
+	//글 수정 페이지 이동
+	@GetMapping("/noticeModify")
+	public String noticeModify() {
+		return "/board/notice_modify";
+	}
+	
 }

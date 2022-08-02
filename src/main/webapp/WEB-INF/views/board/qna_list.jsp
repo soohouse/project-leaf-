@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -26,10 +25,10 @@
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
    
-   .borderline {
-   	border-bottom: solid lightgray;
-    margin-top: 10px;
-    margin-bottom: 10px;
+   .mainbox .hr .headline {
+   	text-align: left;
+   	color : black;
+   	border: 1px;
    }
    
    .head-control {
@@ -50,8 +49,9 @@
     border-radius: 5px;
    }
 
-	
- 
+	.text-center #active-button {
+	background: #92bce0;
+	}
 
 
    
@@ -71,18 +71,18 @@
         
         <div class="container">
             <div class="row">
-						<!-- 공지사항 상단 -->
+						<!-- 메인화면 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">공지사항</span>
+			            	<span class="main-notice-title">Q&A</span>
 			            </a>
-                 <select class="head-control mx-sm-3 mb-2" >
+                 <select class="head-control mx-sm-3 mb-2 pull-left" >
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" id="btn-notice-write">글쓰기</button>
+                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='qna_write'">질문하기</button>
                  
                  
-                <table class="table table-bordered"  style="text-align: center;">
+                <table class="table table-bordered"  style="text-align: center; border: 1px gray">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center;">번호</th>
@@ -95,25 +95,54 @@
                     </thead>
                     
                     <tbody>
-                    <!-- 공지사항 목록 -->
-                    	<c:forEach var="notice" items="${noticeList}">
+                    
                         <tr>
-                            <td>${notice.noticeNo}</td>
-                            <td style="text-align: left;">
-                            	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}'/>">${notice.noticeTitle}</a>
-                            </td>
-                            <td>${notice.noticeWriter}</td>
-                            <td><fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" /></td>
-                            <td>3</td>
+                            <td>1</td>
+                            <td style="text-align: left;"><a onclick="location.href='qna_content'">Q.경력이 없어도 프로젝트에 지원할 수 있을까요...?</a></td>
+                            <td>Hong123</td>
+                            <td>1시간 전</td>
+                            <td>4</td>
                         </tr>
-                      </c:forEach>
+
+                        <tr>
+                            <td></td>
+                            <td style="text-align: left;"><a>A.경력이 없어도 프로젝트에 지원할 수 있을까요...?</a></td>
+                            <td>kim1234</td>
+                            <td>55분 전</td>
+                            <td>2</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
+                            <td>Hong123</td>
+                            <td>2022-07-22</td>
+                            <td>12</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>3</td>
+                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
+                            <td>Hong123</td>
+                            <td>2022-07-22</td>
+                            <td>12</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>4</td>
+                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
+                            <td>Hong123</td>
+                            <td>2022-07-22</td>
+                            <td>12</td>
+                        </tr>
+                      
 									
                    
                        
                     </tbody>
                 </table>
-               
-                <form class="form-inline d-flex justify-content-end" >
+                
+                <form class="form-inline d-flex justify-content-end" method="GET", th:action="@{/board/boardList}" th:value="${param.searchText}">
 				            <div class="form-group mx-sm-3 mb-2 pull-right">
 				                <select class="foot-control" >
                                     <option>제목</option>
@@ -127,16 +156,15 @@
                 
             </div>
 
-			<!-- 공지사항 페이징 -->
             <div class="text-center">
                 <ul class="pagination pagination-sm">
-                    <li><a href="#"><<</a></li>
+                    <li id="active-button"><a href="#"><<</a></li>
                     <li class="active"><a href="#">1</a></li>
                     <li><a href="#">2</a></li>
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
                     <li><a href="#">5</a></li>
-                    <li><a href="#">>></a></li>
+                    <li id="active-button"><a href="#">>></a></li>
                 </ul>
             </div>
         </div> 
@@ -155,13 +183,6 @@
 
 <script>
 
-	//글쓰기 페이지 이동 버튼
-	$(function() {
-		$('#btn-notice-write').click(function() {
-			location.href='<c:url value="/notice/noticeWrite" />';
-		})
-		
-	});
 
 
 </script>

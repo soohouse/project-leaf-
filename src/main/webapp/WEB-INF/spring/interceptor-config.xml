@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+			
+			
+	<!-- 인터셉트를 servlet-config에 추가하면 너무 코드가 길어지므로 따로 빼서 작성한다. -->
+	
+	
+	<!-- namespace 탭에서 mvc 기능 추가 -->
+	<!-- web.xml에 초기 설정 파일로 해당 인터셉터를 주입하기 위해 bean을 만들어둔다.  -->
+	<bean id="userLoginInterceptor" class="com.spring.leaf.util.UserLoginInterceptor" />		<!-- 일반회원 로그인 인터셉터 -->
+	<bean id="companyLoginInterceptor" class="com.spring.leaf.util.CompanyLoginInterceptor" />	<!-- 기업회원 로그인 언터셉터 -->
+	<bean id="userLoginHandler" class="com.spring.leaf.util.UserLoginHandler" />				<!-- 일반회원 로그인 여부 체크 핸들러 -->
+	
+	
+	<!-- mvc:interceptors로 초기 설정 파일로 인터셉터 bean들을 주입한다. -->
+	<!-- 먼저 큰 틀은 mvc:interceptors로 해줘야 한다. -->
+	<mvc:interceptors>
+		
+		<!-- 일반회원 로그인 요청에 작동할 인터셉터 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/user/userLogin"/>
+			<ref bean="userLoginInterceptor" />
+		</mvc:interceptor>
+		
+		
+		<!-- 기업회원 로그인 요청에 작동할 인터셉터 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/company/companyLogin"/>
+			<ref bean="companyLoginInterceptor" />
+		</mvc:interceptor>
+		
+		
+		<!-- 일반회원 로그인 여부를 체크할 핸들러 -->
+		<!-- <mvc:interceptor>
+			<mvc:mapping path="..."/>
+			<ref bean="userLoginHandler" />
+		</mvc:interceptor> -->
+		
+	</mvc:interceptors>
+			
+</beans>
