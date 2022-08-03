@@ -30,5 +30,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM notice
 		WHERE notice_NO=#{noticeNo}
 	</select>
+	
+	<update id="noticeModify">
+		UPDATE notice
+		SET notice_title=#{noticeTitle}, notice_content=#{noticeContent}
+		WHERE notice_NO=#{noticeNo}
+	</update>
+	
+	<delete id="noticeDelete">
+		DELETE FROM notice
+		WHERE notice_NO=#{noticeNo}
+	</delete>
 
 </mapper>

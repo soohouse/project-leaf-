@@ -79,7 +79,7 @@
                 	 
 				
                      <div class="container my-1">
-
+						<form action"<c:url value='/notice/noticeDelete'/>" method="post" name="noticeContentForm" >
                         <div class="row" >
                       		<!-- 공지사항 글 상세보기  -->
                             <div class="notice_content" >
@@ -87,7 +87,7 @@
 		                                        <div class="notice_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" value="${notice.noticeNo}">
 		                                        	<h4 style="display:inline-block;">${notice.noticeTitle}</h4>
-			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
+			                                        <button type="submit" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</button>
 		                                        </div>
 		                                        
 		                                        <div style="margin-top:30px;">
@@ -112,9 +112,9 @@
                                     </div>
 	                 		</div>
 	                            <hr class="borderline" />
-	                            <input type="submit" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify"/>'" value="수정하기">
-	                            <button type="submit" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'">목록</button>
-                       
+	                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'">수정하기</button>
+	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'">목록</button>
+                       	</form>
                         </div>
                     </div>
 				</div>
@@ -135,13 +135,29 @@
 <script>
 
 
- 	// 목록 버튼
+ 	// 목록 이동 버튼
 	$(function() {
 		$('#btn-notice-list').click(function() {
 			location.href='<c:url value="/notice/noticeList"/>';
 		})
 		
 	});
+ 	
+ 	//삭제 버튼 처리
+ 	$('btn-notice-delete').click(function() {
+ 		
+ 		if(confirm('정말 삭제하시겠습니까?')) {
+			$('form[name=updateForm]').attr('action', '<c:url value="/notice/noticeDelete"/>');
+			//document.updateForm.setAttribute('action', ~~~~);
+			$('form[name=updateForm]').submit();
+		}
+	});
+ 		
+		location.href='<c:url value="/notice/noticeDelete"/>';
+	})
+	
+	});
+ 	
 
 
 </script>

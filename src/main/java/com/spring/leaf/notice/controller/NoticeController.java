@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.leaf.notice.command.NoticeVO;
 import com.spring.leaf.notice.service.INoticeService;
@@ -48,7 +50,7 @@ public class NoticeController {
 		
 		service.noticeWrite(vo);
 		
-		return "redirect:/noticeList";
+		return "redirect:/notice/noticeList";
 	}
 
 	
@@ -63,8 +65,31 @@ public class NoticeController {
 	
 	//글 수정 페이지 이동
 	@GetMapping("/noticeModify")
-	public String noticeModify() {
-		return "/board/notice_modify";
+	public String noticeModify(@RequestParam("noticeNo") int noticeNo, Model model) {
+		
+		model.addAttribute("notice", service.noticeContent(noticeNo));
+		
+		return "board/notice_modify";
+
+	}
+	
+	//글 수정 처리
+	@PostMapping("/noticeUpdate")
+	public String noticeUpdate(NoticeVO vo, RedirectAttributes ra) {
+		
+		service.noticeModify(vo);
+		ra.addFlashAttribute("msg", "updateSuccess");
+		return "redirect:/notice/noticeContent/" + vo.getNoticeNo();
+	}
+	
+	//글 삭제 처리
+	@PostMapping("/noticeDelete")
+	public String noticeDelete(int noticeNo, RedirectAttributes ra) {
+		
+		service.noticeDelete(noticeNo);
+		
+		ra.addFlashAttribute("msg", "deleteSuccess");
+		return "redirect:/notice/noticeList";
 	}
 	
 }

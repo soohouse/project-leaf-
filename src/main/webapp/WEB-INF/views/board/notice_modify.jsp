@@ -42,28 +42,35 @@
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
 			            	<span class="main-notice-title">공지사항</span>
 			            </a>
+									                
 					<div class="col-lg-8 col-md-10 col-sm-12">
-		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
-			    	    	<thead>
-				    	    	<tr>
-				    	    		<th colspan= "2">공지사항 제목</th>
-				    	    	</tr>
-				    	    	<tr>
-					    			<td><input type="text" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
-					    		</tr>
-			    	    	</thead>
-					    	<tbody>
-					    		<tr>
-				    	    		<th colspan= "2">공지사항 내용</th>
-				    	    	</tr>
-					    		<tr>
-					    			<td><textarea class="form-control" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
-					    		</tr>
-					    	</tbody>
-		    	    	</table>
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="수정하기">
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="목록">
+						<form action="<c:url value='/notice/noticeUpdate'/>" method="post" name="noticeUpdateForm">
+			    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
+				    	    	<thead>
+					    	    	<tr>
+					    	    		<th colspan= "2">공지사항 제목</th>
+					    	    		<th><input type="hidden" name="noticeNo" id="noticeNo" value="${notice.noticeNo}"></th>
+					    	    	</tr>
+					    	    	<tr>
+						    			<td><input type="text" name="noticeTitle" class="form-control" value="${notice.noticeTitle}" maxlength="50" ></td>
+						    			
+						    		</tr>
+				    	    	</thead>
+						    	<tbody>
+						    		<tr>
+					    	    		<th colspan= "2">공지사항 내용</th>
+					    	    	</tr>
+						    		<tr>
+						    			<td><textarea class="form-control" name="noticeContent" maxlength="2048" style= "height:350px" >${notice.noticeContent}
+						    			</textarea></td>
+						    		</tr>
+						    	</tbody>
+			    	    	</table>
+	    	    			<button type="submit" id="btn-notice-update" class="btn btn-primary pull-right">수정하기</button>
+	    	    			<input type="button" class="btn btn-primary pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'" value="목록">
+    	    			</form>
 					</div>
+
 				</div>
 			</div>		   
 		</section>
@@ -79,6 +86,21 @@
 
 <script>
 
-
+/*//수정하기 버튼 이벤트
+$('#btn-notice-update').click(function() {
+	if($('input[name=noticeTitle]').val() === '') {
+		alert('제목을 필수로 작성해주세요.');
+		$('input[name=noticeTitle]').focus();
+		return;
+	} else if($('textarea[name=noticeContent]').val() === '') {
+		alert('내용을 필수로 작성해주세요.');
+		$('textarea[name=noticeContent]').focus();
+		return;
+	} else {
+		document.noticeUpdateForm.submit();
+	}
+});
+*/
+	
 
 </script>

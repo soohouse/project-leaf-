@@ -21,9 +21,9 @@ public interface INoticeService {
 		NoticeVO noticeContent(int noticeNo);
 		
 		//공지사항 수정
-		void update(NoticeVO vo);
+		void noticeModify(NoticeVO vo);
 		
 		//공지사항 삭제
-		void delete(int noticeNo);
+		void noticeDelete(int noticeNo);
 
 }

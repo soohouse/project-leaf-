@@ -50,15 +50,17 @@ public class NoticeService implements INoticeService {
 
 	//공지사항 수정
 	@Override
-	public void update(NoticeVO vo) {
-
+	public void noticeModify(NoticeVO vo) {
+		
+		mapper.noticeModify(vo);
 
 	}
 
 	//공지사항 삭제
 	@Override
-	public void delete(int noticeNo) {
-
+	public void noticeDelete(int noticeNo) {
+		
+		mapper.noticeDelete(noticeNo);
 	}
 
 }

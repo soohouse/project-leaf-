@@ -65,8 +65,8 @@
 						    	</tbody>
 			    	    	</table>
 		    	    	
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="글쓰기">
-    	    			<input type="button" class="btn btn-primary pull-right" onclick="location.href='notice_list'" value="목록">
+    	    			<input type="submit" id="btn-notice-write" class="btn btn-primary pull-right" value="글쓰기">
+    	    			<button type="button" id="btn-notice-list" class="btn btn-primary pull-right" >목록</button>
     	    			</form>
 					</div>
 				</div>
@@ -83,7 +83,17 @@
 
 
 <script>
-
+	
+	//목록 이동 버튼
+	$(function() {
+		$('#btn-notice-list').click(function() {
+			location.href='<c:url value="/notice/noticeList" />';
+		})
+		
+	});
+	
+	
+	
 
 
 </script>
