@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -69,7 +70,7 @@
         
         <div class="container">
             <div class="row">
-                <!-- 메인화면 공지사항 상단 -->
+                <!-- 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
 			            	<span class="main-notice-title">자유게시판</span>
 			            </a>
@@ -77,7 +78,7 @@
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='free_write'">작성하기</button>
+                 <button type="submit" class="btn btn-success mb-2 pull-right" id="btn-free-write">작성하기</button>
                  
                  
                 <table class="table table-bordered"  style="text-align: center;">
@@ -93,31 +94,17 @@
                     </thead>
                     
                     <tbody>
-                    
+                    	<c:forEach var="board" items="${boardList}">
                         <tr>
-                            <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='free_content'">안녕하세요. 오늘 처음 가입했습니다^^</a></td>
-                            <td>Hong123</td>
-                            <td>1시간 전</td>
+                            <td>${board.boardNo}</td>
+                            <td style="text-align: left;">
+                            	<a href="<c:url value='/board/boardContent/${board.boardNo}'/>">${board.boardTitle}</a>
+                            </td>
+                            <td>${board.boardWriter}</td>
+                            <td><fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td>85</td>
                         </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left;"><a>아 프로젝트 너무 어렵다 ..</a></td>
-                            <td>Kim123</td>
-                            <td>2022-07-16</td>
-                            <td>162</td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td style="text-align: left;"><a>오늘 날씨가 진짜 덥네요~~</a></td>
-                            <td>Test22</td>
-                            <td>2022-07-15</td>
-                            <td>224</td>
-                        </tr>
-                      
+                      	</c:forEach>
 									
                    
                        
@@ -137,7 +124,8 @@
                         </form>
                 
             </div>
-
+            
+			<!-- 자유게시판 페이징 -->
             <div class="text-center">
                 <ul class="pagination pagination-sm">
                     <li><a href="#"><<</a></li>
@@ -165,6 +153,12 @@
 
 <script>
 
-
+	//글쓰기 페이지 이동 버튼
+	$(function() {
+		$('#btn-free-write').click(function() {
+			location.href='<c:url value="/board/boardWrite" />';
+		})
+		
+	});
 
 </script>

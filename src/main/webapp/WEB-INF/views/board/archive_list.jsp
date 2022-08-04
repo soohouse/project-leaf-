@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -77,7 +78,7 @@
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='data_write'">작성하기</button>
+                 <button type="submit" class="btn btn-success mb-2 pull-right" id="btn-archive-write">작성하기</button>
                  
                  
                 <table class="table table-bordered"  style="text-align: center;">
@@ -93,37 +94,17 @@
                     </thead>
                     
                     <tbody>
-                    
+                      <c:forEach var="archive" items="${archiveList}">
                         <tr>
-                            <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='data_content'">와이어프레임 설계 툴 공유합니다.</a>
+                            <td>${archive.archiveNo}</td>
+                            <td style="text-align: left;">
+                            	<a href="<c:url value='/archive/archiveContent/${archive.archiveNo}' />">${archive.archiveContent}</a>
                             <a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a></td>
-                            <td>Hong123</td>
-                            <td>1시간 전</td>
+                            <td>${archive.archiveWriter}</td>
+                            <td><fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td>95</td>
                         </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left;"><a>c++ 임베디드 시스템 제어 코드 공유</a>
-                            <a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a></td>
-                            <td>kim123</td>
-                            <td>2022-07-16</td>
-                            <td>162</td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td style="text-align: left;"><a>안드로이드 메뉴 xml 코드 공유합니다~~</a>
-                            <a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a></td>
-                            <td>Test22</td>
-                            <td>2022-07-15</td>
-                            <td>224</td>
-                        </tr>
-                      
-									
-                   
-                       
+					  </c:forEach>
                     </tbody>
                 </table>
                 
@@ -141,6 +122,7 @@
                 
             </div>
 
+			<!-- 자료실 페이징 -->
             <div class="text-center">
                 <ul class="pagination pagination-sm">
                     <li><a href="#"><<</a></li>
@@ -168,6 +150,13 @@
 
 <script>
 
+	//글쓰기 페이지 이동 버튼
+	$(function() {
+		$('#btn-archive-write').click(function() {
+			location.href='<c:url value="/archive/archiveWrite" />';
+		})
+		
+	});
 
 
 </script>

@@ -84,9 +84,9 @@ public class NoticeController {
 	
 	//글 삭제 처리
 	@PostMapping("/noticeDelete")
-	public String noticeDelete(int noticeNo, RedirectAttributes ra) {
+	public String noticeDelete(NoticeVO vo, RedirectAttributes ra) {
 		
-		service.noticeDelete(noticeNo);
+		service.noticeDelete(vo.getNoticeNo());
 		
 		ra.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/notice/noticeList";

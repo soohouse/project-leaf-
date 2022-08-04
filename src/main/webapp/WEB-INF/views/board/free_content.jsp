@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <html>
@@ -60,94 +61,69 @@
 			            </a>
 				
                      <div class="container my-1" >
-                        <div class="row" style="margin-bottom:50px;">
-                        	<div class="free_content" >
-                                   <div class="free_content_up" style="margin-left:30px;" >
-		                                        <div class="free_title_up" scope="col" style="width: 100%;  margin-top:10px;">
-		                                        	<h4 style="display:inline-block;">안녕하세요~ 오늘 처음 가입했습니다^^ </h4>
-			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
-		                                        </div>
-		                                        
-		                                        <div class="free_title_down" style="margin-top:30px;">
-			                                        <div class="free_writer" style="display: inline-block;">
-			                                            <img src="resources/img/logo2.png" width="50px" > hong123
-		                                       		</div>
-		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
-				                                        <div style="display:inline-block;" >
-				                                            55분전
-				                                        </div>
-				                                        <div style="display:inline-block;">
-				                                        	조회수 : 2
+                       <form action="<c:url value='/board/boardDelete'/>" method="post" name="boardDeleteForm">
+	                        <div class="row" style="margin-bottom:50px;">
+	                        	<div class="free_content" >
+	                                   <div class="free_content_up" style="margin-left:30px;" >
+			                                        <div class="free_title_up" scope="col" style="width: 100%;  margin-top:10px;">
+			                                        	<input type="hidden" name="boardNo" value="${board.boardNo}">
+			                                        	<h4 style="display:inline-block;">${board.boardTitle}</h4>
+				                                        <a type="submit" id="btn-board-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
+			                                        </div>
+			                                        
+			                                        <div class="free_title_down" style="margin-top:30px;">
+				                                        <div class="free_writer" style="display: inline-block;">
+				                                            <img src="resources/img/logo2.png" width="50px" > ${board.boardWriter}
+			                                       		</div>
+			                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
+					                                        <div style="display:inline-block;" >
+					                                            <fmt:formatDate value="${board.boardDate}" pattern="yyyy-MM-dd HH:mm" />
+					                                        </div>
+					                                        <div style="display:inline-block;">
+					                                        	조회수 : 2
+					                                        </div>
 				                                        </div>
 			                                        </div>
-		                                        </div>
-                                    </div>
-
-                                    <div class="free_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
-                                        
-                                        	안녕하세요~ 오늘 처음 가입했습니다 ^^<br>
-                                        	잘 부탁드립니다!!<br>
-											<br>
-                                            개발 경험은 많이 없지만... 좋은 곳에서 좋은 분들에게 많은 것을 배우고 가고 싶습니다.<br>
-                                            열심히 하겠습니다!! 감사합니다.<br>
-                                           
-                                    </div>
-                            </div>
-                 
-                        </div>
+	                                    </div>
+	
+	                                    <div class="free_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+	                                        
+	                                        	${board.boardContent}
+	                                           
+	                                    </div>
+	                            </div>
+	                 			
+	                        </div>
+                        </form>
                         <table class="table table-borderless"  style="text-align: center; font-size:12px;">
-			                    <thead>
-			                        <div style="background-color: #bbd0e7; " >
-			                            <div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
-			                            	<p style="color:red; display:inline-block; ">4</p>
-			                            </div>
-			                        </div> 
-			                    </thead>
-			                    
-			                    <tbody>
-			                    
-			                        <tr>
-			                            <td style="text-align: left;">kim1234</td>
-			                            <td style="text-align: left;">안녕하세요~ 저도 잘 부탁드려요!</td>
-			                            <td>2022.07.17</td>
-			                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
-										<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
-			                        </tr>
-			
-			                        <tr>
-			                            <td style="text-align: left;">Test22</td>
-			                            <td style="text-align: left;">반갑습니다! 새로운 얼굴이네요~</td>
-			                            <td>2022.07.17</td>
-			                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
-										<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
-			                        </tr>
-			
-			                        <tr>
-			                            <td style="text-align: left;">Asdf555</td>
-			                            <td style="text-align: left;">저도 방금 왔어요! 함께 잘 나가봅시다~</td>
-			                            <td>2022.07.17</td>
-			                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
-										<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
-			                        </tr>
-			                        
-			                        <tr>
-			                            <td style="text-align: left;">hong123</td>
-			                            <td style="text-align: left;">모두들 환영해주셔서 감사합니다!</td>
-			                            <td>2022.07.17</td>
-			                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
-										<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
-			                        </tr>
-			                        
-
-
-			                    </tbody>
-			                    
-			                  
-			                    	
-			                        
-			                          
-			                </table>
-			                
+					                    <thead>
+					                        <div style="background-color: #bbd0e7; " >
+					                            <div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
+					                            	<p style="color:red; display:inline-block; ">4</p>
+					                            </div>
+					                        </div> 
+					                    </thead>
+					                    
+					                    <tbody>
+					                    
+					                        <tr>
+					                            <td style="text-align: left;">kim1234</td>
+					                            <td style="text-align: left;">안녕하세요~ 저도 잘 부탁드려요!</td>
+					                            <td>2022.07.17</td>
+					                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
+												<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
+					                        </tr>
+					
+					                        <tr>
+					                            <td style="text-align: left;">Test22</td>
+					                            <td style="text-align: left;">반갑습니다! 새로운 얼굴이네요~</td>
+					                            <td>2022.07.17</td>
+					                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
+												<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
+					                        </tr>
+					                    </tbody>       
+			                 		</table>
+			                	
 			                <div class="text-center">
 						                <ul class="pagination pagination-sm">
 						                    <li><a href="#"><<</a></li>
@@ -171,16 +147,17 @@
 												</div>
 												
 										</div>
-			                <div style="margin-top:20px;">
-				                 <button type="submit" class=" mb-2 pull-left">신고하기 </button>
-				                 <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='free_modify'">수정 </button>
-	                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
-                    		</div>
+						                <div style="margin-top:20px;">
+							                 <button type="submit" class=" mb-2 pull-left">신고하기 </button>
+							                 <button type="button" id="btn-board-modify" class="btn btn-info mb-2 pull-right" onclick="location.href='<c:url value="/board/boardModify?boardNo=${board.boardNo}"/>'">수정하기</button>
+				                             <button type="button" id="btn-board-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
+			                    		</div>
                     
                     
-				</div>
-			</div> 
-        </section> 
+							</div>
+						
+				</div> 
+	        </section> 
 		
 	   
 	   
@@ -195,6 +172,22 @@
 
 <script>
 
-
+	//목록 이동 버튼
+	$(function() {
+		$('#btn-board-list').click(function() {
+			location.href='<c:url value="/board/boardList"/>';
+		})
+		
+	});
+		
+		//삭제 버튼 처리
+		$(function(){
+	 	$('#btn-board-delete').click(function() {
+	 		
+	 		if(confirm('정말 삭제하시겠습니까?')) {
+				document.boardDeleteForm.submit();
+			}
+	 	})
+	});
 
 </script>

@@ -43,13 +43,15 @@
 			            	<span class="main-notice-title">자유게시판</span>
 			            </a>
 					<div class="col-lg-8 col-md-10 col-sm-12">
+					  <form action="<c:url value='/board/boardWrite'/>" method="post" name="boardWriteForm">
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
 				    	    	<tr>
 				    	    		<th colspan= "2">게시글 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" name="boardTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="hidden" name="boardWriter" value="${user.userID}"></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -57,12 +59,13 @@
 				    	    		<th colspan= "2">게시글 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+					    			<td><textarea class="form-control" name="boardContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
     	    			<input type="submit" class="btn btn-success pull-right" onclick="location.href='free_list'" value="등록">
-    	    			<input type="submit" class="btn btn-primary pull-right" onclick="location.href='free_list'" value="목록">
+    	    			<button type="button" id="btn-board-list" class="btn btn-primary pull-right">목록</button>
+    	    		  </form>
 					</div>
 				</div>
 			</div>		   
@@ -79,6 +82,12 @@
 
 <script>
 
-
+	//목록 이동 버튼
+	$(function() {
+		$('#btn-board-list').click(function() {
+			location.href='<c:url value="/board/boardList" />';
+		})
+		
+	});
 
 </script>

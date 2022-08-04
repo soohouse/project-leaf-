@@ -50,6 +50,10 @@
 	<mybatis-spring:scan base-package="com.spring.leaf.company.mapper"/>
 	<!-- 공지사항 INoticeMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.notice.mapper"/>
+	<!-- 자유게시판 IBoardMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.board.mapper"/>
+	<!-- 자유게시판 IArchiveMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.archive.mapper"/>
 	
 	
 </beans>

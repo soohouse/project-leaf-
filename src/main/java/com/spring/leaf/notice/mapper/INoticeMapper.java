@@ -14,9 +14,6 @@ public interface INoticeMapper {
 	//공지사항 글 목록
 	List<NoticeVO> noticeList();
 	
-	//공지사항 총 게시물 수
-	
-	
 	//공지사항 상세보기
 	NoticeVO noticeContent(int noticeNo);
 	
