@@ -1,0 +1,113 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
+
+#main-box {
+    border-bottom: 3px ridge lightslategray;
+    border-radius: 4px;
+    font: 15px bold;
+    margin: 10px 150px 10px 200px;
+    width: 900px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.first-box {
+    color: darkgray;
+    font-size: 12px;
+    line-height: 2em;
+}
+
+.project-user {
+    float: right;
+    margin-top: -30px;
+    margin-right: 120px;
+    font: 10px bold lightslategray;
+}
+
+.project-heart {
+    float: right;
+    margin-top: -30px;
+    margin-right: 80px;
+    font: 10px bold lightslategray;
+}
+
+.project-heart a {
+    padding-right: 3px;
+    color: red;
+}
+
+.project-seen {
+    float: right;
+    margin-top: -30px;
+    margin-right: 0px;
+    font: 10px bold lightslategray;
+}
+
+
+.mojibjung {
+    float: right;
+    margin-top: -75px;
+    margin-right: 0px;
+    font: 17px bold greenyellow;
+}
+
+.mojibjung p {
+    color: rgb(52, 179, 52);
+}
+
+.username-input-box {
+    margin-left: 200px;
+}
+
+.username-input-box p {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+
+.project-container-bottom {
+    float: right;
+    margin-right: 0px;
+}
+
+.jechul-button {
+    width: 900px;
+    margin-top: 10px;
+    margin-left: 200px;
+}
+
+.project-user-name {
+    margin-bottom: 10px;
+}
+
+.project-e-mail {
+    margin-bottom: 10px;
+}
+
+.project-phone {
+    margin-bottom: 10px;
+}
+
+.resume-user {
+    margin-bottom: 10px;
+}
+
+#project-user-name {
+    width: 437px;
+}
+
+#project-user-email {
+    width: 437px;
+}
+
+#user-textarea {
+    width: 437px;
+    height: 200px;
+    border: 1px bold black;
+}
+
+.user-check-box {
+    margin-left: 200px;
+    font-size: 12px;
+    color: lightslategray;
+}

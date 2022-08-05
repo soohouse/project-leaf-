@@ -52,8 +52,12 @@
 	<mybatis-spring:scan base-package="com.spring.leaf.notice.mapper"/>
 	<!-- 자유게시판 IBoardMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.board.mapper"/>
-	<!-- 자유게시판 IArchiveMapper 연결 -->
+	<!-- 자유게시판 댓글 IBoardReplyMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.boardreply.mapper"/>
+	<!-- 자료실 IArchiveMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.archive.mapper"/>
+	<!-- Question게시판 IQuestionMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.question.mapper"/>
 	
 	
 </beans>

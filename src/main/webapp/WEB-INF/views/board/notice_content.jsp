@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!-- 글 내용 줄 개행 처리를 위해 추가 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <html>
 <head>
@@ -107,13 +110,14 @@
 
                                     <div class="notice_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
-                                        	${notice.noticeContent}
+                                        	${fn:replace(notice.noticeContent, newLineChar, '<br/>')}
+
                                            
                                     </div>
 	                 		</div>
 	                            <hr class="borderline" />
 	                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'">수정하기</button>
-	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right">목록</button>
+	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'">목록</button>
                        	</form>
                         </div>
                     </div>

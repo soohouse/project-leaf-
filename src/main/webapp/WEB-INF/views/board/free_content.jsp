@@ -2,6 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!-- 글 내용 줄 개행 처리를 위해 추가 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 
 
 <html>
@@ -88,16 +91,17 @@
 	
 	                                    <div class="free_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 	                                        
-	                                        	${board.boardContent}
+	                                        	${fn:replace(board.boardContent, newLineChar, '<br/>')}
 	                                           
 	                                    </div>
 	                            </div>
 	                 			
 	                        </div>
                         </form>
-                        <table class="table table-borderless"  style="text-align: center; font-size:12px;">
+                        
+                        <table id="boardReplyList" class="table table-borderless"  style="text-align: center; font-size:12px;">
 					                    <thead>
-					                        <div style="background-color: #bbd0e7; " >
+					                        <div style="background-color: #bbd0e7;" >
 					                            <div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
 					                            	<p style="color:red; display:inline-block; ">4</p>
 					                            </div>
@@ -114,13 +118,6 @@
 												<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
 					                        </tr>
 					
-					                        <tr>
-					                            <td style="text-align: left;">Test22</td>
-					                            <td style="text-align: left;">반갑습니다! 새로운 얼굴이네요~</td>
-					                            <td>2022.07.17</td>
-					                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
-												<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
-					                        </tr>
 					                    </tbody>       
 			                 		</table>
 			                	
@@ -135,14 +132,16 @@
 						                    <li><a href="#">>></a></li>
 						                </ul>
 						                
+						                
 						                <div style="background-color:#bbd0e7; height: 120px; ">
 				                        		<div style="text-align:left; margin: 10px 10px 10px 10px; padding-top:10px;">회원만 댓글 작성이 가능합니다.</div>
 				                        		<div>
 				                        			<div>
-						                        		<textarea type="text" class="form-control col-md-8 col-sm-10" placeholder="댓글을 입력하세요." name="replyContent" maxlength="2048" style="float:left; width:85%;  margin-left:30px;"></textarea>
+				                        				<input type="hidden" id="boardReplyWriter" name="boardReplyWriter" value="${user.userID}" >
+						                        		<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%;  margin-left:30px;"></textarea>
 													</div>
 													<div style=" margin-bottom:10px; float:right; margin-right: 40px; width:5%;">
-														<input type="submit" class="btn" value="댓글입력" style="height:54px;">
+														<input type="button" id="btn-boardreply-write" class="btn" value="댓글입력" style="height:54px;">
 													</div>
 												</div>
 												
@@ -152,7 +151,7 @@
 							                 <button type="button" id="btn-board-modify" class="btn btn-info mb-2 pull-right" onclick="location.href='<c:url value="/board/boardModify?boardNo=${board.boardNo}"/>'">수정하기</button>
 				                             <button type="button" id="btn-board-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
 			                    		</div>
-                    
+                    				
                     
 							</div>
 						
@@ -172,22 +171,75 @@
 
 <script>
 
-	//목록 이동 버튼
-	$(function() {
-		$('#btn-board-list').click(function() {
-			location.href='<c:url value="/board/boardList"/>';
-		})
-		
-	});
+		//목록 이동 버튼
+		$(function() {
+			$('#btn-board-list').click(function() {
+				location.href='<c:url value="/board/boardList"/>';
+			});
+			
+		});
 		
 		//삭제 버튼 처리
 		$(function(){
-	 	$('#btn-board-delete').click(function() {
-	 		
-	 		if(confirm('정말 삭제하시겠습니까?')) {
-				document.boardDeleteForm.submit();
-			}
-	 	})
-	});
+		 	$('#btn-board-delete').click(function() {
+		 		
+		 		if(confirm('정말 삭제하시겠습니까?')) {
+					document.boardDeleteForm.submit();
+				}
+		 	});
+		});
+		
+		//댓글 등록
+		$(document).ready(function () {
+		
+			$('#btn-boardreply-write').click(function(){
+				
+				const boardNo = '${board.boardNo}'; //컨트롤러에서 넘어온 글 번호
+				const boardReplyContent = $('#boardReplyContent').val(); //댓글 내용
+				const boardReplyWriter = $('#boardReplyWriter').val();//작성자
+				
+				if(boardReplyContent === '') {
+					alert('내용을 입력하세요 !');
+					return;
+				}
+				
+				
+				
+				$.ajax({
+					type: 'post',
+					url: '<c:url value="/boardreply/boardReplyWrite" />',
+					contentType: 'application/json',
+					data: JSON.stringify(
+						{
+							"boardReplyWriter": boardReplyWriter,
+							"boardReplyContent": boardReplyContent,
+							"boardNo": boardNo
+						}		
+					),
+					
+					dataType: 'text',
+					
+					success: function(result) {
+						console.log('통신 성공' + result);
+						
+						alert('댓글 등록이 완료되었습니다.');
+						
+						$('#boardReplyContent').val('');
+						//$('#boardReplyWriter').val('');
+					
+						boardReplyList(1,true);
+					},
+					
+					error: function() {
+						alert('댓글 등록이 실패하였습니다.');
+						return;
+					}
+				
+					
+				}); //end ajax
+			}); //댓글 등록 이벤트 끝
+		});
+		
+		
 
 </script>

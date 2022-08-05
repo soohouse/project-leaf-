@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -79,7 +80,7 @@
                     <option>10개씩</option>
                     <option>20개씩</option>
                  </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" onclick="location.href='qna_write'">질문하기</button>
+                 <button type="submit" class="btn btn-success mb-2 pull-right" id="btn-question-write">질문하기</button>
                  
                  
                 <table class="table table-bordered"  style="text-align: center; border: 1px gray">
@@ -95,49 +96,18 @@
                     </thead>
                     
                     <tbody>
-                    
+                      <!-- 질문글 목록 -->
+                      <c:forEach var="question" items="${questionList}">
                         <tr>
-                            <td>1</td>
-                            <td style="text-align: left;"><a onclick="location.href='qna_content'">Q.경력이 없어도 프로젝트에 지원할 수 있을까요...?</a></td>
-                            <td>Hong123</td>
-                            <td>1시간 전</td>
+                            <td>${question.questionNo}</td>
+                            <td style="text-align: left;">
+                            	<a href="<c:url value='/question/questionContent/${question.questionNo}'/>">${question.questionTitle}</a>
+                            </td>
+                            <td>${question.questionWriter}</td>
+                            <td><fmt:formatDate value="${question.questionDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td>4</td>
                         </tr>
-
-                        <tr>
-                            <td></td>
-                            <td style="text-align: left;"><a>A.경력이 없어도 프로젝트에 지원할 수 있을까요...?</a></td>
-                            <td>kim1234</td>
-                            <td>55분 전</td>
-                            <td>2</td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
-                            <td>Hong123</td>
-                            <td>2022-07-22</td>
-                            <td>12</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>3</td>
-                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
-                            <td>Hong123</td>
-                            <td>2022-07-22</td>
-                            <td>12</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>4</td>
-                            <td style="text-align: left;"><a>Q.질문 내용...</a></td>
-                            <td>Hong123</td>
-                            <td>2022-07-22</td>
-                            <td>12</td>
-                        </tr>
-                      
-									
-                   
+					</c:forEach>
                        
                     </tbody>
                 </table>
@@ -183,6 +153,13 @@
 
 <script>
 
+//글쓰기 페이지 이동 버튼
+$(function() {
+	$('#btn-question-write').click(function() {
+		location.href='<c:url value="/question/questionWrite" />';
+	})
+	
+});
 
 
 </script>

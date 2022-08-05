@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.archive.mapper.IArchiveMapper">
+
+	<resultMap type="com.spring.leaf.archive.command.ArchiveVO" id="ArchiveMap">
+		<id property="archiveNo" column="archive_NO" />
+		<result property="archiveTitle" column="archive_title"/>
+		<result property="archiveWriter" column="archive_writer"/>
+		<result property="archiveContent" column="archive_content"/>
+		<result property="archiveDate" column="archive_date"/>
+		<result property="archiveViews" column="archive_views"/>
+	</resultMap>
+	
+	<insert id="archiveWrite">
+		INSERT INTO archive(archive_title, archive_writer, archive_content)
+		VALUES (#{archiveTitle}, #{archiveWriter}, #{archiveContent})
+	</insert>
+	
+	<select id="archiveList" resultMap="ArchiveMap">
+		SELECT * FROM archive
+		ORDER BY archive_NO DESC
+	</select>
+	
+	<select id="archiveContent" resultMap="ArchiveMap">
+		SELECT * FROM archive
+		WHERE archive_NO=#{archiveNo}
+	</select>
+	
+	<update id="archiveModify">
+		UPDATE archive
+		SET archive_title=#{archiveTitle}, archive_content=#{archiveContent}
+		WHERE archive_NO=#{archiveNo}
+	</update>
+	
+	<delete id="archiveDelete">
+		DELETE FROM archive
+		WHERE archive_NO=#{archiveNo}
+	</delete>
+		
+</mapper>

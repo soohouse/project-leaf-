@@ -21,9 +21,10 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			
-			<!-- 인터셉터들을 servlet-config.xml에 등록하지 않고 따로 파일을 만들어서 등록해준다. -->
 			<param-value>
 				/WEB-INF/spring/appServlet/servlet-context.xml
+				/WEB-INF/spring/email-config.xml		<!-- 이메일 인증을 위해 email-config.xml을 추가했기 때문에 여기에 넣어줘야 한다. -->
+				/WEB-INF/spring/interceptor-config.xml  <!-- 로그인 인터셉터 추가 -->
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

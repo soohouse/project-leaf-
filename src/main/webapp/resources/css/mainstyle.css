@@ -214,6 +214,10 @@ body {
 	color: #2f2f2f;
 }
 
+.navbar-main-top {
+	margin-left: 60px;
+}
+
 .fa-leaf {
 	color: #2f2f2f;
 }
@@ -223,9 +227,9 @@ body {
 }
 
 footer {
-  width: 1310px;
+  width: 85vw;
   height: 160px;
-  margin-top: 400px;
+  margin-top: 100px;
   padding: 0 8px 0 8px; /* 각각 위 오른쪽 아래 왼쪽 */
   display: flex;
   flex-direction: column; /* 요소들을 수평정렬 */
@@ -286,7 +290,17 @@ footer {
 }
 
 .area_user_row ul > li {
-  display: inline-block; /* li 수평정렬하는 방법 */
+  display: inline-block;
   margin-left: 8px;
 }
 
+.main-box {
+	margin: 0 auto;
+}
+
+.header-img-logo {
+	width: 130px;
+	height: 40px;
+	margin-top: -10px;
+	margin-left: -8px;
+}

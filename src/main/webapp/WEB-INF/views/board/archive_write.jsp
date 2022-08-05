@@ -44,13 +44,15 @@
 			            </a>
 				
 					<div class="col-lg-8 col-md-10 col-sm-12">
+					  <form>
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
 				    	    	<tr>
 				    	    		<th colspan= "2">게시글 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" class="form-control" placeholder="게시글 제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" name="archiveTitle" class="form-control" placeholder="게시글 제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="hidden" name="archiveWriter" value="${user.userID}"></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -58,20 +60,23 @@
 				    	    		<th colspan= "2">게시글 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" placeholder="게시글 내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+					    			<td><textarea class="form-control" name="archiveContent" placeholder="게시글 내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
 					    		</tr>
 					    		
 					    	</tbody>
 					    	
 					    		
 		    	    	</table>
-		    	    			<tr>
-						    		<th>파일업로드</th>
-									<td><input type="file" name="uploadFile"></td>	
-								</tr>
 		    	    	
-    	    			<input type="submit" class="btn btn-success pull-right" value="등록">
-    	    			<input type="submit" class="btn btn-primary pull-right" value="목록">
+		    	    			<div class="filebox pull-left">
+						    		<label for="file">파일업로드</label>
+									<input type="file" name="uploadFile">	
+								</div>
+		    	    	
+    	    			<input type="submit" id="btn-archive-write" class="btn btn-success pull-right" value="등록">
+    	    			<button type="button" id="btn-archive-list" class="btn btn-primary pull-right">목록</button>
+					
+					  </form>
 					</div>
 				</div>
 			</div>		   
@@ -88,6 +93,13 @@
 
 <script>
 
+	//목록 이동 버튼
+	$(function() {
+		$('#btn-archive-list').click(function() {
+			location.href='<c:url value="/archive/archiveList" />';
+		})
+		
+	});
 
 
 </script>

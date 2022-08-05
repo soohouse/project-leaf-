@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.question.mapper.IQuestionMapper">
+
+	<resultMap type="com.spring.leaf.question.command.QuestionVO" id="QuestionMap">
+		<id property="questionNo" column="question_NO"/>
+		<result property="questionTitle" column="question_title"/>
+		<result property="questionWriter" column="question_writer"/>
+		<result property="questionContent" column="question_content"/>
+		<result property="questionDate" column="question_date"/>
+		<result property="questionViews" column="question_views"/>
+	</resultMap>
+	
+	<select id="questionList" resultMap="QuestionMap">
+		SELECT * FROM question
+		ORDER BY question_NO DESC
+	</select>
+	
+	<insert id="questionWrite">
+		INSERT INTO question(question_title, question_writer, question_content)
+		VALUES (#{questionTitle}, #{questionWriter}, #{questionContent})
+	</insert>
+
+</mapper>

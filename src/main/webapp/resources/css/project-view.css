@@ -1,0 +1,376 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
+
+#main-box {
+    border-bottom: 3px ridge lightslategray;
+    border-radius: 4px;
+    font: 15px bold;
+    margin: 10px 150px 10px 200px;
+    width: 900px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.first-box {
+    color: darkgray;
+    font-size: 12px;
+    line-height: 2em;
+}
+
+.project-img-box  img {
+    width: 900px;
+    height: 500px;
+    margin-top: 5px;
+    margin-left: 195px;
+    object-fit: cover;
+    vertical-align: text-bottom;
+    border: 3px solid black;
+}
+
+.project-user {
+    float: right;
+    margin-top: -30px;
+    margin-right: 120px;
+    font: 10px bold lightslategray;
+}
+
+.project-heart {
+    float: right;
+    margin-top: -30px;
+    margin-right: 80px;
+    font: 10px bold lightslategray;
+}
+
+.project-heart a {
+    padding-right: 3px;
+    color: red;
+}
+
+.project-seen {
+    float: right;
+    margin-top: -30px;
+    margin-right: 0px;
+    font: 10px bold lightslategray;
+}
+
+.project-jiwon {
+    float: right;
+    margin-top: -80px;
+    margin-right: 0px;
+}
+
+.mojibjung {
+    float: right;
+    margin-top: -75px;
+    margin-right: 115px;
+    font: 17px bold greenyellow;
+}
+
+.mojibjung p {
+    color: rgb(52, 179, 52);
+}
+
+.project-img-box p {
+    padding-left: 5px;
+}
+
+.project-myeng {
+    margin-left: 195px;
+    width: 100px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.project-myeng1 {
+    width: 350px;
+    height: 30px;
+    margin-top: 5px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.project-dt {
+    width: 100px;
+    height: 30px;
+    margin-right: -4px;
+    margin-left: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.project-dt1 {
+    width: 350px;
+    height: 30px;
+    margin-top: 5px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.project-friend {
+    margin-left: 195px;
+    width: 100px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.project-friend1 {
+    width: 350px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.project-phone {
+    width: 100px;
+    height: 30.3px;
+    font-size: 12px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 7px;
+}
+
+.project-phone1 {
+    width: 350px;
+    height: 30px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.project-fr-lo {
+    margin-left: 195px;
+    width: 100px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.project-fr-lo1 {
+    width: 650px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.project-container-right {
+    height: 30px;
+    display: inline-block;
+}
+
+.project-container-right .btn-primary {
+    color: #fff;
+    width: 150px;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.project-int {
+    margin-left: 195px;
+    width: 100px;
+    height: 250px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+    transform: translate(0px, -140px);
+}
+
+.project-int1 {
+    width: 800px;
+    height: 250px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.damdang-master {
+    margin-top: -141px;
+}
+
+.damdang {
+    margin-left: 195px;
+    width: 100px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.damdang1 {
+    width: 350px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.damdang-phone {
+    width: 100px;
+    height: 30.3px;
+    font-size: 12px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 7px;
+}
+
+.damdang-phone1 {
+    width: 350px;
+    height: 30px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.damdang-email {
+    margin-left: 195px;
+    width: 100px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.damdang-email1 {
+    width: 800px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.skills {
+    margin-left: 195px;
+    width: 100px;
+    height: 90px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+    transform: translate(0px, -60px);
+}
+
+.skills1 {
+    width: 800px;
+    height: 90px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.mojib-master {
+    margin-top: -60px;
+}
+
+.mojib {
+    margin-left: 195px;
+    width: 100px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 5px;
+}
+
+.mojib1 {
+    width: 350px;
+    height: 30px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+
+.mojib-user {
+    width: 100px;
+    height: 30.3px;
+    font-size: 12px;
+    margin-right: -4px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(197, 235, 170);
+    text-align: center;
+    padding-top: 7px;
+}
+
+.mojib-user1 {
+    width: 350px;
+    height: 30px;
+    border: 1px solid black;
+    display: inline-block;
+    background-color: white;
+    padding-top: 5px;
+}
+.below-but {
+    width: 900px;
+    margin-top: 10px;
+    margin-left: 200px;
+}
+
+.singo {
+    display: inline;
+}
+
+.singo a {
+    font-size: 10px;
+    color: lightslategray;
+}   
+
+.project-container-bottom {
+    float: right;
+}
+

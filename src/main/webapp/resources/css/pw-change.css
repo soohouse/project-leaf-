@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.pw_change_box {
+    margin: 2% 5% 5% 5%;
+    width: 90%;
+    height: 100%;
+}
+
+.pw_change_box .old_pw, .new_pw, .new_pw2 { /* input search위에있는 글씨와 위와의 간격 */
+    color: rgb(73, 73, 73);
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.pw_change_box .pw_change_input { /* 모든 input search */
+    width: 95%;
+    height: 25px;
+    margin-top: 5px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 15px;
+}
+
+.pw_change_box .pw_change_button { /* 변경하기 버튼 */
+    background-color: rgb(93, 217, 93);
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 7px;
+    font-size: 15px;
+    color: rgb(52, 52, 52);
+    font-weight: bold;
+} .pw_change_box .pw_change_button:hover { background-color: rgb(76, 169, 76);}

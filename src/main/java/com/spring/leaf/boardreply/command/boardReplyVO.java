@@ -11,11 +11,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @ToString
-public class boardReplyVO {
+public class BoardReplyVO {
+	
+	
 	
 	private int boardReplyNo;
 	private String boardReplyWriter;
 	private String boardReplyContent;
 	private Timestamp boardReplyDate;
+	private int boardNo;
 
 }

@@ -1,0 +1,208 @@
+@charset "UTF-8";
+
+body { 
+    margin: 0px;
+    padding: 0px;
+    background-color: none;
+}
+.register-box p { 
+	margin: 0px;
+	padding: 0px;
+	font-weight: bold;
+}
+
+.register-box { /* 회원가입 전체 박스 */
+    background-color: white;
+    margin: 0 auto;
+    width: 600px;
+    height: 1200px;
+}
+
+
+.register-box .top-msg { /* [*는 필수값입니다.] */
+    color: red;
+    font-size: 15px;
+    margin-top: 30px;
+}
+
+
+.register-box .gein-giup { /* 개인과 기업 박스 */
+    margin-top: 20px;
+    font-size: 15px;
+}
+.register-box .gein-giup .gein { /* 개인박스 */
+    float: left;
+    background-color: white;
+    /*color: rgb(0, 85, 255);*/
+    color: rgb(49, 145, 150);
+    width: 49%;
+    text-align: center;
+    padding: 20px 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 3px solid rgb(134, 134, 134);
+} .register-box .gein-giup .gein:hover {background-color: rgb(240, 240, 240);}
+.register-box .gein-giup .giup { /* 기업박스 */
+    float: right;
+    background-color: white;
+    color: rgb(91, 90, 90);
+    width: 50%;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px 0px;
+    border-top: 3px solid rgb(134, 134, 134);
+    border-left: 3px solid rgb(134, 134, 134);
+    border-right: 3px solid rgb(134, 134, 134);
+}
+
+
+.register-input-box { /* ID PW PWcheck NAME Email PhoneALL Profile */
+    font-size: 15px;
+    color: rgb(91, 90, 90);
+    font-weight: boldpx;
+}
+
+.input-all { /* 모든 input에 적용할것 */
+    height: 35px;
+    font-size: 15px;
+    padding: 15px;
+    border-radius: 3px;
+    border: 2px solid rgb(165, 165, 165);
+}
+.register-box .register-input-box .regi-droup-down  { /*drop-down박스*/
+    height: 35px;
+    font-size: 15px;
+    border-radius: 3px;
+    border: 2px solid rgb(165, 165, 165);
+}
+
+.register-box .register-input-box .all { margin-top: 30px; } /* input-box전체가 위와 간격띄우기 */
+
+.register-box .register-input-box .input1 { /* 길다란 input박스 */
+    width: 100%;
+}
+.register-box .register-input-box .input1-1 { /* 아이디 input박스 */
+    width: 80%;
+}
+.register-box .register-input-box .input1-2 { /* 아이디 중복체크 박스 */
+	float: right;
+    width: 20%;
+    height: 35px;
+    font-size: 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    /*background-color: rgb(45, 91, 210);*/
+    background-color: rgb(49, 145, 150);
+} .register-box .register-input-box .input1-2:hover { background-color: rgb(32, 107, 111)/*rgb(49, 145, 150)*/; }
+
+
+.input:focus { /* input클릭 시 테두리 파랗게 변환 */
+    border: 2px solid rgb(0, 85, 255); 
+}
+
+
+
+.register-box .register-input-box .input2 { /* 이메일 input박스 (왼쪽) */
+    width: 60%;
+}
+.register-box .register-input-box .input3 { /* 이메일 input박스 (오른쪽) */
+    float: right;
+    width: 36%; /*안되면 40%*/
+}
+.register-box .register-input-box .regi-submit-button { /* 이메일 인증요청, 주소찾기 버튼 */
+    float: right;
+    width: 40%;
+    height: 35px;
+    font-size: 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    /*background-color: rgb(45, 91, 210);*/
+    background-color: rgb(49, 145, 150);
+}
+.register-box .register-input-box .regi-submit-button:hover { /* 이메일 인증요청, 주소찾기 버튼:hover */
+    border: none;
+    /*background-color: rgb(28, 65, 159);*/
+    background-color: rgb(32, 107, 111);
+}
+
+
+
+.register-box .register-input-box .input4-1 { /* 프로필 input박스 */
+    float: left;
+    width: 13%;
+    text-align: center;
+}
+.register-box .register-input-box .input4-2 { /* 전화번호 앞 input박스 */
+    width: 41%;
+    text-align: center;
+}
+.register-box .register-input-box .input4-3 { /* 전화번호 뒤 input박스 */
+    width: 41%;
+    text-align: center;
+}
+
+
+.register-box .register-input-box .phone { /* 전화번호와 프로필사진 간격*/
+    margin-bottom: 20px;
+}
+
+.register-box .register-input-box .input4 { /* 프로필 input박스 */
+    float: right;
+    width: 75%;
+}
+
+.register-box .register-input-box .profile-img img {
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+    border-radius: 100px;
+    background-color: rgb(196, 165, 165);
+
+}
+.register-box .register-input-box .profile-submit-button { /* 파일찾기 버튼 */
+    width: 25%;
+    height: 35px;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(208, 208, 208);
+}
+.register-box .register-input-box .profile-submit-button:hover { /* 파일찾기 버튼:hover */
+    background-color: rgb(176, 176, 176);
+}
+
+
+.register-box .register-input-box .file-upload { /* 파일업로드 버튼 */
+    background-color: none;
+    margin-top: 5px;
+}
+
+
+.register-box .regi-button { /* 회원가입, 취소 버튼 */
+    margin-top: 50px;
+    background-color: none;
+    height: 50px;
+}
+.register-box .regi-button1 { /* 회원가입 버튼 */
+    float: left;
+    /*background-color: rgb(45, 91, 210);*/
+    background-color: rgb(49, 145, 150);
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px 100px;
+    color: white;
+} .register-box .regi-button1:hover { background-color: rgb(32, 107, 111) /*rgb(33, 73, 173)*/;}
+.register-box .regi-button2 { /* 취소 버튼 */
+    float: right;
+    background-color: rgb(215, 215, 215);
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px 80px;
+} .register-box .regi-button2:hover { background-color: rgb(186, 186, 186);}
+

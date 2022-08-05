@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.boardreply.mapper.IBoardReplyMapper">
+
+	<resultMap type="com.spring.leaf.boardreply.command.BoardReplyVO" id="BoardReplyMap">
+		<id property="boardReplyNo" column="board_reply_NO" />
+		<result property="boardReplyWriter" column="board_reply_writer" />
+		<result property="boardReplyContent" column="board_reply_content" />
+		<result property="boardReplyDate" column="board_reply_date" />
+	</resultMap>
+	
+	<insert id="boardReplyWrite">
+		INSERT INTO board_reply(board_reply_writer, board_reply_content, board_NO)
+		VALUES( #{boardReplyWriter}, #{boardReplyContent}, #{boardNo})
+	</insert>
+	
+	<select id="boardReplyList" resultMap="BoardReplyMap">
+		SELECT * FROM board_reply
+		ORDER BY board_reply_NO DESC
+	</select>
+	
+</mapper>
