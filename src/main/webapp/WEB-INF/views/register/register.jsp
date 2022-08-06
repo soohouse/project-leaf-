@@ -98,18 +98,24 @@
 				                    <option value="010" >011</option>
 				                    <option value="010" >016</option>
 				                </select>&nbsp;-
-				                <input type="search" id="user-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자" maxlength="4" name="userPhone2">&nbsp;-
-				               	<input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자" maxlength="4" name="userPhone3">
+				                <input type="search" id="user-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자리" maxlength="4" name="userPhone2">&nbsp;-
+				               	<input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자리" maxlength="4" name="userPhone3">
 				                <br><span id="span-phone"></span>
-				            </div>
-				            <div class="profile all">
-				                <p>프로필사진</p>
-				                <input type="file" name="profile_pt" id="user-profile" onchange="previewImage(this,'View_area')" accept="image/png, image/jpeg, image/jpg, image/gif" >
-				                	<img alt="프로필" id="img_profile" width="120px" height="120px" src="<c:url value='/resources/img/profile.png' />" style="display: block; margin-top:10px; border-radius: 100px;">
-				                <br>
 				            </div>
 				        </div>
 				    </form>
+				    
+				    <p>자유양식 이력서</p>
+				        <div class="form-group">
+				            <input type="file" id="user-resume" class="file-upload">
+				        </div>
+				    <span id="span-intro2"></span>		<br>
+				    <div id="div-profile" class="profile all">
+				        <p>프로필사진</p>
+				        	<img id="img_profile" width="120px" height="120px" src="${pageContext.request.contextPath}/resources/img/white.png" style="display: block; margin-top:10px; margin-bottom:10px; border-radius: 100px;">
+				        	<input type="file" name="userProfile" id="user-profile" accept="image/png, image/jpeg, image/jpg, image/gif">
+				        <br>
+				    </div>
 				    
 				    <div class="regi-button">
 				        <input type="button" class="regi-button1" value="회원가입" style=" cursor: pointer; background: #2D5BD2" id="btn-user-regist-go">
@@ -178,8 +184,8 @@
 				                    <option value="063" >063</option>
 				                    <option value="064" >064</option>
 				                </select>&nbsp;-
-				                <input type="search" id="company-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자" maxlength="4" name="companyPhone2">&nbsp;-
-				               	<input type="search" id="company-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자" maxlength="4" name="companyPhone3">
+				                <input type="search" id="company-phone2" class="input-all input4-2" placeholder="전화번호 앞 자리" maxlength="4" name="companyPhone2">&nbsp;-
+				               	<input type="search" id="company-phone3" class="input-all input4-3" placeholder="전화번호 뒷 자리" maxlength="4" name="companyPhone3">
 				                <br><span id="span-phone2"></span>
 				            </div>
 				            <div class="address">
@@ -193,14 +199,13 @@
 				            <div class="company_sub all">
 				                <p>회사 소개서 *</p>
 				                <div class="form-group">
-				                    <input type="file" id="company_intro" class="file-upload">
+				                    <input type="file" id="company-intro" class="file-upload">
 				                </div>
 				                <span id="span-intro2"></span>		<br>
 				                <p>기업 로고</p>
 				                <div class="form-group">
-				                    <input type="file" accept="image/png, image/jpeg, image/jpg, image/gif" 
-				                    id="company_logo" class="file-upload">
-				                    <img alt="프로필" id="img_company_logo" width="120px" height="120px" src="<c:url value='/resources/img/profile.png' />" style="display: block; margin-top:10px; border-radius: 100px;">
+				                	<img id="img_company_logo" width="120px" height="120px" src="${pageContext.request.contextPath}/resources/img/white.png" style="display: block; margin-top:10px; margin-bottom:10px; border-radius: 100px;">
+				                    <input type="file" accept="image/png, image/jpeg, image/jpg, image/gif" id="company-logo" class="file-upload">
 				                </div>
 				                <span id="span-logo2"></span>
 				            </div>
@@ -266,6 +271,8 @@
             	$('#img_profile').attr("src", e.target.result); 
             	console.log(event.target)//event.target은 이벤트로 선택된 요소를 의미
         	}
+    	} else {
+    		$('#img_profile').attr("src", '${pageContext.request.contextPath}/resources/img/white.png');
     	}
     }
     
@@ -283,6 +290,8 @@
             	$('#img_company_logo').attr("src", e.target.result); 
             	console.log(event.target);//event.target은 이벤트로 선택된 요소를 의미
         	}
+    	} else {
+    		$('#img_company_logo').attr("src", '${pageContext.request.contextPath}/resources/img/white.png');
     	}
     }
 
@@ -526,13 +535,13 @@
 	$(function() {
 		
 		// 일반회원 프로필 사진 파일 선택 시 미리보기 기능
-		$('#profile').change(function () {
+		$('#user-profile').change(function () {
 			readURL(this);
 		});
 		
 		
 		// 기업회원 로고 사진 파일 선택 시 미리보기 기능
-		$('#company_logo').change(function () {
+		$('#company-logo').change(function () {
 			readURL2(this);
 		});
 
@@ -824,9 +833,239 @@
 					return;
 				}
 				
+				
+				// 자바스크립트의 파일 확장자 체크 검색 (문서 파일만 받을 수 있도록)
+				let resume = $('#user-resume').val();
+				
+				// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
+				// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
+				resume = resume.slice(resume.indexOf('.') + 1).toLowerCase();
+				
+				if(resume !== 'hwp' && resume !== 'doc' && resume !== 'pdf' && resume !== 'ppt' && resume !== 'pptx' && resume !== 'docx' && resume !== 'xlsx' && resume !== 'xls' && resume !== '') {
+					alert('문서 파일 형식만 등록이 가능합니다.');
+					$('#resume').val('');
+					return;
+				}
+				
+				
+				// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+				if($('#user-resume').val() != '') {
+					let maxResumeSize = 5 * 1024 * 1024;		// 5MB
+					let resumeSize = $('#user-resume')[0].files[0].size;
+					
+					if(resumeSize > maxResumeSize) {
+						alert("이력서 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+						$('#resume').val('');
+						return;
+					}
+				}
+				
+				
+				// 자바스크립트의 파일 확장자 체크 검색 (이미지 파일만 받을 수 있도록)
+				let profile = $('#user-profile').val();
+				
+				// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
+				// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
+				profile = profile.slice(profile.indexOf('.') + 1).toLowerCase();
+				
+				if(profile !== 'jpg' && profile !== 'png' && profile !== 'jpeg' && profile !== 'bmp' && profile !== '') {
+					alert('이미지 파일 형식만 등록이 가능합니다.');
+					$('#profile').val('');
+					return;
+				}
+				
+				
+				// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+				if($('#user-profile').val() != '') {
+					let maxProfileSize = 5 * 1024 * 1024;		// 5MB
+					let profileSize = $('#user-profile')[0].files[0].size;
+					
+					if(profileSize > maxProfileSize) {
+						alert("프로필사진 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+						$('#profile').val('');
+						return;
+					}
+				}
+
+				
 				// 모든 항목들이 적합하다면 회원가입 폼 내용들을 컨트롤러로 보낸다.
 				document.userRegistForm.submit();
 				
+				
+				// 이력서를 등록하지 않고 회원가입 할 경우
+				if($('#user-resume').val() == '') {
+					// 회원가입하는 회원의 회원번호를 불러오는 userNOGet을 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/user/userNOGet" />',
+						contentType: false,
+						processData: false,
+						
+						success: function(userNO) {
+							// 이력서 파일없이 회원을 등록하는 userResumeNo를 비동기로 처리 (보내는 데이터 없음)
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userResumeNo/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								success: function(result) {
+									if(result == 'NoResume') {
+										console.log('이력서 파일 없이 가입 성공');
+									} else {
+										alert('이력서 파일 없이 가입 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('이력서 파일 없이 가입 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});
+						},
+						
+						error: function() {
+							alert("사용자 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+							return;
+						}
+					});
+				} else {		// 이력서파일 등록하고 회원가입을 할 경우
+					// 회원가입하는 회원의 회원번호를 불러오는 userNOGet을 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/user/userNOGet" />',
+						contentType: false,
+						processData: false,
+						
+						success: function(userNO) {
+							// 가상 Form을 생성한다.
+							const formData = new FormData();
+						
+							const data = $('#user-resume');
+							
+							// 가상 Form에 받은 파일을 userResume이라는 이름으로 넣는다.
+							formData.append('userResume', data[0].files[0]);
+							
+							// 이력서 파일을 등록하는 userResume를 비동기로 처리
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userResume/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								data: formData,
+								
+								success: function(result) {
+									if(result == 'YesResume') {
+										console.log('이력서 등록 성공');
+									} else {
+										alert('이력서 등록 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('이력서 등록 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});		// ajax(userProfile) 끝
+						},
+						
+						error: function() {
+							alert("사용자 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+							return;
+						}
+					});		// ajax(userNOGet) 끝
+				}
+				
+				
+				// 프로필사진을 등록하지 않고 회원가입 할 경우
+				if($('#user-profile').val() == '') {
+					// 회원가입하는 회원의 회원번호를 불러오는 userNOGet을 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/user/userNOGet" />',
+						contentType: false,
+						processData: false,
+						
+						success: function(userNO) {
+							// 프로필사진 없이 회원을 등록하는 userProfileNo를 비동기로 처리 (보내는 데이터 없음)
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userProfileNo/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								success: function(result) {
+									if(result == 'NoProfile') {
+										console.log('프로필사진 없이 가입 성공');
+									} else {
+										alert('프로필 사진 없이 가입 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('프로필 사진 없이 가입 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});
+						},
+						
+						error: function() {
+							alert("사용자 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+							return;
+						}
+					});
+				} else {		// 프로필사진 등록하고 회원가입 할 경우
+					// 회원가입하는 회원의 회원번호를 불러오는 userNOGet을 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/user/userNOGet" />',
+						contentType: false,
+						processData: false,
+						
+						success: function(userNO) {
+							// 가상 Form을 생성한다.
+							const formData = new FormData();
+						
+							const data = $('#user-profile');
+							
+							// 가상 Form에 받은 파일을 userProfile이라는 이름으로 넣는다.
+							formData.append('userProfile', data[0].files[0]);
+							
+							// 프로필사진을 등록하는 userProfile를 비동기로 처리
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userProfile/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								data: formData,
+								
+								success: function(result) {
+									if(result == 'YesProfile') {
+										console.log('프로필사진 등록 성공');
+									} else {
+										alert('프로필사진 등록 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('프로필사진 등록 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});		// ajax(userProfile) 끝
+						},
+						
+						error: function() {
+							alert("사용자 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+							return;
+						}
+					});		// ajax(userNOGet) 끝
+				}
 			} else {
 				return;
 			}
@@ -1147,9 +1386,207 @@
 					return;
 				}
 				
+				
+				// 기업 회사 소개서 첨부 여부 체크
+				if($('#company-intro').val() == '') {
+					alert('회사 소개서를 첨부해주세요.');
+					$('#span-intro2').text('회사 소개서를 첨부해주세요.');
+					$('#span-intro2').css('color', 'red');
+
+					return;
+				}
+				
+				
+				// 자바스크립트의 파일 확장자 체크 검색 (문서 파일만 받을 수 있도록)
+				let intro = $('#company-intro').val();
+				
+				// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
+				// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
+				let introEx = intro.slice(intro.indexOf('.') + 1).toLowerCase();
+				
+				if(introEx !== 'hwp' && introEx !== 'doc' && introEx !== 'pdf' && introEx !== 'ppt' && introEx !== 'pptx' && introEx !== 'docx' && introEx !== 'xlsx' && introEx !== 'xls') {
+					alert('문서 파일 형식만 등록이 가능합니다.');
+					$('#intro').val('');
+					return;
+				}
+				
+				
+				// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+				let maxIntroSize = 5 * 1024 * 1024;		// 5MB
+				let introSize = $('#company-intro')[0].files[0].size;
+				
+				if(introSize > maxIntroSize) {
+					alert("회사 소개서 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+					$('#intro').val('');
+					return;
+				}
+				
+				
+				// 자바스크립트의 파일 확장자 체크 검색 (이미지 파일만 받을 수 있도록)
+				let logo = $('#company-logo').val();
+				
+				// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
+				// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
+				logo = logo.slice(logo.indexOf('.') + 1).toLowerCase();
+				
+				if(logo !== 'jpg' && logo !== 'png' && logo !== 'jpeg' && logo !== 'bmp' && logo !== '') {
+					alert('이미지 파일 형식만 등록이 가능합니다.');
+					$('#logo').val('');
+					return;
+				}
+				
+				
+				// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+				if($('#company-logo').val() != '') {
+					let maxLogoSize = 5 * 1024 * 1024;		// 5MB
+					let logoSize = $('#company-logo')[0].files[0].size;
+					
+					if(logoSize > maxLogoSize) {
+						alert("로고 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+						$('#logo').val('');
+						return;
+					}
+				}
+				
+				
 				// 모든 항목들이 적합하다면 회원가입 폼 내용들을 컨트롤러로 보낸다.
 				document.companyRegistForm.submit();
 				
+				
+				// 회원가입하는 회원의 회원번호를 불러오는 companyNOGet을 비동기로 처리
+				$.ajax({
+					type: 'POST',
+					url: '<c:url value="/company/companyNOGet" />',
+					contentType: false,
+					processData: false,
+					
+					success: function(companyNO) {
+						// 가상 Form을 생성한다.
+						const formData = new FormData();
+					
+						const data = $('#company-intro');
+						
+						// 가상 Form에 받은 파일을 companyIntro이라는 이름으로 넣는다.
+						formData.append('companyIntro', data[0].files[0]);
+						
+						// 회사 소개서 파일을 등록하는 companyIntro를 비동기로 처리
+						$.ajax({
+							type: 'POST',
+							url: '<c:url value="/company/companyIntro/" />' + companyNO,
+							contentType: false,
+							processData: false,
+							
+							data: formData,
+							
+							success: function(result) {
+								if(result == 'YesCompanyIntro') {
+									console.log('회사 소개서 등록 성공');
+								} else {
+									alert('회사 소개서 등록 중 오류가 발생했습니다.');
+									return;
+								}
+							},
+							
+							error: function() {
+								alert('회사 소개서 등록 중 서버오류가 발생했습니다.');
+								return;
+							}
+						});		// ajax(userProfile) 끝
+					},
+					
+					error: function() {
+						alert("기업회원 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+						return;
+					}
+				});		// ajax(userNOGet) 끝
+				
+				
+				// 로고 사진을 등록하지 않고 회원가입 할 경우
+				if($('#company-logo').val() == '') {
+					// 회원가입하는 회원의 회원번호를 불러오는 companyNOGet을 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/company/companyNOGet" />',
+						contentType: false,
+						processData: false,
+						
+						success: function(companyNO) {
+							// 로고사진없이 회원으로 등록하는 companyLogoNo를 비동기로 처리 (보내는 데이터 없음)
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/company/companyLogoNo/" />' + companyNO,
+								contentType: false,
+								processData: false,
+								
+								success: function(result) {
+									if(result == 'NoLogo') {
+										console.log('로고사진 없이 가입 성공');
+									} else {
+										alert('로고 사진 없이 가입 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('로고 사진 없이 가입 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});
+						},
+						
+						error: function() {
+							alert("기업회원 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+							return;
+						}
+					});
+				} else {		// 로고사진 등록하고 회원가입 할 경우		
+					// 회원가입하는 회원의 회원번호를 불러오는 companyNOGet을 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/company/companyNOGet" />',
+						contentType: false,
+						processData: false,
+						
+						success: function(companyNO) {
+							// 가상 Form을 생성한다.
+							const formData = new FormData();
+						
+							const data = $('#company-logo');
+							
+							// 가상 Form에 받은 파일을 companyLogo이라는 이름으로 넣는다.
+							formData.append('companyLogo', data[0].files[0]);
+							
+							// 프로필사진을 등록하는 companyLogo를 비동기로 처리
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/company/companyLogo/" />' + companyNO,
+								contentType: false,
+								processData: false,
+								
+								data: formData,
+								
+								success: function(result) {
+									if(result == 'YesLogo') {
+										console.log('로고사진 등록 성공');
+									} else {
+										alert('기업 로고 등록 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('기업 로고 등록 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});		// ajax(companyLogo) 끝
+						},
+						
+						error: function() {
+							alert("기업회원 회원번호를 얻어오는 중 서버오류가 발생했습니다. ");
+							return;
+						}
+					});		// ajax(companyNOGet) 끝
+				}
 			} else {
 				return;
 			}

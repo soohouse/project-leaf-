@@ -32,7 +32,7 @@
 </head>
 <body>
 
-<%@ include file="include/header.jsp" %>
+<%@ include file="../include/header.jsp" %>
 	   
 	   
 <div class="container">
@@ -184,7 +184,7 @@
     
     
  
-	<%@ include file="include/footer.jsp" %>
+	<%@ include file="../include/footer.jsp" %>
 </div>
 
 

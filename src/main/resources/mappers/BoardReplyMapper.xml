@@ -12,14 +12,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="boardReplyDate" column="board_reply_date" />
 	</resultMap>
 	
+	<!-- 댓글 등록 -->
 	<insert id="boardReplyWrite">
 		INSERT INTO board_reply(board_reply_writer, board_reply_content, board_NO)
 		VALUES( #{boardReplyWriter}, #{boardReplyContent}, #{boardNo})
 	</insert>
 	
+	<!-- 댓글 목록 -->
 	<select id="boardReplyList" resultMap="BoardReplyMap">
 		SELECT * FROM board_reply
-		ORDER BY board_reply_NO DESC
+		WHERE board_reply_NO=#{boardReplyNo}
 	</select>
+	
+
 	
 </mapper>

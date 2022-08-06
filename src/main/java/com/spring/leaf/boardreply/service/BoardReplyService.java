@@ -25,7 +25,9 @@ public class BoardReplyService implements IBoardReplyService {
 	@Override
 	public List<BoardReplyVO> boardReplyList() {
 
-		return null;
+		List<BoardReplyVO> list = mapper.boardReplyList();
+		
+		return list;
 	}
 	
 	

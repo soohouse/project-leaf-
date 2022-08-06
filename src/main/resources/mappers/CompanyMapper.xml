@@ -25,6 +25,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- CompanyLogoVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 LogoMap 선언 -->
+	<resultMap type="com.spring.leaf.company.command.CompanyLogoVO" id="LogoMap">
+		<id property="companyLogoNO" column="company_logo_NO" />
+		<result property="companyLogoFilename" column="company_logo_filename" />
+		<result property="companyLogoUploadpath" column="company_logo_uploadpath" />
+		<result property="companyLogoRealname" column="company_logo_realname" />
+		<result property="companyNO" column="company_NO" />
+	</resultMap>
+	
+	
+	<!-- CompanyIntroVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 IntroMap 선언 -->
+	<resultMap type="com.spring.leaf.company.command.CompanyIntroVO" id="IntroMap">
+		<id property="companyIntroNO" column="company_intro_NO" />
+		<result property="companyIntroFilename" column="company_intro_filename" />
+		<result property="companyIntroUploadpath" column="company_intro_uploadpath" />
+		<result property="companyIntroRealname" column="company_intro_realname" />
+		<result property="companyNO" column="company_NO" />
+	</resultMap>
+	
+	
 	<!-- 기업 회원가입 INSERT 쿼리 -->
 	<insert id="companyRegist">
 		INSERT INTO company
@@ -60,6 +80,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT *
 		FROM company
 		WHERE company_ID = #{companyID}
+	</select>
+	
+	
+	<!-- 기업회원 기업회원번호 얻어내는 SELECT 쿼리 -->
+	<select id="companyNOGet" resultType="int">
+		SELECT MAX(company_NO) + 1
+		FROM company;
+	</select>
+	
+	
+	<!-- 기업회원 로고사진 INSERT 쿼리 -->
+	<insert id="companyLogo">
+		INSERT INTO company_logo
+			(company_logo_filename, company_logo_uploadpath, company_logo_realname, company_NO)
+		VALUES
+			(#{companyLogoFilename}, #{companyLogoUploadpath}, #{companyLogoRealname}, #{companyNO})
+	</insert>
+	
+	
+	<!-- 일반회원 프로필사진 불러오기 SELECT 쿼리 -->
+	<select id="companyLogoGet" resultMap="LogoMap">
+		SELECT *
+		FROM company_logo
+		WHERE company_NO = #{companyNO}
+	</select>
+	
+	
+	<!-- 기업회원 회사 소개서 INSERT 쿼리 -->
+	<insert id="companyIntro">
+		INSERT INTO company_intro
+			(company_intro_filename, company_intro_uploadpath, company_intro_realname, company_NO)
+		VALUES
+			(#{companyIntroFilename}, #{companyIntroUploadpath}, #{companyIntroRealname}, #{companyNO})
+	</insert>
+	
+	
+	<!-- 회사 소개서 SELECT 쿼리 -->
+	<select id="companyIntroGet" resultMap="IntroMap">
+		SELECT *
+		FROM company_intro
+		WHERE company_NO = #{companyNO}
 	</select>
 
 </mapper>

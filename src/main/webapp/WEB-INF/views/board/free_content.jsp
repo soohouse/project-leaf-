@@ -98,29 +98,34 @@
 	                 			
 	                        </div>
                         </form>
-                        
-                        <table id="boardReplyList" class="table table-borderless"  style="text-align: center; font-size:12px;">
-					                    <thead>
+                       
+                        <div  class="boardreply-list"  style="text-align: center; font-size:12px;">
+					                    <div>
 					                        <div style="background-color: #bbd0e7;" >
 					                            <div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
 					                            	<p style="color:red; display:inline-block; ">4</p>
 					                            </div>
 					                        </div> 
-					                    </thead>
+					                    </div>
+					                    <div id="boardReplyList">
 					                    
+					                    <!-- 주석 
 					                    <tbody>
 					                    
 					                        <tr>
-					                            <td style="text-align: left;">kim1234</td>
-					                            <td style="text-align: left;">안녕하세요~ 저도 잘 부탁드려요!</td>
-					                            <td>2022.07.17</td>
+					                            <td style="text-align: left;">${boardreply.boardReplyWriter}</td>
+					                            <td style="text-align: left;">${boardreply.boardReplyContent}</td>
+					                            <td>${boardreply.boardReplyDate}</td>
 					                            <td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
 												<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
 					                        </tr>
 					
-					                    </tbody>       
-			                 		</table>
-			                	
+					                    </tbody>  
+					                    
+					                    -->
+					                    </div>     
+			                 		</div>
+			               
 			                <div class="text-center">
 						                <ul class="pagination pagination-sm">
 						                    <li><a href="#"><<</a></li>
@@ -239,6 +244,64 @@
 				}); //end ajax
 			}); //댓글 등록 이벤트 끝
 		});
+		
+		
+		//댓글 목록 조회
+		
+		let page = 1;
+		
+		let strAdd = '';
+		
+		boardReplyList(1, true); //댓글 리스트 불러오기
+		
+		function boardReplyList() {
+		
+			const boardNo = ${boardNo};
+			const boardReplyWriter = $('boardReplyWriter').val();
+			const boardReplyContent = $('boardReplyContent').val();
+			
+			$.getJSON(
+				"<c:url value='/boardreply/boardReplyList/'/>" + boardNo,
+				
+				function (result) {
+					
+					console.log(result);
+					
+					let boardReplyList = result.boardReplyList; //댓글 리스트
+					console.log(boardReplyList);
+				
+					
+					if(reset === true) {
+						strAdd = '';
+					}
+					
+					if(boardReplyList.length <= 0) {
+						return; //함수 종료
+					}
+					
+					for(let i=0; i<boardReplyList.length; i++) {
+						strAdd += 
+						
+	                    `<div class='boardReplyContent'>
+	                        <div class='boardReply-group'>
+		                        <div style="text-align: left;">${boardreply.boardReplyWriter}</div>
+		                        <div style="text-align: left;">${boardreply.boardReplyContent}</div>
+		                        <div>${boardreply.boardReplyDate}</div>
+	                            <div><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></div>
+	                            <div><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></div>
+	                        </div>
+	                        <p class='clearfix'>` + boardReplyList[i].reply + `</p>
+	                  
+	                	</div>`;
+					}
+				
+					
+					
+					$('boardReplyList').html(strAdd);
+					
+				}
+			);
+		}
 		
 		
 
