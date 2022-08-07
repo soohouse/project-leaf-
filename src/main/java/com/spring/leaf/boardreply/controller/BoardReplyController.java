@@ -1,5 +1,9 @@
 package com.spring.leaf.boardreply.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.leaf.boardreply.command.BoardReplyVO;
 import com.spring.leaf.boardreply.service.IBoardReplyService;
@@ -40,12 +44,21 @@ public class BoardReplyController {
 	}
 	
 	//댓글 목록
-	@GetMapping("/boardreplyList/{boardReplyNo}")
-	public String boardReplyList(@PathVariable int boardReplyNo, Model model) {
+	@GetMapping("/boardReplyList/{boardReplyNo}")
+	@ResponseBody
+	public Map<String, Object> boardReplyList(@PathVariable int boardReplyNo, Model model) {
+		logger.info("댓글 목록 컨트롤러 동작");
+		List<BoardReplyVO> list = service.boardReplyList(boardReplyNo);
+		int total = service.boardReplyTotal(boardReplyNo);
 		
-		model.addAttribute("boardreply", service.boardReplyList());
+		ModelAndView view = new ModelAndView();
+		logger.info("댓글 개수" + service.boardReplyTotal(boardReplyNo));
+		view.setViewName("/board/boardList");
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardReplyList", list);
+		map.put("boardReplyTotal", total);
 		
-		return "listSuccess";
+		return map;
 	}
 
 }

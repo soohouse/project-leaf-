@@ -100,7 +100,7 @@
                         <tr>
                             <td>${notice.noticeNo}</td>
                             <td style="text-align: left;">
-                            	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}'/>">${notice.noticeTitle}</a>
+                            	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}'/>">&nbsp; ${notice.noticeTitle} &nbsp;</a>
                             </td>
                             <td>${notice.noticeWriter}</td>
                             <td><fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" /></td>

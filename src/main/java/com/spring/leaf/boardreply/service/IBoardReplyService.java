@@ -10,7 +10,10 @@ public interface IBoardReplyService {
 		void boardReplyWrite(BoardReplyVO vo);
 		
 		//댓글 목록
-		List<BoardReplyVO> boardReplyList();
+		List<BoardReplyVO> boardReplyList(int boardReplyNo);
+		
+		//댓글 개수
+		int boardReplyTotal(int boardReplyNo);
 		
 		//댓글 수정
 		

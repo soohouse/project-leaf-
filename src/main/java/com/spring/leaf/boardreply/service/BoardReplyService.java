@@ -23,13 +23,15 @@ public class BoardReplyService implements IBoardReplyService {
 
 	//댓글 목록
 	@Override
-	public List<BoardReplyVO> boardReplyList() {
-
-		List<BoardReplyVO> list = mapper.boardReplyList();
-		
-		return list;
+	public List<BoardReplyVO> boardReplyList(int boardReplyNo) {
+		return mapper.boardReplyList(boardReplyNo);
 	}
 	
+	//댓글 개수
+	@Override
+	public int boardReplyTotal(int boardReplyNo) {
+		return mapper.boardReplyTotal(boardReplyNo);
+	}
 	
 	
 }

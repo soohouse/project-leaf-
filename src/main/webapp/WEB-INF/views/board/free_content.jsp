@@ -99,7 +99,7 @@
 	                        </div>
                         </form>
                        
-                        <div  class="boardreply-list"  style="text-align: center; font-size:12px;">
+                        <div  class="boardreply-List"  style="text-align: center; font-size:12px;">
 					                    <div>
 					                        <div style="background-color: #bbd0e7;" >
 					                            <div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
@@ -109,6 +109,7 @@
 					                    </div>
 					                    <div id="boardReplyList">
 					                    
+					                  
 					                    <!-- 주석 
 					                    <tbody>
 					                    
@@ -142,6 +143,7 @@
 				                        		<div style="text-align:left; margin: 10px 10px 10px 10px; padding-top:10px;">회원만 댓글 작성이 가능합니다.</div>
 				                        		<div>
 				                        			<div>
+				                        				<input type="hidden" id="boardNo" name="boardNo" value="${board.boardNo}">
 				                        				<input type="hidden" id="boardReplyWriter" name="boardReplyWriter" value="${user.userID}" >
 						                        		<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%;  margin-left:30px;"></textarea>
 													</div>
@@ -261,11 +263,9 @@
 			const boardReplyContent = $('boardReplyContent').val();
 			
 			$.getJSON(
-				"<c:url value='/boardreply/boardReplyList/'/>" + boardNo,
+				"<c:url value='/boardreply/boardReplyList/'/>" + boardReplyNo,
 				
 				function (result) {
-					
-					console.log(result);
 					
 					let boardReplyList = result.boardReplyList; //댓글 리스트
 					console.log(boardReplyList);
@@ -281,11 +281,11 @@
 					
 					for(let i=0; i<boardReplyList.length; i++) {
 						strAdd += 
-						
-	                    `<div class='boardReplyContent'>
-	                        <div class='boardReply-group'>
-		                        <div style="text-align: left;">${boardreply.boardReplyWriter}</div>
-		                        <div style="text-align: left;">${boardreply.boardReplyContent}</div>
+							
+	                    `<div class='boardReplyWrap'>
+	                        <div class='boardReply-content'>
+		                        <div id='boardReplyWriter' style="text-align: left;">${boardreply.boardReplyWriter}</div>
+		                        <div id='boardReplyContent' style="text-align: left;">${boardreply.boardReplyContent}</div>
 		                        <div>${boardreply.boardReplyDate}</div>
 	                            <div><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></div>
 	                            <div><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></div>
