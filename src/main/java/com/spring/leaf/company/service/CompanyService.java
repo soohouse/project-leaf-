@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.spring.leaf.company.command.CompanyIntroVO;
+import com.spring.leaf.company.command.CompanyLogoVO;
 import com.spring.leaf.company.command.CompanyVO;
 import com.spring.leaf.company.mapper.ICompanyMapper;
 
@@ -63,5 +65,40 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public CompanyVO companyGetInfo(String companyID) {
 		return mapper.companyGetInfo(companyID);
+	}
+	
+	
+	// 기업회원 회원번호 얻는 요청
+	@Override
+	public int companyNOGet() {
+		return mapper.companyNOGet();
+	}
+	
+	
+	// 기업회원 로고사진 등록 요청
+	@Override
+	public void companyLogo(CompanyLogoVO vo) {
+		mapper.companyLogo(vo);
+	}
+	
+	
+	// 기업회원 로고사진 불러오기 요청
+	@Override
+	public CompanyLogoVO companyLogoGet(int companyNO) {
+		return mapper.companyLogoGet(companyNO);
+	}
+	
+	
+	// 기업회원 회사소개서 등록 요청
+	@Override
+	public void companyIntro(CompanyIntroVO vo) {
+		mapper.companyIntro(vo);
+	}
+	
+	
+	// 기업 소개서 얻어오기 요청
+	@Override
+	public CompanyIntroVO companyIntroGet(int companyNO) {
+		return mapper.companyIntroGet(companyNO);
 	}
 }

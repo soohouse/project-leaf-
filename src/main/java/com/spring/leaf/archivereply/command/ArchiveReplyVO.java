@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 @Setter
 @ToString
-public class ArchiveRelpyVO {
+public class ArchiveReplyVO {
 	
 	private int archiveReplyNo;
 	private String archiveReplyWriter;

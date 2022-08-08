@@ -29,8 +29,9 @@ import com.spring.leaf.user.controller.UserController;
 public class BoardReplyController {
 	
 	// 로그 출력을 위한 Logger 객체 생성
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(BoardReplyController.class);
 	
+	//자유게시판 댓글 서비스 연결
 	@Autowired
 	private IBoardReplyService service;
 	
@@ -44,21 +45,37 @@ public class BoardReplyController {
 	}
 	
 	//댓글 목록
-	@GetMapping("/boardReplyList/{boardReplyNo}")
 	@ResponseBody
-	public Map<String, Object> boardReplyList(@PathVariable int boardReplyNo, Model model) {
-		logger.info("댓글 목록 컨트롤러 동작");
-		List<BoardReplyVO> list = service.boardReplyList(boardReplyNo);
-		int total = service.boardReplyTotal(boardReplyNo);
+	@GetMapping("/boardReplyList/{boardNo}")
+	public Map<String, Object> boardReplyList(@PathVariable("boardNo") int boardNo) {
 		
-		ModelAndView view = new ModelAndView();
-		logger.info("댓글 개수" + service.boardReplyTotal(boardReplyNo));
-		view.setViewName("/board/boardList");
+		List<BoardReplyVO> list = service.boardReplyList(boardNo);
+		int total = service.boardReplyTotal(boardNo);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("boardReplyList", list);
 		map.put("boardReplyTotal", total);
 		
 		return map;
+	}
+	
+	//댓글 수정
+	@ResponseBody
+	@PostMapping("/boardReplyUpdate")
+	public String boardReplyUpdate(@RequestBody BoardReplyVO vo) {
+		service.boardReplyUpdate(vo);
+		
+		return "modSuccess";
+	}
+	
+	//댓글 삭제
+	@ResponseBody
+	@PostMapping("/boardReplyDelete")
+	public String boardReplyDelete(@RequestBody BoardReplyVO vo) {
+		
+		service.boardReplyDelete(vo.getBoardReplyNo());
+		
+		return "delSuccess";
 	}
 
 }

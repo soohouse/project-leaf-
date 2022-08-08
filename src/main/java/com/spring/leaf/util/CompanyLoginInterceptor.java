@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.leaf.company.command.CompanyLogoVO;
 import com.spring.leaf.company.command.CompanyVO;
 import com.spring.leaf.user.command.UserVO;
 import com.spring.leaf.util.CompanyLoginInterceptor;
@@ -58,7 +59,7 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 
 					// class 파일에서 자바스크립트 경고창을 띄우기 위한 PrintWriter 사용
 					PrintWriter writer = response.getWriter();
-					writer.print("<script>" + "alert('가입 승인 대기중인 계정입니다. 관리자에게 문의하세요.');" + "history.back();" + "</script>");
+					writer.print("<script>" + "alert('가입 승인 대기중인 계정입니다. 관리자에게 문의하세요.');" + "location.replace('/');" + "</script>");
 					writer.flush();
 					writer.close();
 				} else if(vo.getCommonCODE().equals("CRG003")) {
@@ -66,7 +67,7 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 
 					// class 파일에서 자바스크립트 경고창을 띄우기 위한 PrintWriter 사용
 					PrintWriter writer = response.getWriter();
-					writer.print("<script>" + "alert('가입이 거절된 계정입니다. 관리자에게 문의하세요.');" + "history.back();" + "</script>");
+					writer.print("<script>" + "alert('가입이 거절된 계정입니다. 관리자에게 문의하세요.');" + "location.replace('/');" + "</script>");
 					writer.flush();
 					writer.close();
 				} else {
@@ -82,7 +83,7 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 
 				// class 파일에서 자바스크립트 경고창을 띄우기 위한 PrintWriter 사용
 				PrintWriter writer = response.getWriter();
-				writer.print("<script>" + "alert('아이디와 비밀번호를 확인해주세요.');" + "history.back();" + "</script>");
+				writer.print("<script>" + "alert('아이디와 비밀번호를 확인해주세요.');" + "location.replace('/');" + "</script>");
 				writer.flush();
 				writer.close();
 			}
@@ -91,7 +92,7 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 
 			// class 파일에서 자바스크립트 경고창을 띄우기 위한 PrintWriter 사용
 			PrintWriter writer = response.getWriter();
-			writer.print("<script>" + "alert('아이디와 비밀번호를 확인해주세요.');" + "history.back();" + "</script>");
+			writer.print("<script>" + "alert('아이디와 비밀번호를 확인해주세요.');" + "location.replace('/');" + "</script>");
 			writer.flush();
 			writer.close();
 		}

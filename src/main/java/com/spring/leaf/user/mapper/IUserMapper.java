@@ -2,6 +2,8 @@ package com.spring.leaf.user.mapper;
 
 import java.util.Map;
 
+import com.spring.leaf.user.command.ResumeVO;
+import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.user.command.UserVO;
 
 
@@ -23,5 +25,25 @@ public interface IUserMapper {
 	
 	// 사용자 정보 불러오기 요청
 	UserVO userGetInfo(String userID);
+	
+	
+	// 사용자 회원번호 얻는 요청
+	int userNOGet();
+	
+	
+	// 사용자 프로필사진 등록 요청
+	void userProfile(UserProfileVO vo);
+	
+	
+	// 사용자 프로필사진 불러오기 요청
+	UserProfileVO userProfileGet(int userNO);
+	
+	
+	// 사용자 이력서파일 등록 요청
+	void userResume(ResumeVO vo);
+	
+	
+	// 사용자 이력서파일 얻어오기 요청
+	ResumeVO userResumeGet(int userNO);
 	
 }

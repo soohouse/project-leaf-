@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -48,6 +49,16 @@ public class QuestionController {
 		service.questionWrite(vo);
 		
 		return "redirect:/question/questionList";
+	}
+	
+	//질문글 상세보기
+	@GetMapping("/questionContent/{questionNo}")
+	public String questionContent(@PathVariable int questionNo, Model model) {
+		
+		model.addAttribute("question", service.questionContent(questionNo));
+		
+		return "board/qna_content";
+		
 	}
 
 }

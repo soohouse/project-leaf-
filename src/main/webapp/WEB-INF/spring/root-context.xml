@@ -40,6 +40,11 @@
 	</bean>
 	
 	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="5242880" />
+	</bean>
+	
+	
 	<!-- Mapper 인터페이스가 어디에있는지 base-package에 적어주면 된다. -->
 	<!-- sqlSessionFactory가 xml 파일을 클래스로 바꾸고 bean 등록 하려는데 마땅한 타입이 없으므로 -->
 	<!-- 해당 패키지를 검색해서 발견된 인터페이스 객체를 빈으로 등록하고 주입시킨다. -->
@@ -54,10 +59,13 @@
 	<mybatis-spring:scan base-package="com.spring.leaf.board.mapper"/>
 	<!-- 자유게시판 댓글 IBoardReplyMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.boardreply.mapper"/>
-	<!-- 자료실 IArchiveMapper 연결 -->
+	<!-- 자료실 댓글 IArchiveMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.archive.mapper"/>
+	<!-- 자료실 댓글 IArchiveReplyMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.archivereply.mapper"/>
 	<!-- Question게시판 IQuestionMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.question.mapper"/>
+
 	
 	
 </beans>
