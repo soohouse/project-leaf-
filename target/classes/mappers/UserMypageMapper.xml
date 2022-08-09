@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.user.mapper.IUserMypageMapper">
+
+	<!-- UserVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserMap 선언 -->
+	<resultMap type="com.spring.leaf.user.command.UserVO" id="UserMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userPW" column="user_PW" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail1" column="user_email1" />
+		<result property="userEmail2" column="user_email2" />
+		<result property="userPhone1" column="user_phone1" />
+		<result property="userPhone2" column="user_phone2" />
+		<result property="userPhone3" column="user_phone3" />
+		<result property="userDate" column="user_date" />
+		<result property="userIntro" column="user_intro" />
+		<result property="commonCODE" column="common_CODE" />
+	</resultMap>
+
+		<!-- 일반회원 유저 정보 SELECT 쿼리 -->
+	<select id="getInfo" resultMap="UserMap">
+		SELECT *
+		FROM user
+		WHERE user_ID = #{userID}
+	</select>
+
+
+	
+	<!-- 일반회원 유저 정보 수정 update 쿼리 -->
+	<update id="updateUser">
+		UPDATE user 
+		SET 
+		user_name=#{userName}, 
+		user_phone1=#{userPhone1}, user_phone2=#{userPhone2}, user_phone3=#{userPhone3},
+		user_intro=#{userIntro}
+		WHERE user_ID=#{userID}
+	</update>
+
+
+
+</mapper>

@@ -642,7 +642,7 @@ public class CompanyController {
 					ChannelSftp channelSftp = (ChannelSftp) channel;
 
 					// 앞에는 서버에서 받아올 파일, 뒤에는 로컬에서 받을 폴더 위치 경로
-					channelSftp.get("/home/leaf/userResume/" + vo.getCompanyIntroFilename(), vo.getCompanyIntroUploadpath() + "\\");
+					channelSftp.get("/home/leaf/companyIntro/" + vo.getCompanyIntroFilename(), vo.getCompanyIntroUploadpath() + "\\");
 
 				} catch (JSchException e) {
 					e.printStackTrace();

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.spring.leaf.userlist.mapper.IUserListMapper">
+
+	<resultMap type="com.spring.leaf.userlist.command.UserListVO" id="UserListMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail1" column="user_email1" />
+		<result property="userEmail2" column="user_email2" />
+		<result property="userPhone1" column="user_phone1" />
+		<result property="userPhone2" column="user_phone2" />
+		<result property="userPhone3" column="user_phone3" />
+		
+	</resultMap>
+	
+	<!-- 개발자 목록 끌어오기 -->
+	<select id="userList" resultMap="UserListMap">
+		SELECT * FROM user
+		ORDER BY user_NO DESC
+	</select>
+	
+
+</mapper>

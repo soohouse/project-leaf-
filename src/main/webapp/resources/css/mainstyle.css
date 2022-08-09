@@ -304,3 +304,7 @@ footer {
 	margin-top: -10px;
 	margin-left: -8px;
 }
+
+#sidebar-wrapper::-webkit-scrollbar {
+	width: 0;
+}

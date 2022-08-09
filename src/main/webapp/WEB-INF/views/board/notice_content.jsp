@@ -2,9 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<!-- 글 내용 줄 개행 처리를 위해 추가 -->
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <html>
 <head>
@@ -82,27 +79,35 @@
                 	 
 				
                      <div class="container my-1">
-						<form action="<c:url value='/notice/noticeDelete'/>" method="post" name="noticeDeleteForm">
+						<form action="<c:url value='/notice/noticeDelete'/>" method="post" name="noticeDeleteForm" >
                         <div class="row" >
                       		<!-- 공지사항 글 상세보기  -->
                             <div class="notice_content" >
                             	<div class="notice_content_up" style="margin-left:30px;" >
 		                                        <div class="notice_title" scope="col" style="width: 100%;  margin-top:10px;">
-		                                        	<input type="hidden" name="noticeNo" value="${notice.noticeNo}">
-		                                        	<h4 style="display:inline-block;" >${notice.noticeTitle}</h4>
-			                                        <button type="button" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</button>
+		                                        	<input type="hidden" value="${notice.noticeNo}" name="noticeNo">
+		                                        	<h4 style="display:inline-block;">${notice.noticeTitle}</h4>
+		                                        	<c:if test="${notice.noticeWriter eq user.userID }">
+				                                        <button type="button" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</button>
+		                                        	</c:if>
 		                                        </div>
 		                                        
 		                                        <div style="margin-top:30px;">
 			                                        <div class="notice_writer" style="display: inline-block;">
-			                                            <img src="resources/img/logo2.png" width="50px" > ${notice.noticeWriter}
+			                                            <img src="resources/img/logo2.png" width="50px" > &nbsp;
+			                                            <span> 
+			                                            	<span <c:if test="${notice.noticeWriter eq user.userID }">style="color:#042894;"</c:if> >${notice.noticeWriter} &nbsp;</span>
+			                                            	<c:if test="${notice.noticeWriter eq user.userID }">
+			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>
+			                                            	</c:if>
+			                                            </span>
 		                                       		</div>
 		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 				                                        <div style="display:inline-block;" >
 				                                            <fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" />
 				                                        </div>
 				                                        <div style="display:inline-block;">
-				                                        	조회수 : 95
+				                                        	조회수 : ${notice.noticeViews }
 				                                        </div>
 			                                        </div>
 		                                        </div>
@@ -110,14 +115,15 @@
 
                                     <div class="notice_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
-                                        	${fn:replace(notice.noticeContent, newLineChar, '<br/>')}
-
+                                        	${notice.noticeContent}
                                            
                                     </div>
 	                 		</div>
 	                            <hr class="borderline" />
-	                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'">수정하기</button>
-	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'">목록</button>
+	                            <c:if test="${notice.noticeWriter eq user.userID }">
+		                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'">수정하기</button>
+	                            </c:if>
+	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'" style="margin-right:10px;">목록</button>
                        	</form>
                         </div>
                     </div>
@@ -138,6 +144,10 @@
 
 <script>
 
+	const msg = '${msg}';
+	if(msg !== '') {
+		alert(msg);
+	}
 
  	// 목록 이동 버튼
 	$(function() {
@@ -145,18 +155,13 @@
 			location.href='<c:url value="/notice/noticeList"/>';
 		})
 		
+		$('#btn-notice-delete').click(function() {
+			if(confirm('정말 삭제하시겠습니까?')) {
+				document.noticeDeleteForm.submit();
+			} else {
+				return false;
+			}
+		});
 	});
  	
- 	//삭제 버튼 처리
- 	$(function(){
-	 	$('#btn-notice-delete').click(function() {
-	 		
-	 		if(confirm('정말 삭제하시겠습니까?')) {
-				document.noticeDeleteForm.submit();
-			}
-	 	})
-	});
- 		
-
-
 </script>

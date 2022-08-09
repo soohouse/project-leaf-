@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <html>
 <head>
@@ -26,7 +27,11 @@
 
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
   
-   <link rel="stylesheet" href="./css/bootstrap-theme.css">
+  
+  <style type="text/css">
+  
+  
+  </style>
 
 
 </head>
@@ -36,7 +41,10 @@
 	   
 	   
 <div class="container">
+  
   <div id="main-box">
+   
+   
     <div class="first-box">
       <p>(주) 성진하이텍</p>
     </div> <br>
@@ -48,57 +56,67 @@
         <p>신청자 : 3명 </p>
       </div>
       <div class="project-heart">
-        <a href="#"><span href="#" class="fa fa-heart"></a>3</span>
+      <input type="hidden" value=""${projectLike.projectLikeNO} name="projectLikeNO">
+       <a href="##"><i class="glyphicon glyphicon-thumbs-up"></i>좋아요</a>
       </div>
       <div class="project-seen">
         <p>조회수 : 12</p>
       </div>
       <div class="project-jiwon">
-        <button type="button" class="btn btn-success">지원하기</button>
+        <button type="button" id="jiwon-btn1" class="btn btn-success">지원하기</button>
       </div>
       <div class="mojibjung">
         <p>현재 모집중</p>
       </div>
     </div>
   </div>
+  
+  <form action="<c:url value='/project/projectview'/>"  method="post">
+  
   <div class="project-img-box">
     <div class="image-intro"> 
-      <img src="resources/img/main4.jpg" alt="사진">
+      <img src="../resources/img/main4.jpg" alt="사진">
       </div> <br>
       <div class="project-myeng">
         프로젝트 명
+        <input type="hidden" value="${projectview.projectNO}" id="hidden-project-no" name="projectNO">
       </div>
       <div class="project-myeng1">
-        <p>2022년 환경 푸르미 프로젝트 개발자 모집</p>
+        <p>${projectview.projectName}</p>
       </div>
       <div class="project-dt">
         프로젝트 기간
       </div>
       <div class="project-dt1">
-        <p>2022.07.10 ~ 2022.07.22</p>
+      	<c:set var="date1" value="${projectview.projectRequireDate1}" />
+      	<c:set var="date2" value="${projectview.projectRequireDate2}" />
+        <p>${fn:substring(date1, 0, 10)} ~ ${fn:substring(date2, 0, 10)}</p>
       </div>
       <div class="project-friend">
        협력사 
       </div>
       <div class="project-friend1">
-        <p>(주) 그린컴퍼니</p> 
+        <p>${projectview.companyName}</p> 
       </div>
       <div class="project-phone">
        협력사 전화번호 
       </div>
       <div class="project-phone1">
-        <p>02-000-0000</p> 
+        <p>${projectview.companyPhone1} - ${projectview.companyPhone2} - ${projectview.companyPhone3}</p> 
       </div>
       <div class="project-fr-lo">
         협력사 위치 
       </div>
       <div class="project-fr-lo1">
-        <p>서울특별시 강남구 역삼동 649*5 에스코 빌딩 6층 그린컴퍼니 사무실</p> 
+        <p>${projectview.companyAddress1} ${projectview.companyAddress2} ${projectview.companyAddress3}</p> 
       </div>
       <div class="project-container-right">
-        <button type="button" class="btn btn-primary" href="/project-map.html" onclick="window.open(this.href, '_blank', 'width=600px, height=400px,toolbars=no,scrollbars=no');">
+      <a href="project-map.html" onclick="window.open(this.href, '_blank', 'width=600px, height=400px,toolbars=no,scrollbars=no'); return false;">
+        <button type="button" class="btn btn-primary">
           지도
           </button>
+          </a>
+        
       </div> <br>
       
       
@@ -107,19 +125,7 @@
         프로젝트 설명 
       </div>
       <div class="project-int1">
-       <p>2022년 환경 푸르미 프로젝트 개발자 모집 <br>
-
-        최근 환경이 파괴되는 우리 지구를 위한 분리수거 및 다양한 친환경 방식을 제공하고,
-        환경을 지키고 마일리지를 적립하여 소정의 상품을 제공할 수 있는 지구가 더 이상 아프지 않도록
-        지구를 지킬 수 있도록 사용자들에게 제공하는 애플리케이션을 제작하는 프로젝트입니다. <br>
-
-        맡으실 주요 업무는 안드로이드 환경에서 UI 설계 및 구현,
-        서버/백엔드 로직 구현,
-        Java 및 Android Studio를 이용한 애플리케이션 제작이 되겠습니다. <br>
-
-        함께 환경을 보호하고 지구를 지키자는 분들은 망설임 없이 지원 바랍니다. <br>
-
-        개발자분들의 많은 지원 바랍니다.
+       <p>${projectview.projectDesc}
         </p>
       </div>
         <div class="damdang-master">
@@ -127,30 +133,27 @@
            담당자 
           </div>
           <div class="damdang1">
-            <p>홍길동</p> 
+            <p>${projectview.projectManager}</p> 
           </div>
           <div class="damdang-phone">
            담당자 번호 
           </div>
           <div class="damdang-phone1">
-           <p>010-0000-0000</p> 
+           <p>${projectview.projectManagerPhone}</p> 
           </div>
       </div>
       <div class="damdang-email">
         담당자 이메일 
       </div>
       <div class="damdang-email1">
-        <p>hongkil123@gmail.com</p> 
+        <p>${projectview.projectManagerEmail}</p> 
       </div>
       <div class="skills">
         지원 자격
       </div>
       <div class="skills1">
         <p>
-          경력 무관<br>
-          학력 무관<br>
-          프로젝트 경험이 있으신 분<br>
-          안드로이드 환경을 자주 사용하신 분<br>
+          ${projectview.projectRequireLicense}
         </p>
       </div>
       <div class="mojib-master">
@@ -158,20 +161,20 @@
           모집 역할
         </div>
         <div class="mojib1">
-         <p>안드로이드 애플리케이션 설계/ 제작</p> 
+         <p>${projectview.projectRequireRole}</p> 
         </div>
         <div class="mojib-user">
           모집 인원
         </div>
         <div class="mojib-user1">
           <p>
-            10명
+            ${projectview.projectRequirePeople}
           </p>
         </div>
       </div> <br>
       <div class="below-but">
       <div class="singo">
-        <a href="#">신고하기</a>
+        <a href="#" id="singo-modal">신고하기</a>
       </div>
       <div class="project-container-bottom">
         <button type="button" id="jiwon-btn" class="btn btn-success">지원하기</button>
@@ -181,7 +184,7 @@
     </div>
 
     
-    
+    </form>
     
  
 	<%@ include file="../include/footer.jsp" %>
@@ -191,8 +194,65 @@
 </body>
 </html>
 <script>
+$(function() {
+	$('#mokrok-btn').click(function() {
+		location.href='<c:url value="/project/project" />';
+	})
+	
+});
+
+$(function() {
+	
+	const projectNO = $('#hidden-project-no').val();
+	
+	$('#jiwon-btn').click(function() {
+		location.href='<c:url value="/project/projectapply?projectNO=" />' + projectNO;
+	})
+	
+});
+
+$(function() {
+	
+	const projectNO = $('#hidden-project-no').val();
+	
+	$('#jiwon-btn1').click(function() {
+		location.href='<c:url value="/project/projectapply?projectNO=" />' + projectNO;
+	})
+	
+});
 
 
+function getListLike(isReset) {
+	let deferred = $.Deferred();
+	console.log('먼저 실행되어야 합니다!');
+	const userNO = '${user.userNO}';
+	console.log(userNO);
+	
+	if(userNO !== '') {
+		$.ajax({
+			type: 'post',
+			url: '<c:url value="/project/projectview" />',
+			data: userNO,
+			contentType: 'application/json',
+			success: function(result) {
+				console.log('result: ' + result); //게시글 번호들
+				if(isReset) {
+					deferred.resolve(result, page, true);								
+				} else {
+					deferred.resolve(result, page, false);
+				}
+			}
+		}); //end ajax
+	} else {
+		if(isReset) {
+			deferred.resolve(null, page, true);								
+		} else {
+			deferred.resolve(null, page, false);
+		}
+	}
+	
+	return deferred.promise();
+}
 </script> 
                  
 

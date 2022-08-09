@@ -43,14 +43,14 @@
 			            	<span class="main-notice-title">공지사항</span>
 			            </a>
 					<div class="col-lg-8 col-md-10 col-sm-12">
-						<form action="<c:url value='/notice/noticeWrite'/>" method="post" name="noticeWriteForm">
+						<form action="<c:url value='/notice/noticeWrite'/>" method="post" name="noticeWriteform">
 			    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 				    	    	<thead>
 					    	    	<tr>
 					    	    		<th colspan= "2">공지사항 제목</th>
 					    	    	</tr>
 					    	    	<tr>
-						    			<td><input type="text" name="noticeTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
+						    			<td><input type="text" name="noticeTitle" id="noticeTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
 						    			<td><input type="hidden" name="noticeWriter" value="${user.userID}"></td>
 						    		</tr>
 						    		
@@ -60,12 +60,12 @@
 					    	    		<th colspan= "2">공지사항 내용</th>
 					    	    	</tr>
 						    		<tr>
-						    			<td><textarea wrap="hard" class="form-control" name="noticeContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+						    			<td><textarea class="form-control" name="noticeContent" id="noticeContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
 						    		</tr>
 						    	</tbody>
 			    	    	</table>
 		    	    	
-    	    			<input type="submit" id="btn-notice-write" class="btn btn-primary pull-right" value="글쓰기">
+    	    			<input type="submit" id="btn-notice-write" class="btn btn-success pull-right" value="글쓰기" style="margin-left: 10px;">
     	    			<button type="button" id="btn-notice-list" class="btn btn-primary pull-right" >목록</button>
     	    			</form>
 					</div>
@@ -93,6 +93,27 @@
 	});
 	
 	
+	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
+	$('#btn-notice-write').click(function() { 
+		const title = $('#noticeTitle').val();
+		const content = $('#noticeContent').val();
+		
+		if(title == '') {
+			alert('제목을 입력해주세요.');
+			$('#noticeTitle').css('border-color', 'red');
+			return false;
+		} else if(content == '') {
+			alert('내용을 입력해주세요.');
+			$('#noticeContent').css('border-color', 'red');
+			return false;
+		} else {
+			if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
+				alert('글이 성공적으로 등록되었습니다!');
+				return;
+			} else {return false;} //아니요->등록실패
+		}
+		
+	});
 	
 
 

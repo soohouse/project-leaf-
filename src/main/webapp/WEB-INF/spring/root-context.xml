@@ -55,6 +55,12 @@
 	<mybatis-spring:scan base-package="com.spring.leaf.company.mapper"/>
 	<!-- 공지사항 INoticeMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.notice.mapper"/>
+	<!-- 메세지 IMessageMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.message.mapper"/>
+	<!-- 일반회원리스트 IUserListMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.userlist.mapper"/>
+	<!-- devInfo IDevInfoMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.devinfo.mapper"/>
 	<!-- 자유게시판 IBoardMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.board.mapper"/>
 	<!-- 자유게시판 댓글 IBoardReplyMapper 연결 -->
@@ -65,7 +71,11 @@
 	<mybatis-spring:scan base-package="com.spring.leaf.archivereply.mapper"/>
 	<!-- Question게시판 IQuestionMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.question.mapper"/>
-
-	
+	<!-- 프로젝트 IProjectMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.project.mapper"/>
+	<!-- 프로젝트 지원 IProjectApplyMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.projectapply.mapper"/>
+	<!-- 관리자 IAdminMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.admin.mapper"/>
 	
 </beans>

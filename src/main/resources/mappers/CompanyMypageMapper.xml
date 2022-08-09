@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.spring.leaf.company.mapper.ICompanyMypageMapper">
+
+	<!-- UserVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserMap 선언 -->
+	<resultMap type="com.spring.leaf.company.command.CompanyVO"
+		id="CompanyMap">
+		<id property="companyNO" column="company_NO" />
+		<result property="companyPW" column="company_PW" />
+		<result property="companyPhone1" column="company_phone1" />
+		<result property="companyPhone2" column="company_phone2" />
+		<result property="companyPhone3" column="company_phone3" />
+		<result property="companyIntro" column="company_intro" />
+	</resultMap>
+
+	<!-- 기업회원 정보 수정 update 쿼리 -->
+	<update id="companyUpdate">
+		UPDATE company SET
+		company_phone1=#{companyPhone1}, company_phone2=#{companyPhone2}, company_phone3=#{companyPhone3},
+		company_intro=#{companyIntro}
+		WHERE company_NO=#{companyNO}
+	</update>
+
+
+
+</mapper>

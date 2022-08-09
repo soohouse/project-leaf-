@@ -49,11 +49,6 @@
     margin-top: 1px;
     border-radius: 5px;
    }
-
-	
- 
-
-
    
    </style>
    
@@ -71,16 +66,18 @@
         
         <div class="container">
             <div class="row">
-						<!-- 공지사항 상단 -->
-			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">공지사항</span>
-			            </a>
-                 <select class="head-control mx-sm-3 mb-2" >
-                    <option>10개씩</option>
-                    <option>20개씩</option>
-                 </select>
-                 <button type="submit" class="btn btn-success mb-2 pull-right" id="btn-notice-write">글쓰기</button>
-                 
+			<!-- 공지사항 상단 -->
+			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
+				<span class="main-notice-title">공지사항</span>
+			</a>
+		    <select id="pageUnit" name="pageUnit" onchange="Change(1)" class="head-control mx-sm-3 mb-2" style="float:left;">
+		        <option value="10" <c:if test="${pc.paging.cpp == 10}">selected</c:if>>10개씩 보기</option>
+		        <option value="15" <c:if test="${pc.paging.cpp == 15}">selected</c:if>>15개씩 보기</option>
+		        <option value="20" <c:if test="${pc.paging.cpp == 20}">selected</c:if>>20개씩 보기</option>
+		    </select>
+		    <c:if test="${user.userID != null}">
+				<button type="submit" class="btn btn-success mb-2 pull-right" id="btn-notice-write">글쓰기</button>
+            </c:if>
                  
                 <table class="table table-bordered"  style="text-align: center;">
                     <thead>
@@ -90,7 +87,6 @@
                             <th style="background-color: #bbd0e7; text-align: center;">작성자</th>
                             <th style="background-color: #bbd0e7; text-align: center;">등록일자</th>
                             <th style="background-color: #bbd0e7; text-align: center;">조회수</th>
-                            
                         </tr>
                     </thead>
                     
@@ -100,45 +96,57 @@
                         <tr>
                             <td>${notice.noticeNo}</td>
                             <td style="text-align: left;">
-                            	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}'/>">&nbsp; ${notice.noticeTitle} &nbsp;</a>
+                            	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}${pc.makeURI(pc.paging.pageNum)}'/>">
+                            		${notice.noticeTitle}
+									<c:if test="${notice.noticeDate>=nowday }">
+	                            		<img alt="newmark" src="<c:url value='/resources/img/newmark.gif' />">
+									</c:if>
+                            	</a>
                             </td>
-                            <td>${notice.noticeWriter}</td>
+                            <td <c:if test="${notice.noticeWriter eq user.userID }">style="color:#042894;"</c:if>>${notice.noticeWriter}</td>
                             <td><fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" /></td>
-                            <td>3</td>
+                            <td>${notice.noticeViews}</td>
                         </tr>
                       </c:forEach>
-									
-                   
-                       
                     </tbody>
                 </table>
                
-                <form class="form-inline d-flex justify-content-end" >
-				            <div class="form-group mx-sm-3 mb-2 pull-right">
-				                <select class="foot-control" >
-                                    <option>제목</option>
-                                    <option>작성자</option>
-                                    <option>등록일자</option>
-                                 </select>
-				                <input type="text" class="form-control" id="searchText" name="searchText" placeholder="검색어를 입력하세요.">
-				            	<button type="submit" class="btn btn-primary mb-2">검색 </button>
-				            </div>
-                        </form>
+				<!-- 검색  https://rsorry.tistory.com/270참고-->
+				<form class="form-inline d-flex justify-content-end" action="<c:url value='/notice/noticeList'/>" >
+					<div class="form-group mx-sm-3 mb-2 pull-right">
+						<select class="foot-control search-select" name="condition">
+							<option value="title" ${pc.paging.condition == 'title' ? 'selected' : ''}>제목</option>
+							<option value="writer" ${pc.paging.condition == 'writer' ? 'selected' : ''}>작성자</option>
+							<option value="date" ${pc.paging.condition == 'date' ? 'selected' : ''}>등록일자</option>
+						</select>
+						<input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword}" placeholder="검색어를 입력하세요.">
+						<button type="submit" class="btn btn-primary mb-2">검색 </button>
+					</div>
+				</form>
                 
             </div>
 
 			<!-- 공지사항 페이징 -->
             <div class="text-center">
-                <ul class="pagination pagination-sm">
-                    <li><a href="#"><<</a></li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">>></a></li>
-                </ul>
-            </div>
+				<form action="<c:url value='/board/notice_list'/>" name="pageForm">
+	                <ul class="pagination pagination-sm">
+						<c:if test="${pc.prev }"><!-- 이전버튼 -->
+		                    <li><a href="/notice/noticeList?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.beginPage-1 }"> << </a></li>					
+						</c:if>
+						<c:forEach var="num" begin="${pc.beginPage }" end="${pc.endPage }">
+							<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a href="/notice/noticeList?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum='${num }'>${num }</a></li>
+						</c:forEach>
+						<c:if test="${pc.next }"><!-- 다음버튼 -->
+		                    <li><a href="/notice/noticeList?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.endPage-1 }"> >> </a></li>
+						</c:if>
+					</ul>
+                    <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
+                    <input type="hidden" name="cpp" value="${pc.paging.cpp}">
+                    <input type="hidden" name="condition" value="${pc.paging.condition}">
+                    <input type="hidden" name="keyword" value="${pc.paging.keyword}">
+				</form>
+			</div>
+            
         </div> 
     </section>
     
@@ -160,8 +168,40 @@
 		$('#btn-notice-write').click(function() {
 			location.href='<c:url value="/notice/noticeWrite" />';
 		})
-		
 	});
-
-
+	
+	
+	
+	//페이징
+	$(function() {
+		const msg = '${msg}';
+		if(msg !== '') {
+			alert(msg);
+		}
+		$('#pagination').on('click', 'a', function(e) {
+			e.preventDefault(); //a태그의 고유기능 중지.
+			const value = $(this).data('pagenum'); //-> jQuery
+			console.log(value);
+			document.pageForm.pageNum.value = value;
+			document.pageForm.submit();
+		});
+	}); //end jQuery
+	
+	
+	
+	//n개씩 보기  https://chobopark.tistory.com/95 참고
+	function Change(idx){
+	    var pagenum = idx;
+	    var nowPaging = $("#pageUnit option:selected").val();
+	    
+	    if(nowPaging == 10){
+	        location.href="${path}/notice/noticeList?pageIndex="+pagenum+"&cpp="+nowPaging;    
+	    }else if(nowPaging == 15){
+	        location.href="${path}/notice/noticeList?pageIndex="+pagenum+"&cpp="+nowPaging;    
+	    }else if(nowPaging == 20){
+	        location.href="${path}/notice/noticeList?pageIndex="+pagenum+"&cpp="+nowPaging;    
+	    }
+	}
+	
+    
 </script>

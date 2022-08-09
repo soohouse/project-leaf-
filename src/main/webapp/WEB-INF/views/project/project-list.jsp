@@ -80,16 +80,76 @@
         </a>
         
         <!--여기에 div 만들어서 페이지 만들기-->
+			
+			
+		<c:forEach var="project" items="${projectlist}" varStatus="index">
+              
+              <div class="project-list">
+          <div class="project-list-col-md-8" >
+            <div class="project-listbox">
+              <div class="image-intro"> 
+                <a href="#"><img src="../resources/img/main4.jpg" alt="사진" style="width: 200px; height: 100px; object-fit: cover; vertical-align: text-bottom;"></a>
+                </div>
+              <div class="project-form">
+                <div class="project-title" id="project-view-icon${index.index}" style="cursor: pointer;">
+                  <p>${project.projectName}</p>
+                  <input type="hidden" value="${project.projectNO}" id="project-list-content${index.index}">
+                </div >
+                <div class="project-content1">
+                  <p>${project.projectRequireLicense}</p>
+                </div>
+                <div class="project-date">
+                  <p>${project.projectRequireDate1} ~ ${project.projectRequireDate2}</p>
+                </div>
+              </div>
+              <div class="project-source">
+                <div class="project-content">
+                  <p>${project.companyName}</p>
+                </div>
+              </div>
+              <div class="project-in">
+                <div class="project-container-right">
+                  <button type="button" class="btn btn-success" disabled>${project.commonValue}</button>
+                </div><br>
+                <a href="#" id="project-view-icon2${index.index}">상세보기</a>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          <script>
+			$(function() {
+				$('#project-view-icon${index.index}').click(function() {
+					var projectNO = $('#project-list-content${index.index}').val();
+					
+					location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+				})
+				
+			});
+			
+			$(function() {
+				$('#project-view-icon2${index.index}').click(function() {
+				var projectNO = $('#project-list-content${index.index}').val();
+					
+					location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+				})
+			});
+			
+		</script>
+              
+        </c:forEach>
 
-        <div class="project-list">
+
+       <!--  <div class="project-list">
           <div class="project-list-col-md-8">
             <div class="project-listbox">
               <div class="image-intro"> 
-                <a href="#"><img src="resources/img/main4.jpg" alt="사진"></a>
+                <a href="#"><img src="../resources/img/main4.jpg" alt="사진"></a>
                 </div>
               <div class="project-form">
-                <div class="project-title">
+                <div class="project-title" id="project-title-title" style="cursor: pointer;">
                   <p>환경 푸르미 프로젝트 개발자 모집</p>
+                  <input type="hidden">
                 </div >
                 <div class="project-content1">
                   <p>C++, Java, 백엔드/서버개발, 유지보수 등</p>
@@ -116,10 +176,10 @@
             <div class="project-list-col-md-8">
               <div class="project-listbox">
                 <div class="image-intro"> 
-                  <a href="#"><img src="resources/img/main4.jpg" alt="사진"></a>
+                  <a href="#"><img src="../resources/img/main4.jpg" alt="사진"></a>
                 </div>
                 <div class="project-form">
-                  <div class="project-title">
+                  <div class="project-title" id="project-title-title" style="cursor: pointer;">
                     <p>환경 푸르미 프로젝트 개발자 모집</p>
                   </div >
                   <div class="project-content1">
@@ -142,101 +202,9 @@
                 </div>
               </div>
             </div>            
-          </div>
-          <div class="project-list">
-            <div class="project-list-col-md-8">
-              <div class="project-listbox">
-                <div class="image-intro"> 
-                  <a href="#"><img src="resources/img/main4.jpg" alt="사진"></a>
-                </div>
-                <div class="project-form">
-                  <div class="project-title">
-                    <p>환경 푸르미 프로젝트 개발자 모집</p>
-                  </div >
-                  <div class="project-content1">
-                    <p>C++, Java, 백엔드/서버개발, 유지보수 등</p>
-                  </div>
-                  <div class="project-date">
-                    <p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-                  </div>
-                </div>
-                <div class="project-source">
-                  <div class="project-content">
-                    <p>(주) 성진하이텍</p>
-                  </div>
-                </div>
-                <div class="project-in">
-                  <div class="project-container-right">
-                    <button type="button" class="btn btn-danger" disabled>마감 임박</button>
-                  </div><br>
-                  <a href="#">상세보기</a>
-                </div>
-              </div>
-            </div>
-          
-          </div>
-          <div class="project-list">
-            <div class="project-list-col-md-8">
-              <div class="project-listbox">
-                <div class="image-intro"> 
-                  <a href="#"><img src="resources/img/main4.jpg" alt="사진"></a>
-                </div>
-                <div class="project-form">
-                  <div class="project-title">
-                    <p>환경 푸르미 프로젝트 개발자 모집</p>
-                  </div >
-                  <div class="project-content1">
-                    <p>C++, Java, 백엔드/서버개발, 유지보수 등</p>
-                  </div>
-                  <div class="project-date">
-                    <p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-                  </div>
-                </div>
-                <div class="project-source">
-                  <div class="project-content">
-                    <p>(주) 성진하이텍</p>
-                  </div>
-                </div>
-                <div class="project-in">
-                  <div class="project-container-right">
-                    <button type="button" class="btn btn-success" disabled>현재 모집</button>
-                  </div> <br>
-                  <a href="#">상세보기</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="project-list">
-            <div class="project-list-col-md-8">
-              <div class="project-listbox">
-                <div class="image-intro"> 
-                  <a href="#"><img src="resources/img/main4.jpg" alt="사진"></a>
-                  </div>
-                <div class="project-form">
-                  <div class="project-title">
-                    <p>환경 푸르미 프로젝트 개발자 모집</p>
-                  </div >
-                  <div class="project-content1">
-                    <p>C++, Java, 백엔드/서버개발, 유지보수 등</p>
-                  </div>
-                  <div class="project-date">
-                    <p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-                  </div>
-                </div>
-                <div class="project-source">
-                  <div class="project-content">
-                    <p>(주) 성진하이텍</p>
-                  </div>
-                </div>
-                <div class="project-in">
-                  <div class="project-container-right">
-                    <button type="button" class="btn btn-danger" disabled>마감 임박</button>
-                  </div><br>
-                  <a href="#">상세보기</a>
-                </div>
-              </div>
-            </div>
-            </div>
+          </div>  -->
+         
+            
           
           <div class="project-pagination">
             <nav>
@@ -273,8 +241,4 @@
 </html>
 
 
-<script>
 
-
-
-</script>

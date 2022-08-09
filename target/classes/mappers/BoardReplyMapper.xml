@@ -5,21 +5,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.spring.leaf.boardreply.mapper.IBoardReplyMapper">
 
+	<!-- BoardReplyVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 BoardReplyMap 선언 -->
 	<resultMap type="com.spring.leaf.boardreply.command.BoardReplyVO" id="BoardReplyMap">
 		<id property="boardReplyNo" column="board_reply_NO" />
 		<result property="boardReplyWriter" column="board_reply_writer" />
 		<result property="boardReplyContent" column="board_reply_content" />
 		<result property="boardReplyDate" column="board_reply_date" />
+		<result property="boardNo" column="board_NO"/>
 	</resultMap>
 	
+	<!-- 자유게시판 댓글 등록 INSERT 쿼리 -->
 	<insert id="boardReplyWrite">
-		INSERT INTO board_reply(board_reply_writer, board_reply_content, board_NO)
-		VALUES( #{boardReplyWriter}, #{boardReplyContent}, #{boardNo})
+		INSERT INTO board_reply(board_reply_writer, board_reply_content, board_NO, board_reply_NO)
+		VALUES( #{boardReplyWriter}, #{boardReplyContent}, #{boardNo}, #{boardReplyNo})
 	</insert>
 	
+	<!-- 자유게시판 댓글 목록 SELECT 쿼리 -->
 	<select id="boardReplyList" resultMap="BoardReplyMap">
 		SELECT * FROM board_reply
-		ORDER BY board_reply_NO DESC
+		WHERE board_NO=#{boardNo}
 	</select>
+	
+	<!-- 자유게시판 댓글 개수 SELECT 쿼리 -->
+	<select id="boardReplyTotal" resultType="int">
+		SELECT COUNT(*) FROM board_reply
+		WHERE board_NO=#{boardNo}
+	</select>
+	
+	<!-- 자유게시판 댓글 수정 UPDATE 쿼리 -->
+	<update id="boardReplyUpdate">
+		UPDATE board_reply
+		SET board_reply_content = #{boardReplyContent}
+		WHERE board_reply_NO = #{boardReplyNo}
+	</update>
+	
+	<!-- 자유게시판 댓글 삭제 DELETE 쿼리 -->
+	<delete id="boardReplyDelete">
+		DELETE FROM board_reply
+		WHERE board_reply_NO = #{boardReplyNo}
+	</delete>
+	
+
 	
 </mapper>

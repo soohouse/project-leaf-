@@ -2,6 +2,7 @@ package com.spring.leaf.question.mapper;
 
 import java.util.List;
 
+import com.spring.leaf.answer.command.AnswerVO;
 import com.spring.leaf.question.command.QuestionVO;
 
 //Question(질문글) 매퍼 인터페이스 : 2022-08-05 생성
@@ -23,4 +24,6 @@ public interface IQuestionMapper {
 	//질문글 삭제
 	void questionDelete(int questionNo);
 
+	//답변글 등록
+	void answerWrite(AnswerVO vo);
 }

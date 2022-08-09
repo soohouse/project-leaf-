@@ -39,12 +39,13 @@
     <div class="container-top-icons">
       <div class="project-name">
       <p>2022년 환경 푸르미 프로젝트 개발자 모집 </p>
+      <input type="hidden" >
       </div>
       <div class="project-user">
         <p>신청자 : 3명 </p>
       </div>
       <div class="project-heart">
-        <a href="#"><span href="#" class="fa fa-heart"></a>3</span>
+        <a href="##"><i class="glyphicon glyphicon-thumbs-up"></i>좋아요</a>
       </div>
       <div class="project-seen">
         <p>조회수 : 12</p>
@@ -56,17 +57,21 @@
     <br>
     </div>
 
+	<form action="<c:url value='/project/projectapply'/>" method="post">
+
     <div class="user-profile-intro">
         
             <div class="username-input-box">
                 <div class="project-user-name">
-                    <p>이름</p>
-                    <input type="search" id="project-user-name" class="input-all input1" placeholder="이름을 입력해 주세요." maxlength="40" name="userName">
+                    <p>이름</p> 
+                    <input type="hidden" value="${projectNO}" id="project-list-content2" name="projectNO">
+                    <input type="hidden" value="${user.userNO}" name="userNO">
+                    <input type="search" id="project-user-name" class="input-all input1" placeholder="이름을 입력해 주세요." maxlength="40" value="${user.userName}" readonly>
                     <span id="span-name"></span>
                 </div>
                 <div class="project-e-mail">
                     <p>이메일</p>
-                    <input type="search" id="project-user-email" class="input-all input2" placeholder="이메일을 입력해 주세요." maxlength="40"  name="userEmail1">
+                    <input type="search" id="project-user-email" class="input-all input2" placeholder="이메일을 입력해 주세요." maxlength="40" value="${user.userEmail1} @ ${user.userEmail2}" readonly>
                     <span id="span-email"></span>
                 </div>
                 <div class="project-phone">
@@ -76,27 +81,28 @@
                         <option value="010" >011</option>
                         <option value="010" >016</option>
                     </select>&nbsp;-
-                    <input type="search" id="user-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자" maxlength="4" name="userPhone2">&nbsp;-
-                       <input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자" maxlength="4" name="userPhone3">
+                    <input type="search" id="user-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자" maxlength="4" value="${user.userPhone2}" readonly>&nbsp;-
+                       <input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자" maxlength="4" value="${user.userPhone3}" readonly>
                     <br><span id="span-phone"></span>
                 </div>
                 <div class="resume-user">  
                     <p>이력서 등록</p>
-                    <input type="file" name="profile_pt" id="user-profile" onchange="previewImage(this,'View_area')" accept="file/hwp, file/docx" >
+                    <input type="file" id="user-profile" onchange="previewFile(this,'View_area')" accept="file/hwp, file/docx" >
                 </div>
                 <div class="user-saying">
                   <p>담당자에게 전할 메세지</p>
-                  <textarea name="user-say" id="user-textarea" cols="30" rows="10"></textarea>
+                  <textarea name="applyMsg" id="user-textarea" cols="30" rows="10"></textarea>
                 </div>
             </div>
        
-        
+        <!-- value="${project.projectNO}" name="projectNO" -->
         <div class="jechul-button">
             <div class="project-container-bottom">
-                <button type="button" id="jiwon-btn" class="btn btn-success">제출하기</button>
-                <button type="button" id="chwiso-btn" class="btn btn-danger">취소</button>
+                <button type="submit" id="jiwon-btn" class="btn btn-success">제출하기</button>
+                <button type="button" id="chwiso-btn"  class="btn btn-danger">취소</button>
               </div>
         </div>
+        
         <div class="user-check-box">
           <label>
             <input type="checkbox"> 개인정보 제공 동의
@@ -107,10 +113,25 @@
 
 
   </div>
-
+	</form>
 
   <%@ include file="../include/footer.jsp" %>
   </div>
+  
 </body>
-</div>
+
 </html>
+<script>
+$(function() {
+	$('#chwiso-btn').click(function() {
+		const projectNO = $('#project-list-content2').val();
+		
+		console.log(projectNO);
+		
+		location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+	})
+	
+});
+
+
+</script> 

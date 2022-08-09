@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.project.mapper.IProjectMapper">
+	
+	<!-- ProjectListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectListMap 선언 -->
+	<resultMap type="com.spring.leaf.project.command.ProjectListVO" id="ProjectListMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name"/>
+		<result property="projectRequireLicense" column="project_require_license"/>
+		<result property="projectRequireDate1" column="project_require_date1"/>
+		<result property="projectRequireDate2" column="project_require_date2"/>
+		<result property="companyNO" column="company_NO"/>
+		<result property="companyName" column="company_name"/>
+		<result property="commonCODE" column="common_CODE"/>
+		<result property="commonValue" column="common_value"/>
+	</resultMap>
+	
+	<!-- ProjectContentVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectContentMap 선언 -->
+	<resultMap type="com.spring.leaf.project.command.ProjectContentVO" id="ProjectContentMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name"/>
+		<result property="projectDesc" column="project_desc"/>
+		<result property="projectManager" column="project_manager"/>
+		<result property="projectManagerPhone" column="project_manager_phone"/>
+		<result property="projectManagerEmail" column="project_manager_email"/>
+		<result property="projectRequireLicense" column="project_require_license"/>
+		<result property="projectRequireRole" column="project_require_role"/>
+		<result property="projectRequirePeople" column="project_require_people"/>
+		<result property="projectRequireDate1" column="project_require_date1"/>
+		<result property="projectRequireDate2" column="project_require_date2"/>
+		<result property="projectViews" column="project_views"/>
+		<result property="companyNO" column="company_NO"/>
+		<result property="companyName" column="company_name"/>
+		<result property="companyPhone1" column="company_phone1"/>
+		<result property="companyPhone2" column="company_phone2"/>
+		<result property="companyPhone3" column="company_phone3"/>
+		<result property="companyAddress1" column="company_address1"/>
+		<result property="companyAddress2" column="company_address2"/>
+		<result property="companyAddress3" column="company_address3"/>
+		<result property="commonCODE" column="common_CODE"/>
+		<result property="commonValue" column="common_value"/>
+	</resultMap>
+	
+	<!-- 프로젝트 등록하기 -->
+	<insert id="projectputin">
+		INSERT INTO project(project_name, project_desc, project_manager, project_manager_phone, project_manager_email, project_require_license
+		, project_require_role, project_require_people, project_require_date1, project_require_date2, company_NO)
+		VALUES (#{projectName}, #{projectDesc}, #{projectManager}, #{projectManagerPhone}, #{projectManagerEmail}, #{projectRequireLicense}
+		, #{projectRequireRole}, #{projectRequirePeople}, #{projectRequireDate1}, #{projectRequireDate2}, #{companyNO})
+	</insert>
+	
+    <!-- 프로젝트 등록하기 -->
+	<select id="project-put">
+		SELECT * FROM project; 
+	</select>
+	
+	<!-- 프로젝트 상세보기 -->
+	<select id="getContent" resultMap="ProjectContentMap">
+		SELECT
+			p.project_NO, p.project_name, p.project_desc, p.project_manager, p.project_manager_phone, p.project_manager_email, p.project_views, p.project_require_license, p.project_require_people, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, c.company_phone1, c.company_phone2, c.company_phone3, c.company_address1, c.company_address2, c.company_address3, p.common_CODE, cd.common_value
+		FROM
+			project p LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		LEFT OUTER JOIN common cd
+		ON p.common_CODE = cd.common_CODE
+		WHERE p.project_NO = #{projectNO}
+	</select>
+	
+	<!-- 프로젝트 목록 -->
+	<select id="projectlist" resultMap="ProjectListMap">
+		SELECT
+   			p.project_NO, p.project_name, p.project_require_license, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+   			project p LEFT OUTER JOIN company c
+      	ON p.company_NO = c.company_NO
+   		LEFT OUTER JOIN common cd
+      	ON p.common_CODE = cd.common_CODE
+      	ORDER BY p.project_NO DESC
+		
+	</select>
+	
+	<!-- 좋아요 검색 -->
+	<select id="searchLike" resultType="int">
+		SELECT COUNT(*) FROM project_like
+		WHERE project_NO=#{projectNO} AND user_NO=#{userNO}
+	</select>
+	
+	<!-- 좋아요 등록 -->
+	<insert id="createLike">
+		INSERT INTO project_like
+		(projectLikeNO, userNO, projectNO)
+		VALUES(#{projectLikeNO}, #{userNO}, snslike_seq.NEXTVAL)
+	</insert>
+	
+	<!-- 좋아요 삭제 -->
+	<delete id="deleteLike">
+		DELETE FROM project_like
+		WHERE projectLikeNO=#{projectLikeNO} AND userNO=#{userNO}
+	</delete>
+
+</mapper>
+

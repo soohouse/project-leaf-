@@ -18,6 +18,8 @@ public class NoticeVO {
 	private String noticeWriter;
 	private String noticeContent;
 	private Timestamp noticeDate;
-	private int noticeViews;
-		
+	
+	//조회수
+	private int noticeViews; 
+	
 }

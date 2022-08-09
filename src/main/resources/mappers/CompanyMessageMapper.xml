@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.spring.leaf.message.mapper.ICompanyMessageMapper">
+
+	<resultMap type="com.spring.leaf.message.command.CompanyMessageVO" id="CompanyMessageMap">
+		<id property="companyMessageNO" column="company_message_NO" />
+		<result property="companyMessageWriter" column="company_message_writer" />
+		<result property="companyMessageContent" column="company_message_content" />
+		<result property="companyMessageDate" column="company_message_date" />
+		<result property="companyNO" column="company_NO" />
+	</resultMap>
+	
+	<resultMap type="com.spring.leaf.message.command.UserMessageVO" id="UserMessageMap">
+		<id property="userMessageNO" column="user_message_NO" />
+		<result property="userMessageWriter" column="user_message_writer" />
+		<result property="userMessageContent" column="user_message_content" />
+		<result property="userMessageDate" column="user_message_date" />
+		<result property="userNO" column="user_NO" />
+	</resultMap>
+	
+		<!-- 기업입장에서 유저에게 쪽지를 보내는 쿼리(이 쿼리는 UserMessage 테이블에 저장이 됨 -->
+		<insert id="sendMessageUser">
+			INSERT INTO user_message
+			(user_message_writer, user_message_content, user_NO)
+			VALUES
+			(#{userMessageWriter}, #{userMessageContent}, #{userNO})
+		</insert>
+		
+		<!-- 기업이 관리자로부터 받은 쪽지 목록보기 -->
+		<select id="companyMessageList" resultMap="CompanyMessageMap">
+			SELECT * FROM company_message
+			WHERE company_NO=#{companyNO}
+			ORDER BY company_message_NO DESC
+		</select>
+		
+		<!-- 기업이 관리자로부터 받은 쪽지 상세보기 -->
+		<select id="companyMessageContent" resultMap="CompanyMessageMap">
+			SELECT * FROM company_message
+			WHERE company_NO=#{companyNO}
+		</select>
+		
+		
+		<!-- 기업이 관리자로부터 받은 쪽지 삭제하기 -->
+		<delete id="companyMessageDelete">
+		DELETE FROM company_message
+		WHERE company_message_NO=#{companyMessageNO}
+		</delete>
+		
+</mapper>
+

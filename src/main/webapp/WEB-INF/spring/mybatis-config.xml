@@ -16,10 +16,5 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<!-- 데이터베이스로부터의 응답을 얼마나 오래 기다릴지를 판단하는 시간을 설정, 3000초를 넘어가면 응답 포기 -->
 		<setting name="defaultStatementTimeout" value="3000"/>
 	</settings>
-	
-	<typeAliases>
-		<typeAlias type="com.spring.leaf.boardreply.command.BoardReplyVO" alias="boardreply"/>
-	</typeAliases>
-
 
 </configuration>

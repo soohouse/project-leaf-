@@ -125,7 +125,7 @@
 		
 		
 		
-		<!-- 직접 사용하기 위해 추가한 라이브러리들 (15개) -->
+		<!-- 직접 사용하기 위해 추가한 라이브러리들 (16개) -->
 			<!-- Spring-JDBC -->
 			<!-- HikariCP : 커넥션 풀 (기존으로 제공하는 것이 아닌 외부에서 가져온 툴) -->
 			<!-- ojdbc6 : DB 커넥터 드라이버 -->
@@ -141,6 +141,7 @@
 			<!-- 서블릿 3.0이상 사용 가능한 파일 업로드 API -->
 			<!-- commons-io, 파일 업로드에 필요하다. -->
 			<!-- log4jdbc-log4j2-jdbc4.1 : 데이터베이스 로그 출력을 위한 라이브러리 -->
+			<!-- jsch : 서버와 SFTP 통신을 위한 라이브러리 -->
 		
 		
 		<!-- Spring-JDBC -->
@@ -248,6 +249,13 @@
 		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
 		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
 		    <version>1.16</version>
+		</dependency>
+		
+		<!-- jsch : 서버와 SFTP 통신을 위한 라이브러리 -->
+		<dependency>
+		    <groupId>com.jcraft</groupId>
+		    <artifactId>jsch</artifactId>
+		    <version>0.1.54</version>
 		</dependency>
 		
 		

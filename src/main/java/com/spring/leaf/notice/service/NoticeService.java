@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.leaf.notice.command.NoticeVO;
 import com.spring.leaf.notice.mapper.INoticeMapper;
+import com.spring.leaf.util.PageVO;
 
 // 공지사항 서비스 : 2022-07-30 생성
 
@@ -25,22 +26,28 @@ public class NoticeService implements INoticeService {
 
 	//공지사항 글 목록
 	@Override
-	public List<NoticeVO> noticeList() {
+	public List<NoticeVO> noticeList(PageVO vo) {
 		
-		List<NoticeVO> list = mapper.noticeList();
-		
-		/*for(NoticeVO notice : list) {
+		List<NoticeVO> list = mapper.noticeList(vo);
+		/*
+		for(NoticeVO notice : list) {
 			long now = System.currentTimeMillis();
 			long noticeViews = notice.getNoticeViews();
 			
 			if(now - noticeViews < 60 * 60 * 24 * 2 * 1000) {
 				
 			}
-		}*/
-
+		}
+		*/
 		return list;
 	}
 
+	//총 페이지 개수
+	@Override
+	public int getTotal(PageVO vo) {
+		return mapper.getTotal(vo);
+	}
+	
 	//공지사항 상세보기
 	@Override
 	public NoticeVO noticeContent(int noticeNo) {
@@ -62,5 +69,12 @@ public class NoticeService implements INoticeService {
 		
 		mapper.noticeDelete(noticeNo);
 	}
-
+	
+	//공지사항 조회수
+	@Override
+	public int noticeViews(int noticeNO) {
+		return mapper.noticeViews(noticeNO);
+	}
+	
+	
 }

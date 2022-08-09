@@ -93,35 +93,54 @@
                     </thead>
                     
                     <tbody>
-                    
-                        <tr>
-                            <td>1</td>
-                            <td style="text-align: left;"><a>kim1234</a></td>
-                            <td>김철수</td>
-                            <td>010-1111-1111</td>
-                            <td>kim1234@naver.com</td>
+                    <!-- 개발자 목록 -->
+                    <c:forEach var="userlist" items="${userlist}" varStatus="index">
+                        <tr class="userListContent" style="cursor:pointer;">
+                            <td>${userlist.userNO}</td>
+                            <td id="userListContent${index.index}">${userlist.userID}</td>
+                            <td>${userlist.userName}</td>
+                            <td>${userlist.userPhone1}-${userlist.userPhone2}-${userlist.userPhone3}</td>
+                            <td>${userlist.userEmail1}@${userlist.userEmail2}</td>
                             <td></td>
                         </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left;"><a>hong123</a></td>
-                            <td>홍길동</td>
-                            <td>010-2222-2222</td>
-                            <td>hong123@gmail.com</td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td style="text-align: left;"><a>kim1234</a></td>
-                            <td>김철</td>
-                            <td>010-1111-1111</td>
-                            <td>kim123@naver.com</td>
-                            <td></td>
-                        </tr>
-                      
-									
+                        
+                         <%@ include file="../modal_mypage/developerInfo.jsp" %>
+                  
+                  <script>
+                     
+                     $(function() {
+                        
+                        $('#userListContent${index.index}').click(function() {
+                           
+                           $.ajax({
+                              type: 'GET',
+                              url: '<c:url value="/userList/userListContent?userNO=" />' + '${userList.userNO}',
+                              
+                              success: function(user) {
+                                 $('#modal-user-id').text(user.userID);
+                                 $('#modal-user-name').text(user.userName);
+                                 $('#modal-user-email').text(user.userEmail1);
+                                 $('#modal-user-phone').text(user.userPhone1);
+                                 $('#modal-user-intro').text(user.userIntro);
+                               
+                                 
+                                
+                              },
+                              
+                              error: function() {
+                                 alert('개발자 목록 상세 보기 요청 처리 중 서버오류가 발생했습니다.');
+                                 return;
+                              }
+                           });
+                           
+                           $('#myModal').modal('show');
+                        });
+                        
+                     });
+                  
+                  </script>
+                  
+               </c:forEach>
                    
                        
                     </tbody>
@@ -168,6 +187,7 @@
 
 <script>
 
+		
 
 
 </script>

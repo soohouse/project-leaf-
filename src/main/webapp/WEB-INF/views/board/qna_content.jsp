@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!-- 글 내용 줄 개행 처리를 위해 추가 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <html>
 <head>
@@ -76,21 +80,23 @@
 			            	<span class="main-notice-title">Q&A</span>
 			            </a>
                      <div class="container my-1">
+                       <form action="<c:url value='/question/questionDelete'/>" methon="post" name="questionDeleteForm">
                         <div class="row">
                             <div class="qa_content" >
                                     <div class="qa_content_up" style="margin-left:30px;" >
 		                                        <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
-		                                        	<h4 style="display:inline-block;">A. 경력이 없어도 프로젝트에 지원할 수 있을까요...? </h4>
-			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
+		                                        	<input type="hidden" id="hidden-questionNo" name="questionNo" value="${question.questionNo}">
+		                                        	<h4 style="display:inline-block;">${question.questionTitle}</h4>
+			                                        <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
 		                                        </div>
 		                                        
 		                                        <div style="margin-top:30px;">
 			                                        <div class="qa_writer" style="display: inline-block;">
-			                                            <img src="resources/img/logo2.png" width="50px" > kim1234
+			                                            <img src="resources/img/logo2.png" width="50px" > ${question.questionWriter}
 		                                       		</div>
 		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 				                                        <div style="display:inline-block;" >
-				                                            55분전
+				                                            <fmt:formatDate value="${question.questionDate}" pattern="yyyy-MM-dd HH:mm" />
 				                                        </div>
 				                                        <div style="display:inline-block;">
 				                                        	조회수 : 2
@@ -101,20 +107,18 @@
 
                                     <div class="qa_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
-                                        	물론입니다!!<br>
-											<br>
-                                            비전공자라도 충분히 프로젝트에 지원할 수 있습니다.<br>
-                                            부담갖지 마시고 얼른 지원해보세요~<br>
+                                        	${fn:replace(question.questionContent, newLineChar, '<br/>')}
                                            
                                     </div>
                             </div>
                              <hr class="borderline" />
                              <a type="submit" class=" mb-2" style="margin-left:20px;">신고하기</a>
-                             <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='qna_list'">목록 </button>
-                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='qna_modify'">수정 </button>
-                             <button type="submit" class="btn btn-success mb-2 pull-right">답변하기 </button>
+                             <button type="button" id="btn-question-list" class="btn btn-info mb-2 pull-right">목록 </button>
+                             <button type="button" class="btn btn-primary mb-2 pull-right" onclick="location.href='qna_modify'">수정 </button>
+                             <button type="button" id="btn-go-answer" class="btn btn-success mb-2 pull-right" onclick="fn_answer_form('${contextPath}/question/answerForm.do',${question.questionNo})">답변하기 </button>
                            
                         </div>
+                      </form>  
                     </div>
 				</div>
 			</div> 
@@ -132,6 +136,34 @@
 
 
 <script>
+
+	//목록 이동 버튼
+	$(function() {
+		$('#btn-question-list').click(function() {
+			location.href='<c:url value="/question/questionList"/>';
+		});
+		
+	});
+	
+	//삭제 버튼 처리
+	$(function(){
+	 	$('#btn-question-delete').click(function() {
+	 		
+	 		if(confirm('정말 삭제하시겠습니까?')) {
+				document.questionDeleteForm.submit();
+			}
+	 	});
+	});
+	
+	//답변 게시글 작성 페이지로 이동 버튼
+	$(function() {
+		$('#btn-go-answer').click(function() {
+			location.href='<c:url value="/question/answerWrite/${questionNo}"/>';
+		});
+		
+	});	
+	
+	
 
 
 

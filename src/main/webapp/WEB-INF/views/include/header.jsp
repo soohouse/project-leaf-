@@ -43,7 +43,7 @@
 		                                      <span class="caret"></span>
 		                                  </a>
 		                                  <ul class="dropdown-menu">
-		                                      <li><a href="#">내 정보</a></li>
+		                                      <li><a href="<c:url value='/usermypage/usermypage' />">내 정보</a></li>
 		                                      <li><a href="#">지원 현황</a></li>
 		                                  </ul>
 		                              </li>
@@ -82,7 +82,7 @@
 		                            <b class="caret"></b>
 		                        </a>
 		                        <ul id="submenu-1" class="panel-collapse collapse panel-switch" role="menu">
-		                            <li class="sidebar-contents1"><a href="#" class="sidebar-contents2"><i class="fa fa-caret-right"></i>프로젝트 목록</a></li>
+		                            <li class="sidebar-contents1"><a href="<c:url value='/project/project' />" class="sidebar-contents2"><i class="fa fa-caret-right"></i>프로젝트 목록</a></li>
 		                        </ul>
 		                    </li>
 		                    
@@ -93,10 +93,10 @@
 			                        <b class="caret"></b>
 			                    </a>
 			                    <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>공지사항</a></li>
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>Q&A</a></li>
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>자유게시판</a></li>
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>자료실</a></li>
+			                        <li><a href="<c:url value='/notice/noticeList' />"><i class="fa fa-caret-right"></i>공지사항</a></li>
+			                        <li><a href="<c:url value='/question/questionList' />"><i class="fa fa-caret-right"></i>Q&A</a></li>
+			                        <li><a href="<c:url value='/board/boardList' />"><i class="fa fa-caret-right"></i>자유게시판</a></li>
+			                        <li><a href="<c:url value='/archive/archiveList' />"><i class="fa fa-caret-right"></i>자료실</a></li>
 			                    </ul>
 		                    </li>
 		                    <li>
@@ -106,7 +106,7 @@
 		                            <b class="caret"></b>
 		                        </a>
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>내 정보</a></li>
+		                            <li><a href="<c:url value='/usermypage/usermypage' />"><i class="fa fa-caret-right"></i>내 정보</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>쪽지함</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 현황</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 결과 조회</a></li>
@@ -161,7 +161,7 @@
 		                                      <span class="caret"></span>
 		                                  </a>
 		                                  <ul class="dropdown-menu">
-		                                      <li><a href="#">기업 정보</a></li>
+		                                      <li><a href="<c:url value='/usermypage/usermypage' />">기업 정보</a></li>
 		                                      <li><a href="#">지원 현황</a></li>
 		                                  </ul>
 		                              </li>
@@ -200,9 +200,9 @@
 		                            <b class="caret"></b>
 		                        </a>
 		                        <ul id="submenu-1" class="panel-collapse collapse panel-switch" role="menu" style="background: #5FA949;">
-		                            <li class="sidebar-contents1"><a href="#" class="sidebar-contents2"><i class="fa fa-caret-right"></i>프로젝트 목록</a></li>
-		                            <li class="sidebar-contents1"><a href="#" class="sidebar-contents2"><i class="fa fa-caret-right"></i>프로젝트 등록</a></li>
-		                            <li class="sidebar-contents1"><a href="#" class="sidebar-contents2"><i class="fa fa-caret-right"></i>개발자 목록</a></li>
+		                            <li class="sidebar-contents1"><a href="<c:url value='/project/project' />" class="sidebar-contents2"><i class="fa fa-caret-right"></i>프로젝트 목록</a></li>
+		                            <li class="sidebar-contents1"><a href="<c:url value='/project/projectputin' />" class="sidebar-contents2"><i class="fa fa-caret-right"></i>프로젝트 등록</a></li>
+		                            <li class="sidebar-contents1"><a href="<c:url value='/userList/userList' />" class="sidebar-contents2"><i class="fa fa-caret-right"></i>개발자 목록</a></li>
 		                        </ul>
 		                    </li>
 		                    
@@ -213,9 +213,9 @@
 			                        <b class="caret"></b>
 			                    </a>
 			                    <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu" style="background: #4A8639;">
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>공지사항</a></li>
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>자유게시판</a></li>
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>자료실</a></li>
+			                        <li><a href="<c:url value='/notice/noticeList' />"><i class="fa fa-caret-right"></i>공지사항</a></li>
+			                        <li><a href="<c:url value='/board/boardList' />"><i class="fa fa-caret-right"></i>자유게시판</a></li>
+			                        <li><a href="<c:url value='/archive/archiveList' />"><i class="fa fa-caret-right"></i>자료실</a></li>
 			                    </ul>
 		                    </li>
 		                    <li>
@@ -225,7 +225,7 @@
 		                            <b class="caret"></b>
 		                        </a>
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu" style="background: #3C6C2D;">
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>기업 정보</a></li>
+		                            <li><a href="<c:url value='/usermypage/usermypage' />"><i class="fa fa-caret-right"></i>기업 정보</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>쪽지함</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 현황</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>프로젝트 관리</a></li>
@@ -333,8 +333,8 @@
 			                        <b class="caret"></b>
 			                    </a>
 			                    <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu" style="background: #A48E00;">
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>기업 가입 관리</a></li>
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>공통코드 관리</a></li>
+			                        <li><a href="<c:url value='/admin/companyAccept' />"><i class="fa fa-caret-right"></i>기업 가입 관리</a></li>
+			                        <li><a href="<c:url value='/admin/commonCODE' />"><i class="fa fa-caret-right"></i>공통코드 관리</a></li>
 			                    </ul>
 		                    </li>
 		                    <li>
@@ -463,7 +463,7 @@
 		                            <b class="caret"></b>
 		                        </a>
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>내 정보</a></li>
+		                            <li><a href="<c:url value='/usermypage/usermypage' />"><i class="fa fa-caret-right"></i>내 정보</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>쪽지함</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 현황</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 결과 조회</a></li>

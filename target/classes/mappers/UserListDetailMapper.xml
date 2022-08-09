@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.spring.leaf.userlist.mapper.IUserListDetailMapper">
+
+	<resultMap type="com.spring.leaf.userlist.command.UserListDetailVO" id="UserListDetailMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userIntro" column="user_intro" />
+		
+		<result property="resumeNO" column="resume_NO" />
+		<result property="resumeFilename" column="resume_filename" />
+		<result property="resumeUploadpath" column="resume_uploadpath" />
+		<result property="resumeRealname" column="resume_realname" />
+		
+	</resultMap>
+	
+	<!-- 개발자 상세보기 -->
+	<select id="userListDetail" resultMap="UserListDetailMap">
+		SELECT 
+		u.user_ID, u.user_name, 
+		CONCAT(u.user_email1, '@', u.user_email2) AS user_ email, 
+		CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone,
+		u.user_intro, rm.resume_filename, 
+		rm.resume_NO, rm.resume_realname, rm.resume_uploadpath
+		FROM user u LEFT OUTER JOIN resume rm
+		ON u.user_NO = rm.user_NO
+		WHERE user_NO=#{userNo}
+	</select>
+
+
+
+
+</mapper>

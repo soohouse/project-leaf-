@@ -40,7 +40,7 @@
 				<div class="row">
 					 <!-- 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">Q&A</span>
+			            	<span class="main-notice-title">Q&A - 질문 등록</span>
 			            </a>
 					<div class="col-lg-8 col-md-10 col-sm-12">
 					  <form action="<c:url value='/question/questionWrite'/>" method="post" name="questionWriteForm">
@@ -64,7 +64,7 @@
 					    	</tbody>
 		    	    	</table>
     	    			<input type="submit" class="btn btn-success pull-right" value="질문하기">
-    	    			<button type="button" class="btn btn-primary pull-right" >목록</button>
+    	    			<button type="button" id="#btn-question-list" class="btn btn-primary pull-right" >목록</button>
 					  </form>
 					</div>
 				</div>
