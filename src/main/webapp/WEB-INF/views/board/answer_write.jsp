@@ -43,7 +43,7 @@
 			            	<span class="main-notice-title">Q&A - 답변 등록</span>
 			            </a>
 					<div class="col-lg-8 col-md-10 col-sm-12">
-					  <form action="<c:url value='/question/questionWrite'/>" method="post" name="AnswerWriteForm">
+					  <form action="<c:url value='/question/answerWrite'/>" method="post" name="AnswerWriteForm">
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
 				    	    	<tr>
@@ -51,8 +51,8 @@
 				    	    		<th colspan= "2">답변 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" name="questionTitle" class="form-control" value="RE:${question.questionTitle}" maxlength="50" ></td>
-					    			<td><input type="hidden" name="questionWriter" value="${user.userID}"></td>
+					    			<td><input type="text" name="answerTitle" class="form-control" value="RE:" maxlength="50" ></td>
+					    			<td><input type="hidden" name="answerWriter" value="${user.userID}"></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -60,7 +60,7 @@
 				    	    		<th colspan= "2">답변 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" name="questionContent" placeholder="답변 내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+					    			<td><textarea class="form-control" name="answerContent" placeholder="답변 내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
@@ -86,7 +86,7 @@
 	//목록 이동 버튼
 	$(function() {
 		$('#btn-question-list').click(function() {
-			location.href='<c:url value="/question/questionList" />';
+			location.href='<c:url value="/question/questionList/{questionNo}" />';
 		})
 		
 	});

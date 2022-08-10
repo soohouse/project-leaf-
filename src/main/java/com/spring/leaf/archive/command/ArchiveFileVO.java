@@ -13,9 +13,11 @@ public class ArchiveFileVO {
 	
 	
 	private int archiveFileNo;
-	private String archiveFileName;
+	private String archiveFileFilename;
 	private String archiveFileUploadpath;
 	private String archiveFileRealname;
+	
+	private int archiveNo;
 
 	
 

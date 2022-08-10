@@ -94,15 +94,19 @@ public class QuestionController {
 	
 	//답변글 작성창으로 이동
 	@GetMapping("/answerWrite/{questionNo}")
-	public String answerWrite() {
+	public String answerWrite(@PathVariable("questionNo") int questionNo) {
 		return "/board/answer_write";
 	}
 	
 	//답변글 작성
-	@PostMapping("/answerWrite/{questionNo}")
-	public String answerWrite(AnswerVO vo) {
+	@PostMapping("/answerWrite{questionNo}")
+	public String answerWrite(@PathVariable("questionNo") int questionNo,AnswerVO vo) {
 		
-		service.answerWrite(vo);
+		if(questionNo > 0) {
+			service.answerWrite(vo);
+		}
+		
+		
 		return "redirect:/question/questionList";
 	}
 }

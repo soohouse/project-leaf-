@@ -20,5 +20,7 @@ public class AnswerVO {
 	private Timestamp answerDate;
 	private int answerViews;
 	
+	private int questionNo;
+	
 
 }

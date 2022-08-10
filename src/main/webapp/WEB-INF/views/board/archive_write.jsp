@@ -43,8 +43,8 @@
 			            	<span class="main-notice-title">자료실</span>
 			            </a>
 				
-					<div class="col-lg-8 col-md-10 col-sm-12">
-					  <form>
+					<div class="col-lg-8 col-md-10 col-sm-12"></div>
+					  <form action="<c:url value='/archive/archiveWrite'/>" method="post" name="archiveWriteForm" >
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
 				    	    	<tr>
@@ -70,13 +70,13 @@
 		    	    	
 		    	    			<div class="filebox pull-left">
 						    		<label for="file">파일업로드</label>
-									<input type="file" name="uploadFile">	
+									<input type="file" id="archive-file" class="archive-file-upload">	
 								</div>
-		    	    	
-    	    			<input type="submit" id="btn-archive-write" class="btn btn-success pull-right" value="등록">
+		    	    		
+					  		</form>
+    	    			<input type="button" id="btn-archive-write" class="btn btn-success pull-right" value="등록">
     	    			<button type="button" id="btn-archive-list" class="btn btn-primary pull-right">목록</button>
 					
-					  </form>
 					</div>
 				</div>
 			</div>		   
@@ -97,9 +97,67 @@
 	$(function() {
 		$('#btn-archive-list').click(function() {
 			location.href='<c:url value="/archive/archiveList" />';
-		})
+		});
+		
+		
+		$('#btn-archive-write').click(function(){
+			document.archiveWriteForm.submit();
+			
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/archive/archiveNoGet" />',
+				contentType: false,
+				processData: false,
+				
+				success: function(archiveNo) {
+					// 가상 Form을 생성한다.
+					const formData = new FormData();
+				
+					const data = $('#archive-file');
+					
+					// 가상 Form에 받은 파일을 companyIntro이라는 이름으로 넣는다.
+					formData.append('archiveFile', data[0].files[0]);
+					
+					// 회사 소개서 파일을 등록하는 companyIntro를 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/archive/archiveFile/" />' + archiveNo,
+						contentType: false,
+						processData: false,
+						
+						data: formData,
+						
+						success: function(result) {
+							if(result == 'YesArchiveFile') {
+								console.log('회사 소개서 등록 성공');
+							} else {
+								alert('회사 소개서 등록 중 오류가 발생했습니다.');
+								return;
+							}
+						},
+						
+						error: function() {
+							alert('회사 소개서 등록 중 서버오류가 발생했습니다.');
+							return;
+						}
+					});		// ajax(userProfile) 끝
+				},
+				
+				error: function() {
+					alert("기업회원 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+					return;
+				}
+			});		// ajax(userNOGet) 끝
+			
+			
+		});
+		
 		
 	});
+	
+	//
+	
+	
 
 
 </script>
