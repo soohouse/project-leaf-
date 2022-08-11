@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.leaf.archive.command.ArchiveContentVO;
 import com.spring.leaf.archive.command.ArchiveFileVO;
 import com.spring.leaf.archive.command.ArchiveVO;
 import com.spring.leaf.archive.mapper.IArchiveMapper;
@@ -34,7 +35,7 @@ public class ArchiveService implements IArchiveService {
 
 	//자료실 상세보기
 	@Override
-	public ArchiveVO archiveContent(int archiveNo) {
+	public ArchiveContentVO archiveContent(int archiveNo) {
 
 		return mapper.archiveContent(archiveNo);
 	}

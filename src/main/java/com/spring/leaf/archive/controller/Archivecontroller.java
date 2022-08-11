@@ -75,7 +75,7 @@ public class Archivecontroller {
 	}
 	
 	//글상세보기요청
-	@PostMapping("/archiveContent/{archiveNo}")
+	@GetMapping("/archiveContent/{archiveNo}")
 	public String archiveContent(@PathVariable int archiveNo, Model model) {
 		
 		model.addAttribute("archive", service.archiveContent(archiveNo));
@@ -98,7 +98,7 @@ public class Archivecontroller {
 		
 		service.archiveModify(vo);
 		ra.addFlashAttribute("msg", "updateSuccess");
-		return "redirect:/board/archiveContent/" + vo.getArchiveNo();
+		return "redirect:/archive/archiveContent/" + vo.getArchiveNo();
 	}
 	
 	//글 삭제 처리
@@ -107,7 +107,7 @@ public class Archivecontroller {
 		
 		service.archiveDelete(vo.getArchiveNo());
 		ra.addFlashAttribute("msg", "deleteSuccess");
-		return "redirect:/board/archiveList";
+		return "redirect:/archive/archiveList";
 	}
 	
 	//자료실 글번호 끌어오기

@@ -2,6 +2,7 @@ package com.spring.leaf.archive.mapper;
 
 import java.util.List;
 
+import com.spring.leaf.archive.command.ArchiveContentVO;
 import com.spring.leaf.archive.command.ArchiveFileVO;
 import com.spring.leaf.archive.command.ArchiveVO;
 
@@ -16,7 +17,7 @@ public interface IArchiveMapper {
 		List<ArchiveVO> archiveList();
 		
 		//자료실 상세보기
-		ArchiveVO archiveContent(int archiveNo);
+		ArchiveContentVO archiveContent(int archiveNo);
 		
 		//자료실 수정
 		void archiveModify(ArchiveVO vo);

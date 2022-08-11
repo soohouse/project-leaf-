@@ -98,8 +98,9 @@
                         <tr>
                             <td>${archive.archiveNo}</td>
                             <td style="text-align: left;">
-                            	<a href="<c:url value='/archive/archiveContent/${archive.archiveNo}' />">${archive.archiveContent}</a>
-                            <a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a></td>
+                            	<a href="<c:url value='/archive/archiveContent/${archive.archiveNo}'/>">${archive.archiveTitle}</a>
+                            	<a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a>
+                            </td>
                             <td>${archive.archiveWriter}</td>
                             <td><fmt:formatDate value="${archive.archiveDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td>95</td>

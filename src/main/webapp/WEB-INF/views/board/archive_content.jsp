@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!-- 글 내용 줄 개행 처리를 위해 추가 -->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<% pageContext.setAttribute("newLineChar", "\n"); %>
 
 <html>
 <head>
@@ -25,10 +29,7 @@
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
 
- 	.tbody {
- 		width: 100%;
- 	
- 	}
+ 
 
     
  
@@ -50,21 +51,23 @@
 			            </a>
 				
                      <div class="container my-1">
+                       <form action="<c:url value='/archive/archiveDelete'/>" method="post" name="archiveDeleteForm"> 
                         <div class="row" style="margin-bottom:50px;">
-                        	<div class="data_content" >
-                                    <div class="data_content_up" style="margin-left:30px;" >
-		                                        <div class="data_title" scope="col" style="width: 100%;  margin-top:10px;">
-		                                        	<h4 style="display:inline-block;">Eclipse 공유합니다. </h4>
-			                                        <a type="submit" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
+                        	<div class="archive_content" >
+                                    <div class="archive_content_up" style="margin-left:30px;" >
+		                                        <div class="archive_title_up" scope="col" style="width: 100%;  margin-top:10px;">
+		                                        	<input type="hidden" id="hidden-archiveNo" name="archiveNo" value="${archive.archiveNo}">
+		                                        	<h4 style="display:inline-block;">${archive.archiveTitle}</h4>
+			                                        <a type="submit" id="btn-archive-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
 		                                        </div>
 		                                        
-		                                        <div style="margin-top:30px;">
-			                                        <div class="data_writer" style="display: inline-block;">
-			                                            <img src="resources/img/logo2.png" width="50px" > test22
+		                                        <div class="archive-title-down" style="margin-top:30px;">
+			                                        <div class="archive_writer" style="display: inline-block;">
+			                                            <img src="../resources/img/logo2.png" width="50px" > ${archive.archiveWriter}
 		                                       		</div>
 		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 				                                        <div style="display:inline-block;" >
-				                                            2022.07.10
+				                                            <fmt:formatDate value="${archive.archiveDate}" pattern="yyyy-MM-dd HH:mm" />
 				                                        </div>
 				                                        <div style="display:inline-block;">
 				                                        	조회수 : 211
@@ -73,21 +76,18 @@
 		                                        </div>
                                     </div>
 
-                                    <div class="data_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+                                    <div class="archive_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         <div>
-                                        	대표적인 Java 개발 툴인 Eclipse 0.0.0 버전 공유합니다.<br>
-											<br>
-                                            유용하게 사용하셨으면 좋겠습니다 ^^<br>
-                                            <br>
-                                            2차 배포는 금지합니다<br>
+                                        	${fn:replace(archive.archiveContent, newLineChar, '<br/>')}
                                         </div>   
                                     
 	                                    <div style="margin-top:30px;">
 	                                    	<a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a>
-	                                        <a>Eclipse-0.0.0.zip</a>
+	                                        <a id="archive-file-download">${archive.archiveFileRealname}</a>
 	                                    </div>
                                     </div>
-                            </div>
+                            	</div>
+                            </form>
                         
                         
                        
@@ -173,8 +173,8 @@
 
 	                            <div style="margin-top:20px;">
 		                             <button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
-		                             <button type="submit" class="btn btn-info mb-2 pull-right" onclick="location.href='data_modify'">수정 </button>
-		                             <button type="submit" class="btn btn-primary mb-2 pull-right" onclick="location.href='data_list'">목록 </button>
+		                             <button type="button" class="btn btn-info mb-2 pull-right btn-boardReply-Modify" onclick="location.href='<c:url value="/archive/archiveModify?archiveNo=${archive.archiveNo}"/>'">수정 </button>
+		                             <button type="button" class="btn btn-primary mb-2 pull-right" onclick="location.href='archive_list'">목록 </button>
 								</div>
                             
                         	</div>
@@ -200,6 +200,34 @@
 
 <script>
 
+	//목록 이동 버튼
+	$(function() {
+		$('#btn-archive-list').click(function() {
+			location.href='<c:url value="/archive/archiveList"/>';
+		});
+		
+	});
+	
+	//삭제 버튼 처리
+	$(function(){
+	 	$('#btn-archive-delete').click(function() {
+	 		
+	 		if(confirm('정말 삭제하시겠습니까?')) {
+				document.archiveDeleteForm.submit();
+			}
+	 	});
+	});
 
 
+	//파일 이름 클릭 시 다운로드 되도록
+	$(function(){
+	 	$('#archive-file-download').click(function() {
+	 		
+	 		const archiveNo = $('#hidden-archiveNo').val();
+	 		
+	 		location.href = "/archive/archiveFile/download?archiveNo=" + archiveNo;
+	 	
+	 	});
+	});
+	
 </script>

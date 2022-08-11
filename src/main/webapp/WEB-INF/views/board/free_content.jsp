@@ -287,12 +287,12 @@
 					
 					for(let i=0; i<boardReplyList.length; i++) {
 						strAdd += 
-							`<div class="boardReplyWrap" id="boardReplyNo` + [i] + `">
+							`<div class="boardReplyWrap" id="boardReplyNo` + i + `">
 		                        <div id="boardReply-Writer" style="text-align: left; float:left; width:15%; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`</div>
-		                        <div class="boardReply-Content" id='boardReply-Content[i]' style="text-align: left; float:left; width:15%;">&nbsp;` + boardReplyList[i].boardReplyContent +`</div>
-		                        <div style="float:left; width:60%;">`+ boardReplyList[i].boardReplyDate+`</div>
-	                            <div style="float:left; width:5%; padding-top:10px;"><button id="btn-boardReply-Modify"><a href='` + boardReplyList[i].boardReplyNo +`'class="glyphicon glyphicon-ok" aria-hidden="true"></a></button></div>
-	                            <div style="float:left; width:5%; padding-top:10px;"><button id="btn-boardReply-Delete"><a href='` + boardReplyList[i].boardReplyNo +`'class="glyphicon glyphicon-remove" aria-hidden="true"></a></button></div>
+		                        <div class="boardReply-Content" id='boardReply-Content_`+[i]+`' style="text-align: left; float:left; width:60%;">&nbsp;` + boardReplyList[i].boardReplyContent +`</div>
+		                        <div style="float:left; width:15%;">`+ boardReplyList[i].boardReplyDate+`</div>
+	                            <div style="float:left; width:5%; padding-top:10px;"><button id="btn-boardReply-Modify[i]"><a href='` + boardReplyList[i].boardReplyNo +`'class="glyphicon glyphicon-ok" aria-hidden="true"></a></button></div>
+	                            <div style="float:left; width:5%; padding-top:10px;"><button id="btn-boardReply-Delete[i]"><a href='` + boardReplyList[i].boardReplyNo +`'class="glyphicon glyphicon-remove" aria-hidden="true"></a></button></div>
 	                        </div>`;
 					}
 				
@@ -315,15 +315,25 @@
 					.html("<textarea class='boardreplymodi' name='boardreplymodi' style='text-align: left; float:left; width:15%;'></textarea>")
 					.append("<div style="float:left; width:5%; padding-top:10px;"><button id="btn-boardReply-Modify"><a href='` + boardReplyList[i].boardReplyNo +`'class="glyphicon glyphicon-ok" aria-hidden="true"></a></button></div>");
 			})
-			*/
+		*/
+		
 		
 		//댓글 수정
 	
 		$('#btn-boardReply-Modify').click(function() {
 			
+			let id = $(this).attr('id');
+			let txt = $('#boardReply-Content_'+id).text();
+			
+		
+		
+			
+			/*
+			$('#boardReply-Content').html("<div class="boardReply-Content" style="text-align: left; float:left; width:15%;" id='boardReply-Modi"+[i]+"'>"&nbsp;+txt+"</textarea></div>");
 		
 			
 			
+		
 			const boardReplyNo = $('#boardReplyNo').val();
 			const boardReplyModi = $('#boardReplyModi').val();
 			console.log(boardReplyModi);
@@ -361,7 +371,8 @@
 				}
 				
 			})//end ajax
-			
+		
+			*/
 		});// 수정 처리 이벤트 끝
 		
 		

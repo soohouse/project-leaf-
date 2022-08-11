@@ -20,8 +20,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="archiveFileNo" column="archive_file_NO"/>
 		<result property="archiveFileFilename" column="archive_file_filename"/>
 		<result property="archiveFileUploadpath" column="archive_file_uploadpath"/>
-		<result property="archiveFileRealname" column="arhcive_file_realname"/>
+		<result property="archiveFileRealname" column="archive_file_realname"/>
 		<result property="archiveNo" column="archive_NO"/>
+	</resultMap>
+	
+	<!-- ArchiveContentVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ArchiveContentMap 선언 -->
+	<resultMap type="com.spring.leaf.archive.command.ArchiveContentVO" id="ArchiveContentMap">
+		<id property="archiveNo" column="archive_NO" />
+		<result property="archiveTitle" column="archive_title"/>
+		<result property="archiveWriter" column="archive_writer"/>
+		<result property="archiveContent" column="archive_content"/>
+		<result property="archiveDate" column="archive_date"/>
+		<result property="archiveViews" column="archive_views"/>
+		<result property="archiveFileNo" column="archive_file_NO"/>
+		<result property="archiveFileRealname" column="archive_file_realname"/>
 	</resultMap>
 	
 	<!-- 자료실 글 등록 INSERT 쿼리 -->
@@ -53,20 +65,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 자료실 목록 SELECT 쿼리 -->
 	<select id="archiveList" resultMap="ArchiveMap">
-		SELECT * FROM archive
+		SELECT *
+		FROM archive 
 		ORDER BY archive_NO DESC
 	</select>
 	
 	<!-- 자료실 글 상세보기 SELECT 쿼리 -->
-	<select id="archiveContent" resultMap="ArchiveMap">
-		SELECT * FROM archive
-		WHERE archive_NO=#{archiveNo}
+	<select id="archiveContent" resultMap="ArchiveContentMap">
+		SELECT a.archive_NO, a.archive_title, a.archive_writer, a.archive_content, a.archive_date, a.archive_views, f.archive_file_NO, f.archive_file_realname
+		FROM archive a LEFT OUTER JOIN archive_file f
+		ON a.archive_NO = f.archive_NO
+		WHERE a.archive_NO=#{archiveNo} 
 	</select>
 	
-	
-	
 	<!-- 자료실 글 수정하기 UPDATE 쿼리 -->
-	<update id="archiveModify">
+	<update id="archiveModify" >
 		UPDATE archive
 		SET archive_title=#{archiveTitle}, archive_content=#{archiveContent}
 		WHERE archive_NO=#{archiveNo}
