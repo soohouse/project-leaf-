@@ -1,5 +1,9 @@
 package com.spring.leaf.question.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.leaf.answer.command.AnswerVO;
-import com.spring.leaf.board.command.BoardVO;
+import com.spring.leaf.question.command.AnswerVO;
 import com.spring.leaf.question.command.QuestionVO;
 import com.spring.leaf.question.service.IQuestionService;
-import com.spring.leaf.user.controller.UserController;
 
 //Question 컨트롤러 : 2022-07-30 생성
 
@@ -25,7 +27,7 @@ import com.spring.leaf.user.controller.UserController;
 public class QuestionController {
 	
 	// 로그 출력을 위한 Logger 객체 생성
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
 		
 	//질문글 서비스 연결
 	@Autowired
@@ -66,13 +68,13 @@ public class QuestionController {
 	}
 
 	//글 수정 페이지 이동
-		@GetMapping("/questionModify")
-		public String questionModify(@RequestParam("questionNo") int questionNo, Model model) {
+	@GetMapping("/questionModify")
+	public String questionModify(@RequestParam("questionNo") int questionNo, Model model) {
 			
-			model.addAttribute("question", service.questionContent(questionNo));
+		model.addAttribute("question", service.questionContent(questionNo));
 			
-			return "board/qna_modify";
-		}
+		return "board/qna_modify";
+	}
 		
 	//글 수정 처리
 	@PostMapping("/questionUpdate")
@@ -94,19 +96,37 @@ public class QuestionController {
 	
 	//답변글 작성창으로 이동
 	@GetMapping("/answerWrite/{questionNo}")
-	public String answerWrite(@PathVariable("questionNo") int questionNo) {
+	public String answerWrite(@PathVariable int questionNo,Model model) {
+		
+		model.addAttribute("questionNo", questionNo);
+		
 		return "/board/answer_write";
 	}
-	
+		
+
 	//답변글 작성
-	@PostMapping("/answerWrite{questionNo}")
-	public String answerWrite(@PathVariable("questionNo") int questionNo,AnswerVO vo) {
+	@PostMapping("/answerWrite")
+	public String answerWrite(AnswerVO vo) {
+				
+		service.answerWrite(vo);
+				
+	return "redirect:/question/questionList";
+	}
+
+	
+	//답변글 상세보기
+	@GetMapping("/answerContent/{questionNo}")
+	public Map<String, Object> answerContent(@PathVariable("questionNo") int questionNo) {
 		
-		if(questionNo > 0) {
-			service.answerWrite(vo);
-		}
+		List<AnswerVO> list = service.answerContent(questionNo);
 		
-		
-		return "redirect:/question/questionList";
+		Map<String, Object> map = new HashMap<>();
+		map.put("answerContent", list);
+	
+		return map;
 	}
 }
+		
+
+	
+	

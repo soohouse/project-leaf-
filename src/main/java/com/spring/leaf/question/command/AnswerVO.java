@@ -1,4 +1,4 @@
-package com.spring.leaf.answer.command;
+package com.spring.leaf.question.command;
 
 import java.sql.Timestamp;
 

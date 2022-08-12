@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.leaf.answer.command.AnswerVO;
+import com.spring.leaf.question.command.AnswerVO;
 import com.spring.leaf.question.command.QuestionVO;
 import com.spring.leaf.question.mapper.IQuestionMapper;
 
@@ -55,11 +55,20 @@ public class QuestionService implements IQuestionService {
 		mapper.questionDelete(questionNo);
 	}
 	
-	//답변글 등록하기
+	//답변글 글 등록
 	@Override
 	public void answerWrite(AnswerVO vo) {
 		mapper.answerWrite(vo);
 		
 	}
+	
+	//답변글 상세보기
+	@Override
+	public List<AnswerVO> answerContent(int questionNo) {
+
+	
+		return mapper.answerContent(questionNo);
+	}
+	
 
 }
