@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.leaf.boardreply.command.BoardReplyVO;
 import com.spring.leaf.boardreply.service.IBoardReplyService;
 import com.spring.leaf.user.controller.UserController;
+import com.spring.leaf.util.PageVO;
 
 //reply 컨트롤러 : 2022-08-01 생성
 
@@ -47,10 +48,14 @@ public class BoardReplyController {
 	//댓글 목록
 	@ResponseBody
 	@GetMapping("/boardReplyList/{boardNo}")
-	public Map<String, Object> boardReplyList(@PathVariable("boardNo") int boardNo) {
+	public Map<String, Object> boardReplyList(@PathVariable("boardNo") int boardNo, Model model) {		
 		
-		List<BoardReplyVO> list = service.boardReplyList(boardNo);
-		int total = service.boardReplyTotal(boardNo);
+		List<BoardReplyVO> list = service.boardReplyList(boardNo); //(boardNo);
+		int total = service.boardReplyTotal(boardNo); //(boardNo);
+		
+		//댓글수
+		int ReplyTotal = service.boardReplyTotal(boardNo); //(boardNo);
+		model.addAttribute("boardReplyCount", ReplyTotal);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("boardReplyList", list);
@@ -65,17 +70,16 @@ public class BoardReplyController {
 	public String boardReplyUpdate(@RequestBody BoardReplyVO vo) {
 		service.boardReplyUpdate(vo);
 		
-		return "modSuccess";
+		return "UpdateSuccess";
 	}
 	
 	//댓글 삭제
-	@ResponseBody
 	@PostMapping("/boardReplyDelete")
-	public String boardReplyDelete(@RequestBody BoardReplyVO vo) {
+	@ResponseBody
+	public String boardReplyDelete(@RequestParam("boardReplyNO") int boardReplyNo) {
+		service.boardReplyDelete(boardReplyNo);
 		
-		service.boardReplyDelete(vo.getBoardReplyNo());
-		
-		return "delSuccess";
+		return "DeleteSuccess";
 	}
 
 }

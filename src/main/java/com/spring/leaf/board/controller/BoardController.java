@@ -1,5 +1,8 @@
 package com.spring.leaf.board.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.leaf.board.command.BoardVO;
 import com.spring.leaf.board.service.IBoardService;
+import com.spring.leaf.boardreply.service.IBoardReplyService;
 import com.spring.leaf.user.controller.UserController;
+import com.spring.leaf.util.PageCreator;
+import com.spring.leaf.util.PageVO;
 
 
 // free 컨트롤러 : 2022-07-30 생성
@@ -29,12 +35,30 @@ public class BoardController {
 	//자유게시판 서비스 연결
 	@Autowired
 	private IBoardService service;
+	//자유게시판 댓글 전체개수 불러오기 위해 사용
+	@Autowired
+	private IBoardReplyService rservice;
 	
 	//자유게시판 목록 페이지로 이동 요청
 	@GetMapping("/boardList")
-	public String boardList(Model model) {
+	public String boardList(PageVO vo, Model model) {
 		
-		model.addAttribute("boardList", service.boardList());
+		//페이징
+		System.out.println(vo);
+		PageCreator pc = new PageCreator();
+		pc.setPaging(vo);
+		pc.setArticleTotalCount(service.getTotal(vo));
+		System.out.println(pc);
+		
+		//현재시간 구하기 (뉴마크) https://mingbocho.tistory.com/11참고
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.DAY_OF_MONTH, -1); //게시글 등록 후 1일간 뉴마크 표시.
+	    String nowday = format.format(cal.getTime());
+		
+	    model.addAttribute("nowday",nowday);
+		model.addAttribute("boardList", service.boardList(vo));
+		model.addAttribute("pc", pc);
 		
 		return "/board/free_list";
 	}
@@ -60,6 +84,13 @@ public class BoardController {
 		
 		model.addAttribute("board", service.boardContent(boardNo));
 		
+		//댓글수
+		int ReplyTotal = rservice.boardReplyTotal(boardNo);
+		model.addAttribute("boardReplyCount", ReplyTotal);
+		
+		// 조회수 증가
+		service.boardViews(boardNo);
+		
 		return "board/free_content";
 	}
 	
@@ -77,7 +108,7 @@ public class BoardController {
 	public String boardUpdate(BoardVO vo, RedirectAttributes ra) {
 		
 		service.boardModify(vo);
-		ra.addFlashAttribute("msg", "updateSuccess");
+		ra.addFlashAttribute("msg", "수정하였습니다!");
 		return "redirect:/board/boardContent/" + vo.getBoardNo();
 	}
 	
@@ -86,7 +117,7 @@ public class BoardController {
 	public String boardDelete(BoardVO vo, RedirectAttributes ra) {
 		
 		service.boardDelete(vo.getBoardNo());
-		ra.addFlashAttribute("msg", "deleteSuccess");
+		ra.addFlashAttribute("msg", "삭제하였습니다!");
 		return "redirect:/board/boardList";
 	}
 	

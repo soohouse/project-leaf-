@@ -43,6 +43,18 @@ public interface IUserMapper {
 	void userResume(ResumeVO vo);
 	
 	
+	// 사용자 이력서파일 삭제 요청
+	void userResumeDelete(int userNO);
+	
+	
+	// 사용자 이력서파일 수정 요청
+	void userResumeUpdate(ResumeVO vo);
+	
+	
+	// 사용자 이력서파일 존재 여부 체크 요청
+	int userResumeCheck(int userNO);
+	
+	
 	// 사용자 이력서파일 얻어오기 요청
 	ResumeVO userResumeGet(int userNO);
 	

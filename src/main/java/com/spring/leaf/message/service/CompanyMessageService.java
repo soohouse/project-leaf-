@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.leaf.message.command.CompanyMessageVO;
+import com.spring.leaf.message.command.CompanySendMessageVO;
 import com.spring.leaf.message.command.UserMessageVO;
 import com.spring.leaf.message.mapper.ICompanyMessageMapper;
 
@@ -24,6 +25,12 @@ public class CompanyMessageService implements ICompanyMessageService {
 
 	}
 
+	@Override
+	public List<CompanySendMessageVO> companySendList(String userMessageWriter) {
+		return mapper.companySendList(userMessageWriter);
+	}
+
+	
 	@Override
 	public List<CompanyMessageVO> companyMessageList() {
 		List<CompanyMessageVO> list = mapper.companyMessageList();

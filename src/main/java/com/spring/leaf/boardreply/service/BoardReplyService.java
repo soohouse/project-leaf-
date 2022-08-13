@@ -1,13 +1,15 @@
 package com.spring.leaf.boardreply.service;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.leaf.boardreply.command.BoardReplyVO;
 import com.spring.leaf.boardreply.mapper.IBoardReplyMapper;
+import com.spring.leaf.util.PageVO;
 
 //게시판 댓글 서비스 생성 : 2022-08-04
 
@@ -21,13 +23,11 @@ public class BoardReplyService implements IBoardReplyService {
 	@Override
 	public void boardReplyWrite(BoardReplyVO vo) {
 		mapper.boardReplyWrite(vo);
-		
 	}
 
 	//댓글 목록
 	@Override
 	public List<BoardReplyVO> boardReplyList(int boardNo) {
-	
 		return mapper.boardReplyList(boardNo);
 	}
 	
@@ -41,14 +41,12 @@ public class BoardReplyService implements IBoardReplyService {
 	@Override
 	public void boardReplyUpdate(BoardReplyVO vo) {
 		mapper.boardReplyUpdate(vo);
-		
 	}
 	
 	//댓글 삭제
 	@Override
 	public void boardReplyDelete(int boardReplyNo) {
 		mapper.boardReplyDelete(boardReplyNo);
-		
 	}
 	
 	

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.spring.leaf.user.command.UserVO;
 import com.spring.leaf.user.mapper.IUserMapper;
 import com.spring.leaf.user.mapper.IUserMypageMapper;
+import com.spring.leaf.company.command.CompanyDetailVO;
+import com.spring.leaf.user.command.UserDetailVO;
 
 @Service
 public class UserMypageService implements IUserMypageService {
@@ -15,8 +17,13 @@ public class UserMypageService implements IUserMypageService {
 	
 	
 	@Override
-	public UserVO getInfo(int UserNO) {
-		return mapper.getInfo(UserNO);
+	public UserDetailVO getInfo(int userNO) {
+		return mapper.getInfo(userNO);
+	}
+	
+	@Override
+	public CompanyDetailVO getCompanyInfo(int companyNO) {
+		return mapper.getCompanyInfo(companyNO);
 	}
 
 	@Override

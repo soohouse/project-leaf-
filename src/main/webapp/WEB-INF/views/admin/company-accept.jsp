@@ -74,7 +74,7 @@
 			</form>
 
 
-			<table class="table table-bordered table-condensed" style="margin-top: 20px;">
+			<table class="table table-bordered" style="margin-top: 20px;">
 				<thead style="width: 10px; font-size: 13px; background: #89C578;">
 					<tr style="font-family: sans-serif;">
 						<th style="width: 6%;">회원번호</th>
@@ -136,8 +136,6 @@
 						</script>
 						
 					</c:forEach>
-					
-					<%@ include file="modal-common-regist.jsp" %>
 
 				</tbody>
 			</table>

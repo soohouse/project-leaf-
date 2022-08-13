@@ -28,7 +28,7 @@ public class UserLoginHandler implements HandlerInterceptor {
 			
 			PrintWriter out = response.getWriter();
 			out.print("<script>"
-							+ "alert('로그인이 필요한 서비스입니다.');"
+							+ "alert('일반회원만 이용 가능한 서비스입니다.');"
 							+ "location.href='/'" 
 					+ "</script>");
 			out.flush();

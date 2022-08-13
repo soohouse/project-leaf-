@@ -10,19 +10,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<id property="userNO" column="user_NO" />
 		<result property="userID" column="user_ID" />
 		<result property="userName" column="user_name" />
-		<result property="userEmail1" column="user_email1" />
-		<result property="userEmail2" column="user_email2" />
-		<result property="userPhone1" column="user_phone1" />
-		<result property="userPhone2" column="user_phone2" />
-		<result property="userPhone3" column="user_phone3" />
-		
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	<resultMap type="com.spring.leaf.userlist.command.UserListDetailVO" id="UserListDetailMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userIntro" column="user_intro" />
+		<result property="resumeRealname" column="resume_realname" />
 	</resultMap>
 	
 	<!-- 개발자 목록 끌어오기 -->
 	<select id="userList" resultMap="UserListMap">
-		SELECT * FROM user
-		ORDER BY user_NO DESC
+		SELECT 
+			u.user_NO, u.user_ID, u.user_name, 
+			CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone, 
+	        CONCAT(u.user_email1, '@', u.user_email2) AS user_email, 
+			cd.common_value
+		FROM user u LEFT OUTER JOIN common cd
+		ON u.common_CODE = cd.common_CODE
+		WHERE u.common_CODE = 'ADM001'
 	</select>
+		
 	
+	<!-- 개발자 상세보기 -->
+	<select id="userListDetail" resultMap="UserListDetailMap">
+		SELECT 
+			u.user_NO, u.user_ID, u.user_name, 
+			CONCAT(u.user_email1, '@', u.user_email2) AS user_email, 
+			CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone,
+			u.user_intro, rm.resume_realname
+		FROM 
+			user u LEFT OUTER JOIN resume rm
+		ON 
+			u.user_NO = rm.user_NO
+		WHERE u.user_NO=#{userNO}
+	</select>
 
 </mapper>

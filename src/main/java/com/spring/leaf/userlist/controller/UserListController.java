@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.leaf.admin.command.CompanyAcceptVO;
 import com.spring.leaf.devinfo.command.DevInfoVO;
 import com.spring.leaf.user.controller.UserController;
+import com.spring.leaf.userlist.command.UserListDetailVO;
 import com.spring.leaf.userlist.command.UserListVO;
 import com.spring.leaf.userlist.service.IUserListService;
 
@@ -31,8 +33,19 @@ public class UserListController {
 	@GetMapping("/userList")
 	public String userList(Model model) {
 		logger.info("/userList/userList: GET (일반회원 목록 페이지 이동)");
-		model.addAttribute("userlist", service.userList());
+		model.addAttribute("userList", service.userList());
 		return "/board/dev_list";
 	}
+	
+	
+	// 일반회원 목록 상세보기
+		@GetMapping("/userListDetail")
+		@ResponseBody
+		public UserListDetailVO userListDetail(int userNO) {
+			logger.info("/modal_mypage/developerInfo : GET (개발자목록 상세 보기 요청)");
+			return service.userListDetail(userNO);
+		}
+		
+		
 
 }

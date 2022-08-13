@@ -66,12 +66,12 @@
                     <p>이름</p> 
                     <input type="hidden" value="${projectNO}" id="project-list-content2" name="projectNO">
                     <input type="hidden" value="${user.userNO}" name="userNO">
-                    <input type="search" id="project-user-name" class="input-all input1" placeholder="이름을 입력해 주세요." maxlength="40" value="${user.userName}" readonly>
+                    <input type="search" id="project-user-name" class="input-all input1" placeholder="이름을 입력해 주세요." maxlength="40" value="${user.userName}" style="background-color: lightgray;" readonly>
                     <span id="span-name"></span>
                 </div>
                 <div class="project-e-mail">
                     <p>이메일</p>
-                    <input type="search" id="project-user-email" class="input-all input2" placeholder="이메일을 입력해 주세요." maxlength="40" value="${user.userEmail1} @ ${user.userEmail2}" readonly>
+                    <input type="search" id="project-user-email" class="input-all input2" placeholder="이메일을 입력해 주세요." maxlength="40" value="${user.userEmail1} @ ${user.userEmail2}" style="background-color: lightgray;" readonly>
                     <span id="span-email"></span>
                 </div>
                 <div class="project-phone">
@@ -81,8 +81,8 @@
                         <option value="010" >011</option>
                         <option value="010" >016</option>
                     </select>&nbsp;-
-                    <input type="search" id="user-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자" maxlength="4" value="${user.userPhone2}" readonly>&nbsp;-
-                       <input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자" maxlength="4" value="${user.userPhone3}" readonly>
+                    <input type="search" id="user-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자" maxlength="4" value="${user.userPhone2}" style="background-color: lightgray;" readonly>&nbsp;-
+                       <input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자" maxlength="4" value="${user.userPhone3}" style="background-color: lightgray;" readonly>
                     <br><span id="span-phone"></span>
                 </div>
                 <div class="resume-user">  

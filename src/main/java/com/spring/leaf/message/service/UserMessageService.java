@@ -16,9 +16,8 @@ public class UserMessageService implements IUserMessageService {
 	private IUserMessageMapper mapper;
 	
 	@Override
-	public List<UserMessageVO> userMessageList() {
-		List<UserMessageVO> list = mapper.userMessageList();
-		return list;
+	public List<UserMessageVO> userMessageList(int userNO) {
+		return mapper.userMessageList(userNO);
 	}
 
 	@Override

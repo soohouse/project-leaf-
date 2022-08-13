@@ -27,6 +27,7 @@ public class CompanyVO {
 	private String companyAddress3;
 	private Timestamp companyDate;
 	private String companyIntro;
+	private String companyDelete;
 	private String commonCODE;
 	
 }

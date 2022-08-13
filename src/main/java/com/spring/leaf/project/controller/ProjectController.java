@@ -37,10 +37,10 @@ public class ProjectController {
 		
 		model.addAttribute("projectview", service.getContent(projectNO));
 		
-		
-		
 		return "project/project-view";
 	}
+	
+	
 	// 좋아요 버튼 클릭 처리
 	@PostMapping("/projectview")
 	@ResponseBody
@@ -70,6 +70,22 @@ public class ProjectController {
 		return "redirect:/project/project";
 	}
 	
+	//프로젝트 관리 창 
+	@GetMapping("/projectadmin")
+	public String project5(Model model) {
+		
+		model.addAttribute("projectlist", service.projectlist());
+		
+		return "project/project-admin";
+	}
 	
+	// 프로젝트 상세보기 수정하기
+		@GetMapping("/projectviewfix")
+		public String project4(@RequestParam int projectNO, Model model) {
+			
+			model.addAttribute("projectview", service.getContent(projectNO));
+			
+			return "project/project-view-fix";
+		}
 	
 }

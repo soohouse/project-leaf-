@@ -92,7 +92,7 @@
                     
                     <tbody>
                     <!-- 공지사항 목록 -->
-                    	<c:forEach var="notice" items="${noticeList}">
+                    <c:forEach var="notice" items="${noticeList}">
                         <tr>
                             <td>${notice.noticeNo}</td>
                             <td style="text-align: left;">
@@ -131,13 +131,13 @@
 				<form action="<c:url value='/board/notice_list'/>" name="pageForm">
 	                <ul class="pagination pagination-sm">
 						<c:if test="${pc.prev }"><!-- 이전버튼 -->
-		                    <li><a href="/notice/noticeList?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.beginPage-1 }"> << </a></li>					
+		                    <li><a href="/notice/noticeList?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.beginPage-1 }"> < </a></li>					
 						</c:if>
 						<c:forEach var="num" begin="${pc.beginPage }" end="${pc.endPage }">
 							<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a href="/notice/noticeList?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum='${num }'>${num }</a></li>
 						</c:forEach>
 						<c:if test="${pc.next }"><!-- 다음버튼 -->
-		                    <li><a href="/notice/noticeList?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.endPage-1 }"> >> </a></li>
+		                    <li><a href="/notice/noticeList?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.endPage-1 }"> > </a></li>
 						</c:if>
 					</ul>
                     <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
@@ -146,7 +146,9 @@
                     <input type="hidden" name="keyword" value="${pc.paging.keyword}">
 				</form>
 			</div>
-            
+			${pc.beginPage }/${pc.endPage }
+			
+			
         </div> 
     </section>
     

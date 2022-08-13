@@ -25,6 +25,7 @@ public class UserVO {
 	private String userPhone3;
 	private Timestamp userDate;
 	private String userIntro;
+	private Timestamp userDelete;
 	private String commonCODE;
 	
 }

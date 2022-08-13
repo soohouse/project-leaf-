@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.spring.leaf.userapply.mapper.IUserApplyResultMapper">
+
+	<resultMap type="com.spring.leaf.userlist.command.UserListVO" id="UserListMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	<resultMap type="com.spring.leaf.userlist.command.UserListDetailVO" id="UserListDetailMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userIntro" column="user_intro" />
+		<result property="resumeRealname" column="resume_realname" />
+	</resultMap>
+	
+	<!-- 개발자 목록 끌어오기 -->
+	<select id="userList" resultMap="UserListMap">
+		SELECT 
+			u.user_NO, u.user_ID, u.user_name, 
+			CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone, 
+	        CONCAT(u.user_email1, '@', u.user_email2) AS user_email, 
+			cd.common_value
+		FROM user u LEFT OUTER JOIN common cd
+		ON u.common_CODE = cd.common_CODE
+		WHERE u.common_CODE = 'ADM001'
+	</select>
+		
+
+</mapper>

@@ -22,14 +22,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 자유게시판 댓글 목록 SELECT 쿼리 -->
 	<select id="boardReplyList" resultMap="BoardReplyMap">
+		
 		SELECT * FROM board_reply
 		WHERE board_NO=#{boardNo}
+		<!-- 
+		SELECT * FROM	
+			(
+			SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
+				(
+				SELECT * FROM board_reply
+				WHERE board_NO = #{boardNO}
+				ORDER BY board_reply_NO DESC
+				) A,(SELECT @ROWNUM := 0)B
+			) B
+		<![CDATA[
+		WHERE rn > (#{paging.pageNum}-1) * #{paging.cpp}
+		AND rn <= #{paging.pageNum} * #{paging.cpp}
+		]]>-->
 	</select>
 	
 	<!-- 자유게시판 댓글 개수 SELECT 쿼리 -->
 	<select id="boardReplyTotal" resultType="int">
-		SELECT COUNT(*) FROM board_reply
-		WHERE board_NO=#{boardNo}
+		SELECT COUNT(*) 
+		FROM board_reply
+		WHERE board_NO = #{boardNo}
 	</select>
 	
 	<!-- 자유게시판 댓글 수정 UPDATE 쿼리 -->

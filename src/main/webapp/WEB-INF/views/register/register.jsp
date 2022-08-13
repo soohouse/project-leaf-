@@ -243,19 +243,6 @@
 			window.location.reload();
 		}
 	}
-
-	
-	// 로그인 상태에서는 회원가입 페이지로 올 수 없도록 한다.
-	const isLoginUser = '${user}';
-	const isLoginCompany = '${company}';
-	
-	if(isLoginUser != '') {
-		alert('로그인 상태에서는 회원가입을 할 수 없습니다.');
-		history.back();
-	} else if(isLoginCompany != '') {
-		alert('로그인 상태에서는 회원가입을 할 수 없습니다.');
-		history.back();
-	}
 	
 
     // 일반회원 파일 미리보기 자바스크립트 함수

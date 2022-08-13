@@ -13,13 +13,11 @@ import lombok.ToString;
 @ToString
 public class NoticeVO {
 	
-	private int noticeNo;
-	private String noticeTitle;
-	private String noticeWriter;
-	private String noticeContent;
-	private Timestamp noticeDate;
-	
-	//조회수
-	private int noticeViews; 
+	private int noticeNo; //공지사항 번호
+	private String noticeTitle; //공지사항 제목
+	private String noticeWriter; //공지사항 작성자
+	private String noticeContent; //공지사항 내용
+	private Timestamp noticeDate; //공지사항 날짜
+	private int noticeViews;  //공지사항 조회수
 	
 }

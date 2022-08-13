@@ -14,10 +14,5 @@ public class UserListDetailVO {
 	private String userEmail;
 	private String userPhone;
 	private String userIntro;
-	
-		
-	private int resumeNO;
-	private String resumeFilename;
-	private String resumeUploadpath;
 	private String resumeRealname;
 }

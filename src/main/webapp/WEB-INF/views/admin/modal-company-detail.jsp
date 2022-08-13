@@ -11,7 +11,7 @@
 					<span class="main-board-title" style="color: #000686; font-size: 16px;">기업회원 상세 정보</span>
 				</a>
 
-				<div style="display: inline-block;">
+				<div style="display: inline-block; margin-top: 20px;">
 				  	<img id="modal-company-logo" alt="사진" width="160px" height="160px" style="border-radius: 120px;">
 				  	
 				  	<div style="width: 160px;">
@@ -22,34 +22,34 @@
 				
 				<input type="hidden" id="hidden-company-no">
 				
-				<div style="display: inline-block; position: relative; top: -20px; left: 20px;">
+				<div style="display: inline-block; position: relative; left: 40px; margin-top: 10px; width: 360px;">
 					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-5 control-label">ID</label>
-					    <p id="modal-company-id" class="col-sm-7" style="font-size: 13px;">&nbsp;</p>
+					    <label for="inputEmail3" class="control-label form-inline" style="width: 100px;">ID</label>
+					    <p id="modal-company-id" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
 					  </div>
 					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-5 control-label">기업명</label>
-					    <p id="modal-company-name" class="col-sm-7" style="font-size: 13px;">&nbsp;</p>
+					    <label for="inputEmail3" class="control-label" style="width: 100px;">기업명</label>
+					    <p id="modal-company-name" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-5 control-label">기업 전화번호</label>
-					    <p id="modal-company-phone" class="col-sm-7" style="font-size: 13px;">&nbsp;</p>
+					    <label for="inputEmail3" class="control-label" style="width: 100px;">기업 전화번호</label>
+					    <p id="modal-company-phone" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-5 control-label">기업 이메일</label>
-					    <p id="modal-company-email" class="col-sm-7" style="font-size: 13px;o">&nbsp;</p>
+					    <label for="inputEmail3" class="control-label" style="width: 100px;">기업 이메일</label>
+					    <p id="modal-company-email" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-5 control-label">회사 소개서</label>
-					    <p id="modal-company-intro-realname" class="col-sm-7" style="font-size: 13px; text-decoration: underline; color: blue; cursor: pointer; display: block;">&nbsp;</p>
+					    <label for="inputEmail3" class="control-label" style="width: 100px;">회사 소개서</label>
+					    <p id="modal-company-intro-realname" style="font-size: 13px; display: inline-block; vertical-align: top; text-decoration: underline; color: blue; cursor: pointer;">&nbsp;</p>
 					    
 					  </div>
 					  <div class="form-group">
-					    <label for="inputEmail3" class="col-sm-5 control-label">승인 상태</label>
-					    <p id="modal-company-common-value" class="col-sm-7" style="font-size: 13px;">&nbsp;</p>
+					    <label for="inputEmail3" class="control-label" style="width: 100px;">승인 상태</label>
+					    <p id="modal-company-common-value" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
 					    
 					  </div>
 				</div>
@@ -76,7 +76,7 @@
 
 			const companyNO = $('#hidden-company-no').val();
 			
-			location.href="/company/companyIntro/download?companyNO=" + companyNO;
+			location.href="<c:url value='/company/companyIntro/download?companyNO=' />" + companyNO;
 		});
 		
 		

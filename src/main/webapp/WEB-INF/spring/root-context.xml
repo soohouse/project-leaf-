@@ -77,5 +77,7 @@
 	<mybatis-spring:scan base-package="com.spring.leaf.projectapply.mapper"/>
 	<!-- 관리자 IAdminMapper 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.admin.mapper"/>
+	<!-- 지원현황 및 결과조회 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.userapply.mapper"/>
 	
 </beans>

@@ -21,6 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="companyAddress3" column="company_address3" />
 		<result property="companyDate" column="company_date" />
 		<result property="companyIntro" column="company_intro" />
+		<result property="companyDelete" column="company_delete" />
 		<result property="commonCODE" column="common_CODE" />
 	</resultMap>
 	

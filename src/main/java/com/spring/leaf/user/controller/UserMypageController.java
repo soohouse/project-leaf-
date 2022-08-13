@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.leaf.company.command.CompanyVO;
 import com.spring.leaf.notice.command.NoticeVO;
+import com.spring.leaf.user.command.UserDetailVO;
+import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.user.command.UserVO;
 import com.spring.leaf.user.service.IUserMypageService;
 import com.spring.leaf.util.MailService;
@@ -37,28 +40,56 @@ public class UserMypageController {
 	private IUserMypageService service;
 
 	
-	//마이페이지 이동 요청
-		@GetMapping("/usermypage")
-		public String userMyPage() {
-			return "/user_mypage/user_profile";
+	// 마이페이지 이동 요청
+	@GetMapping("/usermypage")
+	public String userMyPage(HttpSession session, Model model) {
+		
+		UserVO uvo = (UserVO) session.getAttribute("user");
+		CompanyVO cvo = (CompanyVO) session.getAttribute("company");
+		
+		if(uvo != null) {
+			model.addAttribute("userDetail", service.getInfo(uvo.getUserNO()));
+		} else {
+			model.addAttribute("companyDetail", service.getCompanyInfo(cvo.getCompanyNO()));
 		}
+		
+		return "/user_mypage/user_profile";
+	}
 		
 
 		
-	//수정페이지 이동 요청
-		@GetMapping("/usermypagemod")
-		public String userMyPageMod() {
-			return "/user_mypage/user_profileMod";
-		}
+	//일반회원 수정페이지 이동 요청
+	@GetMapping("/usermypagemod")
+	public String userMyPageMod(HttpSession session, Model model) {
+		
+		UserVO vo = (UserVO) session.getAttribute("user");
+		
+		model.addAttribute("userDetail", service.getInfo(vo.getUserNO()));
+		
+		return "/user_mypage/user_profileMod";
+	}
+	
+	
+	//기업회원 수정페이지 이동 요청
+	@GetMapping("/companymypagemod")
+	public String companyMyPageMod(HttpSession session, Model model) {
+		
+		CompanyVO vo = (CompanyVO) session.getAttribute("company");
+		
+		model.addAttribute("companyDetail", service.getCompanyInfo(vo.getCompanyNO()));
+		
+		return "/user_mypage/company_profileMod";
+	}
 	
 
 	// 수정 로직
 	@PostMapping("/userUpdate")
 	public String userUpdate(UserVO vo, RedirectAttributes ra) {
+		
 		service.updateUser(vo);
 
 		ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
-		return "redirect:/user_mypage/user_profile";
+		return "redirect:/usermypage/usermypage";
 	}
 
 }

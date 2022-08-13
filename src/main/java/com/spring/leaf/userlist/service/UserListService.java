@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.leaf.admin.command.CompanyAcceptListVO;
+import com.spring.leaf.admin.command.CompanyAcceptVO;
 import com.spring.leaf.devinfo.command.DevInfoVO;
 import com.spring.leaf.notice.mapper.INoticeMapper;
+import com.spring.leaf.userlist.command.UserListDetailVO;
 import com.spring.leaf.userlist.command.UserListVO;
 import com.spring.leaf.userlist.mapper.IUserListMapper;
 
@@ -22,11 +25,14 @@ public class UserListService implements IUserListService {
 	//일반회원 목록 보기
 	@Override
 	public List<UserListVO> userList() {
-		List<UserListVO> list = mapper.userList();
-		return list;
+		return mapper.userList();
+	}
+	
+	@Override
+	public UserListDetailVO userListDetail(int userNO) {
+		// TODO Auto-generated method stub
+		return mapper.userListDetail(userNO);
 	}
 	
 	
-	
-
 }

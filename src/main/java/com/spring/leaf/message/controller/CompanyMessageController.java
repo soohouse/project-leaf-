@@ -1,5 +1,9 @@
 package com.spring.leaf.message.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +12,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.leaf.message.command.CompanySendMessageVO;
 import com.spring.leaf.message.command.UserMessageVO;
 import com.spring.leaf.message.service.ICompanyMessageService;
 import com.spring.leaf.notice.command.NoticeVO;
 import com.spring.leaf.user.controller.UserController;
 
 @Controller
-@RequestMapping("/companymessage")
+@RequestMapping("/companyMessage")
 public class CompanyMessageController {
 
 	// 로그 출력을 위한 Logger 객체 생성
@@ -26,24 +34,40 @@ public class CompanyMessageController {
 	@Autowired
 	private ICompanyMessageService service;
 	
-	//쪽지쓰기 요청
+	//쪽지보내기 요청
 	@PostMapping("/userSendMessage")
-	public String userSendMessage(UserMessageVO vo) {
+	@ResponseBody
+	public String userSendMessage(@RequestBody UserMessageVO vo) {
+		
+		System.out.println(vo);
 		
 		service.userSendMessage(vo);
 		
-		return "redirect://";
+		return "yes";
 	}
+	
+	// 기업 보낸 쪽지함(목록으로) 이동 요청
+	@PostMapping("/companySendList")
+	@ResponseBody
+	public Map<String, Object> companySendList(@RequestParam("companyName") String userMessageWriter, Model model) {
 
-
-	// 기업쪽지함(목록으로) 이동 요청
-	@GetMapping("/companyMessageList")
+		List<CompanySendMessageVO> list = service.companySendList(userMessageWriter);
+			
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+			
+		return map;
+	}
+	
+	// 기업 받은 쪽지함(목록으로) 이동 요청
+	@GetMapping("/companyReceiveList")
 	public String companyMessageList(Model model) {
 
 		model.addAttribute("companyMessageList", service.companyMessageList());
 
 		return "/login/msg-list";
 	}
+	
 
 	// 쪽지 상세보기
 	@GetMapping("/companyMessageContent/{companyMessageNO}")
@@ -54,7 +78,7 @@ public class CompanyMessageController {
 		return "login/msg-content";
 	}
 
-	// 글 삭제 처리
+	// 쪽지 삭제 처리
 	@PostMapping("/companyMessageDelete")
 	public String companyMessageDelete(int companyMessageNO, RedirectAttributes ra) {
 
@@ -63,5 +87,5 @@ public class CompanyMessageController {
 		ra.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/login/msg-list";
 	}
-
+	
 }

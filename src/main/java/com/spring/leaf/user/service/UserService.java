@@ -96,6 +96,27 @@ public class UserService implements IUserService {
 	}
 	
 	
+	// 사용자 이력서파일 삭제 요청
+	@Override
+	public void userResumeDelete(int userNO) {
+		mapper.userResumeDelete(userNO);
+	}
+	
+	
+	// 사용자 이력서파일 수정 요청
+	@Override
+	public void userResumeUpdate(ResumeVO vo) {
+		mapper.userResumeUpdate(vo);
+	}
+	
+	
+	// 사용자 이력서파일 존재 여부 체크 요청
+	@Override
+	public int userResumeCheck(int userNO) {
+		return mapper.userResumeCheck(userNO);
+	}
+	
+	
 	// 사용자 이력서파일 얻어오기 요청
 	@Override
 	public ResumeVO userResumeGet(int userNO) {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.leaf.board.command.BoardVO;
 import com.spring.leaf.board.mapper.IBoardMapper;
+import com.spring.leaf.util.PageVO;
 
 //자유게시판 서비스 : 2022-08-03 생성
 
@@ -25,11 +26,17 @@ public class BoardService implements IBoardService {
 	
 	//자유게시판 글 목록
 	@Override
-	public List<BoardVO> boardList() {
+	public List<BoardVO> boardList(PageVO vo) {
 
-		List<BoardVO> list = mapper.boardList();
+		List<BoardVO> list = mapper.boardList(vo);
 		
 		return list;
+	}
+	
+	//자유게시판 총 게시물 수
+	@Override
+	public int getTotal(PageVO vo) {
+		return mapper.getTotal(vo);
 	}
 	
 	//자유게시판 글 상세보기
@@ -52,5 +59,13 @@ public class BoardService implements IBoardService {
 		
 		mapper.boardDelete(boardNo);
 	}
+	
+	//자유게시판 조회수
+	@Override
+	public int boardViews(int boardNO) {
+		return mapper.boardViews(boardNO);
+	}
+
+
 
 }

@@ -19,4 +19,5 @@ public class BoardVO {
 	private String boardContent;
 	private Timestamp boardDate;
 	private int boardViews;
+	
 }

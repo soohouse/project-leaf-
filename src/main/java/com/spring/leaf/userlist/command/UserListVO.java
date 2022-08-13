@@ -14,9 +14,7 @@ public class UserListVO {
 	private int userNO;
 	private String userID;
 	private String userName;
-	private String userEmail1;
-	private String userEmail2;
-	private String userPhone1;
-	private String userPhone2;
-	private String userPhone3;
+	private String userEmail;
+	private String userPhone;
+	private String commonValue;
 }

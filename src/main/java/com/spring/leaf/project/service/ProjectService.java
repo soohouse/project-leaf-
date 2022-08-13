@@ -38,14 +38,17 @@ public class ProjectService implements IProjectService {
 		
 		return mapper.getContent(projectNO);		
 	}
+	//좋아요 생성
 	@Override
 	public void createLike(ProjectLikeVO vo) {
 		mapper.createLike(vo);
 	}
+	//좋아요 등록
 	@Override
 	public void deleteLike(ProjectLikeVO vo) {
 		mapper.deleteLike(vo);
 	}
+	//좋아요 검색
 	@Override
 	public int searchLike(ProjectLikeVO vo) {
 		return mapper.searchLike(vo);

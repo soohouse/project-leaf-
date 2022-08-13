@@ -3,6 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+	// 줄바꿈
+	pageContext.setAttribute("br", "<br>");
+	pageContext.setAttribute("cn", "\n");
+%>
 <html>
 <head>
 
@@ -94,9 +100,9 @@
 		                                        
 		                                        <div style="margin-top:30px;">
 			                                        <div class="notice_writer" style="display: inline-block;">
-			                                            <img src="resources/img/logo2.png" width="50px" > &nbsp;
+			                                            <img src="resources/img/logo2.png" width="50px" >
 			                                            <span> 
-			                                            	<span <c:if test="${notice.noticeWriter eq user.userID }">style="color:#042894;"</c:if> >${notice.noticeWriter} &nbsp;</span>
+			                                            	<span>&nbsp; ${notice.noticeWriter} &nbsp;</span>
 			                                            	<c:if test="${notice.noticeWriter eq user.userID }">
 			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>
 			                                            	</c:if>
@@ -114,9 +120,7 @@
                                     </div>
 
                                     <div class="notice_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
-                                        
-                                        	${notice.noticeContent}
-                                           
+										${fn:replace(notice.noticeContent, cn, br) }
                                     </div>
 	                 		</div>
 	                            <hr class="borderline" />

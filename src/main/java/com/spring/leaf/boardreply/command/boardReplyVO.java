@@ -13,12 +13,10 @@ import lombok.Setter;
 @ToString
 public class BoardReplyVO {
 	
+	private int boardReplyNo; //자유게시판 댓글 번호
+	private String boardReplyWriter; //자유게시판 댓글 작성자
+	private String boardReplyContent; //자유게시판  댓글 내용
+	private Timestamp boardReplyDate; //자유게시판 댓글 날짜
+	private int boardNo; //자요게시판 번호
 	
-	
-	private int boardReplyNo;
-	private String boardReplyWriter;
-	private String boardReplyContent;
-	private Timestamp boardReplyDate;
-	private int boardNo;
-
 }

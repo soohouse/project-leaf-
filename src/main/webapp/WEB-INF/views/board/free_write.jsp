@@ -50,7 +50,7 @@
 				    	    		<th colspan= "2">게시글 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" name="boardTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" name="boardTitle" id="boardTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="45" ></td>
 					    			<td><input type="hidden" name="boardWriter" value="${user.userID}"></td>
 					    		</tr>
 			    	    	</thead>
@@ -59,11 +59,11 @@
 				    	    		<th colspan= "2">게시글 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" name="boardContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+					    			<td><textarea class="form-control" id="boardContent"  name="boardContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="submit" class="btn btn-success pull-right" onclick="location.href='free_list'" value="등록">
+    	    			<input type="submit" id="btn-board-write"  class="btn btn-success pull-right" onclick="location.href='free_list'" value="등록">
     	    			<button type="button" id="btn-board-list" class="btn btn-primary pull-right">목록</button>
     	    		  </form>
 					</div>
@@ -87,7 +87,10 @@
 		$('#btn-board-list').click(function() {
 			location.href='<c:url value="/board/boardList" />';
 		})
-		
 	});
+		
+	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
+
+	
 
 </script>

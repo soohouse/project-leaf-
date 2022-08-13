@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userPhone3" column="user_phone3" />
 		<result property="userDate" column="user_date" />
 		<result property="userIntro" column="user_intro" />
+		<result property="userDelete" column="user_delete" />
 		<result property="commonCODE" column="common_CODE" />
 	</resultMap>
 	
@@ -114,6 +115,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 일반회원 이력서 SELECT 쿼리 -->
 	<select id="userResumeGet" resultMap="ResumeMap">
 		SELECT *
+		FROM resume
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 일반회원 이력서 삭제 UPDATE 쿼리 -->
+	<update id="userResumeDelete">
+		UPDATE resume
+		SET
+			resume_filename = null, resume_uploadpath = null, resume_realname = null
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 이력서 수정 UPDATE 쿼리 -->
+	<update id="userResumeUpdate">
+		UPDATE resume
+		SET
+			resume_filename = #{resumeFilename}, resume_uploadpath = #{resumeUploadpath}, resume_realname = #{resumeRealname}
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 이력서 존재 여부 SELECT 쿼리 -->
+	<select id="userResumeCheck" resultType="int">
+		SELECT COUNT(resume_filename)
 		FROM resume
 		WHERE user_NO = #{userNO}
 	</select>

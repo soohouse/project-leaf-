@@ -61,17 +61,17 @@ input.form-control {
 									정보</span>
 							</a>
 
-							<div class="card"
-								style="width: 20%; transform: translate(0, -70px);">
-								<img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}' />" alt="profile" class="img-circle" style="height:250px;">
+							<div class="card" style="width: 20%; transform: translate(0, -70px); text-align: center;">
+								<img src="<c:url value='/user/userProfileGet?userNO=${userDetail.userNO}' />" alt="profile" class="img-circle" style="height:250px;">
 								<div class="container1">
 									<h3>
-										<b class="card-title">${user.userID} </b>
+										<input type="hidden" id="hidden-user-mypage-userno" value="${userDetail.userNO}">
+										<b class="card-title">${userDetail.userID} </b>
 									</h3>
 									<h6>
-										<b class="card-name">${user.userName}</b><br> <b
-											class="card-email">${user.userEmail1}@${user.userEmail2}</b><br>
-										<b class="card-phone">${user.userPhone1} - ${user.userPhone2} - ${user.userPhone3}</b>
+										<b class="card-name">${userDetail.userName}</b><br> <b
+											class="card-email">${userDetail.userEmail1}@${userDetail.userEmail2}</b><br>
+										<b class="card-phone">${userDetail.userPhone1} - ${userDetail.userPhone2} - ${userDetail.userPhone3}</b>
 									</h6>
 								</div>
 							</div>
@@ -82,7 +82,7 @@ input.form-control {
 										<p class="mb-0">ID</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${user.userID}</p>
+										<p class="text-muted mb-0">${userDetail.userID}</p>
 									</div>
 								</div>
 								<hr>
@@ -91,7 +91,7 @@ input.form-control {
 										<p class="mb-0">이름</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${user.userName}</p>
+										<p class="text-muted mb-0">${userDetail.userName}</p>
 									</div>
 								</div>
 								<hr>
@@ -100,7 +100,7 @@ input.form-control {
 										<p class="mb-0">이메일</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${user.userEmail1}@${user.userEmail2}</p>
+										<p class="text-muted mb-0">${userDetail.userEmail1}@${userDetail.userEmail2}</p>
 									</div>
 								</div>
 								<hr>
@@ -109,7 +109,7 @@ input.form-control {
 										<p class="mb-0">Phone</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">(${user.userPhone1}) - ${user.userPhone2} - ${user.userPhone3}</p>
+										<p class="text-muted mb-0">(${userDetail.userPhone1}) - ${userDetail.userPhone2} - ${userDetail.userPhone3}</p>
 									</div>
 								</div>
 								<hr>
@@ -118,7 +118,7 @@ input.form-control {
 										<p class="mb-0">소개</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${user.userIntro}</p>
+										<p class="text-muted mb-0">${userDetail.userIntro}</p>
 									</div>
 								</div>
 								<hr>
@@ -129,7 +129,11 @@ input.form-control {
 									</div>
 									<div class="col-sm-9">
 										<div class="form-group">
-											<input type="file" id="exampleInputFile">
+											<c:if test="${userDetail.resumeRealname == null}">
+												<p class="text-muted mb-0" id="btn-user-mypage-resume">등록한 이력서가 없습니다.</p>
+											</c:if>
+										
+											<p class="text-muted mb-0" id="btn-user-mypage-resume" style="text-decoration: underline; color: blue; cursor: pointer;">${userDetail.resumeRealname}</p>
 										</div>
 									</div>
 								</div>
@@ -140,8 +144,7 @@ input.form-control {
 									<div class="col-sm-3"></div>
 									<div class="col-sm-9">
 										<div class="form-group btn-profile">
-											<button type="button" class="btn btn-success"
-												onclick="location.href='/usermypage/usermypagemod'">정보수정</button>
+											<button type="button" class="btn btn-success" id="btn-mypage-user-modify">정보수정</button>
 											<button type="button" class="btn btn-primary"
 												data-toggle="modal" data-target="#myModal">비밀번호 변경</button>
 										</div>
@@ -203,18 +206,17 @@ input.form-control {
 								style="margin-top: 20px;"> <span class="main-notice-title">기업정보</span>
 							</a>
 
-							<div class="com_card"
-								style="width: 20%; transform: translate(0, -490px);">
-								<img src="<c:url value='/company/companyLogoGet?companyNO=${company.companyNO}' />" alt="profile"
+							<div class="com_card" style="width: 20%; transform: translate(0, -490px); text-align: center;">
+								<img src="<c:url value='/company/companyLogoGet?companyNO=${companyDetail.companyNO}' />" alt="profile"
 									class="img-circle">
 								<div class="container1">
 									<h3>
-										<b class="card-title">${company.companyID}님</b>
+										<b class="card-title">${companyDetail.companyID}님</b>
 									</h3>
 									<h6>
-										<b class="card-name">${company.companyName}</b><br> <b
-											class="card-email">${company.companyEmail1}@${company.companyEmail2}</b><br> <b
-											class="card-phone">${company.companyPhone1} - ${company.companyPhone2} - ${company.companyPhone3}</b>
+										<b class="card-name">${companyDetail.companyName}</b><br> <b
+											class="card-email">${companyDetail.companyEmail1}@${companyDetail.companyEmail2}</b><br> <b
+											class="card-phone">${companyDetail.companyPhone1} - ${companyDetail.companyPhone2} - ${companyDetail.companyPhone3}</b>
 									</h6>
 								</div>
 							</div>
@@ -225,7 +227,8 @@ input.form-control {
 										<p class="mb-0">ID</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${company.companyID}</p>
+										<input type="hidden" id="hidden-company-mypage-companyno" value="${companyDetail.companyNO}">
+										<p class="text-muted mb-0">${companyDetail.companyID}</p>
 									</div>
 								</div>
 								<hr>
@@ -234,7 +237,7 @@ input.form-control {
 										<p class="mb-0">기업명</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${company.companyName}</p>
+										<p class="text-muted mb-0">${companyDetail.companyName}</p>
 									</div>
 								</div>
 								<hr>
@@ -243,7 +246,7 @@ input.form-control {
 										<p class="mb-0">이메일</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${company.companyEmail1}@${company.companyEmail2}</p>
+										<p class="text-muted mb-0">${companyDetail.companyEmail1}@${companyDetail.companyEmail2}</p>
 									</div>
 								</div>
 								<hr>
@@ -252,7 +255,7 @@ input.form-control {
 										<p class="mb-0">Call</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">(${company.companyPhone1}) - ${company.companyPhone2} - ${company.companyPhone3}</p>
+										<p class="text-muted mb-0">(${companyDetail.companyPhone1}) - ${companyDetail.companyPhone2} - ${companyDetail.companyPhone3}</p>
 									</div>
 								</div>
 								<hr>
@@ -261,7 +264,7 @@ input.form-control {
 										<p class="mb-0">기업소개</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${company.companyIntro}</p>
+										<p class="text-muted mb-0">${companyDetail.companyIntro}</p>
 									</div>
 								</div>
 								<hr>
@@ -270,9 +273,9 @@ input.form-control {
 										<p class="mb-0">주소</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0 com_addr1">${company.companyAddress1}</p>
-										<p class="text-muted mb-0 com_addr2">${company.companyAddress2}</p>
-										<p class="text-muted mb-0 com_addr3">${company.companyAddress3}</p>
+										<p class="text-muted mb-0 com_addr1">${companyDetail.companyAddress1}</p>
+										<p class="text-muted mb-0 com_addr2">${companyDetail.companyAddress2}</p>
+										<p class="text-muted mb-0 com_addr3">${companyDetail.companyAddress3}</p>
 										<div id="map" style="width: 100%; height: 300px;"></div>
 
 										<script type="text/javascript"
@@ -297,7 +300,7 @@ input.form-control {
 											// 주소로 좌표를 검색합니다
 											geocoder
 													.addressSearch(
-															'${company.companyAddress2}',
+															'${companyDetail.companyAddress2}',
 															function(result,
 																	status) {
 																// 정상적으로 검색이 완료됐으면 
@@ -332,7 +335,11 @@ input.form-control {
 									</div>
 									<div class="col-sm-9">
 										<div class="form-group">
-											<input type="file" id="exampleInputFile">
+											<c:if test="${companyDetail.companyIntroRealname == null}">
+												<p class="text-muted mb-0" id="btn-company-mypage-intro">등록한 회사 소개서가 없습니다.</p>
+											</c:if>
+										
+											<p class="text-muted mb-0" id="btn-company-mypage-intro" style="text-decoration: underline; color: blue; cursor: pointer;">${companyDetail.companyIntroRealname}</p>
 										</div>
 									</div>
 								</div>
@@ -367,6 +374,38 @@ input.form-control {
 
 <script>
 
+	//특정 메시지 표현을 위한 스크립트
+	const msg = '${msg}';
+	
+	if(msg != '') {
+		alert(msg);
+	}
 
+
+	$(function() {
+		
+		$('#btn-mypage-user-modify').click(function() {
+			location.href="<c:url value='/usermypage/usermypagemod' />";
+		});
+		
+		
+		// 이력서 파일 클릭 시 이력서 다운로드
+		$('#btn-user-mypage-resume').click(function() {
+			
+			const userNO = $('#hidden-user-mypage-userno').val();
+			
+			location.href="<c:url value='/user/userResume/download?userNO=' />" + userNO;
+		});
+		
+		
+		// 회사 소개서 파일 클릭 시 회사 소개서 다운로드
+		$('#btn-company-mypage-intro').click(function() {
+			
+			const companyNO = $('#hidden-company-mypage-companyno').val();
+			
+			location.href="<c:url value='/company/companyIntro/download?companyNO=' />" + companyNO;
+		});
+		
+	});
 
 </script>

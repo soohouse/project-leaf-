@@ -20,38 +20,21 @@
    
    <!-- 개인 디자인 추가, ?after를 붙이면 기존에 동일한 이름의 파일을 인식하는것이 아닌 새로운 파일을 인식하게 된다. -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
+   
    <style>
    
-   .mainbox .hr .headline {
-   	text-align: left;
-   	color : black;
-   	border: 1px;
-   }
-   
-   .head-control {
-    background: white;
-    margin-bottom: 15px;
-    width: 100px;
-    display: inline;
-    height: 32px;
-    border-radius: 5px;
-   }
-
-   .foot-control {
-    width: 100px;
-    display: inline;
-    height: 32px;
-    float:left;
-    margin-top: 1px;
-    border-radius: 5px;
-   }
-
- 
-
-
+   		.sections {
+   			width: 1200px;
+   			margin: 0 auto;
+   		}
+   		
+   		.modal-body-sections {
+   			width: 560px;
+   			margin: 0 auto;
+   		}
    
    </style>
    
@@ -62,124 +45,102 @@
 	   
 	<div class="mainbox">
 	
-		<section>
-        
-       
-        
-        
-        <div class="container">
-            <div class="row">
-				<!-- 메인화면 공지사항 상단 -->
-			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">개발자 목록</span>
-			            </a>
-                 <select class="head-control mx-sm-3 mb-2 pull-left" >
-                    <option>10개씩</option>
-                    <option>20개씩</option>
-                 </select>
+		<div class="sections">
 
-                 
-                <table class="table table-bordered"  style="text-align: center;">
-                    <thead>
-                        <tr>
-                            <th style="background-color: #bbd0e7; text-align: center;">번호</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">ID</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">이름</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">전화번호</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">이메일</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">비고</th>
-                            
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                    <!-- 개발자 목록 -->
-                    <c:forEach var="userlist" items="${userlist}" varStatus="index">
-                        <tr class="userListContent" style="cursor:pointer;">
-                            <td>${userlist.userNO}</td>
-                            <td id="userListContent${index.index}">${userlist.userID}</td>
-                            <td>${userlist.userName}</td>
-                            <td>${userlist.userPhone1}-${userlist.userPhone2}-${userlist.userPhone3}</td>
-                            <td>${userlist.userEmail1}@${userlist.userEmail2}</td>
-                            <td></td>
-                        </tr>
-                        
-                         <%@ include file="../modal_mypage/developerInfo.jsp" %>
-                  
-                  <script>
-                     
-                     $(function() {
-                        
-                        $('#userListContent${index.index}').click(function() {
-                           
-                           $.ajax({
-                              type: 'GET',
-                              url: '<c:url value="/userList/userListContent?userNO=" />' + '${userList.userNO}',
-                              
-                              success: function(user) {
-                                 $('#modal-user-id').text(user.userID);
-                                 $('#modal-user-name').text(user.userName);
-                                 $('#modal-user-email').text(user.userEmail1);
-                                 $('#modal-user-phone').text(user.userPhone1);
-                                 $('#modal-user-intro').text(user.userIntro);
-                               
-                                 
-                                
-                              },
-                              
-                              error: function() {
-                                 alert('개발자 목록 상세 보기 요청 처리 중 서버오류가 발생했습니다.');
-                                 return;
-                              }
-                           });
-                           
-                           $('#myModal').modal('show');
-                        });
-                        
-                     });
-                  
-                  </script>
-                  
-               </c:forEach>
-                   
-                       
-                    </tbody>
-                </table>
-                
-                <form class="form-inline d-flex justify-content-end" method="GET", th:action="@{/board/boardList}" th:value="${param.searchText}">
-				            <div class="form-group mx-sm-3 mb-2 pull-right">
-				                <select class="foot-control" >
-                                    <option>ID</option>
-                                    <option>이름</option>
-                                    <option>전화번호</option>
-                                 </select>
-				                <input type="text" class="form-control" id="searchText" name="searchText" placeholder="검색어를 입력하세요.">
-				            	<button type="submit" class="btn btn-primary mb-2">검색 </button>
-				            </div>
-                        </form>
-                
-            </div>
+			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;"> 
+				<span class="main-board-title" style="color: #2C4F22;">개발자 목록</span>
+			</a>
 
-            <div class="text-center">
-                <ul class="pagination pagination-sm">
-                    <li class="disabled"><a href="#""><<</a></li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">>></a></li>
-                </ul>
-            </div>
-        </div> 
-    </section>
-    
-    <%@ include file="../include/footer.jsp" %>
-		  
+			<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0;">
+				<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
+                            <option value="id">개발자 ID</option>
+                            <option value="name">개발자 이름</option>
+                </select>
+			
+				<div class="input-group"> 
+					<input type="text" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
+					</span>
+				</div>
+			</form>
+			
+
+
+			<table class="table table-bordered" style="margin-top: 20px;">
+				<thead style="width: 10px; font-size: 13px; background: #89C578;">
+					<tr style="font-family: sans-serif;">
+						<th style="width: 6%;">회원번호</th>
+						<th style="width: 12%;">개발자 ID</th>
+						<th style="width: 30%;">개발자 이름</th>
+						<th style="width: 20%;">개발자 전화번호</th>
+						<th style="width: 20%;">개발자 이메일</th>
+						<th style="width: 12%;">비고</th>
+					</tr>
+				</thead>
+				<tbody style="width: 10px; font-size: 13px; background: #F7F7F7;">
+					
+					<c:forEach var="userList" items="${userList}" varStatus="index">
+						<tr id="userListDetail${index.index}" style="cursor: pointer;">
+							<td>${userList.userNO}</td>
+							<td>${userList.userID}</td>
+							<td>${userList.userName}</td>
+							<td>${userList.userPhone}</td>
+							<td>${userList.userEmail}</td>
+							<td>${userList.commonValue}</td>
+							
+						</tr>
+						
+				<%@ include file="../modal_mypage/developerInfo.jsp" %>
+						
+						<script>
+							
+							$(function() {
+								
+								$('#userListDetail${index.index}').click(function() {
+									
+									$.ajax({
+										type: 'GET',
+										url: '<c:url value="/userList/userListDetail?userNO=" />' + '${userList.userNO}',
+										
+										success: function(user) {
+											console.log(user.userNO);
+											
+											$('#modal-user-id').text(user.userID);
+											$('#modal-user-name').text(user.userName);
+											$('#modal-user-phone').text(user.userPhone);
+											$('#modal-user-email').text(user.userEmail);
+											$('#modal-user-intro').text(user.userIntro);
+											$('#modal-user-resume-realname').text(user.resumeRealname);
+											$('#modal-user-logo').attr('src', '<c:url value="/user/userProfileGet?userNO=" />' + user.userNO);
+											$('#hidden-user-no').val(user.userNO);
+											$('#modal-main-user-id').text(user.userID);
+											$('#modal-main-user-name').text(user.userName);
+										},
+										
+										error: function() {
+											alert('개발자 목록 상세보기 요청 처리 중 서버오류가 발생했습니다.');
+											return;
+										}
+									});
+									
+									$('#modal-user-detail').modal('show');
+								});
+								
+							});
+						
+						</script>
+						
+					</c:forEach>
+
+				</tbody>
+			</table>
+
+		</div>
+	
+		<%@ include file="../include/footer.jsp" %>
 	   
 	</div>
-	
-		
    
 </body>
 </html>
@@ -187,7 +148,20 @@
 
 <script>
 
+	//특정 메시지 표현을 위한 스크립트
+	const msg = '${msg}';
+	
+	if(msg != '') {
+		alert(msg);
+	}
+	
+	
+	$(function() {
 		
-
+		$('#btn-common-regist').click(function() {
+			$('#modal-common-regist').modal('show');
+		});
+		
+	});
 
 </script>
