@@ -76,7 +76,7 @@
 		                                        </div>
                                     </div>
 
-                                    <div class="archive_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+                                    <div class="archive_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         <div>
                                         	${fn:replace(archive.archiveContent, newLineChar, '<br/>')}
                                         </div>   

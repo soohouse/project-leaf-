@@ -103,7 +103,7 @@
 			                                        </div>
 	                                    </div>
 	
-	                                    <div class="free_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+	                                    <div class="free_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 	                                        
 	                                        	${fn:replace(board.boardContent, newLineChar, '<br/>')}
 	                                           

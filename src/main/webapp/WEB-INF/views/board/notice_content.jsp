@@ -119,7 +119,7 @@
 		                                        </div>
                                     </div>
 
-                                    <div class="notice_content_down" style="margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+                                    <div class="notice_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 										${fn:replace(notice.noticeContent, cn, br) }
                                     </div>
 	                 		</div>
