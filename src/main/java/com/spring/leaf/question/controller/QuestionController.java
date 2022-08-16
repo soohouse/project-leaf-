@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.leaf.question.command.AnswerVO;
@@ -114,17 +115,28 @@ public class QuestionController {
 	}
 
 	
-	//답변글 상세보기
-	@GetMapping("/answerContent/{questionNo}")
-	public Map<String, Object> answerContent(@PathVariable("questionNo") int questionNo) {
-		
-		List<AnswerVO> list = service.answerContent(questionNo);
+	//답변글 상세보기(목록)
+	@PostMapping("/answerList")
+	@ResponseBody
+	public Map<String, Object> answerList(int questionNo) {		
+		List<AnswerVO> list = service.answerList(questionNo);
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("answerContent", list);
-	
+		map.put("answerList", list);
+		
 		return map;
 	}
+	
+	//답변글 수정 페이지 이동
+	@GetMapping("/answerModify")
+	public String answerModify(@RequestParam("answerNo") int answerNo, Model model) {
+		
+		model.addAttribute("answer", service.answerList(answerNo));
+		
+		return "board/answer_modify";
+	}
+	
+	
 }
 		
 

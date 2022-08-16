@@ -30,7 +30,7 @@ import com.spring.leaf.util.PageVO;
 public class BoardController {
 	
 	// 로그 출력을 위한 Logger 객체 생성
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
 	//자유게시판 서비스 연결
 	@Autowired

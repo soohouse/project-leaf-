@@ -64,11 +64,24 @@ public class QuestionService implements IQuestionService {
 	
 	//답변글 상세보기
 	@Override
-	public List<AnswerVO> answerContent(int questionNo) {
+	public List<AnswerVO> answerList(int questionNo) {
 
 	
-		return mapper.answerContent(questionNo);
+		return mapper.answerList(questionNo);
 	}
 	
+	//답변글 수정하기
+	@Override
+	public void answerModify(AnswerVO vo) {
+		mapper.answerModify(vo);
+		
+	}
+	
+	//답변글 삭제하기
+	@Override
+	public void answerDelete(int answerNo) {
+		mapper.answerDelete(answerNo);
+		
+	}
 
 }

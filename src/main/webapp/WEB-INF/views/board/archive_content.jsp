@@ -63,7 +63,8 @@
 		                                        
 		                                        <div class="archive-title-down" style="margin-top:30px;">
 			                                        <div class="archive_writer" style="display: inline-block;">
-			                                            <img src="../resources/img/logo2.png" width="50px" > ${archive.archiveWriter}
+			                                            <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
+			                                            <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">${archive.archiveWriter}</div>
 		                                       		</div>
 		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 				                                        <div style="display:inline-block;" >

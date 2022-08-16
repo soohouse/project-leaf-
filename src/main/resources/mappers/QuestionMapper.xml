@@ -64,11 +64,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<!-- 답변글 상세보기(목록) SELECT 쿼리 -->
-	<select id="answerContent" resultMap="AnswerMap">
+	<select id="answerList" resultMap="AnswerMap">
 		SELECT * FROM answer
 		WHERE question_NO=#{questionNo}
 	</select>
 	
+	<!-- 답변글 수정하기 UPDATE 쿼리 -->
+	<update id="answerModify">
+		UPDATE answer
+		SET answer_title=#{answerTitle}, answer_content=#{answerContent}
+		WHERE answer_NO=#{answerNo}
+	</update>
+	
+	<!-- 답변글 삭제하기 DELETE 쿼리 -->
+	<delete id="answerDelete">
+		DELETE FROM answer
+		WHERE answer_NO=#{answerNo}
+	</delete>
 	
 
 </mapper>

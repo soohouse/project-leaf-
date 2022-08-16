@@ -28,8 +28,13 @@ public interface IQuestionService {
 	void answerWrite(AnswerVO vo);
 	
 	//답변글 상세보기
-	List<AnswerVO> answerContent(int questionNo);
+	List<AnswerVO> answerList(int questionNo);
 
+	//답변글 수정하기
+	void answerModify(AnswerVO vo);
+	
+	//답변글 삭제하기
+	void answerDelete(int answerNo);
 	
 
 }
