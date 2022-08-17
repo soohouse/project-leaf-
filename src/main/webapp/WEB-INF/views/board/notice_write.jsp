@@ -65,8 +65,8 @@
 						    	</tbody>
 			    	    	</table>
 		    	    	
-    	    			<input type="submit" id="btn-notice-write" class="btn btn-success pull-right" value="글쓰기" style="margin-left: 10px;">
-    	    			<button type="button" id="btn-notice-list" class="btn btn-primary pull-right" >목록</button>
+    	    			<input type="submit" id="btn-notice-write" class="btn btn-success pull-right" value="글쓰기" style="margin-right:20px;">
+    	    			<button type="button" id="btn-notice-list" class="btn btn-primary pull-right" style="margin-right:10px;" >목록</button>
     	    			</form>
 					</div>
 				</div>

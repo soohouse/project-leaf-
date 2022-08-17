@@ -136,6 +136,15 @@ public class QuestionController {
 		return "board/answer_modify";
 	}
 	
+	//답변글 삭제
+	@PostMapping("/answerDelete/{answerNo}")
+	@ResponseBody
+	public String answerDelete(@PathVariable int answerNo) {
+		service.answerDelete(answerNo);
+		
+		return "deleteSuccess";
+	}
+	
 	
 }
 		

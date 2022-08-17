@@ -70,7 +70,7 @@
        
         
         
-        <div class="container">
+        <div class="container" style="width: 90%;">
             <div class="row">
 						<!-- 메인화면 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
@@ -83,14 +83,14 @@
                  <button type="submit" class="btn btn-success mb-2 pull-right" id="btn-question-write">질문하기</button>
                  
                  
-                <table class="table table-bordered"  style="text-align: center; border: 1px gray">
+                <table class="table table-bordered"  style="text-align: center; font-size:15px;">
                     <thead>
                         <tr>
-                            <th style="background-color: #bbd0e7; text-align: center;">번호</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">제목</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">작성자</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">등록일자</th>
-                            <th style="background-color: #bbd0e7; text-align: center;">조회수</th>
+                            <th style="background-color: #bbd0e7; text-align: center; width:5%">번호</th>
+                            <th style="background-color: #bbd0e7; text-align: center; width:62%">제목</th>
+                            <th style="background-color: #bbd0e7; text-align: center; width:10%">작성자</th>
+                            <th style="background-color: #bbd0e7; text-align: center; width:15%">등록일자</th>
+                            <th style="background-color: #bbd0e7; text-align: center; width:8%">조회수</th>
                             
                         </tr>
                     </thead>

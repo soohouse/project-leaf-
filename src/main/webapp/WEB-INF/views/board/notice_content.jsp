@@ -118,16 +118,16 @@
 			                                        </div>
 		                                        </div>
                                     </div>
-
-                                    <div class="notice_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+								
+                                    <div class="notice_content_down" style="min-height:300px; margin-top:50px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 										${fn:replace(notice.noticeContent, cn, br) }
                                     </div>
 	                 		</div>
 	                            <hr class="borderline" />
 	                            <c:if test="${notice.noticeWriter eq user.userID }">
-		                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'">수정하기</button>
+		                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'" style="margin-left:10px;">수정하기</button>
 	                            </c:if>
-	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'" style="margin-right:10px;">목록</button>
+	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'" style="margin-left:10px;">목록</button>
                        	</form>
                         </div>
                     </div>

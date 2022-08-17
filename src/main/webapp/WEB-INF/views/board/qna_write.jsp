@@ -63,8 +63,8 @@
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="submit" class="btn btn-success pull-right" value="질문하기">
-    	    			<button type="button" id="#btn-question-list" class="btn btn-primary pull-right" >목록</button>
+    	    			<input type="submit" class="btn btn-success pull-right" style="margin-right:20px;" value="질문하기">
+    	    			<button type="button" id="btn-question-list" class="btn btn-primary pull-right" style="margin-right:10px;" >목록</button>
 					  </form>
 					</div>
 				</div>

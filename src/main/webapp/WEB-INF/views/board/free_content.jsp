@@ -103,7 +103,7 @@
 			                                        </div>
 	                                    </div>
 	
-	                                    <div class="free_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+	                                    <div class="free_content_down" style="min-height:300px; margin-top:50px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 	                                        
 	                                        	${fn:replace(board.boardContent, newLineChar, '<br/>')}
 	                                           
@@ -186,7 +186,7 @@
 						</div>
 						
 						<div style="margin-top:20px;">
-							<button type="submit" class=" mb-2 pull-left">신고하기 </button>
+							<button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
 							<c:if test="${board.boardWriter eq user.userID }">
 								<button type="button" id="btn-board-modify" class="btn btn-info mb-2 pull-right" onclick="location.href='<c:url value="/board/boardModify?boardNo=${board.boardNo}"/>'" style="margin-left:10px;">수정하기</button>
 							</c:if>

@@ -54,6 +54,12 @@ public class ArchiveService implements IArchiveService {
 		mapper.archiveDelete(archiveNo);
 	}
 	
+	@Override
+	public void archiveFileDelete(int archiveNo) {
+		mapper.archiveFileDelete(archiveNo);
+		
+	}
+	
 	//자료실 첨부파일 등록 요청
 	@Override
 	public void archiveFile(ArchiveFileVO vo) {

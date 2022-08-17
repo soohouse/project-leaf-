@@ -24,6 +24,7 @@ public interface IArchiveService {
 			
 	//자료실 삭제
 	void archiveDelete(int archiveNo);
+	void archiveFileDelete(int archiveNo);
 	
 	//자료실 첨부파일 등록 요청
 	void archiveFile(ArchiveFileVO vo);

@@ -88,7 +88,7 @@
                                     <div class="qa_content_up" style="margin-left:30px;" >
 		                                        <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" id="hidden-questionNo" name="questionNo" value="${question.questionNo}">
-		                                        	<h4 style="display:inline-block;">${question.questionTitle}</h4>
+		                                        	<h4 style="display:inline-block;"> 질문 : ${question.questionTitle}</h4>
 			                                        <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
 		                                        </div>
 		                                        
@@ -109,17 +109,17 @@
 		                                        </div>
                                     </div>
 
-                                    <div class="qa_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+                                    <div class="qa_content_down" style="min-height:300px; margin-top:50px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         
                                         	${fn:replace(question.questionContent, newLineChar, '<br/>')}
                                            
                                     </div>
                             </div>
                              <hr class="borderline" style="margin-bottom:40px;" />
-                             <a type="submit" class=" mb-2" style="margin-left:20px;">신고하기</a>
-                             <button type="button" id="btn-question-list" class="btn btn-info mb-2 pull-right">목록 </button>
-                             <button type="button" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/question/questionModify?questionNo=${question.questionNo}"/>'">수정 </button>
-                             <button type="button" id="btn-go-answer" class="btn btn-success mb-2 pull-right">답변하기 </button>
+                             <button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
+                             <button type="button" id="btn-question-list" class="btn btn-info mb-2 pull-right" style="margin-left:10px;">목록 </button>
+                             <button type="button" class="btn btn-primary mb-2 pull-right"  style="margin-left:10px;" onclick="location.href='<c:url value="/question/questionModify?questionNo=${question.questionNo}"/>'">수정 </button>
+                             <button type="button" id="btn-go-answer" class="btn btn-success mb-2 pull-right"  style="margin-left:10px;">답변하기 </button>
                            
                         </div>
                       </form>  
@@ -135,10 +135,46 @@
 				</div>
 			</div> 
         </section> 
-		
+ 
+        
+				
+			
 	   
 	   
 	    <%@ include file="../include/footer.jsp" %>
+	    
+	    <!-- 답변 수정 모달  -->
+			<div class="modal fade" id="answerModal" role="dialog"">
+				<div class="modal-dialog modal-md">		                
+					<div class="modal-content">
+			    			<div class= "modal-header">
+					    	    	<div>
+					    	    		<div colspan= "2" style="float:left;">답변글 제목</div>
+					    	    		<button type="button" class="btn btn-default pull-right" data-dismiss="modal">닫기</button>
+					    	    		<button type="submit" id="btn-answer-update" class="btn btn-info pull-right" style="margin-left:10px;">수정</button>
+					    	    		<div><input type="hidden" name="answerNo" id="answerNo" value="${answer.answerNo}"></div>
+					    	    	</div>
+					    	    	<div>
+						    			<div><input type="text" name="answerTitle" class="form-control" ></div>
+						    			
+						    		</div>
+				    	    </div>
+						    <div class="modal-body" style="margin:8px;">
+						    	<input type="hidden" id="modalAnswerNo">
+						    		<div>
+					    	    		<div colspan= "2">답변글 내용</div>
+					    	    	</div>
+						    		<div>
+						    			<div>
+						    				<textarea class="form-control" name="answerContent" maxlength="2048"></textarea>
+						    			</div>
+						    			
+						    		</div>
+						    </div>
+			    	    </div>
+	    	    			
+					</div>
+				</div>
 	</div>
    
    
@@ -182,10 +218,10 @@
 		                            <div class="qa_content" >
 		                                    <div class="qa_content_up" style="margin-left:30px;" >
 				                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
-				                                       
-				                                       	<h4 style="display:inline-block;">` + answerList[i].answerTitle + `</h4>
-					                                    <a type="submit" id="btn-answer-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
-				                                       	<a type="button" id="btn-answer-update`+answerList[i].answerNo+`" class="btn mb-2" style="display: inline-block; float:right;">수정</a>
+				                                   		<input type="hidden" value="`+answerList[i].answerNo+`" id="answer-list-content`+answerList[i].answerNo+`">
+				                                       	<h4 style="display:inline-block;"> 답변 : ` + answerList[i].answerTitle + `</h4>
+					                                    <a type="submit" id="btn-answer-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;" data-value="` + answerList[i].answerNo + `">삭제</a>
+				                                       	<a type="button" id="btn-answer-update" class="btn mb-2 answerModify" style="display: inline-block; float:right;">수정</a>
 				                                   </div>
 				                                   
 				                                   <div style="margin-top:30px;">
@@ -208,7 +244,6 @@
 		                                           
 		                                    </div>
 		                            </div>
-		                             <hr class="borderline" style="margin-bottom:40px;" />
 		                        </div>`;
 						
 				}
@@ -227,13 +262,58 @@
 		}); //답글 목록(상세보기) 끝
 		
 		
-		//답글 수정 이동 버튼
-		$('#btn-answer-update${answer.answerNo}').click(function(){
+		//답글 수정 이동 버튼  ?????
+		
+		$('#answerList').on('click', 'a', function(e){
+			e.preventDefault();
+			const target = e.target.getAttribute('data-value');
+			
+			console.log(target);
+			
+			if($(this).hasClass('answerModify')){
+				$('#answerModal').modal('show');
+			}
+			
+		})
 				
-				location.href='<c:url value="/question/answerModify?answerNo=${answer.answerNo}"/>';
-			});
+				
+				
+				
+				
+				
+				
+				
 		
-		
+		//답변글 삭제 처리 ?????
+		$('#btn-answer-delete').on('click', '.qa-title .btn mb-2', function(event) {
+			
+			event.preventDefault();
+			
+				const answerNo = '$(answer.answerNo)';
+				console.log(answerNo);
+				
+				$.ajax({
+					type:'post',
+					url: '<c:url value="/question/answerDelete/"/>' + answerNo,
+					data: {	
+						'answerNo': answerNo
+					},
+					
+					dataType:'text',
+					contentType:'application/json',
+					success:function(result){
+						if(result === 'deleteSuccess') {
+							alert("답변 게시글이 정상적으로 삭제되었습니다.");
+							answerList(1, true);
+						}  else {
+							alert("답변 게시글 삭제에 실패했습니다.");
+						}
+					},
+					error:function(){
+						alert("답변 게시글 삭제에 실패했습니다. 관리자에게 연락해주세요")
+					}
+				});// end ajax
+		}); //답변글 삭제 처리 끝
 		
 		
 		

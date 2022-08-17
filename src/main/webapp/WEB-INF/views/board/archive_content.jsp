@@ -77,7 +77,7 @@
 		                                        </div>
                                     </div>
 
-                                    <div class="archive_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+                                    <div class="archive_content_down" style="min-height:300px; margin-top:50px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
                                         <div>
                                         	${fn:replace(archive.archiveContent, newLineChar, '<br/>')}
                                         </div>   
@@ -174,8 +174,8 @@
 
 	                            <div style="margin-top:20px;">
 		                             <button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
-		                             <button type="button" class="btn btn-info mb-2 pull-right btn-boardReply-Modify" onclick="location.href='<c:url value="/archive/archiveModify?archiveNo=${archive.archiveNo}"/>'">수정 </button>
-		                             <button type="button" class="btn btn-primary mb-2 pull-right" onclick="location.href='archive_list'">목록 </button>
+		                             <button type="button" class="btn btn-info mb-2 pull-right btn-boardReply-Modify"  style="margin-left:10px;" onclick="location.href='<c:url value="/archive/archiveModify?archiveNo=${archive.archiveNo}"/>'">수정 </button>
+		                             <button type="button" class="btn btn-primary mb-2 pull-right"  style="margin-left:10px;" onclick="location.href='archive_list'">목록 </button>
 								</div>
                             
                         	</div>

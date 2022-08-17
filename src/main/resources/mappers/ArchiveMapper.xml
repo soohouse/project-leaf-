@@ -67,6 +67,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="archiveList" resultMap="ArchiveMap">
 		SELECT *
 		FROM archive 
+		WHERE archive_title is not null
+		AND archive_NO != 1
 		ORDER BY archive_NO DESC
 	</select>
 	
@@ -85,12 +87,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE archive_NO=#{archiveNo}
 	</update>
 	
-	<!-- 자료실 글 삭제하기 DELETE 쿼리 -->
-	<delete id="archiveDelete">
-		DELETE FROM archive
+	<!-- 자료실 글 삭제하기 UPDATE 쿼리 -->
+	<update id="archiveDelete">
+		UPDATE archive 
+		SET archive_title=null, archive_writer=null, archive_content=null
 		WHERE archive_NO=#{archiveNo}
-	</delete>
+	</update>
 	
+	<update id="archiveFileDelete">
+		UPDATE archive_file
+		SET archive_file_filename=null, archive_file_uploadpath=null, archive_file_realname=null
+		WHERE archive_NO=#{archiveNo}
+	</update>
 
 		
 </mapper>

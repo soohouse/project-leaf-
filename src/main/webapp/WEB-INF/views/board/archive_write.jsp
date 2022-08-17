@@ -43,7 +43,7 @@
 			            	<span class="main-notice-title">자료실</span>
 			            </a>
 				
-					<div class="col-lg-8 col-md-10 col-sm-12"></div>
+					<div class="col-lg-8 col-md-10 col-sm-12" >
 					  <form action="<c:url value='/archive/archiveWrite'/>" method="post" name="archiveWriteForm" >
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
@@ -52,7 +52,12 @@
 				    	    	</tr>
 				    	    	<tr>
 					    			<td><input type="text" name="archiveTitle" class="form-control" placeholder="게시글 제목을 입력하세요." maxlength="50" ></td>
-					    			<td><input type="hidden" name="archiveWriter" value="${user.userID}"></td>
+					    			<c:if test="${user.userID != null}">
+					    				<td><input type="hidden" name="archiveWriter" value="${user.userID}"></td>
+					    			</c:if>
+					    			<c:if test="${company.companyID != null}">
+					    				<td><input type="hidden" name="archiveWriter" value="${company.companyID}"></td>
+					    			</c:if>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -74,12 +79,12 @@
 								</div>
 		    	    		
 					  		</form>
-    	    			<input type="button" id="btn-archive-write" class="btn btn-success pull-right" value="등록">
-    	    			<button type="button" id="btn-archive-list" class="btn btn-primary pull-right">목록</button>
+    	    			<input type="button" id="btn-archive-write" class="btn btn-success pull-right" style="margin-right:20px;" value="등록">
+    	    			<button type="button" id="btn-archive-list" class="btn btn-primary pull-right" style="margin-right:10px;">목록</button>
 					
 					</div>
 				</div>
-			</div>		   
+			</div>	   
 		</section>
 	    <%@ include file="../include/footer.jsp" %>
 	</div>

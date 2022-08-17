@@ -59,7 +59,7 @@
 				    	    		<th colspan= "2">질문 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><<textarea class="form-control" name="questionContent" maxlength="2048" style= "height:350px">${question.questionContent}
+					    			<td><textarea class="form-control" name="questionContent" maxlength="2048" style= "height:350px">${question.questionContent}
 					    			</textarea></td>
 					    		</tr>
 					    	</tbody>

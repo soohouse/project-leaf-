@@ -103,9 +103,80 @@ public class Archivecontroller {
 	
 	//글 삭제 처리
 	@PostMapping("/archiveDelete")
-	public String archiveDelete(ArchiveVO vo, RedirectAttributes ra) {
+	public String archiveDelete(ArchiveVO vo, RedirectAttributes ra) throws Exception {
 		
 		service.archiveDelete(vo.getArchiveNo());
+		
+		logger.info("/archive/archiveDelete : POST (자료 삭제 요청)");
+
+		// 해당 사용자의 로고 사진 파일 정보를 얻어옴
+		ArchiveFileVO fvo = service.archiveFileGet(vo.getArchiveNo());
+
+		// 해당 경로에 있는 파일을 삭제한다.
+		File deleteFile = new File(fvo.getArchiveFileUploadpath() + "\\" + fvo.getArchiveFileFilename());
+
+		if (deleteFile.exists()) {
+			deleteFile.delete();
+		}
+
+		// 파일을 로컬이 아닌 서버에도 저장한다.
+		// SSH 원격접속을 위한 username, ip, port, password
+		String username = "leaf";
+		String host = "35.203.164.40";
+		int port = 22;
+		String password = "1q2w3e4r";
+
+		Session session = null;
+		Channel channel = null;
+
+		try {
+			// 파일을 원격서버로 보내기 위해 JSch 객체를 선언한다. (SFTP)
+			JSch jsch = new JSch();
+
+			// 세션 객체 생성 (JSch를 이용해 서버에 원격접속을 하기 위해서)
+			session = jsch.getSession(username, host, port);
+			session.setPassword(password);
+
+			// ssh_config에 호스트 key 없이 접속이 가능하도록 property 설정 (이건 잘 모르겠다,. 따로 공부해야 할 듯)
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+
+			// 접속 시도
+			session.connect();
+
+			// SFTP 채널 오픈 및 연결
+			channel = session.openChannel("sftp");
+
+			// SFTP 접속 시도
+			channel.connect();
+
+			// 서버 컴퓨터에 저장되어 있는 해당 파일을 삭제한다.
+			ChannelSftp channelSftp = (ChannelSftp) channel;
+			// channelSftp.put(uploadPath + "\\" + name, "/home/leaf/userResume");
+			channelSftp.rm("/home/leaf/archiveFile/" + fvo.getArchiveFileFilename());
+
+			// 이건 다운로드, 나중에 프로필사진 불러오기 할 때 참고해서
+			// 사용하자!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// 앞에는 서버에서 받아올 파일, 뒤에는 로컬에서 받을 폴더 위치 경로
+			// channelSftp.get("/home/leaf/userProfile/" + name, uploadPath + "\\");
+
+		} catch (JSchException e) {
+			e.printStackTrace();
+		} finally {
+			// 전송이 완료되면 접속 종료
+			if (channel != null) {
+				channel.disconnect();
+			}
+
+			// 전송이 완료되면 접속 종료
+			if (session != null) {
+				session.disconnect();
+			}
+		}
+
+		service.archiveFileDelete(vo.getArchiveNo());
+		
 		ra.addFlashAttribute("msg", "deleteSuccess");
 		return "redirect:/archive/archiveList";
 	}
