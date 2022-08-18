@@ -17,6 +17,7 @@ public class CompanyAcceptVO {
 	private String companyName;
 	private String companyPhone;
 	private String companyEmail;
+	private String companyIntro;
 	private String companyIntroRealname;
 	private String commonValue;
 		

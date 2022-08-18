@@ -53,7 +53,7 @@
                   <input type="hidden" value="${project.projectNO}" id="project-list-content${index.index}">
                 </div >
                 <div class="project-content1">
-                  <p>${project.projectRequireLicense}</p>
+                  <p>${project.projectRequireRole}</p>
                 </div>
                 <div class="project-date">
                   <p>${project.projectRequireDate1} ~ ${project.projectRequireDate2}</p>
@@ -97,7 +97,7 @@
 				$('#project-view-icon3${index.index}').click(function() {
 					var projectNO = $('#project-list-content${index.index}').val();
 					
-					location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+					location.href='<c:url value="/project/projectviewcompany?projectNO=" />' + projectNO;
 				})
 				
 			});

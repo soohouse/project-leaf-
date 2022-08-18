@@ -10,6 +10,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class UserApplyResultVO {
+	private int applyNO;
 	private String projectName;
 	private Timestamp applyDate;
 	private Timestamp projectRequireDate1;

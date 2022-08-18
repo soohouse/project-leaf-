@@ -17,6 +17,7 @@ public class BoardReplyVO {
 	private String boardReplyWriter; //자유게시판 댓글 작성자
 	private String boardReplyContent; //자유게시판  댓글 내용
 	private Timestamp boardReplyDate; //자유게시판 댓글 날짜
-	private int boardNo; //자요게시판 번호
+	private int boardNo; //자유게시판 번호
+	
 	
 }

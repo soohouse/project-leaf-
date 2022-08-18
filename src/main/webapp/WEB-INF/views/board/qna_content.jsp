@@ -125,12 +125,13 @@
                       </form>  
                     </div>
                     
-                    <div id="answerList">
+                    <form action="<c:url value='/question/answerModify' />" method="post" name="answerDetailForm">
+                    	<div id="answerList">
                     
                     	
                     
-                    </div>
-                    
+                    	</div>
+                    </form>
               		
 				</div>
 			</div> 
@@ -218,10 +219,10 @@
 		                            <div class="qa_content" >
 		                                    <div class="qa_content_up" style="margin-left:30px;" >
 				                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
-				                                   		<input type="hidden" value="`+answerList[i].answerNo+`" id="answer-list-content`+answerList[i].answerNo+`">
+				                                   		<input type="hidden" id="hidden-answer-no" name="answerNo">
 				                                       	<h4 style="display:inline-block;"> 답변 : ` + answerList[i].answerTitle + `</h4>
 					                                    <a type="submit" id="btn-answer-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;" data-value="` + answerList[i].answerNo + `">삭제</a>
-				                                       	<a type="button" id="btn-answer-update" class="btn mb-2 answerModify" style="display: inline-block; float:right;">수정</a>
+				                                       	<a type="button" id="btn-answer-update" data-value="` + answerList[i].answerNo + `" class="btn mb-2 answerModify" style="display: inline-block; float:right;">수정</a>
 				                                   </div>
 				                                   
 				                                   <div style="margin-top:30px;">
@@ -262,7 +263,7 @@
 		}); //답글 목록(상세보기) 끝
 		
 		
-		//답글 수정 이동 버튼  ?????
+		//답글 수정 이동 버튼 (아직 수정중입니다)
 		
 		$('#answerList').on('click', 'a', function(e){
 			e.preventDefault();
@@ -270,9 +271,9 @@
 			
 			console.log(target);
 			
-			if($(this).hasClass('answerModify')){
-				$('#answerModal').modal('show');
-			}
+			$('#hidden-answer-no').val(target);
+			
+			document.answerDetailForm.submit();
 			
 		})
 				
@@ -284,7 +285,7 @@
 				
 				
 		
-		//답변글 삭제 처리 ?????
+		//답변글 삭제 처리 (아직 수정중입니다)
 		$('#btn-answer-delete').on('click', '.qa-title .btn mb-2', function(event) {
 			
 			event.preventDefault();

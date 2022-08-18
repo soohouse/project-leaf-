@@ -69,8 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 
-	
-	<!-- 일반회원 유저 정보 수정 update 쿼리 -->
+	<!-- 일반회원 유저 정보 수정 UPDATE 쿼리 -->
 	<update id="updateUser">
 		UPDATE user
 		SET
@@ -80,5 +79,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 
 
+	<!-- 기업회원 유저 정보 수정 UPDATE 쿼리 -->
+	<update id="updateCompany">
+		UPDATE company
+		SET
+			company_phone1 = #{companyPhone1}, company_phone2 = #{companyPhone2}, company_phone3 = #{companyPhone3},
+			company_intro = #{companyIntro}
+		WHERE company_NO = #{companyNO}
+	</update>
 
 </mapper>

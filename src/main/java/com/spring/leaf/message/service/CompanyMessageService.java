@@ -38,8 +38,8 @@ public class CompanyMessageService implements ICompanyMessageService {
 	}
 
 	@Override
-	public CompanyMessageVO companyMessageContent(int companyMessageNO) {
-		return mapper.companyMessageContent(companyMessageNO);
+	public UserMessageVO sendMessageContent(int userMessageNO) {
+		return mapper.sendMessageContent(userMessageNO);
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.leaf.boardreply.command.BoardReplyListVO;
 import com.spring.leaf.boardreply.command.BoardReplyVO;
 import com.spring.leaf.boardreply.service.IBoardReplyService;
 import com.spring.leaf.user.controller.UserController;
@@ -47,10 +48,13 @@ public class BoardReplyController {
 	
 	//댓글 목록
 	@ResponseBody
-	@GetMapping("/boardReplyList/{boardNo}")
-	public Map<String, Object> boardReplyList(@PathVariable("boardNo") int boardNo, Model model) {		
+	@GetMapping("/boardReplyList/{boardNo}/{pageNum}")
+	public Map<String, Object> boardReplyList(@PathVariable int boardNo, @PathVariable int pageNum, Model model) {		
+		PageVO vo = new PageVO();
+		vo.setPageNum(pageNum); //화면에서 전달된 페이지 번호
+		vo.setCpp(10); //댓글은 한 화면에 n개씩.
 		
-		List<BoardReplyVO> list = service.boardReplyList(boardNo); //(boardNo);
+		List<BoardReplyListVO> list = service.boardReplyList(vo, boardNo); //(boardNo);
 		int total = service.boardReplyTotal(boardNo); //(boardNo);
 		
 		//댓글수
@@ -65,10 +69,10 @@ public class BoardReplyController {
 	}
 	
 	//댓글 수정
-	@ResponseBody
 	@PostMapping("/boardReplyUpdate")
-	public String boardReplyUpdate(@RequestBody BoardReplyVO vo) {
-		service.boardReplyUpdate(vo);
+	@ResponseBody
+	public String boardReplyUpdate(@RequestParam("boardReplyNO") int boardReplyNo) {
+		service.boardReplyUpdate(boardReplyNo);
 		
 		return "UpdateSuccess";
 	}

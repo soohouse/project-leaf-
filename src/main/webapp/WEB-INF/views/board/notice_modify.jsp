@@ -61,8 +61,7 @@
 					    	    		<th colspan= "2">공지사항 내용</th>
 					    	    	</tr>
 						    		<tr>
-						    			<td><textarea class="form-control" name="noticeContent" maxlength="2048" style= "height:350px" >${notice.noticeContent}
-						    			</textarea></td>
+						    			<td><textarea class="form-control" name="noticeContent" maxlength="2048" style= "height:350px" >${notice.noticeContent}</textarea></td>
 						    		</tr>
 						    	</tbody>
 			    	    	</table>

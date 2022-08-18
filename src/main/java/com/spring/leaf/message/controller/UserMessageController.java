@@ -38,26 +38,21 @@ public class UserMessageController {
 	@PostMapping("/userMessageList")
 	@ResponseBody
 	public Map<String, Object> userMessageList(int userNO, Model model) {
-
 		List<UserMessageVO> list = service.userMessageList(userNO);
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
 		
 		return map;
 	}
 
-	// 쪽지 상세보기
+	// 받은 쪽지 상세보기
 	@PostMapping("/userMessageContent")
 	@ResponseBody
-	public String userMessageContent(int userMessageNO, Model model) {
-
-		model.addAttribute("userMessage", service.userMessageContent(userMessageNO));
-
-		return null;
+	public UserMessageVO userMessageContent(int userMessageNO) {
+		return service.userMessageContent(userMessageNO);
 	}
 	
-	//글 삭제 처리
+	//쪽지 삭제 처리
 	@PostMapping("/userMessageDelete")
 	public String userMessageDelete(int userMessageNO, RedirectAttributes ra) {
 		

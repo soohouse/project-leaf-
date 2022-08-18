@@ -99,12 +99,12 @@
 	// jQuery 시작
 	$(function() {
 		
-		// 회사 소개서 클릭 시 다운로드 되도록
+		// 이력서 클릭 시 다운로드 되도록
 		$('#modal-user-resume-realname').off().click(function() {
 
 			const userNO = $('#hidden-user-no').val();
 			
-			location.href="/company/companyIntro/download?companyNO=" + companyNO;
+			location.href="/user/userResume/download?userNO=" + userNO;
 		});
 		
 		

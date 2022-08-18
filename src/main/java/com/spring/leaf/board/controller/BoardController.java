@@ -55,6 +55,7 @@ public class BoardController {
 	    Calendar cal = Calendar.getInstance();
 	    cal.add(Calendar.DAY_OF_MONTH, -1); //게시글 등록 후 1일간 뉴마크 표시.
 	    String nowday = format.format(cal.getTime());
+	    
 		
 	    model.addAttribute("nowday",nowday);
 		model.addAttribute("boardList", service.boardList(vo));

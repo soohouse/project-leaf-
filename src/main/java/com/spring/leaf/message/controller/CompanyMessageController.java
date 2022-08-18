@@ -59,6 +59,15 @@ public class CompanyMessageController {
 		return map;
 	}
 	
+	
+	// 유저에게 보낸 쪽지 상세보기
+	@PostMapping("/sendMessageContent")
+	@ResponseBody
+	public UserMessageVO sendMessageContent(int userMessageNO) {
+		return service.sendMessageContent(userMessageNO);
+	}
+		
+	
 	// 기업 받은 쪽지함(목록으로) 이동 요청
 	@GetMapping("/companyReceiveList")
 	public String companyMessageList(Model model) {
@@ -69,14 +78,6 @@ public class CompanyMessageController {
 	}
 	
 
-	// 쪽지 상세보기
-	@GetMapping("/companyMessageContent/{companyMessageNO}")
-	public String companyMessageContent(@PathVariable int companyMessageNO, Model model) {
-
-		model.addAttribute("companyMessage", service.companyMessageContent(companyMessageNO));
-
-		return "login/msg-content";
-	}
 
 	// 쪽지 삭제 처리
 	@PostMapping("/companyMessageDelete")

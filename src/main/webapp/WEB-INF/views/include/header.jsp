@@ -44,7 +44,7 @@
 		                                  </a>
 		                                  <ul class="dropdown-menu">
 		                                      <li><a href="<c:url value='/usermypage/usermypage' />">내 정보</a></li>
-		                                      <li><a href="#">지원 현황</a></li>
+		                                      <li><a href="<c:url value='/userapply/applystatus' />">지원 현황</a></li>
 		                                  </ul>
 		                              </li>
 		                              
@@ -55,8 +55,7 @@
 		                               </a>
 		                               <ul class="dropdown-menu" role="menu">
 		                                  <li class="dropdown-header">쪽지</li>
-		                                  <li><a href="#">받은 쪽지함</a></li>
-		                                  <li><a href="#">쪽지 쓰기</a></li>
+		                                  <li><a href="#" id="user-receive-message2">받은 쪽지함</a></li>
 		                               </ul>
 		                              </li>
 		                    </div>
@@ -108,7 +107,7 @@
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
 		                            <li><a href="<c:url value='/usermypage/usermypage' />"><i class="fa fa-caret-right"></i>내 정보</a></li>
 		                            <li><a href="#" id="user-receive-message"><i class="fa fa-caret-right"></i>쪽지함</a></li>
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 현황</a></li>
+		                            <li><a href="<c:url value='/userapply/applystatus' />"><i class="fa fa-caret-right"></i>지원 현황</a></li>
 		                            <li><a href="<c:url value='/userapply/applyresult' />"><i class="fa fa-caret-right"></i>지원 결과 조회</a></li>
 		                        </ul>
 		                    </li>
@@ -227,7 +226,7 @@
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu" style="background: #3C6C2D;">
 		                            <li><a href="<c:url value='/usermypage/usermypage' />"><i class="fa fa-caret-right"></i>기업 정보</a></li>
 		                            <li><a href="#" id="company-send-message"><i class="fa fa-caret-right"></i>쪽지함</a></li>
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 현황</a></li>
+		                            <li><a href="<c:url value='/project/projectMyApply' />"><i class="fa fa-caret-right"></i>지원 현황</a></li>
 		                            <li><a href="<c:url value='/project/projectadmin' />"><i class="fa fa-caret-right"></i>프로젝트 관리</a></li>
 		                        </ul>
 		                    </li>
@@ -464,7 +463,7 @@
 		                        </a>
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu">
 		                            <li><a href="<c:url value='/usermypage/usermypage' />"><i class="fa fa-caret-right"></i>내 정보</a></li>
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>쪽지함</a></li>
+		                            <li><a href="#" onclick="alert('로그인이 필요한 서비스입니다.');"><i class="fa fa-caret-right"></i>쪽지함</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 현황</a></li>
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>지원 결과 조회</a></li>
 		                        </ul>
@@ -485,6 +484,7 @@
     <%@ include file="../login/modal-login.jsp" %>
     <%@ include file="../modal_mypage/receiveMailList.jsp" %>
     <%@ include file="../modal_mypage/sendMailList.jsp" %>
+    <%@ include file="../modal_mypage/userMessageContent.jsp" %>
       
     
     <script>
@@ -497,8 +497,6 @@
     			$('#modal-login').modal('show');
     		});
     		
-    		
-
     		// 유저 쪽지함 버튼 클릭 시 받은 쪽지함 모달 창 오픈
     		$('#user-receive-message').click(function() {
     			
@@ -521,12 +519,79 @@
     					for(let i = 0; i < mailList.length; i++) {
     						var timestamp = mailList[i].userMessageDate;
     		                var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+    		                
+    		                var len = 30;
+    						var last = "...";
+    						var txt = '';
+    						
+    						if(mailList[i].userMessageContent.length > len) {
+    							txt = mailList[i].userMessageContent.substring(0,len) + last;
+    						} else {
+    							txt = mailList[i].userMessageContent;
+    						}
+    						
+    						strAdd +=
+	    						`<div data-value="` + mailList[i].userMessageNO + `" style="cursor: pointer;">
+    								<a class="list-group-item main-notice-list-under" data-value="` + mailList[i].userMessageNO + `">
+	    							<h5 style="font-weight: bold;" data-value="` + mailList[i].userMessageNO + `">` + mailList[i].userMessageWriter + `</h5>
+	    							<p data-value="` + mailList[i].userMessageNO + `">` + txt + `</p>
+	    							<p data-value="` + mailList[i].userMessageNO + `">` + date + `</p>
+	    							</a>
+	    						</div>
+	    						<hr>`;
+    					}
+ 
+    					$('#mailList').html(strAdd);
+    				},
+    				
+    				error: function() {
+    					alert('쪽지 목록을 불러오는 중 서버오류가 발생했습니다.');
+    					return;
+    				}
+    			});
+    			
+    			$('#modal-user-receive-message').modal('show');
+    		});
+    		
+    		
+    		// 유저 쪽지함 버튼 클릭 시 받은 쪽지함 모달 창 오픈2
+    		$('#user-receive-message2').click(function() {
+    			
+    			const userNO = '${user.userNO}';
+    			let strAdd = '';
+    			
+    			$.ajax({
+    				type: 'POST',
+    				url: '<c:url value="/usermessage/userMessageList" />',
+    				
+    				dataType: 'json',
+    				data: {
+    					'userNO': userNO
+    				},
+    				
+    				success: function(result) {
+    					
+    					let mailList = result.list;
+    					
+    					for(let i = 0; i < mailList.length; i++) {
+    						var timestamp = mailList[i].userMessageDate;
+    		                var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+    						
+    		                var len = 30;
+    						var last = "...";
+    						var txt = '';
+    						
+    						if(mailList[i].userMessageContent.length > len) {
+    							txt = mailList[i].userMessageContent.substring(0,len) + last;
+    						} else {
+    							txt = mailList[i].userMessageContent;
+    						}
     						
     						strAdd +=
 	    						`<div>
     								<a href="#" id="user-message-content" class="list-group-item main-notice-list-under">
 	    							<h5 style="font-weight: bold;">` + mailList[i].userMessageWriter + `</h5>
-	    							<p>` + mailList[i].userMessageContent.substring(0,30) + `</p>
+	    							<p>` + txt + `</p>
 	    							<p>` + date + `</p>
 	    							</a>
 	    						</div>
@@ -545,8 +610,56 @@
     			$('#modal-user-receive-message').modal('show');
     		});
     		
+    		
     		// 기업 쪽지함 버튼 클릭 시 보낸 쪽지함 모달 창 오픈
     		$('#company-send-message').click(function() {
+    			
+    			const companyName = '${company.companyName}';
+    			
+    			let strAdd = '';
+    			
+    		
+    			$.ajax({
+    				type: 'POST',
+    				url: '<c:url value="/companyMessage/companySendList" />',
+    				
+    				dataType: 'json',
+    				data: {
+    					'companyName': companyName
+    				},
+    				
+    				success: function(result) {
+    					
+    					let sendmailList = result.list;
+    					
+    					for(let i = 0; i < sendmailList.length; i++) {
+    						var timestamp = sendmailList[i].userMessageDate;
+    		                var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+    						
+    						strAdd +=
+	    						`<div data-value="` + sendmailList[i].userMessageNO + `" style="cursor: pointer;">
+    								<a class="list-group-item main-notice-list-under" data-value="` + sendmailList[i].userMessageNO + `">
+	    							<h5 style="font-weight: bold;" data-value="` + sendmailList[i].userMessageNO + `">` + sendmailList[i].userID + ` (` + sendmailList[i].userName + `)` + `</h5>
+	    							<p data-value="` + sendmailList[i].userMessageNO + `">` + sendmailList[i].userMessageContent + `</p>
+	    							<p data-value="` + sendmailList[i].userMessageNO + `">` + date + `</p>
+	    							</a>
+	    						</div>
+	    						<hr>`;
+    					}
+ 
+    					$('#sendmailList').html(strAdd);
+    				},
+    				
+    				error: function() {
+    					alert('쪽지 목록을 불러오는 중 서버오류가 발생했습니다.');
+    					return;
+    				}
+    			});
+    			$('#modal-company-send-message').modal('show');
+    		});
+    		
+    		// 기업 받은 쪽지함 버튼 클릭 시 관리자로부터 받은 쪽지함 모달 창 오픈(아직 안함)
+    		$('#').click(function() {
     			
     			const companyName = '${company.companyName}';
     			
@@ -593,10 +706,10 @@
     		});
     		
     		// 유저 쪽지함 리스트 클릭시 쪽지 상세보기
-    		$('#user-message-content').click(function() {
+    		$('#modal-user-receive-message').on('click', 'a', function(e) {
+
+    			const userMessageNO = e.target.getAttribute('data-value');
     			
-    			const userNO = '${user.userNO}'; //유저 메세지 넘버를..넘겨야할까..어떻게 지목하지.
-    			let strAdd = '';
     			
     			$.ajax({
     				type: 'POST',
@@ -604,28 +717,19 @@
     				
     				dataType: 'json',
     				data: {
-    					'userNO': userNO
+    					'userMessageNO': userMessageNO
     				},
     				
     				success: function(result) {
     					
-    					let receiveMailContent = result.list;
+    					var date = new Date(result.userMessageDate).toISOString().replace("T", " ").replace(/\..*/, '');
     					
-    					
-    						var timestamp = receiveMailContent[i].userMessageDate;
-    		                var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
-    						
-    						strAdd +=
-	    						`<div>
-    								<a href="#" class="list-group-item main-notice-list-under">
-	    							<h5 style="font-weight: bold;">` + userMessageWriter + `</h5>
-	    							<p>` + userMessageContent + `</p>
-	    							<p>` + date + `</p>
-	    							</a>
-	    						</div>`;
-    				
- 
-    					$('#receiveMailContent').html(strAdd);
+						$('#modal-message-detail-from').text(result.userMessageWriter);
+						$('#modal-message-detail-date').text(date);
+						$('#modal-message-detail-content').text(result.userMessageContent);
+	 	
+						$('#modal-user-message-content').modal('show');
+					
     				},
     				
     				error: function() {
@@ -634,9 +738,42 @@
     				}
     			});
     			
-    			$('#modal-user-message-content').modal('show');
     		});
     		
+    		// 기업 보낸 쪽지함 리스트 클릭시 보낸쪽지 상세보기
+    		$('#modal-company-send-message').on('click', 'a', function(e) {
+
+    			const userMessageNO = e.target.getAttribute('data-value');
+    			
+    			
+    			$.ajax({
+    				type: 'POST',
+    				url: '<c:url value="/companyMessage/sendMessageContent" />',
+    				
+    				dataType: 'json',
+    				data: {
+    					'userMessageNO': userMessageNO
+    				},
+    				
+    				success: function(result) {
+    					
+    					var date = new Date(result.userMessageDate).toISOString().replace("T", " ").replace(/\..*/, '');
+    					
+						$('#modal-message-detail-from').text(result.userMessageWriter);
+						$('#modal-message-detail-date').text(date);
+						$('#modal-message-detail-content').text(result.userMessageContent);
+	 	
+						$('#modal-user-message-content').modal('show');
+					
+    				},
+    				
+    				error: function() {
+    					alert('쪽지 상세보기를 불러오는 중 서버오류가 발생했습니다.');
+    					return;
+    				}
+    			});
+    			
+    		});
     		
     		// 일반회원 로그아웃 버튼 클릭 시 로그아웃 처리 (비동기 방식)
     		$('#btn-user-logout').click(function() {

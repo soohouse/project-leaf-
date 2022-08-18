@@ -32,8 +32,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 		<!-- 유저가 관리자/기업로부터 받은 쪽지 상세보기 -->
 		<select id="userMessageContent" resultMap="UserMessageMap">
-			SELECT * FROM user_message
-			WHERE user_NO=#{userNO}
+			SELECT user_message_NO, user_message_writer, user_message_content, user_message_date, user_NO
+			FROM user_message
+			WHERE user_message_NO=#{userMessageNO}
 		</select>
 		
 		<!-- 유저가 관리자/기업으로부터 받은 쪽지 삭제하기 -->

@@ -70,6 +70,11 @@ public class QuestionService implements IQuestionService {
 		return mapper.answerList(questionNo);
 	}
 	
+	@Override
+	public AnswerVO answerContent(int answerNo) {
+		return mapper.answerContent(answerNo);
+	}
+	
 	//답변글 수정하기
 	@Override
 	public void answerModify(AnswerVO vo) {

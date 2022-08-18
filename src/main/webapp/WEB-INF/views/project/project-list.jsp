@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
 
    <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
 
    <title>나뭇잎 홈페이지</title>
    
@@ -27,59 +27,162 @@
 
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    </head>
+   
+   <style>
+   
+   		.sections {
+   			width: 1200px;
+   			margin: 0 auto;
+   		}
+   		
+   		.modal-body-sections {
+   			width: 560px;
+   			margin: 0 auto;
+   		}
+   
+   </style>
+   
 <body>
 
 <%@ include file="../include/header.jsp" %>
 	   
-	<div class="container">
-        <div id="main-box">
-            <div class="firstbox">
-              지역
-            </div>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox"> 서울
-              </label>
-              <label>
-                <input type="checkbox"> 경기
-              </label>
-              <label>
-                <input type="checkbox"> 인천
-              </label>
-              <label>
-                <input type="checkbox"> 부산
-              </label>
-              <label>
-                <input type="checkbox"> 강원
-              </label>
-              <label>
-                <input type="checkbox"> 제주
-              </label>
-            </div>
-            <div class="container-right">
-              <button type="button" class="btn btn-primary btn-lg">선택 항목 검색</button>
-            </div>
-            <div class="intro-date">
-              개발기간
-            </div>
-            <div class="date">
-              <label for="exampleInputdate"></label>
-                <input type="date" class="form-control" id="exampleInputdate" placeholder="0000/00/00">
-              <div>
-                ~
-              </div>
-                <input type="date" class="form-control" id="exampleInputdate" placeholder="0000/00/00">
-              </div>
-              <div class="input-group1">
-                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
-                </div>
-        </div> <br>
-      
+	<div class="mainbox">
+	
+		<div class="sections">
+
+			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;"> 
+				<span class="main-board-title" style="color: #098391;">프로젝트 목록</span>
+			</a>
+
+			<div class="project-search-box" style="border: 1px solid #B1B1B1; padding: 20px; font-family: sans-serif; background: #FCFCFC;">
+		            <div class="firstbox">
+		             	 <p>지역</p>
+		            </div>
+		            
+		            <div class="checkbox">
+		            	<label><input type="checkbox"> 서울</label>
+		             	<label><input type="checkbox"> 경기</label>
+		              	<label><input type="checkbox"> 인천</label>
+		              	<label><input type="checkbox"> 부산</label>
+		              	<label><input type="checkbox"> 강원</label>
+		              	<label><input type="checkbox"> 제주</label>
+		            </div>
+		            
+		            <div class="container-right">
+		             	<button type="button" class="btn btn-primary">선택 항목 검색</button>
+		            </div>
+		            
+		            <div class="intro-date">
+		           		<p>개발기간</p>
+		            </div>
+		            
+		            <div class="date">
+		                <input type="date" class="form-control" id="exampleInputdate" placeholder="0000/00/00" style="height: 30px;">
+		                <p>&nbsp; ~ &nbsp;</p>
+		                <input type="date" class="form-control" id="exampleInputdate" placeholder="0000/00/00" style="height: 30px;">
+		            </div>
+		              	
+		            <div class="input-group1">
+		            	<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+		            </div>
+		            <br>
+		    </div> 
+			
+			<%--	우측 버튼인데 아직 사용 안해서 주석처리
+			<form class="navbar-form navbar-left navbar-main-top pull-right" role="search" style="padding: 0; margin-left: 0;">
+				<div class="input-group"> 
+					<span class="input-group-btn">
+						<button id="btn-apply-check" class="btn btn-success" type="button" style="height: 30px; font-size: 13px;">버튼</button>
+					</span>
+				</div>
+			</form>
+			--%>
+
+			<div class="project-myproject-apply" style="clear: both;">
+				
+				<br>
+				<p style="font-size: 14px; font-weight: bold; margin-top: 20px; margin-left: 16px; margin-bottom: -10px;">모집중인 프로젝트<span style="color: red;">&nbsp;&nbsp;${myProjectCount}</span></p>
+				<hr>
+				
+				
+				<c:forEach var="project" items="${projectlist}" varStatus="index">
+				
+				
+				<div class="project-list" style="margin-left: 0; width: 100%; border: 1px solid #C7C7C7;">
+			          <div class="project-list-col-md-8" >
+			            <div class="project-listbox">
+			              <div class="image-intro"> 
+			                <a href="#"><img src="<c:url value='/project/projectImageGet?projectNO=${project.projectNO}' />" alt="사진" style="width: 200px; height: 100px; object-fit: cover; vertical-align: text-bottom; margin-left: 20px; margin-top: 16px;"></a>
+			              </div>
+			              <div class="project-form" style="margin-left: 30px;">
+			                <div class="project-title" id="" style="cursor: pointer;">
+			                  <p style="width: 400px;" >${project.projectName}</p>
+			                  <input type="hidden" value="${project.projectNO}" id="project-list-content${index.index}">
+			              	</div>
+			                <div class="project-content1">
+			                  <p style="width: 400px;">${project.projectRequireRole}</p>
+			                </div>
+			                <div class="project-date">
+			                  <p style="font-size: 12px;"><fmt:formatDate value="${project.projectRequireDate1}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${project.projectRequireDate2}" pattern="yyyy-MM-dd" /></p>
+			                </div>
+			              </div>
+			              <div class="project-source">
+			                <div class="project-content" style="position: relative; left: 180px;">
+			                  <p style="font-size: 14px;">${project.companyName}</p>
+			                </div>
+			              </div>
+			              
+			              <div class="project-in" style="position: relative; right: 10px;">
+			                <div class="project-container-right">
+			                  <button type="button" class="btn btn-success" disabled>${project.commonValue}</button>
+			                </div><br>
+			                <a href="#" id="project-view-icon2${index.index}" style="position: relative; top: 10px;">상세보기</a>
+			              </div>
+			              
+			            </div>
+			          </div>
+			    </div>
+				
+				<script>
+				
+					$(function() {
+
+						$('#project-view-icon${index.index}').click(function() {
+							var projectNO = $('#project-list-content${index.index}').val();
+							
+							location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+						})
+						
+						
+						$('#project-view-icon2${index.index}').click(function() {
+						var projectNO = $('#project-list-content${index.index}').val();
+							
+							location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+						})
+						
+					});
+			
+				</script>
+				
+				
+				</c:forEach>
+				
+			</div>
+
+		</div>
+	
+		<%@ include file="../include/footer.jsp" %>
+	   
+	</div>
+	
+	   
+	
+      <%-- 
         <a href="" class="list-group-item active notice-list-top" style="width: 900px; margin-left: 200px; border-radius: 0;">
           <span class="main-board-title"> <span class="glyphicon glyphicon-book">프로젝트 목록</span></span>
         </a>
-        
-        <!--여기에 div 만들어서 페이지 만들기-->
+			
+				
 			
 			
 		<c:forEach var="project" items="${projectlist}" varStatus="index">
@@ -104,7 +207,7 @@
               </div>
               <div class="project-source">
                 <div class="project-content">
-                  <p>${project.companyName}</p>
+                  <p style="width: 116px; text-align: center; ">${project.companyName}</p>
                 </div>
               </div>
               <div class="project-in">
@@ -138,73 +241,6 @@
 		</script>
               
         </c:forEach>
-
-
-       <!--  <div class="project-list">
-          <div class="project-list-col-md-8">
-            <div class="project-listbox">
-              <div class="image-intro"> 
-                <a href="#"><img src="../resources/img/main4.jpg" alt="사진"></a>
-                </div>
-              <div class="project-form">
-                <div class="project-title" id="project-title-title" style="cursor: pointer;">
-                  <p>환경 푸르미 프로젝트 개발자 모집</p>
-                  <input type="hidden">
-                </div >
-                <div class="project-content1">
-                  <p>C++, Java, 백엔드/서버개발, 유지보수 등</p>
-                </div>
-                <div class="project-date">
-                  <p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-                </div>
-              </div>
-              <div class="project-source">
-                <div class="project-content">
-                  <p>(주) 성진하이텍</p>
-                </div>
-              </div>
-              <div class="project-in">
-                <div class="project-container-right">
-                  <button type="button" class="btn btn-danger" disabled>마감 임박</button>
-                </div><br>
-                <a href="#">상세보기</a>
-              </div>
-            </div>
-          </div>
-          </div>
-          <div class="project-list">
-            <div class="project-list-col-md-8">
-              <div class="project-listbox">
-                <div class="image-intro"> 
-                  <a href="#"><img src="../resources/img/main4.jpg" alt="사진"></a>
-                </div>
-                <div class="project-form">
-                  <div class="project-title" id="project-title-title" style="cursor: pointer;">
-                    <p>환경 푸르미 프로젝트 개발자 모집</p>
-                  </div >
-                  <div class="project-content1">
-                    <p>C++, Java, 백엔드/서버개발, 유지보수 등</p>
-                  </div>
-                  <div class="project-date">
-                    <p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-                  </div>
-                </div>
-                <div class="project-source">
-                  <div class="project-content">
-                    <p>(주) 성진하이텍</p>
-                  </div>
-                </div>
-                <div class="project-in">
-                  <div class="project-container-right">
-                    <button type="button" class="btn btn-success" disabled>현재 모집</button>
-                  </div><br>
-                  <a href="#">상세보기</a>
-                </div>
-              </div>
-            </div>            
-          </div>  -->
-         
-            
           
           <div class="project-pagination">
             <nav>
@@ -228,15 +264,9 @@
               </ul>
             
             </nav>
-            </div>
+            </div> 
+        --%>
 
-          
-
-  
-	
-  
-  <%@ include file="../include/footer.jsp" %>
-          </div>
 </body>
 </html>
 

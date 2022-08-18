@@ -82,11 +82,22 @@ public class UserMypageController {
 	}
 	
 
-	// 수정 로직
+	// 일반회원 수정 로직
 	@PostMapping("/userUpdate")
 	public String userUpdate(UserVO vo, RedirectAttributes ra) {
 		
 		service.updateUser(vo);
+
+		ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
+		return "redirect:/usermypage/usermypage";
+	}
+	
+	
+	// 기업회원 수정 로직
+	@PostMapping("/companyUpdate")
+	public String companyUpdate(CompanyVO vo, RedirectAttributes ra) {
+
+		service.updateCompany(vo);
 
 		ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
 		return "redirect:/usermypage/usermypage";

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.spring.leaf.user.command.AutoLoginVO;
+import com.spring.leaf.user.command.PasswordVO;
 import com.spring.leaf.user.command.ResumeVO;
 import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.user.command.UserVO;
@@ -68,6 +70,39 @@ public class UserService implements IUserService {
 	}
 	
 	
+	// 사용자 비밀번호 변경 요청
+	@Override
+	public void userPasswordChange(PasswordVO vo) {
+		logger.info("암호화 전 비밀번호 : " + vo.getNewPassword());
+		
+		// 비밀번호 암호화를 위한 BCrypt 객체 생성
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		// encode로 암호화한 비밀번호를 새로 변수로 만든 후 vo에 새로 지정해준다.
+		String bcryptPW = encoder.encode(vo.getNewPassword());
+				
+		logger.info("암호화 후 비밀번호 : " + bcryptPW);
+		
+		vo.setNewPassword(bcryptPW);
+		
+		mapper.userPasswordChange(vo);
+	}
+	
+	
+	// 사용자 자동로그인 요청
+	@Override
+	public void userAutoLogin(AutoLoginVO vo) {
+		mapper.userAutoLogin(vo);	
+	}
+	
+	
+	// 사용자 자동로그인시 사용자 정보 얻어오기 요청
+	@Override
+	public UserVO userAutoGet(String sessionID) {
+		return mapper.userAutoGet(sessionID);
+	}
+	
+	
 	// 사용자 회원번호 얻는 요청
 	@Override
 	public int userNOGet() {
@@ -79,6 +114,27 @@ public class UserService implements IUserService {
 	@Override
 	public void userProfile(UserProfileVO vo) {
 		mapper.userProfile(vo);
+	}
+	
+	
+	// 사용자 프로필사진 삭제 요청
+	@Override
+	public void userProfileDelete(int userNO) {
+		mapper.userProfileDelete(userNO);
+	}
+	
+	
+	// 사용자 프로필사진 수정 요청
+	@Override
+	public void userProfileUpdate(UserProfileVO vo) {
+		mapper.userProfileUpdate(vo);
+	}
+	
+	
+	// 사용자 프로필사진 존재 여부 체크 요청
+	@Override
+	public int userProfileCheck(int userNO) {
+		return mapper.userProfileCheck(userNO);
 	}
 	
 	

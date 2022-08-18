@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -20,7 +21,7 @@
    
    <!-- 개인 디자인 추가, ?after를 붙이면 기존에 동일한 이름의 파일을 인식하는것이 아닌 새로운 파일을 인식하게 된다. -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
-   
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/project-list.css">
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    
@@ -48,13 +49,17 @@
 		<div class="sections">
 
 			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;"> 
-				<span class="main-board-title" style="color: #2C4F22;">개발자 목록</span>
+				<span class="main-board-title" style="color: #2C4F22;">지원현황</span>
 			</a>
-
+			<div style="float:right;">
+				<span class="main-board-title" style="color: #2C4F22; font-size:12px;">내가 지원한 프로젝트 목록: #건</span>
+			</div>
+			
+			<div>
 			<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0;">
 				<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-                            <option value="id">개발자 ID</option>
-                            <option value="name">개발자 이름</option>
+                            <option value="id">프로젝트명</option>
+                            <option value="name">회사명</option>
                 </select>
 			
 				<div class="input-group"> 
@@ -64,37 +69,72 @@
 					</span>
 				</div>
 			</form>
-			
+			</div>
 
-
-			<table class="table table-bordered" style="margin-top: 20px;">
-				<thead style="width: 10px; font-size: 13px; background: #89C578;">
-					<tr style="font-family: sans-serif;">
-						<th style="width: 6%;">회원번호</th>
-						<th style="width: 12%;">개발자 ID</th>
-						<th style="width: 30%;">개발자 이름</th>
-						<th style="width: 20%;">개발자 전화번호</th>
-						<th style="width: 20%;">개발자 이메일</th>
-						<th style="width: 12%;">비고</th>
-					</tr>
-				</thead>
-				<tbody style="width: 10px; font-size: 13px; background: #F7F7F7;">
+			<div style="clear: both;">
 					
-					<c:forEach var="userList" items="${userList}" varStatus="index">
-						<tr id="userListDetail${index.index}" style="cursor: pointer;">
-							<td>${userList.userNO}</td>
-							<td>${userList.userID}</td>
-							<td>${userList.userName}</td>
-							<td>${userList.userPhone}</td>
-							<td>${userList.userEmail}</td>
-							<td>${userList.commonValue}</td>
-							
-						</tr>
+				<c:forEach var="applyStatusList" items="${applyStatusList}" varStatus="index">
+              
+	           <div class="project-list" style="margin-left: 0; width: 100%; border: 1px solid #C7C7C7;">
+	                   <div class="project-list-col-md-8" >
+	                     <div class="project-listbox">
+	                       <div class="image-intro"> 
+	                         <a href="#"><img src="../resources/img/main4.jpg" alt="사진" style="width: 200px; height: 100px; object-fit: cover; vertical-align: text-bottom; margin-left: 20px; margin-top: 16px;"></a>
+	                         </div>
+	                       <div class="project-form" style="margin-left: 30px;">
+	                         <div class="project-title" id="project-view-icon2${index.index}" style="cursor: pointer;">
+	                           <p style="width: 400px;" >${applyStatusList.projectName}</p>
+	                           <input type="hidden" value="${applyStatusList.projectNO}" id="hidden-project-no${index.index}">
+	                         </div >
+	                         <div class="project-content1">
+	                           <p style="width: 400px;">${applyStatusList.projectRequireRole}</p>
+	                         </div>
+	                         <div class="project-date">
+	                           <p><fmt:formatDate value="${applyStatusList.projectRequireDate1}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${applyStatusList.projectRequireDate2}" pattern="yyyy-MM-dd" /></p>
+	                         </div>
+	                       </div>
+	                       <div class="project-source">
+	                         <div class="project-content" style="position: relative; left: 180px;">
+	                           <p style="font-size: 14px;">${applyStatusList.companyName}</p>
+	                         </div>
+	                       </div>
+	                       
+	                       <div class="project-in" style="position: relative; right: 10px;">
+	                      	
+	                         <div class="project-container-right"> 
+	                           <div style="margin-bottom:20px;"><a id="project-view-icon${index.index}" style="cursor:pointer;">프로젝트 상세보기</a></div>
+	                           <div><p style="text-decoration:underline;">${applyStatusList.commonValue}</p></div>
+	                         </div><br>	                         
+	                       </div>
+	                     </div>
+	                   </div>
+	                 </div>
+	          
+	          <script>
+				$(function() {
+					$('#project-view-icon${index.index}').click(function() {
+						var projectNO = $('#hidden-project-no${index.index}').val();
 						
-					</c:forEach>
+						location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+					})
+					
+				});
+				
+				$(function() {
+					$('#project-view-icon2${index.index}').click(function() {
+					var projectNO = $('#hidden-project-no${index.index}').val();
+						
+						location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+					})
+				});
+				
+			</script>
+	              
+	        </c:forEach>
+					
+			</div>
 
-				</tbody>
-			</table>
+			
 
 		</div>
 	

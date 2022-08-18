@@ -7,6 +7,7 @@ import com.spring.leaf.user.command.UserVO;
 import com.spring.leaf.user.mapper.IUserMapper;
 import com.spring.leaf.user.mapper.IUserMypageMapper;
 import com.spring.leaf.company.command.CompanyDetailVO;
+import com.spring.leaf.company.command.CompanyVO;
 import com.spring.leaf.user.command.UserDetailVO;
 
 @Service
@@ -30,11 +31,10 @@ public class UserMypageService implements IUserMypageService {
 	public void updateUser(UserVO vo) {
 		mapper.updateUser(vo);
 	}
-
+	
 	@Override
-	public void deleteUser(String id, String pw) {
-		// TODO Auto-generated method stub
-
+	public void updateCompany(CompanyVO vo) {
+		mapper.updateCompany(vo);
 	}
 
 }

@@ -93,7 +93,7 @@
 		                                        <div class="notice_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" value="${notice.noticeNo}" name="noticeNo">
 		                                        	<h4 style="display:inline-block;">${notice.noticeTitle}</h4>
-		                                        	<c:if test="${notice.noticeWriter eq user.userID }">
+		                                        	<c:if test="${notice.noticeWriter eq admin.adminID }">
 				                                        <button type="button" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</button>
 		                                        	</c:if>
 		                                        </div>
@@ -102,8 +102,10 @@
 			                                        <div class="notice_writer" style="display: inline-block;">
 			                                            <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
 			                                            <span> 
+
 			                                            	<span style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">&nbsp; ${notice.noticeWriter} &nbsp;</span>
 			                                            	<c:if test="${notice.noticeWriter eq user.userID }">
+
 			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>
 			                                            	</c:if>
 			                                            </span>
@@ -124,8 +126,10 @@
                                     </div>
 	                 		</div>
 	                            <hr class="borderline" />
+
 	                            <c:if test="${notice.noticeWriter eq user.userID }">
 		                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'" style="margin-left:10px;">수정하기</button>
+
 	                            </c:if>
 	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'" style="margin-left:10px;">목록</button>
                        	</form>

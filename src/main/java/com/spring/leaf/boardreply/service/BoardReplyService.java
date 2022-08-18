@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.leaf.boardreply.command.BoardReplyListVO;
 import com.spring.leaf.boardreply.command.BoardReplyVO;
 import com.spring.leaf.boardreply.mapper.IBoardReplyMapper;
 import com.spring.leaf.util.PageVO;
@@ -22,13 +23,20 @@ public class BoardReplyService implements IBoardReplyService {
 	//댓글 작성
 	@Override
 	public void boardReplyWrite(BoardReplyVO vo) {
+		//댓글줄바꿈
+		vo.setBoardReplyContent(vo.getBoardReplyContent().replace("\n", "<br>"));
+		
 		mapper.boardReplyWrite(vo);
 	}
 
 	//댓글 목록
 	@Override
-	public List<BoardReplyVO> boardReplyList(int boardNo) {
-		return mapper.boardReplyList(boardNo);
+	public List<BoardReplyListVO> boardReplyList(PageVO vo, int boardNo) {
+		Map<String, Object> data = new HashMap<>();
+		data.put("paging", vo);
+		data.put("boardNo", boardNo);
+		
+		return mapper.boardReplyList(data);
 	}
 	
 	//댓글 개수
@@ -39,8 +47,8 @@ public class BoardReplyService implements IBoardReplyService {
 	
 	//댓글 수정
 	@Override
-	public void boardReplyUpdate(BoardReplyVO vo) {
-		mapper.boardReplyUpdate(vo);
+	public void boardReplyUpdate(int boardReplyNo) {
+		mapper.boardReplyUpdate(boardReplyNo);
 	}
 	
 	//댓글 삭제

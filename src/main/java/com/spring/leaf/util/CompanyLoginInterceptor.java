@@ -1,20 +1,26 @@
 package com.spring.leaf.util;
 
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.leaf.company.command.CompanyAutoLoginVO;
 import com.spring.leaf.company.command.CompanyLogoVO;
 import com.spring.leaf.company.command.CompanyVO;
+import com.spring.leaf.company.service.ICompanyService;
+import com.spring.leaf.user.command.AutoLoginVO;
 import com.spring.leaf.user.command.UserVO;
 import com.spring.leaf.util.CompanyLoginInterceptor;
 
@@ -25,6 +31,11 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 	
 	// 로그 출력을 위한 Logger 객체 생성
 	private static final Logger logger = LoggerFactory.getLogger(CompanyLoginInterceptor.class);
+	
+	
+	// 기업회원 서비스 연결
+	@Autowired
+	private ICompanyService service;
 	
 	
 	// 컨트롤러에서 요청 처리 후 작동하는 postHandle 인터셉터
@@ -47,10 +58,11 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 		ModelMap modelMap = modelAndView.getModelMap();
 		CompanyVO vo = (CompanyVO) modelMap.get("companyLogin");
 		String companyPW = (String) modelMap.get("companyPW");
+		Boolean companyAutoCheck = (Boolean) modelMap.get("companyAutoCheck");
 
 		
 		// 만약 불러온 정보가 null이 아니라면, 즉 로그인 화면에서 입력한 아이디로 기업을 검색했을 때 null이 아니라면
-		if (vo != null) {
+		if(vo != null) {
 			// 로그인 화면에서 입력한 비밀번호와 해당 사용자의 비밀번호가 일치한지 비교한다.
 			if (encoder.matches(companyPW, vo.getCompanyPW())) {
 				// 관리자가 기업 회원가입을 승인했는지 체크한다.
@@ -75,6 +87,34 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 
 					// 로그인에 성공한 후 기업 정보를 company 라는 세션에 담아 저장한다.
 					session.setAttribute("company", vo);
+					
+					// 로그인 유지가 체크되어 있는 상황이라면
+					if(companyAutoCheck != null) {
+						logger.info("CompanyLoginInterceptor : 자동로그인 활성화");
+						
+						// 로그인 될 때 생성된 해당 클라이언트의 고유 세션 ID를 쿠키에 저장한다.
+						Cookie loginCookie = new Cookie("loginCookie", session.getId());
+						// 쿠키를 찾을 경로를 Context 경로로 설정해줘서 모든 경로에서 쿠키를 찾을 수 있도록 설정한다.
+						loginCookie.setPath("/");
+						
+						// 쿠키의 지속시간을 7일로 설정한다. 
+						int amount = 60 * 60 * 24 * 7;
+						loginCookie.setMaxAge(amount);
+						
+						// 마지막으로 쿠키를 적용시킨다.
+						response.addCookie(loginCookie);
+						
+						// 쿠키 지속시간을 Timestamp 형식으로 변환한다.
+						Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * amount));
+						
+						// 쿠키를 적용시킨 후 기업 데이터베이스에도 세션 ID와 쿠키 지속시간을 저장한다.
+						CompanyAutoLoginVO cavo = new CompanyAutoLoginVO();
+						cavo.setSessionID(session.getId());
+						cavo.setSessionLimit(sessionLimit);
+						cavo.setCompanyID(vo.getCompanyID());
+						
+						service.companyAutoLogin(cavo);
+					}
 
 					response.sendRedirect("/");
 				}

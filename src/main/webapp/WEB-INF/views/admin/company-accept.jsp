@@ -114,7 +114,19 @@
 											$('#modal-company-name').text(company.companyName);
 											$('#modal-company-phone').text(company.companyPhone);
 											$('#modal-company-email').text(company.companyEmail);
-											$('#modal-company-intro-realname').text(company.companyIntroRealname);
+											
+											if(company.companyIntro == null || company.companyIntro == '') {
+												$('#modal-company-intro').text('');
+											} else {
+												$('#modal-company-intro').text(company.companyIntro);
+											}
+											
+											if(company.companyIntroRealname == null || company.companyIntroRealname == '') {
+												$('#modal-company-intro-realname').text('');
+											} else {
+												$('#modal-company-intro-realname').text(company.companyIntroRealname);
+											}
+											
 											$('#modal-company-common-value').text(company.commonValue);
 											$('#modal-company-logo').attr('src', '<c:url value="/company/companyLogoGet?companyNO=" />' + company.companyNO);
 											$('#hidden-company-no').val(company.companyNO);

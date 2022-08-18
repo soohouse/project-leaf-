@@ -50,7 +50,8 @@
 						<div class="form-group">
 							<div class="col-sm-12">
 								<div class="checkbox">
-									<label> <input type="checkbox"> 로그인 유지
+									<label> 
+										<input type="checkbox" name="userAutoLogin"> 로그인 유지
 									</label>
 								</div>
 							</div>
@@ -106,7 +107,7 @@
 						<div class="form-group">
 							<div class="col-sm-12">
 								<div class="checkbox">
-									<label> <input type="checkbox"> 로그인 유지
+									<label> <input type="checkbox" name="companyAutoLogin"> 로그인 유지
 									</label>
 								</div>
 							</div>

@@ -1,20 +1,26 @@
 package com.spring.leaf.util;
 
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.sql.Timestamp;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
-import com.spring.leaf.user.command.UserProfileVO;
+import com.spring.leaf.user.command.AutoLoginVO;
 import com.spring.leaf.user.command.UserVO;
+import com.spring.leaf.user.service.IUserService;
 import com.spring.leaf.util.UserLoginInterceptor;
 
 
@@ -26,7 +32,12 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 	private static final Logger logger = LoggerFactory.getLogger(UserLoginInterceptor.class);
 	
 	
-	// 컨트롤러에서 요청 처리 후 작동하는 postHandle 인터셉터
+	// 일반회원 유저 서비스 연결
+	@Autowired
+	private IUserService service;
+	
+	
+	// 컨트롤러에서 요청 처리 후 작동하는 postHandle 인터셉터 (로그인 요청 후)
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
@@ -46,16 +57,46 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 		ModelMap modelMap = modelAndView.getModelMap();
 		UserVO vo = (UserVO) modelMap.get("userLogin");
 		String userPW = (String) modelMap.get("userPW");
-
+		Boolean autoCheck = (Boolean) modelMap.get("autoCheck");
+		
 		
 		// 만약 불러온 정보가 null이 아니라면, 즉 로그인 화면에서 입력한 아이디로 사용자를 검색했을 때 null이 아니라면
 		if(vo != null) {
 			// 로그인 화면에서 입력한 비밀번호와 해당 사용자의 비밀번호가 일치한지 비교한다.
 			if(encoder.matches(userPW, vo.getUserPW())) {
+				
 				logger.info("UserLoginInterceptor : Login 성공");
 
 				// 로그인에 성공한 후 사용자 정보를 user 라는 세션에 담아 저장한다.
 				session.setAttribute("user", vo);
+				
+				// 로그인 유지가 체크되어 있는 상황이라면
+				if(autoCheck != null) {
+					logger.info("UserLoginInterceptor : 자동로그인 활성화");
+					
+					// 로그인 될 때 생성된 해당 클라이언트의 고유 세션 ID를 쿠키에 저장한다.
+					Cookie loginCookie = new Cookie("loginCookie", session.getId());
+					// 쿠키를 찾을 경로를 Context 경로로 설정해줘서 모든 경로에서 쿠키를 찾을 수 있도록 설정한다.
+					loginCookie.setPath("/");
+					
+					// 쿠키의 지속시간을 7일로 설정한다. 
+					int amount = 60 * 60 * 24 * 7;
+					loginCookie.setMaxAge(amount);
+					
+					// 마지막으로 쿠키를 적용시킨다.
+					response.addCookie(loginCookie);
+					
+					// 쿠키 지속시간을 Timestamp 형식으로 변환한다.
+					Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * amount));
+					
+					// 쿠키를 적용시킨 후 사용자 데이터베이스에도 세션 ID와 쿠키 지속시간을 저장한다.
+					AutoLoginVO avo = new AutoLoginVO();
+					avo.setSessionID(session.getId());
+					avo.setSessionLimit(sessionLimit);
+					avo.setUserID(vo.getUserID());
+					
+					service.userAutoLogin(avo);
+				}
 
 				response.sendRedirect("/");
 

@@ -75,7 +75,7 @@
 		        <option value="15" <c:if test="${pc.paging.cpp == 15}">selected</c:if>>15개씩 보기</option>
 		        <option value="20" <c:if test="${pc.paging.cpp == 20}">selected</c:if>>20개씩 보기</option>
 		    </select>
-		    <c:if test="${user.userID != null}">
+		    <c:if test="${user.commonCODE == 'ADM002'}">
 				<button type="submit" class="btn btn-success mb-2 pull-right" id="btn-notice-write">글쓰기</button>
             </c:if>
                  
@@ -104,7 +104,7 @@
 									</c:if>
                             	</a>
                             </td>
-                            <td <c:if test="${notice.noticeWriter eq user.userID }">style="color:#042894;"</c:if>>${notice.noticeWriter}</td>
+                            <td>${notice.noticeWriter}</td>
                             <td><fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td>${notice.noticeViews}</td>
                         </tr>
@@ -147,7 +147,7 @@
                     <input type="hidden" name="keyword" value="${pc.paging.keyword}">
 				</form>
 			</div>
-			${pc.beginPage }/${pc.endPage }
+			
 			
 			
         </div> 

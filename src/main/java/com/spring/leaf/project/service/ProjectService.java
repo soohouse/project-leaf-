@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.leaf.project.command.ProjectContentVO;
+import com.spring.leaf.project.command.ProjectImageVO;
 import com.spring.leaf.project.command.ProjectLikeVO;
 import com.spring.leaf.project.command.ProjectListVO;
 import com.spring.leaf.project.command.ProjectVO;
@@ -38,12 +39,32 @@ public class ProjectService implements IProjectService {
 		
 		return mapper.getContent(projectNO);		
 	}
+	
+	
+	@Override
+	public int projectNOGet() {
+		return mapper.projectNOGet();
+	}
+	
+	
+	@Override
+	public void projectImage(ProjectImageVO vo) {
+		mapper.projectImage(vo);
+	}
+	
+	
+	@Override
+	public ProjectImageVO projectImageGet(int projectNO) {
+		return mapper.projectImageGet(projectNO);
+	}
+	
+	
 	//좋아요 생성
 	@Override
 	public void createLike(ProjectLikeVO vo) {
 		mapper.createLike(vo);
 	}
-	//좋아요 등록
+	//좋아요 삭제
 	@Override
 	public void deleteLike(ProjectLikeVO vo) {
 		mapper.deleteLike(vo);
@@ -52,5 +73,11 @@ public class ProjectService implements IProjectService {
 	@Override
 	public int searchLike(ProjectLikeVO vo) {
 		return mapper.searchLike(vo);
+	}
+	
+	@Override
+	public void deleteProject(ProjectVO vo) {
+		mapper.deleteProject(vo);
+		
 	}
 }

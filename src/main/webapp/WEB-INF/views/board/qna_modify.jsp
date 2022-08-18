@@ -40,7 +40,7 @@
 				<div class="row">
 					 <!-- 메인화면 공지사항 상단 -->
 			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">Q&A</span>
+			            	<span class="main-notice-title">Q&A - 질문 수정</span>
 			            </a>
 					<div class="col-lg-8 col-md-10 col-sm-12">
 					  <form action="<c:url value='/question/questionUpdate' />" method="post" name="boardUpdateForm">
@@ -59,8 +59,7 @@
 				    	    		<th colspan= "2">질문 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" name="questionContent" maxlength="2048" style= "height:350px">${question.questionContent}
-					    			</textarea></td>
+					    			<td><textarea class="form-control" name="questionContent" maxlength="2048" style= "height:350px">${question.questionContent}</textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>

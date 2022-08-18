@@ -13,7 +13,7 @@ import lombok.ToString;
 public class ProjectImageVO {
 
 	private int projectImageNO;
-	private String projectImageFileName;
+	private String projectImageFilename;
 	private String projectImageUploadpath;
 	private String projectImageRealname;
 	private int projectNO;

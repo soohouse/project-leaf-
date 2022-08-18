@@ -4,38 +4,94 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper
-	namespace="com.spring.leaf.userapply.mapper.IUserApplyResultMapper">
+	namespace="com.spring.leaf.userapply.mapper.IUserApplyMapper">
 
-	<resultMap type="com.spring.leaf.userlist.command.UserListVO" id="UserListMap">
-		<id property="userNO" column="user_NO" />
-		<result property="userID" column="user_ID" />
-		<result property="userName" column="user_name" />
-		<result property="userEmail" column="user_email" />
-		<result property="userPhone" column="user_phone" />
+	<resultMap type="com.spring.leaf.userapply.command.UserApplyResultVO" id="UserApplyResultMap">
+		<id property="applyNO" column="apply_NO" />
+		<result property="projectName" column="project_name" />
+		<result property="applyDate" column="apply_date" />
+		<result property="projectRequireDate1" column="project_require_date1" />
+		<result property="projectRequireDate2" column="project_require_date2" />
 		<result property="commonValue" column="common_value" />
 	</resultMap>
 	
-	<resultMap type="com.spring.leaf.userlist.command.UserListDetailVO" id="UserListDetailMap">
-		<id property="userNO" column="user_NO" />
-		<result property="userID" column="user_ID" />
-		<result property="userName" column="user_name" />
-		<result property="userEmail" column="user_email" />
-		<result property="userPhone" column="user_phone" />
-		<result property="userIntro" column="user_intro" />
-		<result property="resumeRealname" column="resume_realname" />
+	<resultMap type="com.spring.leaf.userapply.command.UserApplyStatusVO" id="UserApplyStatusMap">
+		<id property="applyNO" column="apply_NO" />
+		<result property="projectName" column="project_name" />
+		<result property="projectRequireRole" column="project_require_role" />
+		<result property="projectRequireDate1" column="project_require_date1" />
+		<result property="projectRequireDate2" column="project_require_date2" />
+		<result property="projectNO" column="project_NO" />
+		<result property="companyName" column="company_name" />
+		<result property="commonValue" column="common_value" />
 	</resultMap>
 	
-	<!-- 개발자 목록 끌어오기 -->
-	<select id="userList" resultMap="UserListMap">
+	<!-- UserApplyStatusContentVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectContentMap 선언 -->
+	<resultMap type="com.spring.leaf.userapply.command.UserApplyStatusContentVO" id="UserApplyStatusContentMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name"/>
+		<result property="projectRequireDate1" column="project_require_date1"/>
+		<result property="projectRequireDate2" column="project_require_date2"/>
+		<result property="companyNO" column="company_NO"/>
+		<result property="companyName" column="company_name"/>
+		<result property="companyPhone1" column="company_phone1"/>
+		<result property="companyPhone2" column="company_phone2"/>
+		<result property="companyPhone3" column="company_phone3"/>
+		<result property="companyAddress1" column="company_address1"/>
+		<result property="companyAddress2" column="company_address2"/>
+		<result property="companyAddress3" column="company_address3"/>
+		<result property="projectDesc" column="project_desc"/>
+		<result property="projectManager" column="project_manager"/>
+		<result property="projectManagerPhone" column="project_manager_phone"/>
+		<result property="projectManagerEmail" column="project_manager_email"/>
+		<result property="projectRequireLicense" column="project_require_license"/>
+		<result property="projectRequireRole" column="project_require_role"/>
+		<result property="projectRequirePeople" column="project_require_people"/>	
+		<result property="commonCODE" column="common_CODE"/>
+		<result property="commonValue" column="common_value"/>
+	</resultMap>
+	
+	<!-- 지원결과조회 목록보기 -->
+	<select id="applyResultList" resultMap="UserApplyResultMap">
 		SELECT 
-			u.user_NO, u.user_ID, u.user_name, 
-			CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone, 
-	        CONCAT(u.user_email1, '@', u.user_email2) AS user_email, 
-			cd.common_value
-		FROM user u LEFT OUTER JOIN common cd
-		ON u.common_CODE = cd.common_CODE
-		WHERE u.common_CODE = 'ADM001'
+			a.apply_NO, p.project_name, a.apply_date, 
+		    p.project_require_date1, p.project_require_date2,
+		    c.common_value
+		FROM
+			project p LEFT OUTER JOIN apply a
+			ON p.project_NO = a.project_NO
+		    LEFT OUTER JOIN common c
+		    ON a.common_CODE = c.common_CODE
+		WHERE a.user_NO = #{userNO}
 	</select>
-		
+	
+	<!-- 지원현황 리스트 목록보기 -->
+	<select id="applyStatusList" resultMap="UserApplyStatusMap">
+		SELECT
+			a.apply_NO, p.project_name, p.project_require_role,
+			p.project_require_date1, p.project_require_date2,
+			c.company_name, cm.common_value, p.project_NO
+		FROM
+			project p LEFT OUTER JOIN apply a
+			ON p.project_NO = a.project_NO
+			LEFT OUTER JOIN company c
+			ON p.company_NO = c.company_NO
+			LEFT OUTER JOIN common cm
+			ON a.common_CODE = cm.common_CODE
+		WHERE a.user_NO = #{userNO}
+	</select>
+	
+	<!-- 프로젝트 상세보기 -->
+	<select id="applyStatusContent" resultMap="UserApplyStatusContentMap">
+		SELECT
+			p.project_NO, p.project_name, p.project_desc, p.project_manager, p.project_manager_phone, p.project_manager_email, p.project_require_license, p.project_require_people, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, c.company_phone1, c.company_phone2, c.company_phone3, c.company_address1, c.company_address2, c.company_address3, p.common_CODE, cd.common_value
+		FROM
+			project p LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		LEFT OUTER JOIN common cd
+		ON p.common_CODE = cd.common_CODE
+		WHERE p.project_NO = #{projectNO}
+	</select>
+	
 
 </mapper>

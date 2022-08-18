@@ -59,8 +59,9 @@
 				    	    		<th colspan= "2">게시글 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" name="boardContent" maxlength="2048" style= "height:350px" >${board.boardContent}
-					    			</textarea></td>
+					    			<td>
+					    				<textarea class="form-control" name="boardContent" maxlength="2048" style= "height:350px" >${board.boardContent}</textarea>
+					    			</td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>

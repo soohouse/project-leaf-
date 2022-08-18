@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -33,16 +35,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.spring.leaf.company.command.CompanyAutoLoginVO;
 import com.spring.leaf.company.command.CompanyIntroVO;
 import com.spring.leaf.company.command.CompanyLogoVO;
+import com.spring.leaf.company.command.CompanyPasswordVO;
 import com.spring.leaf.company.command.CompanyVO;
 import com.spring.leaf.company.service.ICompanyService;
+import com.spring.leaf.user.command.AutoLoginVO;
+import com.spring.leaf.user.command.UserProfileVO;
+import com.spring.leaf.user.command.UserVO;
 import com.spring.leaf.util.MailService;
 
 
@@ -125,27 +133,19 @@ public class CompanyController {
 	
 	// 기업 로그인 요청
 	@PostMapping("/companyLogin")
-	public String companyLogin(String companyID, String companyPW, Model model) {
+	public String companyLogin(String companyID, String companyPW, Boolean companyAutoLogin, Model model) {
 		logger.info("/company/companyLogin : POST (로그인 요청)");
 
+		// 로그인 모달에서 form으로 companyID와 companyPW, 로그인 유지 체크박스 값을 받아온 후
 		// 로그인 한 사용자의 정보를 가져온다.
 		CompanyVO vo = service.companyGetInfo(companyID);
-		CompanyLogoVO lvo = null;
-		
-		// 로그인 중 받아온 기업회원 정보가 없다면 CompanyLogoVO를 null로 보냄
-		// 기업 로고 사진 정보를 얻어오기 위해서는 CompanyVO에 담긴 것을 가져와야 하는데 CompanyVO가 null이면 예외가 발생하기 때문에 사전에 방지
-		if (vo == null) {
-			lvo = null;
-		} else {
-			lvo = service.companyLogoGet(vo.getCompanyNO());
-		}
 
 		// 가져온 사용자 정보를 인터셉터에게 전달한다.
 		model.addAttribute("companyLogin", vo);
-		// 기져온 사용자의 프로필사진 정보를 인터셉터에게 전달한다.
-		model.addAttribute("companyLogo", lvo);
 		// 가져온 사용자의 비밀번호를 인터셉터에게 전달한다. (비밀번호 비교를 위해)
 		model.addAttribute("companyPW", companyPW);
+		// 로그인 유지 체크 여부를 인터셉터에게 전달한다. (자동로그인)
+		model.addAttribute("companyAutoCheck", companyAutoLogin);
 
 		/* 기업 로그인 인터셉터 발동 */
 
@@ -156,14 +156,56 @@ public class CompanyController {
 	// 기업회원 로그아웃 요청
 	@PostMapping("/companyLogout")
 	@ResponseBody
-	public String companyLogout(HttpSession session) {
-
+	public String companyLogout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		logger.info("/company/companyLogout : POST (기업 로그아웃 요청)");
+		
+		CompanyVO vo = (CompanyVO) session.getAttribute("company");
 
 		// 로그아웃 시 저장된 사용자 정보와 프로필 사진 정보가 담긴 세션을 지운다.
 		session.removeAttribute("company");
+		
+		// 자동로그인 체크때 생성한 쿠키를 가져온다.
+		Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
+
+		// 자동로그인 체크를 했었기 때문에 쿠키가 존재하는 상태라면
+		if (loginCookie != null) {
+			loginCookie.setPath("/");
+			// 쿠키의 지속시간을 0으로 한다.
+			loginCookie.setMaxAge(0);
+
+			// 지속시간이 0인 쿠키로 쿠키를 교체하여 사실상 삭제되도록 한다.
+			response.addCookie(loginCookie);
+
+			// 쿠키를 삭제한 후 기업 데이터베이스에도 세션 ID와 쿠키 지속시간을 null로 바꾼다.
+			CompanyAutoLoginVO cavo = new CompanyAutoLoginVO();
+			cavo.setSessionID(null);
+			cavo.setSessionLimit(null);
+			cavo.setCompanyID(vo.getCompanyID());
+
+			service.companyAutoLogin(cavo);
+		}
 
 		return "logoutSuccess";
+	}
+	
+	
+	// 기업회원 비밀번호 변경 요청
+	@PostMapping("/companyPasswordChange")
+	@ResponseBody
+	public String companyPasswordChange(HttpSession session, CompanyPasswordVO cpvo) {
+		logger.info("/company/companyPasswordChange : POST (사용자 비밀번호 변경 요청)");
+
+		CompanyVO vo = (CompanyVO) session.getAttribute("company");
+
+		// 암호화된 비밀번호의 비교를 위해 BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		if (encoder.matches(cpvo.getOldPassword(), vo.getCompanyPW())) {
+			service.companyPasswordChange(cpvo);
+			return "YesChange";
+		} else {
+			return "NoChange";
+		}
 	}
 	
 	
@@ -184,7 +226,7 @@ public class CompanyController {
 	@ResponseBody
 	public String companyLogo(@RequestParam("companyLogo") MultipartFile logo, @PathVariable("companyNO") int companyNO)
 			throws Exception {
-		logger.info("/company/companyLogo : POST (프로필사진 등록 요청)");
+		logger.info("/company/companyLogo : POST (로고사진 등록 요청)");
 
 		// 날짜별로 폴더를 생성해서 파일을 관리한다.
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -292,7 +334,215 @@ public class CompanyController {
 
 		return "YesLogo";
 	}
+	
+	
+	// 기업회원 로고사진 삭제 요청
+	@PostMapping("/companyLogoDelete/{companyNO}")
+	@ResponseBody
+	public String companyLogoDelete(@PathVariable("companyNO") int companyNO) throws Exception {
+		logger.info("/company/companyLogoDelete : POST (로고사진 삭제 요청)");
 
+		// 해당 사용자의 로고 사진 파일 정보를 얻어옴
+		CompanyLogoVO vo = service.companyLogoGet(companyNO);
+
+		// 해당 경로에 있는 파일을 삭제한다.
+		File deleteFile = new File(vo.getCompanyLogoUploadpath() + "\\" + vo.getCompanyLogoFilename());
+
+		if (deleteFile.exists()) {
+			deleteFile.delete();
+		}
+
+		// 파일을 로컬이 아닌 서버에도 저장한다.
+		// SSH 원격접속을 위한 username, ip, port, password
+		String username = "leaf";
+		String host = "35.203.164.40";
+		int port = 22;
+		String password = "1q2w3e4r";
+
+		Session session = null;
+		Channel channel = null;
+
+		try {
+			// 파일을 원격서버로 보내기 위해 JSch 객체를 선언한다. (SFTP)
+			JSch jsch = new JSch();
+
+			// 세션 객체 생성 (JSch를 이용해 서버에 원격접속을 하기 위해서)
+			session = jsch.getSession(username, host, port);
+			session.setPassword(password);
+
+			// ssh_config에 호스트 key 없이 접속이 가능하도록 property 설정 (이건 잘 모르겠다,. 따로 공부해야 할 듯)
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+
+			// 접속 시도
+			session.connect();
+
+			// SFTP 채널 오픈 및 연결
+			channel = session.openChannel("sftp");
+
+			// SFTP 접속 시도
+			channel.connect();
+
+			// 서버 컴퓨터에 저장되어 있는 해당 파일을 삭제한다.
+			ChannelSftp channelSftp = (ChannelSftp) channel;
+			// channelSftp.put(uploadPath + "\\" + name, "/home/leaf/userResume");
+			channelSftp.rm("/home/leaf/companyLogo/" + vo.getCompanyLogoFilename());
+
+			// 이건 다운로드, 나중에 프로필사진 불러오기 할 때 참고해서
+			// 사용하자!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// 앞에는 서버에서 받아올 파일, 뒤에는 로컬에서 받을 폴더 위치 경로
+			// channelSftp.get("/home/leaf/userProfile/" + name, uploadPath + "\\");
+
+		} catch (JSchException e) {
+			e.printStackTrace();
+		} finally {
+			// 전송이 완료되면 접속 종료
+			if (channel != null) {
+				channel.disconnect();
+			}
+
+			// 전송이 완료되면 접속 종료
+			if (session != null) {
+				session.disconnect();
+			}
+		}
+		
+		service.companyLogoDelete(companyNO);
+
+		return "YesLogoDelete";
+	}
+
+	
+	// 기업회원 로고사진 수정 요청
+	@PostMapping("/companyLogoUpdate/{companyNO}")
+	@ResponseBody
+	public String companyLogoUpdate(@RequestParam("newLogo") MultipartFile newLogo, @PathVariable("companyNO") int companyNO) throws Exception {
+		logger.info("/company/companyLogoUpdate : POST (로고사진 재업로드 요청)");
+
+		// 날짜별로 폴더를 생성해서 파일을 관리한다.
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+		Date date = new Date();
+
+		String location = sdf.format(date);
+
+		// 저장할 폴더 경로
+		String uploadPath = "C:\\companyLogo\\" + location;
+
+		File folder = new File(uploadPath);
+
+		// 폴더가 존재하지 않는다면 생성한다.
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		// 파일명을 고유한 랜덤 문자로 생성
+		UUID uuid = UUID.randomUUID();
+		// 랜덤으로 생성된 문자에 있는 - 을 모두 지운다.
+		String uuids = uuid.toString().replaceAll("-", "");
+
+		// 사용자가 원래 가지고 있던 원본 파일 명
+		String realName = newLogo.getOriginalFilename();
+		// 확장자 추출
+		String extention = realName.substring(realName.indexOf("."), realName.length());
+
+		// 고유한 문자와 확장자를 합쳐 새로운 랜덤이름의 파일이름을 만들어준다.
+		String name = uuids + extention;
+
+		// 업로드한 파일을 서버 컴퓨터 내의 지정한 경로로 실제 저장
+		File saveFile = new File(uploadPath + "\\" + name);
+
+		try {
+			newLogo.transferTo(saveFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 받은 파일의 정보를 CompanyLogoVO 안에 넣고 데이터베이스에 저장한다.		
+		CompanyLogoVO vo = new CompanyLogoVO();
+		vo.setCompanyLogoFilename(name);
+		vo.setCompanyLogoUploadpath(uploadPath);
+		vo.setCompanyLogoRealname(realName);
+		vo.setCompanyNO(companyNO);
+
+		service.companyLogoUpdate(vo);
+
+		// 파일을 로컬이 아닌 서버에도 저장한다.
+		// SSH 원격접속을 위한 username, ip, port, password
+		String username = "leaf";
+		String host = "35.203.164.40";
+		int port = 22;
+		String password = "1q2w3e4r";
+
+		Session session = null;
+		Channel channel = null;
+
+		try {
+			// 파일을 원격서버로 보내기 위해 JSch 객체를 선언한다. (SFTP)
+			JSch jsch = new JSch();
+
+			// 세션 객체 생성 (JSch를 이용해 서버에 원격접속을 하기 위해서)
+			session = jsch.getSession(username, host, port);
+			session.setPassword(password);
+
+			// ssh_config에 호스트 key 없이 접속이 가능하도록 property 설정 (이건 잘 모르겠다,. 따로 공부해야 할 듯)
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+
+			// 접속 시도
+			session.connect();
+
+			// SFTP 채널 오픈 및 연결
+			channel = session.openChannel("sftp");
+
+			// SFTP 접속 시도
+			channel.connect();
+
+			// 로컬에 저장된 파일과 동일한 파일을 서버 /home/leaf/project 디렉토리 경로로 보낸다.
+			// 앞에는 로컬에서 보낼 파일, 뒤에는 서버에서 받을 디렉토리 위치 경로
+			ChannelSftp channelSftp = (ChannelSftp) channel;
+			channelSftp.put(uploadPath + "\\" + name, "/home/leaf/companyLogo");
+
+			// 이건 다운로드, 나중에 프로필사진 불러오기 할 때 참고해서
+			// 사용하자!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// 앞에는 서버에서 받아올 파일, 뒤에는 로컬에서 받을 폴더 위치 경로
+			// channelSftp.get("/home/leaf/userProfile/" + name, uploadPath + "\\");
+
+		} catch (JSchException e) {
+			e.printStackTrace();
+		} finally {
+			// 전송이 완료되면 접속 종료
+			if (channel != null) {
+				channel.disconnect();
+			}
+
+			// 전송이 완료되면 접속 종료
+			if (session != null) {
+				session.disconnect();
+			}
+		}
+
+		return "YesLogoUpdate";
+	}
+	
+	
+	// 기업회원 로고사진 존재 여부 체크
+	@PostMapping("/companyLogoCheck/{companyNO}")
+	@ResponseBody
+	public String companyLogoCheck(@PathVariable("companyNO") int companyNO) {
+		logger.info("/company/companyLogoCheck : POST (기업회원 로고사진 존재 여부 체크 요청)");
+
+		int check = service.companyLogoCheck(companyNO);
+
+		if (check == 1) {
+			return "YesLogoCheck";
+		} else {
+			return "NoLogoCheck";
+		}
+	}
+	
 	
 	// 기업회원 로고사진 없이 등록 요청
 	@PostMapping("/companyLogoNo/{companyNO}")
@@ -570,6 +820,198 @@ public class CompanyController {
 		}
 
 		return "YesCompanyIntro";
+	}
+	
+	
+	// 기업 회사 소개서 삭제 요청
+	@PostMapping("/companyIntroDelete/{companyNO}")
+	@ResponseBody
+	public String companyIntroDelete(@PathVariable("companyNO") int companyNO) throws Exception {
+		logger.info("/company/companyIntroDelete : POST (회사 소개서 삭제 요청)");
+
+		// 해당 사용자의 회사 소개서 파일 정보를 얻어옴
+		CompanyIntroVO vo = service.companyIntroGet(companyNO);
+
+		// 해당 경로에 있는 파일을 삭제한다.
+		File deleteFile = new File(vo.getCompanyIntroUploadpath() + "\\" + vo.getCompanyIntroFilename());
+
+		if (deleteFile.exists()) {
+			deleteFile.delete();
+		}
+
+		// 파일을 로컬이 아닌 서버에도 저장한다.
+		// SSH 원격접속을 위한 username, ip, port, password
+		String username = "leaf";
+		String host = "35.203.164.40";
+		int port = 22;
+		String password = "1q2w3e4r";
+
+		Session session = null;
+		Channel channel = null;
+
+		try {
+			// 파일을 원격서버로 보내기 위해 JSch 객체를 선언한다. (SFTP)
+			JSch jsch = new JSch();
+
+			// 세션 객체 생성 (JSch를 이용해 서버에 원격접속을 하기 위해서)
+			session = jsch.getSession(username, host, port);
+			session.setPassword(password);
+
+			// ssh_config에 호스트 key 없이 접속이 가능하도록 property 설정 (이건 잘 모르겠다,. 따로 공부해야 할 듯)
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+
+			// 접속 시도
+			session.connect();
+
+			// SFTP 채널 오픈 및 연결
+			channel = session.openChannel("sftp");
+
+			// SFTP 접속 시도
+			channel.connect();
+
+			// 서버 컴퓨터에 저장되어 있는 해당 파일을 삭제한다.
+			ChannelSftp channelSftp = (ChannelSftp) channel;
+			// channelSftp.put(uploadPath + "\\" + name, "/home/leaf/userResume");
+			channelSftp.rm("/home/leaf/companyIntro/" + vo.getCompanyIntroFilename());
+
+			// 이건 다운로드, 나중에 프로필사진 불러오기 할 때 참고해서
+			// 사용하자!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// 앞에는 서버에서 받아올 파일, 뒤에는 로컬에서 받을 폴더 위치 경로
+			// channelSftp.get("/home/leaf/userProfile/" + name, uploadPath + "\\");
+
+		} catch (JSchException e) {
+			e.printStackTrace();
+		} finally {
+			// 전송이 완료되면 접속 종료
+			if (channel != null) {
+				channel.disconnect();
+			}
+
+			// 전송이 완료되면 접속 종료
+			if (session != null) {
+				session.disconnect();
+			}
+		}
+
+		service.companyIntroDelete(companyNO);
+
+		return "YesCompanyIntroDelete";
+	}
+	
+	
+	// 기업 회사 소개서 수정 요청
+	@PostMapping("/companyIntroUpdate/{companyNO}")
+	@ResponseBody
+	public String companyIntroUpdate(@RequestParam("newCompanyIntro") MultipartFile newCompanyIntro, @PathVariable("companyNO") int companyNO) throws Exception {
+		logger.info("/company/companyIntroUpdate : POST (기업 회사 소개서 수정 요청)");
+
+		// 날짜별로 폴더를 생성해서 파일을 관리한다.
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+		Date date = new Date();
+
+		String location = sdf.format(date);
+
+		// 저장할 폴더 경로
+		String uploadPath = "C:\\companyIntro\\" + location;
+
+		File folder = new File(uploadPath);
+
+		// 폴더가 존재하지 않는다면 생성한다.
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		// 파일명을 고유한 랜덤 문자로 생성
+		UUID uuid = UUID.randomUUID();
+		// 랜덤으로 생성된 문자에 있는 - 을 모두 지운다.
+		String uuids = uuid.toString().replaceAll("-", "");
+
+		// 사용자가 원래 가지고 있던 원본 파일 명
+		String realName = newCompanyIntro.getOriginalFilename();
+		// 확장자 추출
+		String extention = realName.substring(realName.indexOf("."), realName.length());
+
+		// 고유한 문자와 확장자를 합쳐 새로운 랜덤이름의 파일이름을 만들어준다.
+		String name = uuids + extention;
+
+		// 업로드한 파일을 서버 컴퓨터 내의 지정한 경로로 실제 저장
+		File saveFile = new File(uploadPath + "\\" + name);
+
+		try {
+			newCompanyIntro.transferTo(saveFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 받은 파일의 정보를 CompanyIntroVO 안에 넣고 데이터베이스에 저장한다.
+		CompanyIntroVO vo = new CompanyIntroVO();
+		vo.setCompanyIntroFilename(name);
+		vo.setCompanyIntroUploadpath(uploadPath);
+		vo.setCompanyIntroRealname(realName);
+		vo.setCompanyNO(companyNO);
+		
+		service.companyIntroUpdate(vo);
+
+		// 파일을 로컬이 아닌 서버에도 저장한다.
+		// SSH 원격접속을 위한 username, ip, port, password
+		String username = "leaf";
+		String host = "35.203.164.40";
+		int port = 22;
+		String password = "1q2w3e4r";
+
+		Session session = null;
+		Channel channel = null;
+
+		try {
+			// 파일을 원격서버로 보내기 위해 JSch 객체를 선언한다. (SFTP)
+			JSch jsch = new JSch();
+
+			// 세션 객체 생성 (JSch를 이용해 서버에 원격접속을 하기 위해서)
+			session = jsch.getSession(username, host, port);
+			session.setPassword(password);
+
+			// ssh_config에 호스트 key 없이 접속이 가능하도록 property 설정 (이건 잘 모르겠다,. 따로 공부해야 할 듯)
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+
+			// 접속 시도
+			session.connect();
+
+			// SFTP 채널 오픈 및 연결
+			channel = session.openChannel("sftp");
+
+			// SFTP 접속 시도
+			channel.connect();
+
+			// 로컬에 저장된 파일과 동일한 파일을 서버 /home/leaf/project 디렉토리 경로로 보낸다.
+			// 앞에는 로컬에서 보낼 파일, 뒤에는 서버에서 받을 디렉토리 위치 경로
+			ChannelSftp channelSftp = (ChannelSftp) channel;
+			channelSftp.put(uploadPath + "\\" + name, "/home/leaf/companyIntro");
+
+			// 이건 다운로드, 나중에 프로필사진 불러오기 할 때 참고해서
+			// 사용하자!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// 앞에는 서버에서 받아올 파일, 뒤에는 로컬에서 받을 폴더 위치 경로
+			// channelSftp.get("/home/leaf/userProfile/" + name, uploadPath + "\\");
+
+		} catch (JSchException e) {
+			e.printStackTrace();
+		} finally {
+			// 전송이 완료되면 접속 종료
+			if (channel != null) {
+				channel.disconnect();
+			}
+
+			// 전송이 완료되면 접속 종료
+			if (session != null) {
+				session.disconnect();
+			}
+		}
+
+		return "YesCompanyIntroUpdate";
 	}
 	
 	

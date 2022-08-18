@@ -76,7 +76,7 @@
 					success: function(result) {
 						if(result == 'NoCommonModify') {
 							alert('해당 코드 사용을 중지하였습니다.');
-							location.replace('/admin/commonCODE');
+							location.replace('<c:url value="/admin/commonCODE" />');
 						}
 					},
 					
@@ -112,7 +112,7 @@
 					success: function(result) {
 						if(result == 'YesCommonModify') {
 							alert('해당 코드를 사용하도록 설정하였습니다.');
-							location.replace('/admin/commonCODE');
+							location.replace('<c:url value="/admin/commonCODE" />');
 						} else {
 							alert('코드 사용 설정 중 오류가 발생했습니다.');
 							return;

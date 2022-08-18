@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.leaf.question.command.AnswerVO;
@@ -68,7 +69,7 @@ public class QuestionController {
 		
 	}
 
-	//글 수정 페이지 이동
+	//질문글 수정 페이지 이동
 	@GetMapping("/questionModify")
 	public String questionModify(@RequestParam("questionNo") int questionNo, Model model) {
 			
@@ -77,7 +78,7 @@ public class QuestionController {
 		return "board/qna_modify";
 	}
 		
-	//글 수정 처리
+	//질문글 수정 처리
 	@PostMapping("/questionUpdate")
 	public String questionUpdate(QuestionVO vo, RedirectAttributes ra) {
 			
@@ -128,13 +129,22 @@ public class QuestionController {
 	}
 	
 	//답변글 수정 페이지 이동
-	@GetMapping("/answerModify")
+	@PostMapping("/answerModify")
 	public String answerModify(@RequestParam("answerNo") int answerNo, Model model) {
 		
-		model.addAttribute("answer", service.answerList(answerNo));
+		model.addAttribute("answerContent", service.answerContent(answerNo));
 		
 		return "board/answer_modify";
 	}
+	
+	//글 수정 처리
+		@PostMapping("/answerUpdate")
+		public String answerUpdate(AnswerVO vo, RedirectAttributes ra) {
+				
+			service.answerModify(vo);
+			ra.addFlashAttribute("msg", "updateSuccess");
+			return "redirect:/question/questionContent/" + vo.getQuestionNo();
+		}
 	
 	//답변글 삭제
 	@PostMapping("/answerDelete/{answerNo}")

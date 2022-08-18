@@ -34,6 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="companyName" column="company_name" />
 		<result property="companyPhone" column="company_phone" />
 		<result property="companyEmail" column="company_email" />
+		<result property="companyIntro" column="company_intro" />
 		<result property="companyIntroRealname" column="company_intro_realname" />
 		<result property="commonValue" column="common_value" />
 	</resultMap>
@@ -127,7 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			c.company_NO, c.company_ID, c.company_name, 
 		    CONCAT(c.company_phone1, '-',  c.company_phone2, '-', c.company_phone3) AS company_phone, 
 		    CONCAT(c.company_email1, '@', c.company_email2) AS company_email,
-		    ci.company_intro_realname, cd.common_value
+		    c.company_intro, ci.company_intro_realname, cd.common_value
 		FROM
 			company c LEFT OUTER JOIN company_intro ci
 		ON c.company_NO = ci.company_NO

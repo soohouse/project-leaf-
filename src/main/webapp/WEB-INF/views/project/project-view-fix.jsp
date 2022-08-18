@@ -73,7 +73,7 @@
     </div>
   </div>
   
-  <form action="<c:url value='/project/projectviewfix'/>"  method="post">
+  <form action="<c:url value='/project/projectviewfix'/>"  method="post" name="projectViewFix">
   
   <div class="project-img-box">
     <div class="image-intro"> 
@@ -205,8 +205,10 @@ $(function() {
 	$('#mokrok-btn').click(function() {
 		location.href='<c:url value="/project/projectadmin" />';
 	})
-	
+	doc.projectViewFix.submit();	
 });
+
+
 
 </script> 
                  

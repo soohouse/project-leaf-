@@ -18,6 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userPhone3" column="user_phone3" />
 		<result property="userDate" column="user_date" />
 		<result property="userIntro" column="user_intro" />
+		<result property="sessionID" column="session_ID" />
+		<result property="sessionLimit" column="session_limit" />
 		<result property="userDelete" column="user_delete" />
 		<result property="commonCODE" column="common_CODE" />
 	</resultMap>
@@ -79,6 +81,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<!-- 일반회원 비밀번호 변경 UPDATE 쿼리 -->
+	<update id="userPasswordChange">
+		UPDATE user
+		SET user_PW = #{newPassword}
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 자동로그인 UPDATE 쿼리 -->
+	<update id="userAutoLogin">
+		UPDATE user
+		SET session_ID = #{sessionID}, session_limit = #{sessionLimit}
+		WHERE user_ID = #{userID}
+	</update>
+	
+	
+	<!-- 자동로그인 세션값으로 사용자 정보 얻어오기 SELECT 쿼리 -->
+	<select id="userAutoGet" resultMap="UserMap">
+		SELECT *
+		FROM user
+		WHERE session_ID = #{sessionID}
+		AND session_limit > now()
+	</select>
+	
+	
 	<!-- 일반회원 회원번호 얻어내는 SELECT 쿼리 -->
 	<select id="userNOGet" resultType="int">
 		SELECT MAX(user_NO) + 1
@@ -98,6 +125,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 일반회원 프로필사진 불러오기 SELECT 쿼리 -->
 	<select id="userProfileGet" resultMap="ProfileMap">
 		SELECT *
+		FROM user_profile
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 일반회원 프로필사진 삭제 UPDATE 쿼리 -->
+	<update id="userProfileDelete">
+		UPDATE user_profile
+		SET
+			user_profile_filename = null, user_profile_uploadpath = null, user_profile_realname = null
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 프로필사진 수정 UPDATE 쿼리 -->	
+	<update id="userProfileUpdate">
+		UPDATE user_profile
+		SET
+			user_profile_filename = #{userProfileFilename}, user_profile_uploadpath = #{userProfileUploadpath}, user_profile_realname = #{userProfileRealname}
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 프로필사진 존재 여부 확인 SELECT 쿼리 -->
+	<select id="userProfileCheck" resultType="int">
+		SELECT COUNT(user_profile_filename)
 		FROM user_profile
 		WHERE user_NO = #{userNO}
 	</select>

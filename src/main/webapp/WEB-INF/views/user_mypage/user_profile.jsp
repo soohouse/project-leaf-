@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 
 <html>
 <head>
@@ -61,8 +63,8 @@ input.form-control {
 									정보</span>
 							</a>
 
-							<div class="card" style="width: 20%; transform: translate(0, -70px); text-align: center;">
-								<img src="<c:url value='/user/userProfileGet?userNO=${userDetail.userNO}' />" alt="profile" class="img-circle" style="height:250px;">
+							<div class="card" style="width: 20%; transform: translate(0, -90px); text-align: center;">
+								<img src="<c:url value='/user/userProfileGet?userNO=${userDetail.userNO}' />" alt="profile" class="img-circle" style="height: 250px;">
 								<div class="container1">
 									<h3>
 										<input type="hidden" id="hidden-user-mypage-userno" value="${userDetail.userNO}">
@@ -118,7 +120,7 @@ input.form-control {
 										<p class="mb-0">소개</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${userDetail.userIntro}</p>
+										<p class="text-muted mb-0">${fn:replace(userDetail.userIntro, replaceChar, "<br/>")}</p>
 									</div>
 								</div>
 								<hr>
@@ -133,7 +135,7 @@ input.form-control {
 												<p class="text-muted mb-0" id="btn-user-mypage-resume">등록한 이력서가 없습니다.</p>
 											</c:if>
 										
-											<p class="text-muted mb-0" id="btn-user-mypage-resume" style="text-decoration: underline; color: blue; cursor: pointer;">${userDetail.resumeRealname}</p>
+											<p class="text-muted mb-0" id="btn-user-mypage-resume" style="text-decoration: underline; color: blue; cursor: pointer;"><a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a> ${userDetail.resumeRealname}</p>
 										</div>
 									</div>
 								</div>
@@ -145,8 +147,7 @@ input.form-control {
 									<div class="col-sm-9">
 										<div class="form-group btn-profile">
 											<button type="button" class="btn btn-success" id="btn-mypage-user-modify">정보수정</button>
-											<button type="button" class="btn btn-primary"
-												data-toggle="modal" data-target="#myModal">비밀번호 변경</button>
+											<button type="button" class="btn btn-primary" id="btn-password-change">비밀번호 변경</button>
 										</div>
 									</div>
 								</div>
@@ -184,9 +185,7 @@ input.form-control {
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-primary">변경하기</button>
-
-												<button type="button" class="btn btn-default"
-													data-dismiss="modal">취소하기</button>
+												<button type="button" class="btn btn-default" data-dismiss="modal">취소하기</button>
 											</div>
 										</div>
 									</div>
@@ -206,9 +205,8 @@ input.form-control {
 								style="margin-top: 20px;"> <span class="main-notice-title">기업정보</span>
 							</a>
 
-							<div class="com_card" style="width: 20%; transform: translate(0, -490px); text-align: center;">
-								<img src="<c:url value='/company/companyLogoGet?companyNO=${companyDetail.companyNO}' />" alt="profile"
-									class="img-circle">
+							<div class="com_card" style="width: 20%; transform: translate(0, -520px); text-align: center;">
+								<img src="<c:url value='/company/companyLogoGet?companyNO=${companyDetail.companyNO}' />" alt="profile" class="img-circle" style="height: 250px;">
 								<div class="container1">
 									<h3>
 										<b class="card-title">${companyDetail.companyID}님</b>
@@ -264,7 +262,7 @@ input.form-control {
 										<p class="mb-0">기업소개</p>
 									</div>
 									<div class="col-sm-9">
-										<p class="text-muted mb-0">${companyDetail.companyIntro}</p>
+										<p class="text-muted mb-0">${fn:replace(companyDetail.companyIntro, replaceChar, "<br/>")}</p>
 									</div>
 								</div>
 								<hr>
@@ -339,7 +337,8 @@ input.form-control {
 												<p class="text-muted mb-0" id="btn-company-mypage-intro">등록한 회사 소개서가 없습니다.</p>
 											</c:if>
 										
-											<p class="text-muted mb-0" id="btn-company-mypage-intro" style="text-decoration: underline; color: blue; cursor: pointer;">${companyDetail.companyIntroRealname}</p>
+											
+											<p class="text-muted mb-0" id="btn-company-mypage-intro" style="text-decoration: underline; color: blue; cursor: pointer;"><a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a> ${companyDetail.companyIntroRealname}</p>
 										</div>
 									</div>
 								</div>
@@ -350,8 +349,8 @@ input.form-control {
 									<div class="col-sm-3"></div>
 									<div class="col-sm-9">
 										<div class="form-group btn-profile">
-											<button type="submit" class="btn btn-success">정보수정</button>
-											<button type="button" class="btn btn-primary">비밀번호변경</button>
+											<button type="button" class="btn btn-success" id="btn-mypage-company-modify">정보수정</button>
+											<button type="button" class="btn btn-primary" id="btn-password-change-company">비밀번호변경</button>
 										</div>
 									</div>
 								</div>
@@ -366,7 +365,10 @@ input.form-control {
 
 
 		</section>
+		
+		<%@ include file="modal-password-change.jsp" %>
 		<%@ include file="../include/footer.jsp"%>
+		
 	</div>
 </body>
 </html>
@@ -380,12 +382,19 @@ input.form-control {
 	if(msg != '') {
 		alert(msg);
 	}
-
-
+	
+	
 	$(function() {
 		
+		// 일반회원 정보수정 버튼 클릭 시 수정 페이지로 이동
 		$('#btn-mypage-user-modify').click(function() {
 			location.href="<c:url value='/usermypage/usermypagemod' />";
+		});
+		
+		
+		// 기업회원 정보수정 버튼 클릭 시 수정 페이지로 이동
+		$('#btn-mypage-company-modify').click(function() {
+			location.href="<c:url value='/usermypage/companymypagemod' />";
 		});
 		
 		
@@ -404,6 +413,36 @@ input.form-control {
 			const companyNO = $('#hidden-company-mypage-companyno').val();
 			
 			location.href="<c:url value='/company/companyIntro/download?companyNO=' />" + companyNO;
+		});
+		
+		
+		// 일반회원 비밀번호 변경 클릭 시 비밀번호 변경 모달 창 오픈
+		$('#btn-password-change').click(function() {
+			
+			if(${user != null}) {
+				$('#btn-modal-password-change').css('display', 'inline-block');
+				$('#btn-modal-password-change-company').css('display', 'none');
+			} else {
+				$('#btn-modal-password-change').css('display', 'none');
+				$('#btn-modal-password-change-company').css('display', 'inline-block');
+			}
+			
+			$('#modal-password-change').modal('show');
+		});
+		
+		
+		// 기업회원 비밀번호 변경 클릭 시 비밀번호 변경 모달 창 오픈
+		$('#btn-password-change-company').click(function() {
+			
+			if(${user != null}) {
+				$('#btn-modal-password-change').css('display', 'inline-block');
+				$('#btn-modal-password-change-company').css('display', 'none');
+			} else {
+				$('#btn-modal-password-change').css('display', 'none');
+				$('#btn-modal-password-change-company').css('display', 'inline-block');
+			}
+			
+			$('#modal-password-change').modal('show');
 		});
 		
 	});

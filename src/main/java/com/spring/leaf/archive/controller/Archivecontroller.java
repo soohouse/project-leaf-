@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -34,7 +35,10 @@ import com.jcraft.jsch.Session;
 import com.spring.leaf.archive.command.ArchiveFileVO;
 import com.spring.leaf.archive.command.ArchiveVO;
 import com.spring.leaf.archive.service.IArchiveService;
+import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.user.controller.UserController;
+import com.spring.leaf.util.PageCreator;
+import com.spring.leaf.util.PageVO;
 
 
 //data 컨트롤러 : 2022-08-01 생성
@@ -53,9 +57,23 @@ public class Archivecontroller {
 	
 	//자료실 목록 페이지로 이동 요청
 	@GetMapping("/archiveList")
-	public String archiveList(Model model) {
+	public String archiveList(PageVO vo ,Model model) {
+		//페이징
+		System.out.println(vo);
+		PageCreator pc = new PageCreator();
+		pc.setPaging(vo);
+		pc.setArticleTotalCount(service.archiveTotal(vo));
+		System.out.println(pc);
 		
-		model.addAttribute("archiveList", service.archiveList());
+		//현재시간 구하기 (뉴마크) https://mingbocho.tistory.com/11참고
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.DAY_OF_MONTH, -1); //게시글 등록 후 1일간 뉴마크 표시.
+	    String nowday = format.format(cal.getTime());
+	    
+	    model.addAttribute("nowday",nowday);
+		model.addAttribute("pc", pc);
+		model.addAttribute("archiveList", service.archiveList(vo));
 		
 		return "/board/archive_list";
 	}
@@ -94,9 +112,118 @@ public class Archivecontroller {
 	
 	//글 수정 처리
 	@PostMapping("/archiveUpdate")
-	public String archiveUpdate(ArchiveVO vo, RedirectAttributes ra) {
+	public String archiveUpdate(@RequestParam("newArchive") MultipartFile newarchiveFile, @PathVariable("archiveNo") int archiveNo, ArchiveVO vo, RedirectAttributes ra) throws Exception {
 		
 		service.archiveModify(vo);
+		
+		logger.info("/archive/archiveUpdate : POST (자료실 파일 재업로드 요청)");
+
+		// 날짜별로 폴더를 생성해서 파일을 관리한다.
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+		Date date = new Date();
+
+		String location = sdf.format(date);
+
+		// 저장할 폴더 경로
+		String uploadPath = "C:\\archiveFile\\" + location;
+
+		File folder = new File(uploadPath);
+
+		// 폴더가 존재하지 않는다면 생성한다.
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+
+		// 파일명을 고유한 랜덤 문자로 생성
+		UUID uuid = UUID.randomUUID();
+		// 랜덤으로 생성된 문자에 있는 - 을 모두 지운다.
+		String uuids = uuid.toString().replaceAll("-", "");
+
+		// 사용자가 원래 가지고 있던 원본 파일 명
+		String realName = newarchiveFile.getOriginalFilename();
+		// 확장자 추출
+		String extention = realName.substring(realName.indexOf("."), realName.length());
+
+		// 고유한 문자와 확장자를 합쳐 새로운 랜덤이름의 파일이름을 만들어준다.
+		String name = uuids + extention;
+
+		// 업로드한 파일을 서버 컴퓨터 내의 지정한 경로로 실제 저장
+		File saveFile = new File(uploadPath + "\\" + name);
+
+		try {
+			newarchiveFile.transferTo(saveFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// 받은 파일의 정보를 ResumeVO 안에 넣고 데이터베이스에 저장한다.
+		ArchiveFileVO fvo = new ArchiveFileVO();
+		fvo.setArchiveFileFilename(name);
+		fvo.setArchiveFileUploadpath(uploadPath);
+		fvo.setArchiveFileRealname(realName);
+		fvo.setArchiveNo(archiveNo);
+		
+		service.archiveFileModify(fvo);
+
+
+		// 파일을 로컬이 아닌 서버에도 저장한다.
+		// SSH 원격접속을 위한 username, ip, port, password
+		String username = "leaf";
+		String host = "35.203.164.40";
+		int port = 22;
+		String password = "1q2w3e4r";
+
+		Session session = null;
+		Channel channel = null;
+
+		try {
+			// 파일을 원격서버로 보내기 위해 JSch 객체를 선언한다. (SFTP)
+			JSch jsch = new JSch();
+
+			// 세션 객체 생성 (JSch를 이용해 서버에 원격접속을 하기 위해서)
+			session = jsch.getSession(username, host, port);
+			session.setPassword(password);
+
+			// ssh_config에 호스트 key 없이 접속이 가능하도록 property 설정 (이건 잘 모르겠다,. 따로 공부해야 할 듯)
+			java.util.Properties config = new java.util.Properties();
+			config.put("StrictHostKeyChecking", "no");
+			session.setConfig(config);
+
+			// 접속 시도
+			session.connect();
+
+			// SFTP 채널 오픈 및 연결
+			channel = session.openChannel("sftp");
+
+			// SFTP 접속 시도
+			channel.connect();
+
+			// 로컬에 저장된 파일과 동일한 파일을 서버 /home/leaf/project 디렉토리 경로로 보낸다.
+			// 앞에는 로컬에서 보낼 파일, 뒤에는 서버에서 받을 디렉토리 위치 경로
+			ChannelSftp channelSftp = (ChannelSftp) channel;
+			channelSftp.put(uploadPath + "\\" + name, "/home/leaf/userProfile");
+
+			// 이건 다운로드, 나중에 프로필사진 불러오기 할 때 참고해서
+			// 사용하자!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			// 앞에는 서버에서 받아올 파일, 뒤에는 로컬에서 받을 폴더 위치 경로
+			// channelSftp.get("/home/leaf/userProfile/" + name, uploadPath + "\\");
+
+		} catch (JSchException e) {
+			e.printStackTrace();
+		} finally {
+			// 전송이 완료되면 접속 종료
+			if (channel != null) {
+				channel.disconnect();
+			}
+
+			// 전송이 완료되면 접속 종료
+			if (session != null) {
+				session.disconnect();
+			}
+		}
+		
+		
 		ra.addFlashAttribute("msg", "updateSuccess");
 		return "redirect:/archive/archiveContent/" + vo.getArchiveNo();
 	}

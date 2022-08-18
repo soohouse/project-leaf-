@@ -110,8 +110,19 @@
 											$('#modal-user-name').text(user.userName);
 											$('#modal-user-phone').text(user.userPhone);
 											$('#modal-user-email').text(user.userEmail);
-											$('#modal-user-intro').text(user.userIntro);
-											$('#modal-user-resume-realname').text(user.resumeRealname);
+											
+											if(user.userIntro == null || user.userIntro == '') {
+												$('#modal-user-intro').text('');
+											} else {
+												$('#modal-user-intro').text(user.userIntro);
+											}
+											
+											if(user.resumeRealname == null || user.resumeRealname == '') {
+												$('#modal-user-resume-realname').text('');
+											} else {
+												$('#modal-user-resume-realname').text(user.resumeRealname);
+											}
+											
 											$('#modal-user-logo').attr('src', '<c:url value="/user/userProfileGet?userNO=" />' + user.userNO);
 											$('#hidden-user-no').val(user.userNO);
 											$('#modal-main-user-id').text(user.userID);

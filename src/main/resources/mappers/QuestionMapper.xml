@@ -69,6 +69,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE question_NO=#{questionNo}
 	</select>
 	
+	<select id="answerContent" resultMap="AnswerMap">
+		SELECT * FROM answer
+		WHERE answer_NO = #{answerNo}
+	</select>
+	
 	<!-- 답변글 수정하기 UPDATE 쿼리 -->
 	<update id="answerModify">
 		UPDATE answer

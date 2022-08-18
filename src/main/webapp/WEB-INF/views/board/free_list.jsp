@@ -79,7 +79,7 @@
 			        <option value="15" <c:if test="${pc.paging.cpp == 15}">selected</c:if>>15개씩 보기</option>
 			        <option value="20" <c:if test="${pc.paging.cpp == 20}">selected</c:if>>20개씩 보기</option>
 			    </select>
-			    <c:if test="${user.userID != null}">
+			    <c:if test="${user.userID != null || company.companyID != null}">
 					<button type="submit" class="btn btn-success mb-2 pull-right" id="btn-free-write">글쓰기</button>
 	            </c:if>
                  
@@ -101,7 +101,7 @@
                             <td>${board.boardNo}</td>
                             <td style="text-align: left;">
                      	        <a href="<c:url value='/board/boardContent/${board.boardNo}${pc.makeURI(pc.paging.pageNum)}'/>">
-                            		${board.boardTitle}
+                            		${board.boardTitle} 
                             		<!-- new마크 -->
 									<c:if test="${board.boardDate>=nowday }">
 		                           		<img alt="newmark" src="<c:url value='/resources/img/newmark.gif' />">
@@ -111,7 +111,9 @@
 									</c:if>
 								</a>
                             </td>
-                            <td <c:if test="${board.boardWriter eq user.userID }">style="color:#042894;"</c:if>>${board.boardWriter}</td>
+                            <td <c:if test="${board.boardWriter eq user.userID || board.boardWriter eq company.companyID}">style="color:#042894;"</c:if>>
+                            	${board.boardWriter}
+                            </td>
                             <td><fmt:formatDate value="${board.boardDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td>${board.boardViews }</td>
                         </tr>

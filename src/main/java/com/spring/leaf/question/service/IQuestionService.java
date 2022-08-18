@@ -29,6 +29,8 @@ public interface IQuestionService {
 	
 	//답변글 상세보기
 	List<AnswerVO> answerList(int questionNo);
+	
+	AnswerVO answerContent(int answerNo);
 
 	//답변글 수정하기
 	void answerModify(AnswerVO vo);

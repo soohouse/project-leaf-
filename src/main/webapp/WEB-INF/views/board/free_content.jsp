@@ -35,10 +35,13 @@
  		position:relative;
  		overflow:hidden;
  		width:100%;
- 		height: 40px;
+ 		min-height: 40px;
+ 		max-height: 900px;
  		float: none;
  		text-align:center;
  		line-height: 40px;
+ 		border-bottom:1px solid #D8D8D8; 
+ 		margin: 10px 0px;
  		
  	}
     
@@ -91,6 +94,9 @@
 				                                            <c:if test="${board.boardWriter eq user.userID }">
 			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>
 			                                            	</c:if>
+				                                            <c:if test="${board.boardWriter eq company.companyID }">
+			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>
+			                                            	</c:if>
 			                                       		</div>
 			                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
 					                                        <div style="display:inline-block;" >
@@ -112,7 +118,37 @@
 	                 			
 	                        </div>
                         </form>
-                       
+                    
+                    <!-- 댓글 입력 부분 -->
+					<div style="background-color:#bbd0e7; height: 120px; ">
+						<div style="text-align:left; margin: 10px 10px 10px 10px; padding-top:10px;">회원만 댓글 작성이 가능합니다.</div>
+			    		<div>
+			    			<div>
+			    				<input type="hidden" id="boardNo" name="boardNo" value="${board.boardNo}">
+			    				
+			    				<c:if test="${user != null}">
+			    					<input type="hidden" id="boardReplyWriter" name="boardReplyWriter" value="${user.userID}" >
+			    				</c:if>
+			    				
+			    				<c:if test="${company != null}">
+			    					<input type="hidden" id="boardReplyWriter" name="boardReplyWriter" value="${company.companyID}" >
+			    				</c:if>
+			    				
+			    				<c:if test="${user != null || company != null}">																									
+					      			<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%; margin-left:30px; resize:none;"></textarea>
+				      			</c:if>
+			    				
+				      			<c:if test="${user == null && company == null}">
+					      			<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="로그인 한 후 댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%; margin-left:30px; resize:none;" readonly="readonly"></textarea>
+				      			</c:if>
+				      			
+							</div>
+							<div style=" margin-bottom:10px; float:right; margin-right: 40px; width:5%;">
+								<input type="button" id="btn-boardreply-write" class="btn" value="댓글입력" style="height:54px;">
+							</div>
+						</div>
+					</div>
+                    
 					<!-- 댓글 보여지는 부분 -->
 					<div  class="boardreply-List"  style="text-align: center; font-size:12px;">
 						<div>
@@ -125,69 +161,30 @@
 						    </div> 
 						</div>
 					
-						<!-- 댓글 보기 모드 -->
-						<div id="boardReplyList" style="width=100%;">
-							<form action="<c:url value='/board/boardReplyDelete'/>" method="post" name="boardReplyDeleteForm">
-								<!-- 주석 
-								<tbody>
-									<tr>
-										<td style="text-align: left;">${boardreply.boardReplyWriter}</td>
-										<td style="text-align: left;">${boardreply.boardReplyContent}</td>
-										<td>${boardreply.boardReplyDate}</td>
-										<td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
-										<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
-									</tr>
-								</tbody>-->
-							</form>
-					     </div> 
+						<!-- 댓글 보기 모드 (여기에 댓글 반복이 들어감) -->
+						<div id="boardReplyList" style="width=100%; background:#FAFAFA; padding:5px 15px 5px 15px;">
+							<!-- 주석 <tbody>
+								<tr>
+									<td style="text-align: left;">${boardreply.boardReplyWriter}</td>
+									<td style="text-align: left;">${boardreply.boardReplyContent}</td>
+									<td>${boardreply.boardReplyDate}</td>
+									<td><a class="glyphicon glyphicon-ok" aria-hidden="true"></a></td>
+									<td><a class="glyphicon glyphicon-remove" aria-hidden="true"></a></td>
+								</tr>
+							</tbody>-->
+					     </div>
+					     <button class="form-control" id="moreList">댓글 더보기</button>
 					</div>
 
 					<div class="text-center">
 						
-						<!-- 댓글 페이징 --> ${pc.beginPage }/${pc.endPage }
-						<button class="form-control" id="moreList">댓글 더보기</button>
-			            <div class="text-center">
-							<form action="<c:url value='/board/free_content'/>" name="pageForm">
-				                <ul class="pagination pagination-sm">
-									<c:if test="${pc.prev }"><!-- 이전버튼 -->
-					                    <li><a href="/board/boardContent/${board.boardNo}?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }" data-pagenum="${pc.beginPage-1 }"> << </a></li>					
-									</c:if>
-									<c:forEach var="num" begin="${pc.beginPage }" end="${pc.endPage }">
-										<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a href="/board/boardContent/${board.boardNo}?pageNum=${num}&cpp=${pc.paging.cpp }" data-pagenum='${num }'>${num }</a></li>
-									</c:forEach>
-									<c:if test="${pc.next }"><!-- 다음버튼 -->
-					                    <li><a href="/board/boardContent/${board.boardNo}?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }" data-pagenum="${pc.endPage-1 }"> >> </a></li>
-									</c:if>
-								</ul>
-			                    <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
-			                    <input type="hidden" name="cpp" value="${pc.paging.cpp}">
-							</form>
-						</div>
 						
-						<!-- 댓글 입력 부분 -->
-						<div style="background-color:#bbd0e7; height: 120px; ">
-							<div style="text-align:left; margin: 10px 10px 10px 10px; padding-top:10px;">회원만 댓글 작성이 가능합니다.</div>
-				    		<div>
-				    			<div>
-				    				<input type="hidden" id="boardNo" name="boardNo" value="${board.boardNo}">
-				    				<input type="hidden" id="boardReplyWriter" name="boardReplyWriter" value="${user.userID}" >
-				    				<c:if test="${user.userID != null}">
-						      			<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%; margin-left:30px; resize:none;"></textarea>
-					      			</c:if>
-					      			<c:if test="${user.userID eq null}">
-						      			<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="로그인 한 후 댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%; margin-left:30px; resize:none;" readonly="readonly"></textarea>
-					      			</c:if>
-								</div>
-								<div style=" margin-bottom:10px; float:right; margin-right: 40px; width:5%;">
-									<input type="button" id="btn-boardreply-write" class="btn" value="댓글입력" style="height:54px;">
-								</div>
-
-							</div>
-						</div>
-						
+						<br>
 						<div style="margin-top:20px;">
-							<button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
-							<c:if test="${board.boardWriter eq user.userID }">
+            
+							<button type="submit" class=" mb-2 pull-left">신고하기 </button>
+							<c:if test="${board.boardWriter eq user.userID || board.boardWriter eq company.companyID}">
+
 								<button type="button" id="btn-board-modify" class="btn btn-info mb-2 pull-right" onclick="location.href='<c:url value="/board/boardModify?boardNo=${board.boardNo}"/>'" style="margin-left:10px;">수정하기</button>
 							</c:if>
 							<button type="button" id="btn-board-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
@@ -223,7 +220,7 @@
 					</div>
 				</div>
 			</div><!-- 댓글 수정 모달 끝. -->
-			
+		
 	   
 	   
 	    <%@ include file="../include/footer.jsp" %>
@@ -237,22 +234,11 @@
 
 <script language="javaScript">
 		
-		//페이징
-		$(function() {
-			const msg = '${msg}';
-			if(msg !== '') {
-				alert(msg);
-			}
-			$('#pagination').on('click', 'a', function(e) {
-				e.preventDefault(); //a태그의 고유기능 중지.
-				const value = $(this).data('pagenum'); //-> jQuery
-				console.log(value);
-				document.pageForm.pageNum.value = value;
-				document.pageForm.submit();
-			});
-		}); //end jQuery
-
-
+		const msg = '${msg}';
+		if(msg !== '') {
+			alert(msg);
+		}
+		
 		//목록 이동 버튼
 		$(function() {
 			$('#btn-board-list').click(function() {
@@ -322,32 +308,49 @@
 				}); //end ajax
 			}); //댓글 등록 이벤트 끝
 		
-		////////////////////
+			//더보기 버튼 처리(클릭 시 전역 변수 page에 +1 한 값을 전달)
+			$('#moreList').click(function() {
+				//왜 false를 주었죠?, 더보기잖아요. 누적해야 하지 않을까요?
+				//1페이지의 댓글 내용 밑에다가 2페이지를 줘야지, 1페이지를 없애고 2페이지를 보여주자 는 게 아니니까요.
+				boardReplyList(++page, false);
+			});
 	
 		//댓글 목록 조회
-		//let page = 1; //페이지 번호
+		let page = 1; //페이지 번호
 		let strAdd = ''; //화면에 넣을 태그를 문자열 형태로 추가할 변수
 		
 		boardReplyList(1, true); //상세보기 화면에 처음 진입 시 댓글 리스트 불러오기
 		
 		
 		//목록 불러오기
-		function boardReplyList() {
+		function boardReplyList(pageNum, reset) {
 		
 			const boardNo = '${board.boardNo}';
 			strAdd = '';
 			
 			$.getJSON(
-				"<c:url value='/boardreply/boardReplyList/'/>" + boardNo,
+				"<c:url value='/boardreply/boardReplyList/'/>" + boardNo + '/' + pageNum,
 				function(result){
 					
+					let boardReplyTotal = result.boardReplyTotal; //총 댓글 수
 					let boardReplyList = result.boardReplyList; //댓글 리스트
+					
+					if(reset === true) {
+						strAdd = '';
+						page = 1;
+					}
+					
+					//페이지번호 * 데이터 수보다 전체 댓글 개수가 작으면 더보기 버튼을 없애자.
+					console.log('현재 페이지: ' + page);
+					if(boardReplyTotal <= page * 5) {
+						$('#moreList').css('display', 'none');
+					} else {
+						$('#moreList').css('display', 'block');
+					}
 					
 					if(boardReplyList.length <= 0) {
 						return; //함수 종료
 					}
-					
-					
 					
 					for(let i=0; i<boardReplyList.length; i++) {
 						
@@ -355,27 +358,41 @@
 						var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
 						
 						var replyWriter = boardReplyList[i].boardReplyWriter;
-						var replyReader = '${user.userID}';
+						var replyReader = '';
+						
+						if(${user != null}) {
+							replyReader = '${user.userID}';
+						} else {
+							replyReader = '${company.companyID}';
+						}
 						
 						if(replyWriter == replyReader) {
 							strAdd += 
-								`<div class='boardReplyWrap' style="border-bottom:1px solid lightgray;"> 
-			                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; <c:if test="${board.boardWriter eq user.userID }">color: blue;</c:if>">&nbsp;`+ boardReplyList[i].boardReplyWriter +`</div>
-			                        <div id='boardReply-Content' style="text-align: left; float:left; width:73%;">&nbsp;` + boardReplyList[i].boardReplyContent +`</div>
-			                        <div style="float:right; width:10%;">`+ date +`</div> 
-		                            <div style="float:right; width:3%; padding-top:10px;">
+								`<div class='boardReplyWrap'>
+									<div><span><img src="resources/img/logo2.png" width="30px" style="float:left; border-radius:50px;"><span>
+									</div>
+			                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
+			                        </div>
+			                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
+			                        </div>
+			                        <div style="float:right; width:13%;">`+ date +`
+			                        </div>
+		                            <div style="float:right; width:5%;">
 		                            	<a id="btn-board-reply-delete` + i + `" class="glyphicon glyphicon-remove replyDelete" aria-hidden="true" data-value="` + boardReplyList[i].boardReplyNo + `"></a>
-		                            </div> 
-		                            <div style="float:right; width:3%; padding-top:10px;" id="cm_update">
 		                            	<a class="glyphicon glyphicon-ok replyModify" aria-hidden="true"></a>
-		                            </div>  
+		                            </div>
 		                        </div>`;
 						} else {
 							strAdd += 
-								`<div class='boardReplyWrap' style="border-bottom:1px solid lightgray;"> 
-			                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; <c:if test="${board.boardWriter eq user.userID }">color: blue;</c:if>">&nbsp;`+ boardReplyList[i].boardReplyWriter +`</div>
-			                        <div id='boardReply-Content' style="text-align: left; float:left; width:73%;">&nbsp;` + boardReplyList[i].boardReplyContent +`</div>
-			                        <div style="float:right; width:10%;">`+ date +`</div> 
+								`<div class='boardReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
+									<div><span><img src="resources/img/logo2.png" width="30px" style="float:left; border-radius:50px;"><span>
+			                        </div>
+									<div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
+			                        </div>
+			                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
+			                        </div>
+			                        <div style="float:right; width:13%;">`+ date +`
+			                        </div>
 		                        </div>`;
 						}
 					
@@ -389,8 +406,16 @@
 			
 		}//end boardReplyList()
 		
+		
+		//연속클릭방지
+		/*
+		var bbw = document.querySelector("#btn-boardreply-write");
+		bbw.addEventListener("click", function (e) {
+		    this.setAttribute("disabled", true);
+		});
+		*/
 
-
+		
 		//댓글 수정/삭제 버튼 처리
 		$('#boardReplyList').on('click', 'a', function(e) {
 			e.preventDefault();
@@ -400,6 +425,7 @@
 			
 			if($(this).hasClass('replyModify')) {
 				//수정 버튼을 눌렀으므로 수정 모달 형식으로 꾸며주겠다.
+				
 				$('.modal-title').html('댓글 수정');
 				$('#modalReply').css('display', 'inline');
 				$('#modalModBtn').css('display', 'inline'); //수정버튼 보이기
@@ -417,30 +443,44 @@
 		}); //수정 or 삭제 버튼 클릭 이벤트 처리 끝.
 
 		
-		//댓글 수정
+		//댓글 수정   (https://rsorry.tistory.com/m/282참고)
 		$('#modalModBtn').click(function () {
-			alert('수정');
 			const boardReplyNO = $('#hidden-modal-replyno').val();
-		});
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/boardreply/boardReplyUpdate"/>',
+				dataType:'text',
+				data: {
+					'boardReplyNO': boardReplyNO
+				},
+				success: function(result) {
+					if(result === 'UpdateSuccess') {
+						alert('ㅎㅎ');
+						$('#modalReply').val('');
+						$('#replyModal').modal('hide');
+						location.reload();
+					} else {
+						alert('댓글이 수정되지 못했습니다.');
+						return false;
+					}
+				}, error: function() {
+					alert('error: 수정에 실패했습니다. 관리자에게 문의하세요!');
+				}
+			});//ajax 끝.
+		});//댓글 수정 끝.
 		
 		//삭제 함수
 		$('#modalDelBtn').click(function () {
 			const boardReplyNO = $('#hidden-modal-replyno').val();
-
-			
 			$.ajax({
 				type: 'POST',
 				url: '<c:url value="/boardreply/boardReplyDelete"/>',
-
-				
 				dataType: 'text',
 				data: {
 					'boardReplyNO': boardReplyNO
 				},
-				
 				success: function (result) {
 					if(result === 'DeleteSuccess') {
-						alert('댓글이 삭제완료되었습니다.');
 						$('#replyModal').modal('hide');
 						location.reload();
 					} else {
@@ -449,8 +489,7 @@
 					}
 				},
 				error: function () {
-					alert('error: 댓글 삭제에 실패하였습니다.')
-
+					alert('error: 댓글 삭제에 실패하였습니다. 관리자에게 문의하세요!');
 				}
 			}); //삭제 비동기 통신 끝.
 		}); //삭제 이벤트 끝.

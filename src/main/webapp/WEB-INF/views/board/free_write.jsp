@@ -51,8 +51,14 @@
 				    	    	</tr>
 				    	    	<tr>
 					    			<td><input type="text" name="boardTitle" id="boardTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="45" ></td>
-					    			<td><input type="hidden" name="boardWriter" value="${user.userID}"></td>
-					    			
+
+					    			<c:if test="${user.userID != null }">
+					    				<td><input type="hidden" name="boardWriter" value="${user.userID}"></td>
+					    			</c:if>
+					    			<c:if test="${company.companyID != null }">
+					    				<td><input type="hidden" name="boardWriter" value="${company.companyID}"></td>
+					    			</c:if>
+
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>

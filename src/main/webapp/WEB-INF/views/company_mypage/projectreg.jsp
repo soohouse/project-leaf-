@@ -59,11 +59,8 @@ input.form-control {
 
 		<section>
         
-       
-        
-        <form action="<c:url value='/project/projectputin' />" method="post" name="projectRegisterForm">
         <div class="container">
-            <div class="row">
+            <div class="row" style="margin-bottom: 60px;">
 				<!-- 메인화면 공지사항 상단 -->
 			             <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
 			            	<span class="main-notice-title">프로젝트 등록</span>
@@ -71,6 +68,9 @@ input.form-control {
 
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8" style="padding-top: 40px; background: #F5F5F5;">
+			
+				<form action="<c:url value='/project/projectputin' />" method="post" name="projectRegisterForm">
+			
 				<div class="projectReg">
 					<div>
 						<p class="projectFont">프로젝트 이름 *</p>
@@ -88,12 +88,12 @@ input.form-control {
 					<div>
 						<div>
 							<div style="width:500px;">
-							시작일자: <input name="projectRequireDate1" type="date" class="form-control" id="exampleInputdate" 
+							시작일자: <input name="projectRequireDate1" type="date" class="form-control"
 								placeholder="0000/00/00"> 
 							</div>
 							<div style="width:500px;">
 							종료일자: <input
-								name="projectRequireDate2" type="date" class="form-control" id="exampleInputdate"
+								name="projectRequireDate2" type="date" class="form-control"
 								placeholder="0000/00/00">
 							</div>
 						</div>
@@ -107,7 +107,7 @@ input.form-control {
 					</div>
 					<div>
 						<input type="hidden" value="${company.companyNO}" name="companyNO">
-						<input class="form-control" id="disabledInput" type="text" 
+						<input class="form-control" type="text" 
 							value="${company.companyName}" style="width: 300px;" disabled>
 					</div>
 				</div>
@@ -116,7 +116,7 @@ input.form-control {
 						<p class="projectFont">협력사 전화번호</p>
 					</div>
 					<div>
-						<input class="form-control" id="disabledInput" type="text"
+						<input class="form-control" type="text"
 							value="${company.companyPhone1} - ${company.companyPhone2} - ${company.companyPhone3}" style="width: 200px;" disabled>
 					</div>
 				</div>
@@ -126,15 +126,15 @@ input.form-control {
 					</div>
 					<div>
 						<div>
-							<input class="form-control" id="disabledInput" type="text"
+							<input class="form-control" type="text"
 								value="${company.companyAddress1}" style="width: 300px;" disabled>
 						</div>
 						<div>
-							<input class="form-control" id="disabledInput" type="text"
+							<input class="form-control" type="text"
 								value="${company.companyAddress2}" style="width: 300px;" disabled>
 						</div>
 						<div>
-							<input class="form-control" id="disabledInput" type="text"
+							<input class="form-control" type="text"
 								value="${company.companyAddress3}" style="width: 300px;" disabled>
 						</div>
 					</div>
@@ -145,7 +145,7 @@ input.form-control {
 					</div>
 					<div>
 						<textarea class="form-control" rows="10" id="project-desc" name="projectDesc"
-							placeholder="프로젝트 설명을 간략하게 입력하세요."></textarea>
+							placeholder="프로젝트 설명을 간략하게 입력하세요." style="resize: none;"></textarea>
 							<span id="span-desc"></span>
 					</div>
 				</div>
@@ -189,7 +189,7 @@ input.form-control {
 					</div>
 					<div>
 						<textarea class="form-control" rows="5" id="project-license" name="projectRequireLicense"
-							placeholder="지원자격을 간략하게 입력하세요."></textarea>
+							placeholder="지원자격을 간략하게 입력하세요." style="resize: none;"></textarea>
 							<span id="span-license"></span>
 					</div>
 				</div>
@@ -213,19 +213,21 @@ input.form-control {
 							<span id="span-people"></span>
 					</div>
 				</div>
+				
+				</form>
+
 				<div class="projectReg">
 					<div>
 						<p class="projectFont">기업 소개 배너</p>
 					</div>
 					<div>
-						<img src="../resources/img/logo.png" alt="comlogo" class="img-circle"
-							style="width: 300px;">
+						<img src="${pageContext.request.contextPath}/resources/img/gray.png" alt="comlogo" id="img-project" style="width: 750px; height: 320px; margin-bottom: 10px;">
 					</div>
 					<div class="form-group" style="margin-bottom: 50px;">
-						<input type="file" id="exampleInputFile">
+						<input type="file" id="project-image" class="file-upload">
 					</div>
 				</div>
-
+				
 				<div>
 					<div style="text-align: center; margin-bottom: 5px;">
 						<button type="button" id="project-putin" class="btn btn-primary btn-lg"  
@@ -242,7 +244,7 @@ input.form-control {
 
 		</div>
 		</div>
-		</form>
+		
 		</section>
 		<%@ include file="../include/footer.jsp"%>
 		
@@ -254,115 +256,204 @@ input.form-control {
 
 <script>
 
+//프로젝트 사진 파일 미리보기 자바스크립트 함수
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		
+    	var reader = new FileReader(); //비동기처리를 위한 파일을 읽는 자바스크립트 객체
+    	
+    	//readAsDataURL 메서드는 컨텐츠를 특정 Blob 이나 File에서 읽어 오는 역할 (MDN참조)
+    	reader.readAsDataURL(input.files[0]); 
+    	
+    	reader.onload = function(e) { //읽기 동작이 성공적으로 완료 되었을 때 실행되는 익명함수
+        	$('#img-project').attr("src", e.target.result); 
+        	console.log(event.target)//event.target은 이벤트로 선택된 요소를 의미
+    	}
+	} else {
+		$('#img-project').attr("src", '${pageContext.request.contextPath}/resources/img/gray.png');
+	}
+}
+
 $(function() {
+	
+	// 프로젝트 사진 파일 선택 시 미리보기 기능
+	$('#project-image').change(function () {
+		readURL(this);
+	});
+	
+	
 	$('#go-back-btn').click(function() {
 		location.href='<c:url value="/project/projectadmin" />';
 	})
+	
+	
+	$('#project-putin').click(function() {
+		
+		if(confirm('프로젝트를 등록 하시겠습니까?')) {
+			
+			// 이름 입력 여부 체크
+			if($('#project-name').val() == '') {
+						alert('이름을 입력해주세요.');
+						$('#span-name').text('프로젝트 이름을 입력해주세요.');
+						$('#span-name').css('color', 'red');
+						
+						$('#user-name').focus();
+						return;
+					}
+			
+			//프로젝트 설명 입력 여부 체크
+			if($('#project-desc').val() == '') {
+				alert('프로젝트 설명을 입력해주세요.');
+				$('#span-desc').text('설명을 입력해주세요.');
+				$('#span-desc').css('color', 'red');
+				
+				$('#project-desc').focus();
+				return;
+			}
+			
+			//담당자 이름 입력 여부
+			if($('#project-manager').val() == '') {
+				alert('담당자 이름을 입력해주세요.');
+				$('#span-manager').text('이름을 입력해주세요.');
+				$('#span-manager').css('color', 'red');
+				
+				$('#project-manager').focus();
+				return;
+			}
+			
+			// 담당자 전화번호 입력 여부
+			if($('#project-mg-phone').val() == '') {
+				alert('전화번호를 입력해주세요.');
+				$('#span-phone').text('담당자 전화번호를 입력해주세요.');
+				$('#span-phone').css('color', 'red');
+				
+				$('#project-mg-phone').focus();
+				return;
+			}
+			
+			// 담당자 이메일 입력 여부 체크
+			if($('#project-mg-email').val() == '') {
+				alert('이메일을 입력해주세요.');
+				$('#span-email').text('담당자 이메일을 입력해주세요.');
+				$('#span-email').css('color', 'red');
+				
+				$('#project-mg-email').focus();
+				return;
+			}
+			
+			// 지원자격 입력 여부 체크
+			if($('#project-license').val() == '') {
+				alert('지원자격을 입력해주세요.');
+				$('#span-license').text('지원자격을 입력해주세요.');
+				$('#span-license').css('color', 'red');
+				
+				$('#project-license').focus();
+				return;
+			}
+			
+			// 모집역할 입력 여부 체크
+			if($('#project-role').val() == '') {
+				alert('모집역할을 입력해주세요.');
+				$('#span-role').text('모집역할을 입력해주세요.');
+				$('#span-role').css('color', 'red');
+				
+				$('#project-role').focus();
+				return;
+			}
+			
+			// 모집 인원 입력 여부 체크
+			if($('#project-people').val() == '') {
+				alert('이메일을 입력해주세요.');
+				$('#span-people').text('담당자 이메일을 입력해주세요.');
+				$('#span-people').css('color', 'red');
+				
+				$('#project-people').focus();
+				return;
+			}
+			
+			// 자바스크립트의 파일 확장자 체크 검색 (문서 파일만 받을 수 있도록)
+			let image = $('#project-image').val();
+			
+			// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
+			// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
+			image = image.slice(image.indexOf('.') + 1).toLowerCase();
+			
+			if(image !== 'png' && image !== 'jpg' && image !== 'jpeg' && image !== '') {
+				alert('이미지 파일 형식만 등록이 가능합니다.');
+				$('#image').val('');
+				return;
+			}
+			
+			// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+			if($('#project-image').val() != '') {
+				let maxResumeSize = 5 * 1024 * 1024;		// 5MB
+				let resumeSize = $('#project-image')[0].files[0].size;
+				
+				if(resumeSize > maxResumeSize) {
+					alert("이력서 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+					$('#image').val('');
+					return;
+				}
+			}
+			
+			
+			document.projectRegisterForm.submit();
+			
+			// 프로젝트 다음번호 얻어오기
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/project/projectNOGet" />',
+				contentType: false,
+				processData: false,
+				
+				success: function(projectNO) {
+					// 가상 Form을 생성한다.
+					const formData = new FormData();
+				
+					const data = $('#project-image');
+					
+					// 가상 Form에 받은 파일을 projectImage이라는 이름으로 넣는다.
+					formData.append('projectImage', data[0].files[0]);
+					
+					// 프로젝트 사진 파일을 등록하는 projectImage를 비동기로 처리
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/project/projectImage/" />' + projectNO,
+						contentType: false,
+						processData: false,
+						
+						data: formData,
+						
+						success: function(result) {
+							if(result == 'YesImage') {
+								console.log('프로젝트 사진 등록 성공');
+							} else {
+								alert('프로젝트 사진 등록 중 오류가 발생했습니다.');
+								return;
+							}
+						},
+						
+						error: function() {
+							alert('프로젝트 사진 등록 중 서버오류가 발생했습니다.');
+							return;
+						}
+					});		
+				},
+				
+				error: function() {
+					alert("프로젝트 번호를 얻어오는 중 서버오류가 발생했습니다.");
+					return;
+				}
+			});		
+			
+		}	
+		});
 	
 });
 
 
 	
-$('#project-putin').click(function() {
-	
-	if(confirm('프로젝트를 등록 하시겠습니까?')) {
-		
-		// 이름 입력 여부 체크
-		if($('#project-name').val() == '') {
-					alert('이름을 입력해주세요.');
-					$('#span-name').text('프로젝트 이름을 입력해주세요.');
-					$('#span-name').css('color', 'red');
-					
-					$('#user-name').focus();
-					return;
-				}
-		
-		//프로젝트 설명 입력 여부 체크
-		if($('#project-desc').val() == '') {
-			alert('프로젝트 설명을 입력해주세요.');
-			$('#span-desc').text('설명을 입력해주세요.');
-			$('#span-desc').css('color', 'red');
-			
-			$('#project-desc').focus();
-			return;
-		}
-		
-		//담당자 이름 입력 여부
-		if($('#project-manager').val() == '') {
-			alert('담당자 이름을 입력해주세요.');
-			$('#span-manager').text('이름을 입력해주세요.');
-			$('#span-manager').css('color', 'red');
-			
-			$('#project-manager').focus();
-			return;
-		}
-		
-		// 담당자 전화번호 입력 여부
-		if($('#project-mg-phone').val() == '') {
-			alert('전화번호를 입력해주세요.');
-			$('#span-phone').text('담당자 전화번호를 입력해주세요.');
-			$('#span-phone').css('color', 'red');
-			
-			$('#project-mg-phone').focus();
-			return;
-		}
-		
-		// 담당자 이메일 입력 여부 체크
-		if($('#project-mg-email').val() == '') {
-			alert('이메일을 입력해주세요.');
-			$('#span-email').text('담당자 이메일을 입력해주세요.');
-			$('#span-email').css('color', 'red');
-			
-			$('#project-mg-email').focus();
-			return;
-		}
-		
-		// 지원자격 입력 여부 체크
-		if($('#project-license').val() == '') {
-			alert('지원자격을 입력해주세요.');
-			$('#span-license').text('지원자격을 입력해주세요.');
-			$('#span-license').css('color', 'red');
-			
-			$('#project-license').focus();
-			return;
-		}
-		
-		// 모집역할 입력 여부 체크
-		if($('#project-role').val() == '') {
-			alert('모집역할을 입력해주세요.');
-			$('#span-role').text('모집역할을 입력해주세요.');
-			$('#span-role').css('color', 'red');
-			
-			$('#project-role').focus();
-			return;
-		}
-		
-		// 모집 인원 입력 여부 체크
-		if($('#project-people').val() == '') {
-			alert('이메일을 입력해주세요.');
-			$('#span-people').text('담당자 이메일을 입력해주세요.');
-			$('#span-people').css('color', 'red');
-			
-			$('#project-people').focus();
-			return;
-		}
-		
-		// 자바스크립트의 파일 확장자 체크 검색 (문서 파일만 받을 수 있도록)
-		let image = $('#exampleInputFile').val();
-		
-		// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
-		// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
-		image = image.slice(image.indexOf('.') + 1).toLowerCase();
-		
-		if(image !== 'png' && img !== 'jpg' && img !== 'jpeg' && resume !== '') {
-			alert('이미지 파일 형식만 등록이 가능합니다.');
-			$('#image').val('');
-			return;
-		}
-		
-	document.projectRegisterForm.submit();
-	}	
-	});
+
 	
 
 	

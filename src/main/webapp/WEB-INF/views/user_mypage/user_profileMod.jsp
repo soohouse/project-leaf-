@@ -50,14 +50,14 @@
 					</a>
 					<form action="<c:url value='/usermypage/userUpdate'/>" method="post" name="userUpdateForm">
 					<div class="card"
-						style="width: 20%; transform: translate(0, -140px); text-align: center;">
+						style="width: 20%; transform: translate(0, -180px); text-align: center;">
 						<img id="img-mypage-profile" src="<c:url value='/user/userProfileGet?userNO=${userDetail.userNO}' />" alt="profile" class="img-circle" style="height: 250px;">
 						
 						<div class="container1">
 							<div style="margin-bottom:-20px;">
 							<input type="file" id="file-mypage-profile" style="display: none;">
 							<button type="button" class="btn btn-link" id="btn-mypage-profile">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>프로필사진수정
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 프로필사진 수정
 							</button>
 							</div>
 							<h3>
@@ -87,7 +87,7 @@
 								<p class="mb-0">이름</p>
 							</div>
 							<div class="col-sm-9">
-								<input type="text" name="userName" class="form-control" id="exampleInputName2" value="${userDetail.userName}">
+								<input type="text" name="userName" class="form-control" id="mypage-modify-user-name" value="${userDetail.userName}">
 							</div>
 						</div>
 						<hr>
@@ -113,8 +113,8 @@
 									<option value="018">018</option>
 									<option value="019">019</option>
 								</select> 
-								<input type="text" class="form-control" value="${userDetail.userPhone2}" style="width:90px;" name="userPhone2">
-								<input type="text" class="form-control" value="${userDetail.userPhone3}" style="width:90px;" name="userPhone3">
+								<input type="text" id="mypage-modify-user-phone2" class="form-control" value="${userDetail.userPhone2}" style="width:90px;" maxlength="4" name="userPhone2">
+								<input type="text" id="mypage-modify-user-phone3" class="form-control" value="${userDetail.userPhone3}" style="width:90px;" maxlength="4" name="userPhone3">
 							</div>
 						</div>
 						<hr>
@@ -136,7 +136,14 @@
 								<div class="form-group">
 									<input type="file" id="file-mypage-resume" style="display: none;">
 									<button type="button" id="btn-mypage-resume">파일 선택</button>
-									<label for="file-mypage-resume" id="file-resume" style="font-weight: 500;">${userDetail.resumeRealname}</label>
+									<label for="file-mypage-resume" id="file-resume" style="font-weight: 500;">
+										<c:if test="${userDetail.resumeRealname == null}">
+											등록된 이력서가 없습니다.
+										</c:if>
+										<c:if test="${userDetail.resumeRealname != null}">
+											${userDetail.resumeRealname}
+										</c:if>
+									</label>
 								</div>
 							</div>
 						</div>
@@ -148,7 +155,7 @@
 							<div class="col-sm-9">
 								<div class="form-group btn-profile">
 									<input type="button" class="btn" id="btn-user-mypage-update" value="수정완료">
-									<button type="button" class="btn btn-default" onclick="location.href='<c:url value="/usermypage/userprofile"/>'">돌아가기</button>
+									<button type="button" class="btn btn-default" onclick="history.back();">돌아가기</button>
 								</div>
 							</div>
 						</div>
@@ -178,15 +185,13 @@
 	        	$('#img-mypage-profile').attr("src", e.target.result); 
 	        	console.log(event.target)//event.target은 이벤트로 선택된 요소를 의미
 	    	}
-		} else {
-			$('#img-mypage-profile').attr("src", '${pageContext.request.contextPath}/resources/img/profile.png');
 		}
 	}
 	
 	
 	$(function() {
 		
-		// 프로필사진수정 버튼을 누르면 파일 요소를 클릭한 것으로 인식
+		// 프로필 사진 수정 버튼을 누르면 파일 요소를 클릭한 것으로 인식
 		$('#btn-mypage-profile').click(function() {
 			$('#file-mypage-profile').click();
 		});
@@ -216,13 +221,95 @@
 		// 수정완료 버튼 클릭 시
 		$('#btn-user-mypage-update').click(function() {
 			
+			// 이름 입력 여부 체크
+			if($('#mypage-modify-user-name').val() == '') {
+				alert('이름을 입력해주세요.');				
+				$('#mypage-modify-user-name').focus();
+				return;
+			}
+			
+			
+			// 전화번호 앞 자리 입력 여부 체크
+			if($('#mypage-modify-user-phone2').val() == '') {
+				alert('전화번호를 입력해주세요.');				
+				$('#mypage-modify-user-phone2').focus();
+				return;
+			}
+			
+			
+			// 전화번호 뒷 자리 입력 여부 체크
+			if($('#mypage-modify-user-phone3').val() == '') {
+				alert('전화번호를 입력해주세요.');				
+				$('#mypage-modify-user-phone3').focus();
+				return;
+			}
+			
+			
+			// 자바스크립트의 파일 확장자 체크 검색 (문서 파일만 받을 수 있도록)
+			let resume = $('#file-mypage-resume').val();
+			
+			// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
+			// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
+			resume = resume.slice(resume.indexOf('.') + 1).toLowerCase();
+			
+			if(resume !== 'hwp' && resume !== 'doc' && resume !== 'pdf' && resume !== 'ppt' && resume !== 'pptx' && resume !== 'docx' && resume !== 'xlsx' && resume !== 'xls' && resume !== '') {
+				alert('문서 파일 형식만 등록이 가능합니다.');
+				$('#file-mypage-resume').val('');
+				$('#file-resume').text('${userDetail.resumeRealname}');
+				return;
+			}
+			
+			
+			// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+			if($('#file-mypage-resume').val() != '') {
+				let maxResumeSize = 5 * 1024 * 1024;		// 5MB
+				let resumeSize = $('#file-mypage-resume')[0].files[0].size;
+				
+				if(resumeSize > maxResumeSize) {
+					alert("이력서 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+					$('#file-mypage-resume').val('');
+					$('#file-resume').text('${userDetail.resumeRealname}');
+					return;
+				}
+			}
+			
+			
+			// 자바스크립트의 파일 확장자 체크 검색 (이미지 파일만 받을 수 있도록)
+			let profile = $('#file-mypage-profile').val();
+			
+			// . 을 제거한 확장자만 얻어낸 후 그것을 소문자로 일괄 변경 후 비교한다.
+			// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
+			profile = profile.slice(profile.indexOf('.') + 1).toLowerCase();
+			
+			if(profile !== 'jpg' && profile !== 'png' && profile !== 'jpeg' && profile !== 'bmp' && profile !== '') {
+				alert('이미지 파일 형식만 등록이 가능합니다.');
+				$('#file-mypage-profile').val('');
+				$('#img-mypage-profile').attr('src', '<c:url value="/user/userProfileGet?userNO=${userDetail.userNO}" />');
+				return;
+			}
+			
+			
+			// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+			if($('#file-mypage-profile').val() != '') {
+				let maxProfileSize = 5 * 1024 * 1024;		// 5MB
+				let profileSize = $('#file-mypage-profile')[0].files[0].size;
+				
+				if(profileSize > maxProfileSize) {
+					alert("프로필사진 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+					$('#file-mypage-profile').val('');
+					$('#img-mypage-profile').attr('src', '<c:url value="/user/userProfileGet?userNO=${userDetail.userNO}" />');
+					return;
+				}
+			}
+			
+			
 			// 일반회원 번호와 프로필사진과 이력서 파일을 새로 등록했는지 확인하기 위해 값을 가져온다.
 			const userNO = $('#hidden-user-mypage-userno').val();
 			const profileCheck = $('#file-mypage-profile').val();
 			const resumeCheck = $('#file-mypage-resume').val();
 			
-			// 만약 수정창에서 새로 등록한 이력서 파일이 있다면
-			if(resumeCheck) {
+			// 만약 수정창에서 이력서만 새로 등록했다면
+			if(resumeCheck && !profileCheck) {
 				
 				// 사용자가 이미 올렸던 이력서 파일이 있는지 체크한다.
 				$.ajax({
@@ -335,8 +422,452 @@
 					}
 				}); 
 				
+			} else if(profileCheck && !resumeCheck) {
+				// 만약 사용자가 프로필 사진만 새로 등록했다면
+				// 사용자가 이미 올렸던 프로필 사진이 있는지 체크한다.
+				$.ajax({
+					type: 'POST',
+					url: '<c:url value="/user/userProfileCheck/" />' + userNO,
+					contentType: false,
+					processData: false,
+					
+					success: function(result) {
+						
+						// 사용자가 이미 올렸던 프로필 사진이 있었다면
+						if(result == 'YesProfileCheck') {
+							
+							// 이미 올렸던 프로필 사진을 서버에서 삭제한 후에
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userProfileDelete/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								success: function(result) {
+									if(result == 'YesProfileDelete') {
+
+										const formData = new FormData();
+										
+										const data = $('#file-mypage-profile');
+										
+										formData.append('newProfile', data[0].files[0]);
+										
+										// 수정창에서 업로드한 파일로 새로 적용한다.
+										$.ajax({
+											type: 'POST',
+											url: '<c:url value="/user/userProfileUpdate/" />' + userNO,
+											contentType: false,
+											processData: false,
+											
+											data: formData,
+											
+											success: function(result) {
+												if(result == 'YesProfileUpdate') {
+													console.log('프로필 사진 수정 성공');
+													
+													// 프로필 사진 수정이 완료되면 나머지 정보도 수정한다.
+													document.userUpdateForm.submit();
+												} else {
+													alert('프로필 사진 수정 중 오류가 발생했습니다.');
+													return;
+												}
+											},
+											
+											error: function() {
+												alert('프로필 사진 수정 중 서버오류가 발생했습니다.');
+												return;
+											}
+										});
+										
+									} else {
+										alert('프로필 사진 삭제 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('프로필 사진 삭제 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});
+						} else {
+							
+							// 사용자가 이미 올렸던 프로필 사진이 없었던 경우라면
+							const formData = new FormData();
+							
+							const data = $('#file-mypage-profile');
+							
+							formData.append('newProfile', data[0].files[0]);
+							
+							// 수정창에서 업로드한 파일로 새로 등록한다.
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userProfileUpdate/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								data: formData,
+								
+								success: function(result) {
+									if(result == 'YesProfileUpdate') {
+										console.log('프로필 사진 수정 성공');
+										
+										// 프로필 사진 수정이 완료되면 나머지 정보도 수정한다.
+										document.userUpdateForm.submit();
+									} else {
+										alert('프로필 사진 수정 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('프로필 사진 수정 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});
+							
+						}
+					},
+					
+					error: function() {
+						alert('프로필 사진 존재 여부 확인 중 서버오류가 발생했습니다.');
+						return;
+					}
+				}); 
+				
+			} else if(profileCheck && resumeCheck) {
+				// 사용자가 둘 다 새로 등록했다면
+				// 사용자가 이미 올렸던 이력서 파일이 있는지 체크한다.
+				$.ajax({
+					type: 'POST',
+					url: '<c:url value="/user/userResumeCheck/" />' + userNO,
+					contentType: false,
+					processData: false,
+					
+					success: function(result) {
+						
+						// 사용자가 이미 올렸던 이력서 파일이 있었다면
+						if(result == 'YesResumeCheck') {
+							
+							// 이미 올렸던 이력서 파일을 서버에서 삭제한 후에
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userResumeDelete/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								success: function(result) {
+									if(result == 'YesResumeDelete') {
+
+										const formData = new FormData();
+										
+										const data = $('#file-mypage-resume');
+										
+										formData.append('newResume', data[0].files[0]);
+										
+										// 수정창에서 업로드한 파일로 새로 적용한다.
+										$.ajax({
+											type: 'POST',
+											url: '<c:url value="/user/userResumeUpdate/" />' + userNO,
+											contentType: false,
+											processData: false,
+											
+											data: formData,
+											
+											success: function(result) {
+												if(result == 'YesResumeUpdate') {
+													console.log('이력서 수정 성공');
+													
+													// 만약 사용자가 프로필 사진도 새로 등록했다면
+													// 사용자가 이미 올렸던 프로필 사진이 있는지 체크한다.
+													$.ajax({
+														type: 'POST',
+														url: '<c:url value="/user/userProfileCheck/" />' + userNO,
+														contentType: false,
+														processData: false,
+														
+														success: function(result) {
+															
+															// 사용자가 이미 올렸던 프로필 사진이 있었다면
+															if(result == 'YesProfileCheck') {
+																
+																// 이미 올렸던 프로필 사진을 서버에서 삭제한 후에
+																$.ajax({
+																	type: 'POST',
+																	url: '<c:url value="/user/userProfileDelete/" />' + userNO,
+																	contentType: false,
+																	processData: false,
+																	
+																	success: function(result) {
+																		if(result == 'YesProfileDelete') {
+
+																			const formData = new FormData();
+																			
+																			const data = $('#file-mypage-profile');
+																			
+																			formData.append('newProfile', data[0].files[0]);
+																			
+																			// 수정창에서 업로드한 파일로 새로 적용한다.
+																			$.ajax({
+																				type: 'POST',
+																				url: '<c:url value="/user/userProfileUpdate/" />' + userNO,
+																				contentType: false,
+																				processData: false,
+																				
+																				data: formData,
+																				
+																				success: function(result) {
+																					if(result == 'YesProfileUpdate') {
+																						console.log('프로필 사진 수정 성공');
+																						
+																						// 모두 변경되면 나머지 정보도 수정한다.
+																						document.userUpdateForm.submit();
+																					} else {
+																						alert('프로필 사진 수정 중 오류가 발생했습니다.');
+																						return;
+																					}
+																				},
+																				
+																				error: function() {
+																					alert('프로필 사진 수정 중 서버오류가 발생했습니다.');
+																					return;
+																				}
+																			});
+																			
+																		} else {
+																			alert('프로필 사진 삭제 중 오류가 발생했습니다.');
+																			return;
+																		}
+																	},
+																	
+																	error: function() {
+																		alert('프로필 사진 삭제 중 서버오류가 발생했습니다.');
+																		return;
+																	}
+																});
+															} else {
+																
+																// 사용자가 이미 올렸던 프로필 사진이 없었던 경우라면
+																const formData = new FormData();
+																
+																const data = $('#file-mypage-profile');
+																
+																formData.append('newProfile', data[0].files[0]);
+																
+																// 수정창에서 업로드한 파일로 새로 등록한다.
+																$.ajax({
+																	type: 'POST',
+																	url: '<c:url value="/user/userProfileUpdate/" />' + userNO,
+																	contentType: false,
+																	processData: false,
+																	
+																	data: formData,
+																	
+																	success: function(result) {
+																		if(result == 'YesProfileUpdate') {
+																			console.log('프로필 사진 수정 성공');
+																			
+																			// 모두 변경되면 나머지 정보도 수정한다.
+																			document.userUpdateForm.submit();
+																		} else {
+																			alert('프로필 사진 수정 중 오류가 발생했습니다.');
+																			return;
+																		}
+																	},
+																	
+																	error: function() {
+																		alert('프로필 사진 수정 중 서버오류가 발생했습니다.');
+																		return;
+																	}
+																});
+																
+															}
+														},
+														
+														error: function() {
+															alert('프로필 사진 존재 여부 확인 중 서버오류가 발생했습니다.');
+															return;
+														}
+													}); 
+												} else {
+													alert('이력서 수정 중 오류가 발생했습니다.');
+													return;
+												}
+											},
+											
+											error: function() {
+												alert('이력서 수정 중 서버오류가 발생했습니다.');
+												return;
+											}
+										});
+										
+									} else {
+										alert('이력서 삭제 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('이력서 삭제 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});
+						} else {
+							
+							// 사용자가 이미 올렸던 이력서 파일이 없었던 경우라면
+							const formData = new FormData();
+							
+							const data = $('#file-mypage-resume');
+							
+							formData.append('newResume', data[0].files[0]);
+							
+							// 수정창에서 업로드한 파일로 새로 등록한다.
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/user/userResumeUpdate/" />' + userNO,
+								contentType: false,
+								processData: false,
+								
+								data: formData,
+								
+								success: function(result) {
+									if(result == 'YesResumeUpdate') {
+										console.log('이력서 수정 성공');
+										
+										// 만약 사용자가 프로필 사진도 새로 등록했다면
+										// 사용자가 이미 올렸던 프로필 사진이 있는지 체크한다.
+										$.ajax({
+											type: 'POST',
+											url: '<c:url value="/user/userProfileCheck/" />' + userNO,
+											contentType: false,
+											processData: false,
+											
+											success: function(result) {
+												
+												// 사용자가 이미 올렸던 프로필 사진이 있었다면
+												if(result == 'YesProfileCheck') {
+													
+													// 이미 올렸던 프로필 사진을 서버에서 삭제한 후에
+													$.ajax({
+														type: 'POST',
+														url: '<c:url value="/user/userProfileDelete/" />' + userNO,
+														contentType: false,
+														processData: false,
+														
+														success: function(result) {
+															if(result == 'YesProfileDelete') {
+
+																const formData = new FormData();
+																
+																const data = $('#file-mypage-profile');
+																
+																formData.append('newProfile', data[0].files[0]);
+																
+																// 수정창에서 업로드한 파일로 새로 적용한다.
+																$.ajax({
+																	type: 'POST',
+																	url: '<c:url value="/user/userProfileUpdate/" />' + userNO,
+																	contentType: false,
+																	processData: false,
+																	
+																	data: formData,
+																	
+																	success: function(result) {
+																		if(result == 'YesProfileUpdate') {
+																			console.log('프로필 사진 수정 성공');
+																			
+																			// 모두 변경되면 나머지 정보도 수정한다.
+																			document.userUpdateForm.submit();
+																		} else {
+																			alert('프로필 사진 수정 중 오류가 발생했습니다.');
+																			return;
+																		}
+																	},
+																	
+																	error: function() {
+																		alert('프로필 사진 수정 중 서버오류가 발생했습니다.');
+																		return;
+																	}
+																});
+																
+															} else {
+																alert('프로필 사진 삭제 중 오류가 발생했습니다.');
+																return;
+															}
+														},
+														
+														error: function() {
+															alert('프로필 사진 삭제 중 서버오류가 발생했습니다.');
+															return;
+														}
+													});
+												} else {
+													
+													// 사용자가 이미 올렸던 프로필 사진이 없었던 경우라면
+													const formData = new FormData();
+													
+													const data = $('#file-mypage-profile');
+													
+													formData.append('newProfile', data[0].files[0]);
+													
+													// 수정창에서 업로드한 파일로 새로 등록한다.
+													$.ajax({
+														type: 'POST',
+														url: '<c:url value="/user/userProfileUpdate/" />' + userNO,
+														contentType: false,
+														processData: false,
+														
+														data: formData,
+														
+														success: function(result) {
+															if(result == 'YesProfileUpdate') {
+																console.log('프로필 사진 수정 성공');
+																
+																// 모두 변경되면 나머지 정보도 수정한다.
+																document.userUpdateForm.submit();
+															} else {
+																alert('프로필 사진 수정 중 오류가 발생했습니다.');
+																return;
+															}
+														},
+														
+														error: function() {
+															alert('프로필 사진 수정 중 서버오류가 발생했습니다.');
+															return;
+														}
+													});
+													
+												}
+											},
+											
+											error: function() {
+												alert('프로필 사진 존재 여부 확인 중 서버오류가 발생했습니다.');
+												return;
+											}
+										}); 
+									} else {
+										alert('이력서 수정 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('이력서 수정 중 서버오류가 발생했습니다.');
+									return;
+								}
+							});
+							
+						}
+					},
+					
+					error: function() {
+						alert('이력서 존재 여부 확인 중 서버오류가 발생했습니다.');
+						return;
+					}
+				}); 
+				
 			} else {
-				// 이력서 파일을 선택하지 않았다면 그냥 나머지 정보만 수정을 진행한다.
+				// 아무 파일을 선택하지 않았다면 그냥 나머지 정보만 수정을 진행한다.
 				document.userUpdateForm.submit();
 			}
 		});

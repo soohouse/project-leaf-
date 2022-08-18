@@ -43,6 +43,11 @@
 					    
 					  </div>
 					  <div class="form-group">
+					    <label for="inputEmail3" class="control-label" style="width: 100px;">기업 소개</label>
+					    <p id="modal-company-intro" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
+					    
+					  </div>
+					  <div class="form-group">
 					    <label for="inputEmail3" class="control-label" style="width: 100px;">회사 소개서</label>
 					    <p id="modal-company-intro-realname" style="font-size: 13px; display: inline-block; vertical-align: top; text-decoration: underline; color: blue; cursor: pointer;">&nbsp;</p>
 					    
@@ -99,7 +104,7 @@
 					success: function(result) {
 						if(result == 'YesCompanyAccept') {
 							alert('해당 기업 가입을 승인하였습니다.');
-							location.replace('/admin/companyAccept');
+							location.replace('<c:url value="/admin/companyAccept" />');
 						} else {
 							alert('가입 승인 중 오류가 발생했습니다.');
 							return;

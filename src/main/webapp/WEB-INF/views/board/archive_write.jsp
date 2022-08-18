@@ -104,8 +104,15 @@
 			location.href='<c:url value="/archive/archiveList" />';
 		});
 		
-		
 		$('#btn-archive-write').click(function(){
+			
+			
+			// 자료실 파일 첨부 여부 체크
+			if($('#archive-file').val() == '') {
+				alert('자료실 파일 첨부는 필수입니다.');
+				return;
+			}
+			
 			document.archiveWriteForm.submit();
 			
 			$.ajax({
@@ -120,10 +127,10 @@
 				
 					const data = $('#archive-file');
 					
-					// 가상 Form에 받은 파일을 companyIntro이라는 이름으로 넣는다.
+					// 가상 Form에 받은 파일을 archiveFile이라는 이름으로 넣는다.
 					formData.append('archiveFile', data[0].files[0]);
 					
-					// 회사 소개서 파일을 등록하는 companyIntro를 비동기로 처리
+					// 자료실 파일을 등록하는 archiveFile를 비동기로 처리
 					$.ajax({
 						type: 'POST',
 						url: '<c:url value="/archive/archiveFile/" />' + archiveNo,
@@ -134,25 +141,25 @@
 						
 						success: function(result) {
 							if(result == 'YesArchiveFile') {
-								console.log('회사 소개서 등록 성공');
+								console.log('자료실 파일 등록 성공');
 							} else {
-								alert('회사 소개서 등록 중 오류가 발생했습니다.');
+								alert('자료실 파일 등록 중 오류가 발생했습니다.');
 								return;
 							}
 						},
 						
 						error: function() {
-							alert('회사 소개서 등록 중 서버오류가 발생했습니다.');
+							alert('자료실 파일 등록 중 서버오류가 발생했습니다.');
 							return;
 						}
-					});		// ajax(userProfile) 끝
+					});		// ajax(archiveFile) 끝
 				},
 				
 				error: function() {
-					alert("기업회원 회원번호를 얻어오는 중 서버오류가 발생했습니다.");
+					alert("자료실 파일번호를 얻어오는 중 서버오류가 발생했습니다.");
 					return;
 				}
-			});		// ajax(userNOGet) 끝
+			});		// ajax(archiveNOGet) 끝
 			
 			
 		});

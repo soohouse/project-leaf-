@@ -21,6 +21,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="companyAddress3" column="company_address3" />
 		<result property="companyDate" column="company_date" />
 		<result property="companyIntro" column="company_intro" />
+		<result property="sessionID" column="session_ID" />
+		<result property="sessionLimit" column="session_limit" />
 		<result property="companyDelete" column="company_delete" />
 		<result property="commonCODE" column="common_CODE" />
 	</resultMap>
@@ -84,6 +86,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<!-- 기업회원 비밀번호 변경 UPDATE 쿼리 -->
+	<update id="companyPasswordChange">
+		UPDATE company
+		SET company_PW = #{newPassword}
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 자동로그인 UPDATE 쿼리 -->
+	<update id="companyAutoLogin">
+		UPDATE company
+		SET session_ID = #{sessionID}, session_limit = #{sessionLimit}
+		WHERE company_ID = #{companyID}
+	</update>
+	
+	
+	<!-- 자동로그인 세션값으로 기업회원 정보 얻어오기 SELECT 쿼리 -->
+	<select id="companyAutoGet" resultMap="CompanyMap">
+		SELECT *
+		FROM company
+		WHERE session_ID = #{sessionID}
+		AND session_limit > now()
+	</select>
+	
+	
 	<!-- 기업회원 기업회원번호 얻어내는 SELECT 쿼리 -->
 	<select id="companyNOGet" resultType="int">
 		SELECT MAX(company_NO) + 1
@@ -100,9 +127,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
-	<!-- 일반회원 프로필사진 불러오기 SELECT 쿼리 -->
+	<!-- 기업회원 로고사진 불러오기 SELECT 쿼리 -->
 	<select id="companyLogoGet" resultMap="LogoMap">
 		SELECT *
+		FROM company_logo
+		WHERE company_NO = #{companyNO}
+	</select>
+	
+	
+	<!-- 기업회원 로고사진 삭제 UPDATE 쿼리 -->
+	<update id="companyLogoDelete">
+		UPDATE company_logo
+		SET
+			company_logo_filename = null, company_logo_uploadpath = null, company_logo_realname = null
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 기업회원 로고사진 수정 UPDATE 쿼리 -->
+	<update id="companyLogoUpdate">
+		UPDATE company_logo
+		SET
+			company_logo_filename = #{companyLogoFilename}, company_logo_uploadpath = #{companyLogoUploadpath}, company_logo_realname = #{companyLogoRealname}
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 기업회원 로고사진 존재 여부 확인 SELECT 쿼리 -->
+	<select id="companyLogoCheck" resultType="int">
+		SELECT COUNT(company_logo_filename)
 		FROM company_logo
 		WHERE company_NO = #{companyNO}
 	</select>
@@ -123,5 +176,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM company_intro
 		WHERE company_NO = #{companyNO}
 	</select>
+	
+	
+	<!-- 회사 소개서 삭제 UPDATE 쿼리 -->
+	<update id="companyIntroDelete">
+		UPDATE company_intro
+		SET
+			company_intro_filename = null, company_intro_uploadpath = null, company_intro_realname = null
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 회사 소개서 수정 UPDATE 쿼리 -->
+	<update id="companyIntroUpdate">
+		UPDATE company_intro
+		SET
+			company_intro_filename = #{companyIntroFilename}, company_intro_uploadpath = #{companyIntroUploadpath}, company_intro_realname = #{companyIntroRealname}
+		WHERE company_NO = #{companyNO}
+	</update>
 
 </mapper>

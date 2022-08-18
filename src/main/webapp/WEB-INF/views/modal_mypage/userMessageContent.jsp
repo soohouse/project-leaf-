@@ -10,13 +10,28 @@
 				<a href="#" class="list-group-item active notice-list-top"> <span class="main-board-title" style="color: #000686; font-size: 16px;">쪽지내용</span></a> 
 				<input type="hidden" id="hidden-user-no">
 				<div id="receiveMailContent">
-					
+				
+					<div style="height:415px; padding:20px;">
+						<div style="height:55px;">
+							<div class="col-md-2" style="border:1px solid; background:lightcyan; height:55px;"><p>보낸이</p></div>
+							<div class="col-md-4" style="border:1px solid; height:55px; margin:auto;"><p id="modal-message-detail-from"></p></div>
+							<div class="col-md-2" style="border:1px solid; background:lightcyan; height:55px;"><p>날짜</p></div>
+							<div id="modal-message-detail-date"class="col-md-4" style="border:1px solid; height:55px;"><p></p></div>
+						</div>
+						<div style="height:325px;">
+							<div class="col-md-2" style="border:1px solid; background:lightcyan; height:325px;"><p>내용</p></div>
+							<div id="modal-message-detail-content" class="col-md-10" style="border:1px solid; height:325px;"><p></p></div>
+						</div>
+						
+					</div>
+
+
 
 				</div>
-
 			</div>
 			<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+			<button type="button" class="btn btn-danger" data-dismiss="modal">쪽지삭제</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal">목록으로</button>
 			</div>
 			
 			

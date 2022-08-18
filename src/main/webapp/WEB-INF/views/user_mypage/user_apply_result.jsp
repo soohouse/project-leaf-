@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <html>
 <head>
@@ -73,20 +74,18 @@
 						<th style="width: 40%;">프로젝트명</th>
 						<th style="width: 12%;">지원날짜</th>
 						<th style="width: 30%;">모집기간</th>
-						<th style="width: 12%;">비고</th>
+						<th style="width: 12%;">조회결과</th>
 					</tr>
 				</thead>
 				<tbody style="width: 10px; font-size: 13px; background: #F7F7F7;">
 					
-					<c:forEach var="userList" items="${userList}" varStatus="index">
-						<tr id="userListDetail${index.index}" style="cursor: pointer;">
-							<td>${userList.userNO}</td>
-							<td>${userList.userID}</td>
-							<td>${userList.userName}</td>
-							<td>${userList.userPhone}</td>
-							<td>${userList.userEmail}</td>
-							<td>${userList.commonValue}</td>
-							
+					<c:forEach var="applyResultList" items="${applyResultList}" varStatus="index">
+						<tr>
+							<td>${applyResultList.applyNO}</td>
+							<td>${applyResultList.projectName}</td>
+							<td><fmt:formatDate value="${applyResultList.applyDate}" pattern="yyyy-MM-dd" /></td>
+							<td><fmt:formatDate value="${applyResultList.projectRequireDate1}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${applyResultList.projectRequireDate2}" pattern="yyyy-MM-dd" /></td>
+							<td>${applyResultList.commonValue}</td>
 						</tr>
 												
 					</c:forEach>

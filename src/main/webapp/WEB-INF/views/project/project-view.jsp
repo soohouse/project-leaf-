@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 
 <html>
 <head>
@@ -46,11 +47,11 @@
    
    
     <div class="first-box">
-      <p>(주) 성진하이텍</p>
+      <p>${projectview.companyName}</p>
     </div> <br>
     <div class="container-top-icons">
       <div class="project-name">
-      <p>2022년 환경 푸르미 프로젝트 개발자 모집 </p>
+      <p>${projectview.projectName} </p>
       </div>
       <div class="project-user">
         <p>신청자 : 3명 </p>
@@ -63,7 +64,10 @@
         <p>조회수 : 12</p>
       </div>
       <div class="project-jiwon">
-        <button type="button" id="jiwon-btn1" class="btn btn-success">지원하기</button>
+      	
+      	<button type="button" id="jiwon-btn1" class="btn btn-success" >지원하기</button>
+      
+        
       </div>
       <div class="mojibjung">
         <p>현재 모집중</p>
@@ -75,7 +79,7 @@
   
   <div class="project-img-box">
     <div class="image-intro"> 
-      <img src="../resources/img/main4.jpg" alt="사진">
+      <img src="<c:url value='/project/projectImageGet?projectNO=${projectview.projectNO}' />" alt="사진" style="object-fit: fill;">
       </div> <br>
       <div class="project-myeng">
         프로젝트 명
@@ -125,7 +129,8 @@
         프로젝트 설명 
       </div>
       <div class="project-int1">
-       <p>${projectview.projectDesc}
+      	<c:set var="desc" value="${projectview.projectDesc}" />
+       <p>${fn:replace(desc, replaceChar, "<br/>")}
         </p>
       </div>
         <div class="damdang-master">
