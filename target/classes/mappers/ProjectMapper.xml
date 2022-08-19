@@ -73,6 +73,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE p.project_NO = #{projectNO}
 	</select>
 	
+	<update id="updateProjectContent">
+		UPDATE project
+		SET
+			project_name = #{projectName}, project_desc = #{projectDesc}, project_manager = #{projectManager}, project_manager_phone = #{projectManagerPhone},
+			project_manager_email = #{projectManagerEmail}, project_require_license = #{projectRequireLicense}, project_require_people = #{projectRequirePeople},
+			project_require_date1 = #{projectRequireDate1}, project_require_date2 = #{projectRequireDate2}, common_value = #{commonValue}
+		WHERE project_NO = #{projectNO}	
+	</update>
+	
 	<!-- 프로젝트 목록 -->
 	<select id="projectlist" resultMap="ProjectListMap">
 		SELECT

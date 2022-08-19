@@ -32,7 +32,6 @@
 				        </ul>
 				      </div>
 				    </div>
-				  </div>
 			</footer>
 		</c:when>
 	
@@ -65,7 +64,6 @@
 				        </ul>
 				      </div>
 				    </div>
-				  </div>
 			</footer>
 		</c:when>
 	
@@ -98,7 +96,6 @@
 				        </ul>
 				      </div>
 				    </div>
-				  </div>
 			</footer>
 		</c:otherwise>
 	

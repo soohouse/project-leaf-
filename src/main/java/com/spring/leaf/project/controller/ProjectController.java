@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -29,6 +32,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.spring.leaf.company.command.CompanyLogoVO;
+import com.spring.leaf.project.command.ProjectContentVO;
 import com.spring.leaf.project.command.ProjectImageVO;
 import com.spring.leaf.project.command.ProjectLikeVO;
 import com.spring.leaf.project.command.ProjectVO;
@@ -100,13 +104,24 @@ public class ProjectController {
 		return "project/project-admin";
 	}
 	
-	// 프로젝트 상세보기 수정하기
+	// 프로젝트 상세보기 수정하기 이동 요청
 	@GetMapping("/projectviewfix")
 	public String project4(@RequestParam int projectNO, Model model) {
 
 		model.addAttribute("projectview", service.getContent(projectNO));
 
 		return "project/project-view-fix";
+	}
+	
+	//프로젝트 상세보기 수정 로직
+	@PostMapping("/updateProjectContent")
+	public String UpdateProjectCondent(ProjectContentVO vo,RedirectAttributes ra) {
+		
+		service.updateProjectContent(vo);
+		
+		ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
+		return "redirect:/project/projectviewcompany";
+		
 	}
 
 	

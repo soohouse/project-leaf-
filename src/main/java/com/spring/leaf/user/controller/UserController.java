@@ -214,6 +214,37 @@ public class UserController {
 	}
 	
 	
+	// 사용자 비밀번호 체크 요청
+	@PostMapping("/userPasswordCheck")
+	@ResponseBody
+	public String userPasswordCheck(String inputPW, HttpSession session) {
+		logger.info("/user/userPasswordCheck : POST (사용자 비밀번호 체크 요청)");
+		
+		UserVO vo = (UserVO) session.getAttribute("user");
+		
+		// 암호화된 비밀번호의 비교를 위해 BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				
+		if(encoder.matches(inputPW, vo.getUserPW())) {
+			return "YesCheck";
+		} else {
+			return "NoCheck";
+		}
+	}
+	
+	
+	// 사용자 회원탈퇴 요청
+	@PostMapping("/userDelete")
+	@ResponseBody
+	public String userDelete(int userNO) {
+		logger.info("/user/userDelete : POST (사용자 회원탈퇴 요청)");
+		
+		service.userDelete(userNO);
+		
+		return "YesUserDelete";
+	}
+	
+	
 	// 사용자 번호 구하기 요청
 	@PostMapping("/userNOGet")
 	@ResponseBody

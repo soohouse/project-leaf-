@@ -137,19 +137,19 @@ public class QuestionController {
 		return "board/answer_modify";
 	}
 	
-	//글 수정 처리
+	//답변글 수정 처리
 		@PostMapping("/answerUpdate")
 		public String answerUpdate(AnswerVO vo, RedirectAttributes ra) {
 				
 			service.answerModify(vo);
-			ra.addFlashAttribute("msg", "updateSuccess");
-			return "redirect:/question/questionContent/" + vo.getQuestionNo();
+			ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
+			return "redirect:/question/questionList";
 		}
 	
 	//답변글 삭제
-	@PostMapping("/answerDelete/{answerNo}")
+	@PostMapping("/answerDelete")
 	@ResponseBody
-	public String answerDelete(@PathVariable int answerNo) {
+	public String answerDelete(@RequestParam int answerNo) {
 		service.answerDelete(answerNo);
 		
 		return "deleteSuccess";

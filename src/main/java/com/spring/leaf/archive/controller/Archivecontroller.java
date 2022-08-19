@@ -35,6 +35,7 @@ import com.jcraft.jsch.Session;
 import com.spring.leaf.archive.command.ArchiveFileVO;
 import com.spring.leaf.archive.command.ArchiveVO;
 import com.spring.leaf.archive.service.IArchiveService;
+import com.spring.leaf.archivereply.service.IArchiveReplyService;
 import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.user.controller.UserController;
 import com.spring.leaf.util.PageCreator;
@@ -53,6 +54,10 @@ public class Archivecontroller {
 	//자료실 서비스 연결
 	@Autowired
 	private IArchiveService service;
+	
+	//자료실 전체댓글 수 불러오기위해 사용
+	@Autowired
+	private IArchiveReplyService rservice;
 	
 	
 	//자료실 목록 페이지로 이동 요청
@@ -98,6 +103,13 @@ public class Archivecontroller {
 		
 		model.addAttribute("archive", service.archiveContent(archiveNo));
 		
+		//전체 댓글 수
+		//int tt = rservice.archiveReplyTotal(archiveNo);
+		//model.addAttribute("archiveReplyCount", tt);
+		
+		//조회수 증가
+		service.archiveViews(archiveNo);
+		
 		return "board/archive_content";
 	}
 	
@@ -112,9 +124,17 @@ public class Archivecontroller {
 	
 	//글 수정 처리
 	@PostMapping("/archiveUpdate")
-	public String archiveUpdate(@RequestParam("newArchive") MultipartFile newarchiveFile, @PathVariable("archiveNo") int archiveNo, ArchiveVO vo, RedirectAttributes ra) throws Exception {
+	public String archiveUpdate(ArchiveVO vo, RedirectAttributes ra) {
 		
 		service.archiveModify(vo);
+		ra.addFlashAttribute("msg", "updateSuccess");
+		return "redirect:/archive/archiveContent/" + vo.getArchiveNo();
+	}
+	
+	//글 수정 처리
+	@PostMapping("/archiveUpdate/{archiveNo}")
+	@ResponseBody
+	public String archiveUpdate(@RequestParam("newArchiveFile") MultipartFile newarchiveFile, @PathVariable("archiveNo") int archiveNo) throws Exception {
 		
 		logger.info("/archive/archiveUpdate : POST (자료실 파일 재업로드 요청)");
 
@@ -223,10 +243,11 @@ public class Archivecontroller {
 			}
 		}
 		
+		return "updateSuccess";
 		
-		ra.addFlashAttribute("msg", "updateSuccess");
-		return "redirect:/archive/archiveContent/" + vo.getArchiveNo();
 	}
+	
+	
 	
 	//글 삭제 처리
 	@PostMapping("/archiveDelete")

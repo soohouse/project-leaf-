@@ -110,7 +110,9 @@
                             	</a>
                             	<a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a>
                             </td>
-                            <td>${archive.archiveWriter}</td>
+                            <td <c:if test="${archive.archiveWriter eq user.userID || archive.archiveWriter eq company.companyID}">style="color:#042894;"</c:if>>
+                            	${archive.archiveWriter}
+                            </td>
                             <td><fmt:formatDate value="${archive.archiveDate}" pattern="yyyy-MM-dd HH:mm" /></td>
                             <td>${archive.archiveViews }</td>
                         </tr>

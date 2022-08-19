@@ -94,5 +94,12 @@ public class ArchiveService implements IArchiveService {
 
 		return mapper.archiveNoGet();
 	}
+	
+	
+	@Override
+	public int archiveViews(int archiveNo) {
+		return mapper.archiveViews(archiveNo);
+	}
+	
 
 }

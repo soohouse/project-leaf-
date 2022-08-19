@@ -265,7 +265,7 @@
 		
 		//답글 수정 이동 버튼 (아직 수정중입니다)
 		
-		$('#answerList').on('click', 'a', function(e){
+		$('#answerList').on('click', '#btn-answer-update', function(e){
 			e.preventDefault();
 			const target = e.target.getAttribute('data-value');
 			
@@ -275,37 +275,31 @@
 			
 			document.answerDetailForm.submit();
 			
-		})
-				
-				
-				
-				
-				
-				
-				
+		})		
 				
 		
-		//답변글 삭제 처리 (아직 수정중입니다)
-		$('#btn-answer-delete').on('click', '.qa-title .btn mb-2', function(event) {
+		//답변글 삭제 처리
+		$('#answerList').on('click', '#btn-answer-delete', function(e) {
 			
-			event.preventDefault();
+			e.preventDefault();
+			const target = e.target.getAttribute('data-value');
+			const questionNo = $('#hidden-questionNo').val();
 			
-				const answerNo = '$(answer.answerNo)';
-				console.log(answerNo);
+			console.log(target);
+			
+			$('#hidden-answer-no').val(target);
 				
 				$.ajax({
-					type:'post',
-					url: '<c:url value="/question/answerDelete/"/>' + answerNo,
-					data: {	
-						'answerNo': answerNo
-					},
+					type:'POST',
+					url: '<c:url value="/question/answerDelete"/>',
 					
-					dataType:'text',
-					contentType:'application/json',
+					data: {	
+						'answerNo': target
+					},
 					success:function(result){
 						if(result === 'deleteSuccess') {
 							alert("답변 게시글이 정상적으로 삭제되었습니다.");
-							answerList(1, true);
+							location.replace('/question/questionContent/' + questionNo);
 						}  else {
 							alert("답변 게시글 삭제에 실패했습니다.");
 						}

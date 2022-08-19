@@ -19,6 +19,8 @@ public interface IArchiveReplyMapper {
 	int archiveReplyTotal(int archvieReplyNo);
 	
 	//댓글 수정
+	void archiveReplyUpdate(int archiveReplyNo);
 	
 	//댓글 삭제
+	void archiveReplyDelete(int archiveReplyNo);
 }

@@ -146,6 +146,7 @@ input.form-control {
 									<div class="col-sm-3"></div>
 									<div class="col-sm-9">
 										<div class="form-group btn-profile">
+											<a id="btn-user-delete" style="position: relative; right: 800px; cursor: pointer; color: #970000; text-decoration: underline;">회원탈퇴</a>
 											<button type="button" class="btn btn-success" id="btn-mypage-user-modify">정보수정</button>
 											<button type="button" class="btn btn-primary" id="btn-password-change">비밀번호 변경</button>
 										</div>
@@ -367,6 +368,7 @@ input.form-control {
 		</section>
 		
 		<%@ include file="modal-password-change.jsp" %>
+		<%@ include file="modal-delete-check.jsp" %>
 		<%@ include file="../include/footer.jsp"%>
 		
 	</div>
@@ -443,6 +445,106 @@ input.form-control {
 			}
 			
 			$('#modal-password-change').modal('show');
+		});
+		
+		
+		// 일반회원 회원탈퇴 버튼 클릭 시 회원탈퇴 진행
+		$('#btn-user-delete').click(function() {
+			
+			if(confirm('정말 탈퇴하시겠습니까? 더 이상 서비스를 이용할 수 없게 됩니다.')) {
+				
+				$('#modal-delete-check').modal('show');
+				
+				
+				// 확인 버튼 클릭 시
+				$('#btn-password-check').click(function() {
+					
+					const inputPW = $('#input-password-check').val();
+					const userNO = $('#hidden-user-mypage-userno').val();
+					
+					$.ajax({
+						type: 'POST',
+						url: '<c:url value="/user/userPasswordCheck" />',
+						
+						dataType: 'text',
+						data: {
+							'inputPW': inputPW
+						},
+						
+						success: function(result) {
+							if(result == 'YesCheck') {
+								
+								console.log('비밀번호 일치');
+								
+								$.ajax({
+									type: 'POST',
+									url: '<c:url value="/user/userDelete" />',
+									
+									dataType: 'text',
+									data : {
+										'userNO': userNO
+									},
+									
+									success: function(result) {
+										if(result == 'YesUserDelete') {
+											
+											// 로그아웃 처리 비동기 ajax
+						    				$.ajax({
+						    					type: 'POST',
+						    					url: '<c:url value="/user/userLogout" />',
+						    					contentType: 'application/json',
+						    					
+						    					success: function(result) {
+						    						if(result == 'logoutSuccess') {
+						    							alert('성공적으로 탈퇴되었습니다. 그동안 서비스를 이용해주셔서 감사합니다.');
+						    							
+						    							// location.href는 단순 페이지 이동이라면, location.replace()는 해당 주소를 redirect하는 것과 비슷하다.
+						    							location.replace('/');
+						    						} else {
+						    							alert('탈퇴가 정상적으로 이루어지지 않았습니다. 관리자에게 문의하세요.');
+						    							return;
+						    						}
+						    					},
+						    					
+						    					error: function() {
+						    						alert('로그아웃 처리 중 서버 오류가 발생했습니다.');
+						    						return;
+						    					}
+						    				});		// ajax 끝
+											
+										}
+									},
+									
+									error: function() {
+										alert('회원 탈퇴 처리 중 서버오류가 발생했습니다.');
+										return;
+									}
+								});
+								
+								
+							} else {
+								alert('비밀번호가 일치하지 않습니다.');
+								return;
+							}
+						},
+						
+						error: function() {
+							alert('비밀번호 체크 중 서버오류가 발생했습니다.');
+							return;
+						}
+					});
+					
+				});
+				
+				
+				// 취소 버튼 클릭 시
+				$('#btn-password-check-close').click(function() {
+					$('#modal-delete-check').modal('hide');
+				});
+				
+			} else {
+				return false;
+			}
 		});
 		
 	});

@@ -64,41 +64,51 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 		if(vo != null) {
 			// 로그인 화면에서 입력한 비밀번호와 해당 사용자의 비밀번호가 일치한지 비교한다.
 			if(encoder.matches(userPW, vo.getUserPW())) {
-				
-				logger.info("UserLoginInterceptor : Login 성공");
+				// 해당 사용자가 탈퇴한 사용자인지 체크한다.
+				if(vo.getCommonCODE().equals("ADM003")) {
+					logger.info("UserLoginInterceptor : Login 실패 (탈퇴한 회원)");
 
-				// 로그인에 성공한 후 사용자 정보를 user 라는 세션에 담아 저장한다.
-				session.setAttribute("user", vo);
-				
-				// 로그인 유지가 체크되어 있는 상황이라면
-				if(autoCheck != null) {
-					logger.info("UserLoginInterceptor : 자동로그인 활성화");
+					// class 파일에서 자바스크립트 경고창을 띄우기 위한 PrintWriter 사용
+					PrintWriter writer = response.getWriter();
+					writer.print("<script>" + "alert('탈퇴한 회원입니다.');" + "location.replace('/');" + "</script>");
+					writer.flush();
+					writer.close();
+				} else {
+					logger.info("UserLoginInterceptor : Login 성공");
+
+					// 로그인에 성공한 후 사용자 정보를 user 라는 세션에 담아 저장한다.
+					session.setAttribute("user", vo);
 					
-					// 로그인 될 때 생성된 해당 클라이언트의 고유 세션 ID를 쿠키에 저장한다.
-					Cookie loginCookie = new Cookie("loginCookie", session.getId());
-					// 쿠키를 찾을 경로를 Context 경로로 설정해줘서 모든 경로에서 쿠키를 찾을 수 있도록 설정한다.
-					loginCookie.setPath("/");
-					
-					// 쿠키의 지속시간을 7일로 설정한다. 
-					int amount = 60 * 60 * 24 * 7;
-					loginCookie.setMaxAge(amount);
-					
-					// 마지막으로 쿠키를 적용시킨다.
-					response.addCookie(loginCookie);
-					
-					// 쿠키 지속시간을 Timestamp 형식으로 변환한다.
-					Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * amount));
-					
-					// 쿠키를 적용시킨 후 사용자 데이터베이스에도 세션 ID와 쿠키 지속시간을 저장한다.
-					AutoLoginVO avo = new AutoLoginVO();
-					avo.setSessionID(session.getId());
-					avo.setSessionLimit(sessionLimit);
-					avo.setUserID(vo.getUserID());
-					
-					service.userAutoLogin(avo);
+					// 로그인 유지가 체크되어 있는 상황이라면
+					if(autoCheck != null) {
+						logger.info("UserLoginInterceptor : 자동로그인 활성화");
+						
+						// 로그인 될 때 생성된 해당 클라이언트의 고유 세션 ID를 쿠키에 저장한다.
+						Cookie loginCookie = new Cookie("loginCookie", session.getId());
+						// 쿠키를 찾을 경로를 Context 경로로 설정해줘서 모든 경로에서 쿠키를 찾을 수 있도록 설정한다.
+						loginCookie.setPath("/");
+						
+						// 쿠키의 지속시간을 7일로 설정한다. 
+						int amount = 60 * 60 * 24 * 7;
+						loginCookie.setMaxAge(amount);
+						
+						// 마지막으로 쿠키를 적용시킨다.
+						response.addCookie(loginCookie);
+						
+						// 쿠키 지속시간을 Timestamp 형식으로 변환한다.
+						Timestamp sessionLimit = new Timestamp(System.currentTimeMillis() + (1000 * amount));
+						
+						// 쿠키를 적용시킨 후 사용자 데이터베이스에도 세션 ID와 쿠키 지속시간을 저장한다.
+						AutoLoginVO avo = new AutoLoginVO();
+						avo.setSessionID(session.getId());
+						avo.setSessionLimit(sessionLimit);
+						avo.setUserID(vo.getUserID());
+						
+						service.userAutoLogin(avo);
+					}
+
+					response.sendRedirect("/");
 				}
-
-				response.sendRedirect("/");
 
 			} else {
 				logger.info("UserLoginInterceptor : Login 실패 (비밀번호가 일치하지 않음)");

@@ -63,12 +63,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES (#{answerTitle}, #{answerWriter}, #{answerContent}, #{questionNo})
 	</insert>
 	
-	<!-- 답변글 상세보기(목록) SELECT 쿼리 -->
+	<!-- 답변글 목록 SELECT 쿼리 -->
 	<select id="answerList" resultMap="AnswerMap">
 		SELECT * FROM answer
 		WHERE question_NO=#{questionNo}
 	</select>
 	
+	<!-- 답변글 상세보기 SELECT 쿼리 -->
 	<select id="answerContent" resultMap="AnswerMap">
 		SELECT * FROM answer
 		WHERE answer_NO = #{answerNo}

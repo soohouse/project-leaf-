@@ -40,6 +40,9 @@ public interface IArchiveService {
 	
 	//자료실 번호 끌어오기
 	int archiveNoGet ();
+	
+	//자료실 조회수
+	int archiveViews (int archiveNo);
 
 
 }

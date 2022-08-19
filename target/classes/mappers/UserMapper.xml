@@ -89,6 +89,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
+	<!-- 일반회원 회원탈퇴 UPDATE 쿼리 -->
+	<update id="userDelete">
+		UPDATE user
+		SET common_CODE = 'ADM003'
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
 	<!-- 자동로그인 UPDATE 쿼리 -->
 	<update id="userAutoLogin">
 		UPDATE user

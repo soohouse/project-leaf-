@@ -207,7 +207,7 @@
     background-color: rgb(197, 235, 170);
     text-align: center;
     padding-top: 5px;
-    transform: translateY(-20px);
+    transform: translateY(-120px);
 }
 
 .project-int1 {
@@ -221,7 +221,7 @@
 }
 
 .damdang-master {
-    margin-top: -20px;
+    margin-top: -120px;
 }
 
 .damdang {
@@ -302,6 +302,7 @@
     background-color: rgb(197, 235, 170);
     text-align: center;
     padding-top: 5px;
+    transform: translateY(-20px);
 }
 
 .skills1 {
@@ -316,7 +317,7 @@
 }
 
 .mojib-master {
-    margin-top: 0px;
+    margin-top: -20px;
 }
 
 .mojib {

@@ -72,7 +72,7 @@
 				
 				<div class="form-group">
 					<label for="inputEmail3" class="control-label" style="display: block;">담당자에게 전할 말</label>
-					    <div id="modal-user-apply-msg" style="height: 120px; border: 1px solid #C7C7C7; padding: 10px;"></div>
+					    <div id="modal-user-apply-msg" style="height: 120px; border: 1px solid #C7C7C7; padding: 10px; overflow: auto;"></div>
 				</div>
 			
 		    </div>

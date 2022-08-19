@@ -79,7 +79,7 @@
 	                   <div class="project-list-col-md-8" >
 	                     <div class="project-listbox">
 	                       <div class="image-intro"> 
-	                         <a href="#"><img src="../resources/img/main4.jpg" alt="사진" style="width: 200px; height: 100px; object-fit: cover; vertical-align: text-bottom; margin-left: 20px; margin-top: 16px;"></a>
+	                         <a href="#"><img src="<c:url value='/project/projectImageGet?projectNO=${applyStatusList.projectNO}' />" alt="사진" style="width: 200px; height: 100px; object-fit: cover; vertical-align: text-bottom; margin-left: 20px; margin-top: 16px;"></a>
 	                         </div>
 	                       <div class="project-form" style="margin-left: 30px;">
 	                         <div class="project-title" id="project-view-icon2${index.index}" style="cursor: pointer;">

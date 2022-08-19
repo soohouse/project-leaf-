@@ -40,6 +40,12 @@ public class ProjectService implements IProjectService {
 		return mapper.getContent(projectNO);		
 	}
 	
+	@Override
+	public void updateProjectContent(ProjectContentVO vo) {
+		mapper.updateProjectContent(vo);
+		
+	}
+	
 	
 	@Override
 	public int projectNOGet() {

@@ -16,6 +16,8 @@ public interface IProjectMapper {
 
 	ProjectContentVO getContent(int projectNO);
 	
+	void updateProjectContent(ProjectContentVO vo);
+	
 	int projectNOGet();
 	
 	void projectImage(ProjectImageVO vo);

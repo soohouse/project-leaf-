@@ -104,6 +104,8 @@
 			location.href='<c:url value="/archive/archiveList" />';
 		});
 		
+
+		//자료실 글쓰기
 		$('#btn-archive-write').click(function(){
 			
 			

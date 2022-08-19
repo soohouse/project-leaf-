@@ -89,6 +89,13 @@ public class UserService implements IUserService {
 	}
 	
 	
+	// 사용자 회원탈퇴 요청
+	@Override
+	public void userDelete(int userNO) {
+		mapper.userDelete(userNO);
+	}
+	
+	
 	// 사용자 자동로그인 요청
 	@Override
 	public void userAutoLogin(AutoLoginVO vo) {

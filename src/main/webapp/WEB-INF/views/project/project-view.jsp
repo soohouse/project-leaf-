@@ -70,7 +70,7 @@
         
       </div>
       <div class="mojibjung">
-        <p>현재 모집중</p>
+        <p>${projectview.commonValue}</p>
       </div>
     </div>
   </div>
@@ -157,8 +157,8 @@
         지원 자격
       </div>
       <div class="skills1">
-        <p>
-          ${projectview.projectRequireLicense}
+        <c:set var="License" value="${projectview.projectRequireLicense}" />
+       <p>${fn:replace(License, replaceChar, "<br/>")}
         </p>
       </div>
       <div class="mojib-master">

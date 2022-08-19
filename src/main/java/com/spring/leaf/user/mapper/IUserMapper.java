@@ -33,6 +33,10 @@ public interface IUserMapper {
 	void userPasswordChange(PasswordVO vo);
 	
 	
+	// 사용자 회원탈퇴 요청
+	void userDelete(int userNO);
+	
+	
 	// 사용자 자동로그인 요청
 	void userAutoLogin(AutoLoginVO vo);
 	

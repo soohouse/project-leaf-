@@ -44,6 +44,7 @@
 			            	<span class="main-notice-title">자료실</span>
 			            </a>
 					<div class="col-lg-8 col-md-10 col-sm-12">
+
 					  <form action="<c:url value='/archive/archiveUpdate'/>" method="post" name="archiveUpdateForm">
 		    			<table class= "table table-stripped" style= "text-align: center; boarder: 1px solid #dddddd">
 			    	    	<thead>
@@ -66,8 +67,10 @@
 		    	    	</table>
 		    	    	
 		    	    		<div class="filebox pull-left">
-						    		<label for="file" id="archive-file">파일업로드</label>
-									<input type="file" id="archive-file" class="archive-file-upload">${archive.archiveFileRealname}	
+		    	    				<input type="file" id="file-archive-file" class="archive-file-upload" style="display: none;">
+		    	    				<button type="button" id="btn-archive-file">파일 선택</button>
+						    		<label for="file-archive-file" id="file-archive" style="font-weight: 500;">${archive.archiveFileRealname}</label>
+									
 							</div>
 		    	       </form>
 		    	    <button type="button" id="btn-archive-update" class="btn btn-primary pull-right" style="margin-right:20px;">수정하기</button>
@@ -79,10 +82,9 @@
 		</section>
 	    <%@ include file="../include/footer.jsp" %>
 	</div>
-	
-   
-   
-  
+
+
+
 </body>
 </html>
 
@@ -91,64 +93,93 @@
 
 	$(function(){
 		
+		// 파일 찾기 버튼을 누르면 숨겨져 있는 파일 요소가 클릭된 것으로 인식
+		$('#btn-archive-file').click(function() {
+			$('#file-archive-file').click();
+		});
+		
+		// 파일 요소가 변경되면 파일의 이름을 추출해서 버튼 옆에 파일 이름을 띄워준다.
+		$('#file-archive-file').change(function() {
+			var fileValue = $('#file-archive-file').val().split('\\');
+			var fileName = fileValue[fileValue.length - 1];
+			
+			$('#file-archive').text(fileName);
+		});
+		
+		
 		//수정하기 버튼을 클릭할 때
 		$('#btn-archive-update').click(function(){
+			
+			//제목 작성 여부 체크
+			
+			//게시글 작성 여부 체크
 		
 			//자료실 게시글 번호와 자료파일을 새로 등록했는지 확인하기 위해 값을 가져온다.
 			const archiveNo = $('#archiveNo').val();
-			const archiveFileCheck = $('#archive-file').val();
+			const archiveFileCheck = $('#file-archive-file').val();
 			
-			//사용자가 이미 올렸던 자료 파일을 삭제한 후에
-			$.ajax({
-				type: 'POST',
-				url: '<c:url value="/archive/archiveFileDelete/"/>' + archiveNo,
-				contentType: false,
-				processData: false,
-				
-				success: function(result) {
-					if(result == 'deleteSuccess') {
-						
-						const formData = new FormData();
-						
-						const data = $('#archive-file');
-						
-						formData.append('newarchiveFile', data[0].files[0]); 
-						
-						//수정창에서 업로드한 파일로 새로 적용한다.
-						$.ajax({
-							type: 'POST',
-							url: '<c:url value="/archive/archiveFileUpdate/"/>' + archiveNo,
-							contentType: false,
-							processData: false,
+						// 사용자가 이미 올렸던 이력서 파일이 있었다면
+						if(archiveFileCheck != '') {
 							
-							data: formData,
-							
-							success: function(result) {
-								if(result == 'updateSuccess') {
-									console.log('자료실 파일 수정 성공');
-									
-									//자료실 파일 수정이 완료되면 나머지 정보도 수정한다.
-									document.archiveUpdateForm.submit();
-								} else {
-									alert('자료실 파일 수정 중 오류가 발생했습니다.');
+							// 이미 올렸던 이력서 파일을 서버에서 삭제한 후에
+							$.ajax({
+								type: 'POST',
+								url: '<c:url value="/archive/archiveFileDelete/" />' + archiveNo,
+								contentType: false,
+								processData: false,
+								
+								success: function(result) {
+									if(result == 'deleteSuccess') {
+
+										const formData = new FormData();
+										
+										const data = $('#file-archive-file');
+										
+										formData.append('newarchiveFile', data[0].files[0]);
+										
+										// 수정창에서 업로드한 파일로 새로 적용한다.
+										$.ajax({
+											type: 'POST',
+											url: '<c:url value="/archive/archiveFileUpdate/" />' + archiveNo,
+											contentType: false,
+											processData: false,
+											
+											data: formData,
+											
+											success: function(result) {
+												if(result == 'updateSuccess') {
+													console.log('자료실 파일 수정 성공');
+													
+													// 이력서 수정이 완료되면 나머지 정보도 수정한다.
+													document.archiveUpdateForm.submit();
+												} else {
+													alert('자료실 파일 수정 중 오류가 발생했습니다.');
+													return;
+												}
+											},
+											
+											error: function() {
+												alert('자료실 파일 수정 중 서버오류가 발생했습니다.');
+												return;
+											}
+										});
+										
+									} else {
+										alert('자료실 파일 삭제 중 오류가 발생했습니다.');
+										return;
+									}
+								},
+								
+								error: function() {
+									alert('자료실 파일 삭제 중 서버오류가 발생했습니다.');
 									return;
 								}
-							},
-							error: function() {
-								alert('자료실 파일 수정 중 서버오류가 발생했습니다.');
-							}
-						}); //ajax(archiveFileModify) 끝
-					}
-				},
-				error: function() {
-					alert('자료실 파일 삭제 중 서버오류가 발생했습니다.');
-					return;
-				}
-			});// ajax(archiveFileDelete) 끝
-				
-			document.archiveUpdateForm.submit();
-			
-			
+							});
+						} else {
+							// 아무 파일을 선택하지 않았다면 그냥 나머지 정보만 수정을 진행한다.
+							document.archiveUpdateForm.submit();
+						
+						}
 		});
 			
 	});

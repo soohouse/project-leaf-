@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.leaf.archivereply.command.ArchiveReplyVO;
 import com.spring.leaf.archivereply.mapper.IArchiveReplyMapper;
 
-//자료실 댓글 서비스 생성 : 2022-08-07
+//자료실 댓글 서비스 생성 : 2022-08-07  (ArchiveReplyService)
 
 @Service
 public class ArchiveReplyService implements IArchiveReplyService {
@@ -18,7 +18,6 @@ public class ArchiveReplyService implements IArchiveReplyService {
 	
 	//댓글 작성
 	public void archiveReplyWrite(ArchiveReplyVO vo) {
-		
 		mapper.archiveReplyWrite(vo);
 	}
 
@@ -30,7 +29,17 @@ public class ArchiveReplyService implements IArchiveReplyService {
 
 	@Override
 	public int archiveReplyTotal(int archvieReplyNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	};
+		return mapper.archiveReplyTotal(archvieReplyNo);
+	}
+
+	@Override
+	public void archiveReplyUpdate(int archiveReplyNo) {
+		mapper.archiveReplyUpdate(archiveReplyNo);
+	}
+
+	@Override
+	public void archiveReplyDelete(int archiveReplyNo) {
+		mapper.archiveReplyDelete(archiveReplyNo);
+	}
+
 }

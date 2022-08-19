@@ -184,7 +184,6 @@
             
 							<button type="submit" class=" mb-2 pull-left">신고하기 </button>
 							<c:if test="${board.boardWriter eq user.userID || board.boardWriter eq company.companyID}">
-
 								<button type="button" id="btn-board-modify" class="btn btn-info mb-2 pull-right" onclick="location.href='<c:url value="/board/boardModify?boardNo=${board.boardNo}"/>'" style="margin-left:10px;">수정하기</button>
 							</c:if>
 							<button type="button" id="btn-board-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
@@ -301,7 +300,7 @@
 					},
 					
 					error: function() {
-						alert('댓글 등록이 실패하였습니다.');
+						alert('error: 댓글 등록이 실패하였습니다. 관리자에게 문의해주세요!');
 					}
 				
 					

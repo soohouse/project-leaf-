@@ -18,6 +18,6 @@ public class ArchiveVO {
 	private String archiveWriter;
 	private String archiveContent;
 	private Timestamp archiveDate;
-	private int archiveViews;
+	private int archiveViews; //자료실 조회수
 
 }

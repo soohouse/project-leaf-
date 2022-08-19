@@ -63,7 +63,7 @@
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-		    	    	<input type="button" class="btn btn-primary pull-right" onclick="location.href='<c:url value="/question/questionList"/>'" value="목록">
+		    	    	<input type="button" class="btn btn-primary pull-right" onclick="location.href='<c:url value="/question/questionList"/>'" style="margin-left:10px;" value="목록">
     	    			<input type="submit" class="btn btn-info pull-right" id="btn-question-update" value="수정하기">
 					  </form>
 					</div>

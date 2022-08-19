@@ -73,7 +73,7 @@
     </div>
   </div>
   
-  <form action="<c:url value='/project/projectviewfix'/>"  method="post" name="projectViewFix">
+  <form action="<c:url value='/project/projectviewfix'/>"  method="post" name="projectUpdateForm">
   
   <div class="project-img-box">
     <div class="image-intro"> 
@@ -91,11 +91,11 @@
       </div>
       <div class="project-dt1">
        <label for="exampleInputdate"></label>
-                <input type="date" class="form-control" id="exampleInputdate" placeholder="0000/00/00" style="height: 21px; padding-bottom: 5px;">
+                <input type="date" class="form-control" id="project-date1" placeholder="0000/00/00" style="height: 21px; padding-bottom: 5px;">
               <div class="date12">
                 ~
               </div>
-                <input type="date" class="form-control" id="exampleInputdate" placeholder="0000/00/00" style="height: 21px; padding-bottom: 5px;">
+                <input type="date" class="form-control" id="project-date2" placeholder="0000/00/00" style="height: 21px; padding-bottom: 5px;">
       	<!--<c:set var="date1" value="${projectview.projectRequireDate1}" />
       	<c:set var="date2" value="${projectview.projectRequireDate2}" />
         <p>${fn:substring(date1, 0, 10)} ~ ${fn:substring(date2, 0, 10)}</p>-->
@@ -185,7 +185,7 @@
         <a href="#" id="singo-modal">신고하기</a>
       </div>
       <div class="project-container-bottom">
-        <button type="button" id="jiwon-btn" class="btn btn-success">수정하기</button>
+        <button type="button" id="btn-project-content-update" class="btn btn-success" value="수정완료">수정하기</button>
         <button type="button" id="mokrok-btn" class="btn btn-danger">돌아가기</button>
       </div>
       </div>
@@ -202,11 +202,74 @@
 </html>
 <script>
 $(function() {
+	
+	
 	$('#mokrok-btn').click(function() {
 		location.href='<c:url value="/project/projectadmin" />';
-	})
-	doc.projectViewFix.submit();	
+	});
+	
+	
+	
+	//수정완료 버튼 클릭 시 
+	$('#btn-project-content-update').click(function() {
+			
+			// 이름 입력 여부 체크
+			if($('#project-myeng1').val() == '') {
+				alert('이름을 입력해주세요.');				
+				$('#project-myeng1').focus();
+				return;
+			}
+			
+			//프로젝트 기간 입력 여부 체크
+			if($('#project-date1').val() == '') {
+				alert('날짜를 입력해주세요.');				
+				$('#project-date1').focus();
+				return;
+			}
+			
+			//프로젝트 기간 입력 여부 체크
+			if($('#project-date2').val() == '') {
+				alert('날짜를 입력해주세요.');				
+				$('#project-date2').focus();
+				return;
+			}
+
+			//프로젝트 설명 입력 여부 체크
+			if($('#project-int1').val() == '') {
+				alert('설명을 입력해주세요.');				
+				$('#project-int1').focus();
+				return;
+			}
+
+			//프로젝트 담당자이름 입력 여부 체크
+			if($('#damdang1').val() == '') {
+				alert('담당자 이름을 입력해주세요.');				
+				$('#damdang1').focus();
+				return;
+			}
+
+			//프로젝트 전화번호 입력 여부 체크
+			if($('#damdang-phone1').val() == '') {
+				alert('날짜를 입력해주세요.');				
+				$('#damdang-phone1').focus();
+				return;
+			}
+
+			//프로젝트 이메일 입력 여부 체크
+			if($('#damdang-email1').val() == '') {
+				alert('날짜를 입력해주세요.');				
+				$('#damdang-email1').focus();
+				return;
+			}
+			
+			
+			
+			document.projectUpdateForm.submit();
+			
+	});
 });
+
+
 
 
 
