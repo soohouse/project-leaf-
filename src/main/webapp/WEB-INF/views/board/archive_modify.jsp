@@ -140,7 +140,7 @@
 										// 수정창에서 업로드한 파일로 새로 적용한다.
 										$.ajax({
 											type: 'POST',
-											url: '<c:url value="/archive/archiveFileUpdate/" />' + archiveNo,
+											url: '<c:url value="/archive/archiveUpdate/" />' + archiveNo,
 											contentType: false,
 											processData: false,
 											

@@ -89,7 +89,7 @@
 			                                        
 			                                        <div class="free_title_down" style="margin-top:30px;">
 				                                        <div class="free_writer" style="display: inline-block;">
-				                                            <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
+				                                            <img src="<c:url value='/user/userProfileGet?userNO=${writerprofile.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
 				                                            <span style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">&nbsp; ${board.boardWriter} &nbsp;</span>
 				                                            <c:if test="${board.boardWriter eq user.userID }">
 			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.leaf.board.command.BoardVO;
 import com.spring.leaf.board.mapper.IBoardMapper;
+import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.util.PageVO;
 
 //자유게시판 서비스 : 2022-08-03 생성
@@ -66,6 +67,11 @@ public class BoardService implements IBoardService {
 		return mapper.boardViews(boardNO);
 	}
 
+	//글쓴이 프로필사진 불러오기 요청
+	@Override
+	public UserProfileVO boardwriterProfile(int userNO) {
+		return mapper.boardwriterProfile(userNO);
+	}
 
 
 }
