@@ -44,6 +44,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE question_NO=#{questionNo}
 	</select>
 	
+	<!-- 질문글 프로필 사진 불러오기 SELECT 쿼리 -->
+	<select id="questionwriterProfile" resultType="int">
+		SELECT u.user_NO
+		FROM 
+			user u LEFT OUTER JOIN question q
+			ON u.user_ID = q.question_writer
+		WHERE q.question_writer = #{questionWriter}
+		AND q.question_NO = #{questionNo}
+	</select>
+	
 	<!-- 질문글 수정하기 SELECT 쿼리 -->
 	<update id="questionModify">
 		UPDATE question

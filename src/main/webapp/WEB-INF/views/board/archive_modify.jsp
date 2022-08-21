@@ -106,7 +106,7 @@
 			$('#file-archive').text(fileName);
 		});
 		
-		
+		/*
 		//수정하기 버튼을 클릭할 때
 		$('#btn-archive-update').click(function(){
 			
@@ -124,12 +124,12 @@
 							// 이미 올렸던 이력서 파일을 서버에서 삭제한 후에
 							$.ajax({
 								type: 'POST',
-								url: '<c:url value="/archive/archiveFileDelete/" />' + archiveNo,
+								url: '<c:url value="/archive/archiveDeleteAsync/" />' + archiveNo,
 								contentType: false,
 								processData: false,
 								
 								success: function(result) {
-									if(result == 'deleteSuccess') {
+									if(result == 'YesArchiveFileDelete') {
 
 										const formData = new FormData();
 										
@@ -140,14 +140,14 @@
 										// 수정창에서 업로드한 파일로 새로 적용한다.
 										$.ajax({
 											type: 'POST',
-											url: '<c:url value="/archive/archiveUpdate/" />' + archiveNo,
+											url: '<c:url value="/archive/archiveFileUpdate/" />' + archiveNo,
 											contentType: false,
 											processData: false,
 											
 											data: formData,
 											
 											success: function(result) {
-												if(result == 'updateSuccess') {
+												if(result == 'YesArchiveFileUpdate') {
 													console.log('자료실 파일 수정 성공');
 													
 													// 이력서 수정이 완료되면 나머지 정보도 수정한다.
@@ -181,7 +181,7 @@
 						
 						}
 		});
-			
+		*/	
 	});
 
 </script>

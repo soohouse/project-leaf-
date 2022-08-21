@@ -51,15 +51,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 자유게시판 프로필 사진 불러오기 SELECT 쿼리 -->
-	<select id="boardwriterProfile">
-		SELECT user_NO,
-			(
-			SELECT answer_writer
-			FROM answer
-			WHERE answer_NO=#{answerNo}
-			)
-		FROM user
-		WHERE user_ID = #{userID}	
+	<select id="boardwriterProfile" resultType="int">
+		SELECT u.user_NO
+		FROM 
+			user u LEFT OUTER JOIN board b
+			ON u.user_ID = b.board_writer
+		WHERE b.board_writer = #{boardWriter}
+		AND b.board_NO = #{boardNo}
 	</select> 
 	
 	<!-- 자유게시판 총 게시글 수 -->

@@ -63,7 +63,12 @@ public class QuestionController {
 	@GetMapping("/questionContent/{questionNo}")
 	public String questionContent(@PathVariable int questionNo, Model model) {
 		
-		model.addAttribute("question", service.questionContent(questionNo));
+		QuestionVO vo = service.questionContent(questionNo);
+		
+		int questionWriterNo = service.questionwriterProfile(vo.getQuestionWriter(), questionNo);
+		
+		model.addAttribute("question", vo);
+		model.addAttribute("questionWriterNo", questionWriterNo);
 		
 		return "board/qna_content";
 		

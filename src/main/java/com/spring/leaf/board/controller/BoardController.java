@@ -97,10 +97,15 @@ public class BoardController {
 	@GetMapping("/boardContent/{boardNo}")
 	public String boardContent(@PathVariable int boardNo, Model model) {
 	
-		model.addAttribute("board", service.boardContent(boardNo));
+		BoardVO vo = service.boardContent(boardNo);
 		
-	//	UserProfileVO writerProfile = service.boardwriterProfile(userNO);
-	//	model.addAttribute("writerprofile", writerProfile);
+		int boardWriterNo = service.boardwriterProfile(vo.getBoardWriter(), boardNo);
+		
+		model.addAttribute("board", vo);
+		model.addAttribute("boardWriterNo", boardWriterNo);
+		
+//		UserProfileVO writerProfile = service.boardwriterProfile(userNO);
+//		model.addAttribute("writerprofile", writerProfile);
 		
 		//댓글수
 		int ReplyTotal = rservice.boardReplyTotal(boardNo);
@@ -139,6 +144,7 @@ public class BoardController {
 		return "redirect:/board/boardList";
 	}
 	
+	/*
 	//글쓴이 프로필사진 불러오기 요청
 	@GetMapping("/boardwriterProfile")
 	public ResponseEntity<byte[]> boardwriterProfile(int userNO) throws Exception {
@@ -287,5 +293,6 @@ public class BoardController {
 			}
 		}
 	}
+	*/
 	
 }

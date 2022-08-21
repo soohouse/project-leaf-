@@ -1,6 +1,8 @@
 package com.spring.leaf.board.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,8 @@ import com.spring.leaf.board.command.BoardVO;
 import com.spring.leaf.board.mapper.IBoardMapper;
 import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.util.PageVO;
+
+import oracle.net.aso.b;
 
 //자유게시판 서비스 : 2022-08-03 생성
 
@@ -69,8 +73,14 @@ public class BoardService implements IBoardService {
 
 	//글쓴이 프로필사진 불러오기 요청
 	@Override
-	public UserProfileVO boardwriterProfile(int userNO) {
-		return mapper.boardwriterProfile(userNO);
+	public int boardwriterProfile(String boardWriter, int boardNo) {
+		
+		Map<String, Object> boardInfo = new HashMap<>();
+		
+		boardInfo.put("boardWriter", boardWriter);
+		boardInfo.put("boardNo", boardNo);
+		
+		return mapper.boardwriterProfile(boardInfo);
 	}
 
 

@@ -1,6 +1,7 @@
 package com.spring.leaf.question.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.leaf.question.command.AnswerVO;
 import com.spring.leaf.question.command.QuestionVO;
@@ -17,6 +18,9 @@ public interface IQuestionService {
 	
 	//질문글 상세보기
 	QuestionVO questionContent(int questionNo);
+	
+	//질문글 글쓴이 프로필사진 불러오기 요청
+	int questionwriterProfile(String questionWriter, int questionNo);
 	
 	//질문글 수정
 	void questionModify(QuestionVO vo);
