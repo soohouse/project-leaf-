@@ -1,6 +1,8 @@
 package com.spring.leaf.notice.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +55,18 @@ public class NoticeService implements INoticeService {
 	public NoticeVO noticeContent(int noticeNo) {
 
 		return mapper.noticeContent(noticeNo);
+	}
+	
+	//공지사항 프로필 사진 불러오기
+	@Override
+	public int noticewriterProfile(String noticeWriter, int noticeNo) {
+		
+		Map<String, Object> noticeInfo = new HashMap<>();
+		
+		noticeInfo.put("noticeWriter", noticeWriter);
+		noticeInfo.put("noticeNo", noticeNo);
+		
+		return mapper.noticewriterProfile(noticeInfo);
 	}
 
 	//공지사항 수정

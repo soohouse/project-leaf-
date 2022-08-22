@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.spring.leaf.board.command.BoardVO;
+import com.spring.leaf.board.command.BoardWriterVO;
 import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.util.PageVO;
 
@@ -36,6 +37,6 @@ public interface IBoardMapper {
 	int boardCommentCnt (int boardNo);
 	
 	// 사용자 프로필사진 불러오기 요청
-	int boardwriterProfile(Map<String, Object> boardInfo);
+	BoardWriterVO boardwriterProfile(Map<String, Object> boardInfo);
 
 }

@@ -19,5 +19,10 @@ public class BoardReplyListVO {
 	private String boardReplyContent; //자유게시판 댓글 내용
 	private Timestamp boardReplyDate; //자유게시판 댓글 날짜
 	private int boardNo; //자유게시판 번호
+
+	private int userNo;
+	private String userID;
+	private int companyNo;
+	private String companyID;
 	
 }

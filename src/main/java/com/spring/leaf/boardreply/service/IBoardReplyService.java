@@ -25,4 +25,10 @@ public interface IBoardReplyService {
 	//댓글 삭제
 	void boardReplyDelete(int boardReplyNo);
 
+	// 사용자 프로필사진 불러오기 요청
+	int rboardwriterProfile(String boardReplyWriter, int boardReplyNo);
+
+
+
+
 }

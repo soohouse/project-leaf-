@@ -53,6 +53,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<!-- 공지사항 프로필 사진 불러오기 SELECT 쿼리 -->
+	<select id="noticewriterProfile" resultType="int">
+		SELECT u.user_NO
+		FROM 
+			user u LEFT OUTER JOIN notice n
+			ON u.user_ID = n.notice_writer
+		WHERE n.notice_writer = #{noticeWriter}
+		AND n.notice_NO = #{noticeNo}
+	</select>
+	
 	<select id="getTotal" resultType="int">
 		SELECT COUNT(*)
 		FROM notice

@@ -36,6 +36,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="archiveFileRealname" column="archive_file_realname"/>
 	</resultMap>
 	
+	<!-- ArchiveWriterVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ArchiveWriterMap 선언 -->
+	<resultMap type="com.spring.leaf.archive.command.ArchiveWriterVO" id="ArchiveWriterMap">
+		<result property="userNo" column="user_NO" />
+		<result property="companyNo" column="company_NO" />
+	</resultMap>
+	
 	<sql id="search">
 		<if test="condition == 'title'">
 			AND archive_title LIKE concat('%', #{keyword}, '%')
@@ -93,6 +99,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE rn > (#{pageNum}-1) * #{cpp}
 		AND rn <= #{pageNum} * #{cpp}
 		]]>
+	</select>
+	
+	<!-- 자료실 프로필 사진 불러오기 SELECT 쿼리 -->
+	<select id="archivewriterProfile" resultMap="ArchiveWriterMap">
+		SELECT u.user_NO, c.company_NO
+		FROM 
+			archive a LEFT OUTER JOIN user u
+			ON a.archive_writer = u.user_ID
+				LEFT OUTER JOIN company c
+				ON a.archive_writer = c.company_ID
+		WHERE a.archive_writer = #{archiveWriter}
+		AND a.archive_NO = #{archiveNo}
 	</select>
 	
 	<!-- 자료실 총 게시물 수 -->

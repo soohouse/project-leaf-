@@ -39,6 +39,18 @@ public class BoardReplyService implements IBoardReplyService {
 		return mapper.boardReplyList(data);
 	}
 	
+	//자유게시판 댓글 프로필 사진 불러오기
+	@Override
+	public int rboardwriterProfile(String boardReplyWriter, int boardReplyNo) {
+		
+		Map<String, Object> rboardInfo = new HashMap<>();
+		
+		rboardInfo.put("boardReplyWriter", boardReplyWriter);
+		rboardInfo.put("boardReplyNo", boardReplyNo);
+		
+		return mapper.rboardwriterProfile(rboardInfo);
+	}
+	
 	//댓글 개수
 	@Override
 	public int boardReplyTotal(int boardNo) {

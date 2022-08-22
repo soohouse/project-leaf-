@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.leaf.board.command.BoardVO;
+import com.spring.leaf.board.command.BoardWriterVO;
 import com.spring.leaf.board.mapper.IBoardMapper;
 import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.util.PageVO;
@@ -73,7 +74,7 @@ public class BoardService implements IBoardService {
 
 	//글쓴이 프로필사진 불러오기 요청
 	@Override
-	public int boardwriterProfile(String boardWriter, int boardNo) {
+	public BoardWriterVO boardwriterProfile(String boardWriter, int boardNo) {
 		
 		Map<String, Object> boardInfo = new HashMap<>();
 		

@@ -1,6 +1,8 @@
 package com.spring.leaf.archive.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.spring.leaf.archive.command.ArchiveContentVO;
 import com.spring.leaf.archive.command.ArchiveFileVO;
 import com.spring.leaf.archive.command.ArchiveVO;
+import com.spring.leaf.archive.command.ArchiveWriterVO;
 import com.spring.leaf.archive.mapper.IArchiveMapper;
 import com.spring.leaf.util.PageVO;
 
@@ -44,6 +47,18 @@ public class ArchiveService implements IArchiveService {
 	public ArchiveContentVO archiveContent(int archiveNo) {
 
 		return mapper.archiveContent(archiveNo);
+	}
+	
+	//자료실 프로필 사진 불러오기
+	@Override
+	public ArchiveWriterVO archivewriterProfile(String archiveWriter, int archiveNo) {
+		
+		Map<String, Object> archiveInfo = new HashMap<>();
+		
+		archiveInfo.put("archiveWriter",archiveWriter);
+		archiveInfo.put("archiveNo",archiveNo);
+		
+		return mapper.archivewriterProfile(archiveInfo);
 	}
 
 	//자료실 수정

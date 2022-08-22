@@ -30,4 +30,7 @@ public interface INoticeService {
 	//공지사항 조회수
 	int noticeViews (int noticeNO);
 	
+	// 사용자 프로필사진 불러오기 요청
+	int noticewriterProfile(String noticeWriter, int noticeNo);
+	
 }

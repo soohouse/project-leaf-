@@ -100,7 +100,7 @@
 		                                        
 		                                        <div style="margin-top:30px;">
 			                                        <div class="notice_writer" style="display: inline-block;">
-			                                            <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
+			                                            <img src="<c:url value='/user/userProfileGet?userNO=${noticeWriterNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
 			                                            <span> 
 
 			                                            	<span style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">&nbsp; ${notice.noticeWriter} &nbsp;</span>

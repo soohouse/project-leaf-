@@ -89,7 +89,20 @@
 			                                        
 			                                        <div class="free_title_down" style="margin-top:30px;">
 				                                        <div class="free_writer" style="display: inline-block;">
-				                                            <img src="<c:url value='/user/userProfileGet?userNO=${boardWriterNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
+				                                        	
+				                                        	<c:choose>
+				                                        	
+				                                        		<c:when test="${boardWriterNumbers.userNo != ''}">
+				                                        			<img src="<c:url value='/user/userProfileGet?userNO=${boardWriterNumbers.userNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >	
+				                                        		</c:when>
+				                                        	
+				                                        		<c:when test="${boardWriterNumbers.companyNo != ''}">
+				                                        			<img src="<c:url value='/company/companyLogoGet?companyNO=${boardWriterNumbers.companyNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
+				                                        		</c:when>
+				                                        	
+				                                        	</c:choose>
+				                                        
+				                                            
 				                                            <span style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">&nbsp; ${board.boardWriter} &nbsp;</span>
 				                                            <c:if test="${board.boardWriter eq user.userID }">
 			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>
@@ -359,41 +372,87 @@
 						var replyWriter = boardReplyList[i].boardReplyWriter;
 						var replyReader = '';
 						
-						if(${user != null}) {
-							replyReader = '${user.userID}';
+						var memberNo = '';
+						
+						if(boardReplyList[i].userNo != '') {
+							memberNo = boardReplyList[i].userNo;
+							
+							if(${user != null}) {
+								replyReader = '${user.userID}';
+							} else {
+								replyReader = '${company.companyID}';
+							}
+							
+							if(replyWriter == replyReader) {
+								strAdd += 
+									`<div class='boardReplyWrap'>
+										<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50px;"><span>
+										</div>
+				                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
+				                        </div>
+				                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
+				                        </div>
+				                        <div style="float:right; width:13%;">`+ date +`
+				                        </div>
+			                            <div style="float:right; width:5%;">
+			                            	<a id="btn-board-reply-delete` + i + `" class="glyphicon glyphicon-remove replyDelete" aria-hidden="true" data-value="` + boardReplyList[i].boardReplyNo + `"></a>
+			                            	<a class="glyphicon glyphicon-ok replyModify" aria-hidden="true"></a>
+			                            </div>
+			                        </div>`;
+							} else {
+								strAdd += 
+									`<div class='boardReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
+										<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50px;"><span>
+				                        </div>
+										<div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
+				                        </div>
+				                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
+				                        </div>
+				                        <div style="float:right; width:13%;">`+ date +`
+				                        </div>
+			                        </div>`;
+							}
 						} else {
-							replyReader = '${company.companyID}';
+							memberNo = boardReplyList[i].companyNo;
+							
+							if(${user != null}) {
+								replyReader = '${user.userID}';
+							} else {
+								replyReader = '${company.companyID}';
+							}
+							
+							if(replyWriter == replyReader) {
+								strAdd += 
+									`<div class='boardReplyWrap'>
+										<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50px;"><span>
+										</div>
+				                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
+				                        </div>
+				                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
+				                        </div>
+				                        <div style="float:right; width:13%;">`+ date +`
+				                        </div>
+			                            <div style="float:right; width:5%;">
+			                            	<a id="btn-board-reply-delete` + i + `" class="glyphicon glyphicon-remove replyDelete" aria-hidden="true" data-value="` + boardReplyList[i].boardReplyNo + `"></a>
+			                            	<a class="glyphicon glyphicon-ok replyModify" aria-hidden="true"></a>
+			                            </div>
+			                        </div>`;
+							} else {
+								strAdd += 
+									`<div class='boardReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
+										<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50px;"><span>
+				                        </div>
+										<div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
+				                        </div>
+				                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
+				                        </div>
+				                        <div style="float:right; width:13%;">`+ date +`
+				                        </div>
+			                        </div>`;
+							}
 						}
 						
-						if(replyWriter == replyReader) {
-							strAdd += 
-								`<div class='boardReplyWrap'>
-									<div><span><img src="resources/img/logo2.png" width="30px" style="float:left; border-radius:50px;"><span>
-									</div>
-			                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
-			                        </div>
-			                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
-			                        </div>
-			                        <div style="float:right; width:13%;">`+ date +`
-			                        </div>
-		                            <div style="float:right; width:5%;">
-		                            	<a id="btn-board-reply-delete` + i + `" class="glyphicon glyphicon-remove replyDelete" aria-hidden="true" data-value="` + boardReplyList[i].boardReplyNo + `"></a>
-		                            	<a class="glyphicon glyphicon-ok replyModify" aria-hidden="true"></a>
-		                            </div>
-		                        </div>`;
-						} else {
-							strAdd += 
-								`<div class='boardReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
-									<div><span><img src="resources/img/logo2.png" width="30px" style="float:left; border-radius:50px;"><span>
-			                        </div>
-									<div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
-			                        </div>
-			                        <div id='boardReply-Content' style="width:65%; word-break:break-all; text-align: left; float:left;">` + boardReplyList[i].boardReplyContent +`
-			                        </div>
-			                        <div style="float:right; width:13%;">`+ date +`
-			                        </div>
-		                        </div>`;
-						}
+						
 					
 						
 						$('#boardReplyList').html(strAdd);	

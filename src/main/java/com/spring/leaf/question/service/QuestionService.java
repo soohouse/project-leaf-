@@ -85,9 +85,22 @@ public class QuestionService implements IQuestionService {
 		return mapper.answerList(questionNo);
 	}
 	
+	//답변글 목록
 	@Override
 	public AnswerVO answerContent(int answerNo) {
 		return mapper.answerContent(answerNo);
+	}
+	
+	//답변글 프로필 사진 불러오기
+	@Override
+	public int answerwriterProfile(String answerWriter, int answerNo) {
+		
+		Map<String, Object> answerInfo = new HashMap<>();
+		
+		answerInfo.put("answerWriter", answerWriter);
+		answerInfo.put("answerNo", answerNo);
+		
+		return mapper.answerwriterProfile(answerInfo);
 	}
 	
 	//답변글 수정하기

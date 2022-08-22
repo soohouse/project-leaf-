@@ -22,6 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="boardReplyContent" column="board_reply_content" />
 		<result property="boardReplyDate" column="board_reply_date" />
 		<result property="boardNo" column="board_NO"/>
+		<result property="userID" column="user_ID"/>
+		<result property="userNo" column="user_NO"/>
+		<result property="companyID" column="company_ID"/>
+		<result property="companyNo" column="company_NO"/>
+		
 	</resultMap>
 	
 	<!-- 자유게시판 댓글 등록 INSERT 쿼리 -->
@@ -36,19 +41,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM board_reply
 		WHERE board_NO=#{boardNo}
 		-->
-		SELECT * FROM	
-			(
-			SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
-				(
-				SELECT * FROM board_reply
-				WHERE board_NO = #{boardNo}
-				ORDER BY board_reply_NO DESC
-				) A,(SELECT @ROWNUM := 0)B
-			) B
-		<![CDATA[
+		SELECT * FROM   
+         (
+         SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
+            (
+            SELECT 
+               br.board_reply_NO, br.board_reply_writer, br.board_reply_content, br.board_reply_date, br.board_NO,
+                    u.user_NO, u.user_ID, c.company_NO, c.company_ID
+                FROM board_reply br LEFT OUTER JOIN user u
+                ON br.board_reply_writer = u.user_ID
+                LEFT OUTER JOIN company c
+                on br.board_reply_writer = c.company_ID
+            WHERE board_NO = #{boardNo}
+            ORDER BY board_reply_NO DESC
+            ) A,(SELECT @ROWNUM := 0)B
+         ) B
+  		<![CDATA[
 		WHERE rn > 0
 		AND rn <= #{paging.pageNum} * #{paging.cpp}
 		]]>
+	</select>
+	
+		<!-- 자유게시판댓글 프로필 사진 불러오기 SELECT 쿼리 -->
+	<select id="rboardwriterProfile" resultType="int">
+		SELECT u.user_NO
+		FROM 
+			user u LEFT OUTER JOIN board_reply c
+			ON u.user_ID = c.board_reply_writer
+		WHERE c.board_reply_writer = #{boardReplyWriter}
+		AND c.board_reply_NO = #{boardReplyNo}
 	</select>
 	
 	<!-- 자유게시판 댓글 개수 SELECT 쿼리 -->

@@ -42,5 +42,8 @@ public interface IQuestionService {
 	//답변글 삭제하기
 	void answerDelete(int answerNo);
 	
+	// 사용자 프로필사진 불러오기 요청
+	int answerwriterProfile(String answerWriter, int answerNo);
+	
 
 }

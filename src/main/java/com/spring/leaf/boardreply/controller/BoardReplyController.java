@@ -57,6 +57,8 @@ public class BoardReplyController {
 		List<BoardReplyListVO> list = service.boardReplyList(vo, boardNo); //(boardNo);
 		int total = service.boardReplyTotal(boardNo); //(boardNo);
 		
+	//	int boardReplyWriterNo = service.rboardwriterProfile(vo.getBoardReplyWriter(), boardReplyNo);
+		
 		//댓글수
 		int ReplyTotal = service.boardReplyTotal(boardNo); //(boardNo);
 		model.addAttribute("boardReplyCount", ReplyTotal);
@@ -67,7 +69,20 @@ public class BoardReplyController {
 		
 		return map;
 	}
-	
+	/*
+	//댓글 프로필 사진 불러오기
+	@PostMapping("/boardReplyList/{boardReplyNo}")
+	public String boardReplyList(@PathVariable int boardReplyNo, Model model) {
+		
+
+		
+		
+		model.addAttribute("rboard", vo);
+		model.addAttribute("boardReplyWriterNo", boardReplyWriterNo);
+		
+		return "redirect:/board/boardList";
+	}
+	*/
 	//댓글 수정
 	@PostMapping("/boardReplyUpdate")
 	@ResponseBody

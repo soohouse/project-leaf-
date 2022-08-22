@@ -119,6 +119,23 @@ public class QuestionController {
 				
 	return "redirect:/question/questionList";
 	}
+	
+	//답변글 상세보기(목록)프로필사진용
+	@PostMapping("/answerList/{answerNo}")
+	public String answerList(@PathVariable int answerNo, Model model) {		
+
+		
+		AnswerVO vo = service.answerContent(answerNo);
+		
+		int answerWriterNo = service.answerwriterProfile(vo.getAnswerWriter(), answerNo);
+		
+		model.addAttribute("answer", vo);
+		model.addAttribute("answerWriterNo", answerWriterNo);
+		
+		
+		
+		return "redirect:/question/answerList" ;
+	}
 
 	
 	//답변글 상세보기(목록)

@@ -98,7 +98,7 @@
                     <tbody>
                     	<c:forEach var="board" items="${boardList}">
                         <tr>
-                            <td>${board.boardNo}</td>
+                            <td>${board.rn}</td>
                             <td style="text-align: left;">
                      	        <a href="<c:url value='/board/boardContent/${board.boardNo}${pc.makeURI(pc.paging.pageNum)}'/>">
                             		${board.boardTitle} 

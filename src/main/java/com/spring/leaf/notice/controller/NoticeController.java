@@ -81,7 +81,12 @@ public class NoticeController {
 	@GetMapping("/noticeContent/{noticeNo}")
 	public String noticeContent(@PathVariable int noticeNo, Model model) {
 		
-		model.addAttribute("notice", service.noticeContent(noticeNo));
+		NoticeVO vo = service.noticeContent(noticeNo);
+		
+		int noticeWriterNo = service.noticewriterProfile(vo.getNoticeWriter(), noticeNo);
+		
+		model.addAttribute("notice", vo);
+		model.addAttribute("noticeWriterNo", noticeWriterNo);
 		
 		// 조회수 증가
 		service.noticeViews(noticeNo);

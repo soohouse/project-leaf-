@@ -1,10 +1,12 @@
 package com.spring.leaf.archive.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.leaf.archive.command.ArchiveContentVO;
 import com.spring.leaf.archive.command.ArchiveFileVO;
 import com.spring.leaf.archive.command.ArchiveVO;
+import com.spring.leaf.archive.command.ArchiveWriterVO;
 import com.spring.leaf.util.PageVO;
 
 //자료실 서비스 인터페이스 : 2022-08-03 생성
@@ -43,6 +45,9 @@ public interface IArchiveService {
 	
 	//자료실 조회수
 	int archiveViews (int archiveNo);
+	
+	// 사용자 프로필사진 불러오기 요청
+	ArchiveWriterVO archivewriterProfile(String archiveWriter, int archiveNo);
 
 
 }

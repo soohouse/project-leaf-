@@ -65,7 +65,20 @@
                                         
                                         <div class="archive-title-down" style="margin-top:30px;">
 	                                        <div class="archive_writer" style="display: inline-block;">
-	                                            <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
+	                                        
+	                                        	<c:choose>
+				                                        	
+				                                    <c:when test="${archiveWriterNumbers.userNo != ''}">
+				                              			<img src="<c:url value='/user/userProfileGet?userNO=${archiveWriterNumbers.userNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >	
+				                               		</c:when>
+				                                        	
+				                               		<c:when test="${archiveWriterNumbers.companyNo != ''}">
+			                                			<img src="<c:url value='/company/companyLogoGet?companyNO=${archiveWriterNumbers.companyNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >	 
+				                                    </c:when>
+				                                        	
+				                                </c:choose>
+				                                
+				                                
 	                                            <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">
 	                                            	${archive.archiveWriter}
 		                                            <c:if test="${archive.archiveWriter eq user.userID }">

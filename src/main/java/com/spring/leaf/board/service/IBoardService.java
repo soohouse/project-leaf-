@@ -3,6 +3,7 @@ package com.spring.leaf.board.service;
 import java.util.List;
 
 import com.spring.leaf.board.command.BoardVO;
+import com.spring.leaf.board.command.BoardWriterVO;
 import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.util.PageVO;
 
@@ -32,6 +33,6 @@ public interface IBoardService  {
 	int boardViews (int boardNo);
 	
 	// 사용자 프로필사진 불러오기 요청
-	int boardwriterProfile(String boardWriter, int boardNo);
+	BoardWriterVO boardwriterProfile(String boardWriter, int boardNo);
 
 }

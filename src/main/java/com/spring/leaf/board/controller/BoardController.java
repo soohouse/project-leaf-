@@ -28,6 +28,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.spring.leaf.board.command.BoardVO;
+import com.spring.leaf.board.command.BoardWriterVO;
 import com.spring.leaf.board.service.IBoardService;
 import com.spring.leaf.boardreply.service.IBoardReplyService;
 import com.spring.leaf.user.command.UserProfileVO;
@@ -99,10 +100,10 @@ public class BoardController {
 	
 		BoardVO vo = service.boardContent(boardNo);
 		
-		int boardWriterNo = service.boardwriterProfile(vo.getBoardWriter(), boardNo);
+		BoardWriterVO writerNumbers = service.boardwriterProfile(vo.getBoardWriter(), boardNo);
 		
 		model.addAttribute("board", vo);
-		model.addAttribute("boardWriterNo", boardWriterNo);
+		model.addAttribute("boardWriterNumbers", writerNumbers);
 		
 //		UserProfileVO writerProfile = service.boardwriterProfile(userNO);
 //		model.addAttribute("writerprofile", writerProfile);

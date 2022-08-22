@@ -106,7 +106,7 @@
 			$('#file-archive').text(fileName);
 		});
 		
-		/*
+		
 		//수정하기 버튼을 클릭할 때
 		$('#btn-archive-update').click(function(){
 			
@@ -181,7 +181,7 @@
 						
 						}
 		});
-		*/	
+		
 	});
 
 </script>

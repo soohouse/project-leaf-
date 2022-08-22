@@ -1,6 +1,7 @@
 package com.spring.leaf.notice.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.leaf.notice.command.NoticeVO;
 import com.spring.leaf.util.PageVO;
@@ -29,5 +30,8 @@ public interface INoticeMapper {
 
 	//공지사항 조회수
 	int noticeViews (int noticeNO);
+	
+	// 사용자 프로필사진 불러오기 요청
+	int noticewriterProfile(Map<String, Object> noticeInfo);
 	
 }
