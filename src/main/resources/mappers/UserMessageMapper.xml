@@ -37,11 +37,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE user_message_NO=#{userMessageNO}
 		</select>
 		
-		<!-- 유저가 관리자/기업으로부터 받은 쪽지 삭제하기 -->
-		<delete id="userMessageDelete">
-		DELETE FROM user_message
-		WHERE user_message_NO=#{userMessageNO}
-		</delete>
 		
 </mapper>
 

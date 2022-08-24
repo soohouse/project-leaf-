@@ -7,6 +7,8 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -206,6 +208,98 @@ public class CompanyController {
 		} else {
 			return "NoChange";
 		}
+	}
+	
+	
+	// 기업회원 비밀번호 체크 요청
+	@PostMapping("/companyPasswordCheck")
+	@ResponseBody
+	public String companyPasswordCheck(String inputPW, HttpSession session) {
+		logger.info("/company/companyPasswordCheck : POST (기업회원 비밀번호 체크 요청)");
+
+		CompanyVO vo = (CompanyVO) session.getAttribute("company");
+
+		// 암호화된 비밀번호의 비교를 위해 BcryptPasswordEncoder 객체 생성
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		if (encoder.matches(inputPW, vo.getCompanyPW())) {
+			return "YesCheck";
+		} else {
+			return "NoCheck";
+		}
+	}
+
+	
+	// 기업회원 탈퇴 전 등록 프로젝트 존재 여부 체크 요청
+	@PostMapping("/companyProjectCheck")
+	@ResponseBody
+	public String companyProjectCheck(int companyNO) {
+		logger.info("/company/companyDelete : POST (기업회원 등록 프로젝트 존재 여부 체크 요청)");
+		
+		int check = service.companyProjectCheck(companyNO);
+		
+		if(check == 0) {
+			return "CheckZero";
+		} else {
+			return "CheckMany";
+		}
+	}
+	
+	
+	// 기업회원 회원탈퇴 요청
+	@PostMapping("/companyDelete")
+	@ResponseBody
+	public String companyDelete(int companyNO) {
+		logger.info("/company/companyDelete : POST (기업회원 회원탈퇴 요청)");
+
+		service.companyDelete(companyNO);
+
+		return "YesCompanyDelete";
+	}
+	
+	
+	// 기업회원 ID 찾기 요청
+	@PostMapping("/companyIDFind")
+	@ResponseBody
+	public Map<String, Object> companyIDFind(String companyName) {
+		logger.info("/company/companyIDFind : POST (기업회원 ID 찾기 요청)");
+
+		List<CompanyVO> IDList = service.companyIDFind(companyName);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("IDList", IDList);
+
+		return map;
+	}
+
+	
+	// 기업회원 ID 검색 후 인증번호 발송
+	@PostMapping("/companyPWFindEmail")
+	@ResponseBody
+	public String companyPWFindEmail(String companyID) {
+		logger.info("/company/companyPWFindEmail : POST (기업회원 ID 검색 후 인증번호 발송 요청)");
+
+		CompanyVO vo = service.companyGetInfo(companyID);
+
+		if (vo == null) {
+			return "NoFindEmail";
+		} else {
+			String email = vo.getCompanyEmail1() + '@' + vo.getCompanyEmail2();
+
+			return mailService.joinEmail(email);
+		}
+	}
+
+	
+	// 기업회원 비밀번호 초기화 요청
+	@PostMapping("/companyPWReset")
+	@ResponseBody
+	public String companyPWReset(String newPassword, String companyID) {
+		logger.info("/company/companyPWReset : POST (기업회원 비밀번호 초기화 요청)");
+
+		service.companyPWReset(newPassword, companyID);
+
+		return "YesCompanyPWReset";
 	}
 	
 	

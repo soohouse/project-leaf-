@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.spring.leaf.archivereply.command.ArchiveReplyVO;
 import com.spring.leaf.archivereply.service.IArchiveReplyService;
 import com.spring.leaf.user.controller.UserController;
+import com.spring.leaf.util.PageVO;
 
 // 자료실 댓글 컨트롤러 : 2022-08-01 생성
 
@@ -30,7 +31,7 @@ public class ArchiveReplyController {
 	// 로그 출력을 위한 Logger 객체 생성
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	//자료실 서비스 연결
+	//자료실 댓글 서비스 연결
 	@Autowired
 	private IArchiveReplyService service;
 	
@@ -45,10 +46,13 @@ public class ArchiveReplyController {
 	
 	//자료실 댓글 목록
 	@ResponseBody
-	@GetMapping("/archiveReplyList/{archiveNo}")
-	public Map<String, Object> boardReplyList(@PathVariable int archiveNo, Model model ) {
+	@GetMapping("/archiveReplyList/{archiveNo}/{pageNum}")
+	public Map<String, Object> archiveReplyList(@PathVariable int archiveNo, @PathVariable int pageNum, Model model ) {
+		PageVO vo = new PageVO();
+		vo.setPageNum(pageNum); //화면에서 전달된 페이지 번호
+		vo.setCpp(10); //댓글은 한 화면에 n개씩.
 		
-		List<ArchiveReplyVO> list = service.archiveReplyList(archiveNo);
+		List<ArchiveReplyVO> list = service.archiveReplyList(vo, archiveNo);
 		int total = service.archiveReplyTotal(archiveNo);
 		
 		//댓글수
@@ -66,8 +70,8 @@ public class ArchiveReplyController {
 	//댓글 수정
 	@PostMapping("/archiveReplyUpdate")
 	@ResponseBody
-	public String archiveUpdate(@RequestParam("archiveReplyNO") int archiveReplyNo) {
-		service.archiveReplyUpdate(archiveReplyNo);
+	public String archiveReplyUpdate(int archiveReplyNo, String archiveReplyContent) {
+		service.archiveReplyUpdate(archiveReplyNo, archiveReplyContent);
 		return "UpdateSuccess";
 	}
 	
@@ -75,7 +79,7 @@ public class ArchiveReplyController {
 	//댓글 삭제
 	@PostMapping("/archiveReplyDelete")
 	@ResponseBody
-	public String archiveDelete(@RequestParam("archiveReplyNO") int archiveReplyNo) {
+	public String archiveReplyDelete(@RequestParam("archiveReplyNO") int archiveReplyNo) {
 		service.archiveReplyDelete(archiveReplyNo);
 		return "DeleteSuccess";
 	}

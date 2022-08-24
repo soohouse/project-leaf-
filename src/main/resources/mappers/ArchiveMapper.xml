@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="archiveContent" column="archive_content"/>
 		<result property="archiveDate" column="archive_date"/>
 		<result property="archiveViews" column="archive_views"/>
+		<result property="archiveReplyCount" column="archive_reply_count"/>
 	</resultMap>
 	
 	<!-- ArchiveFileVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ArchiveFileMap 선언 -->
@@ -83,22 +84,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 자료실 목록 SELECT 쿼리 -->
 	<select id="archiveList" resultMap="ArchiveMap">
-		 
 		SELECT * FROM
 			(
-			SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
+				SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
 				(
-				SELECT * FROM archive
-       			WHERE archive_title is not null 
-       			AND archive_NO != 1
-       			<include refid="search" />
-				ORDER BY archive_NO DESC
+            SELECT 
+              a.archive_NO, a.archive_title, a.archive_writer, a.archive_content, a.archive_date, a.archive_views, 
+              COUNT(ar.archive_reply_NO) AS archive_reply_count
+            FROM archive a LEFT OUTER JOIN archive_reply ar
+            ON a.archive_NO = ar.archive_NO
+            WHERE a.archive_title IS NOT NULL
+                    AND a.archive_NO != 1
+                    <include refid="search" />
+            GROUP BY a.archive_NO	
+            ORDER BY a.archive_NO ASC
 				) A,(SELECT @ROWNUM := 0)B
+				ORDER BY rn DESC
 			) B
-		<![CDATA[
-		WHERE rn > (#{pageNum}-1) * #{cpp}
-		AND rn <= #{pageNum} * #{cpp}
-		]]>
+		LIMIT ${cpp}
+		OFFSET ${skip}
 	</select>
 	
 	<!-- 자료실 프로필 사진 불러오기 SELECT 쿼리 -->

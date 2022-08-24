@@ -13,7 +13,7 @@ public class PageVO {
 	private int pageNum; //사용자가 선택한 페이지 번호
 	private int cpp; //사용자가 선택한 화면에 보여질 게시물 개수
 	
-	private int skip;//(pageNum-1)*cpp
+	private int skip;
 	
 	//검색기능
 	private String keyword; //검색한단어
@@ -28,11 +28,10 @@ public class PageVO {
 	public PageVO(int pageNum, int cpp) {
 		this.pageNum = pageNum;
 		this.cpp = cpp;
-		this.skip=(pageNum-1)*cpp;
 	}
 	
-	private void skip() {
-		skip = (pageNum-1)*cpp;
+	public int getSkip() {
+		return (this.pageNum-1) * cpp;
 	}
 
 	

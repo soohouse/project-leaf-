@@ -8,9 +8,6 @@
 			
 			<div class="modal-body modal-body-sections" style="padding-bottom: 0;">
 				
-				<input type="hidden" id="hidden-apply-no">
-				<input type="hidden" id="hidden-user-no">
-				
 				<div style="width: 264px;">
 					  <div class="form-group">
 					    <label class="control-label" style="display: block; font-family: none; font-weight: 500; font-size: 14px;">계정 비밀번호를 입력해주세요.</label>

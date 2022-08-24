@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.leaf.message.command.CompanyMessageVO;
 import com.spring.leaf.message.command.CompanySendMessageVO;
 import com.spring.leaf.message.command.UserMessageVO;
 import com.spring.leaf.message.service.ICompanyMessageService;
@@ -38,11 +39,8 @@ public class CompanyMessageController {
 	@PostMapping("/userSendMessage")
 	@ResponseBody
 	public String userSendMessage(@RequestBody UserMessageVO vo) {
-		
 		System.out.println(vo);
-		
 		service.userSendMessage(vo);
-		
 		return "yes";
 	}
 	
@@ -50,12 +48,9 @@ public class CompanyMessageController {
 	@PostMapping("/companySendList")
 	@ResponseBody
 	public Map<String, Object> companySendList(@RequestParam("companyName") String userMessageWriter, Model model) {
-
 		List<CompanySendMessageVO> list = service.companySendList(userMessageWriter);
-			
 		Map<String, Object> map = new HashMap<>();
-		map.put("list", list);
-			
+		map.put("list", list);	
 		return map;
 	}
 	
@@ -68,25 +63,22 @@ public class CompanyMessageController {
 	}
 		
 	
-	// 기업 받은 쪽지함(목록으로) 이동 요청
-	@GetMapping("/companyReceiveList")
-	public String companyMessageList(Model model) {
+	// 관리자로부터 받은 쪽지함(목록으로) 이동 요청
+	@PostMapping("/companyMessageList")
+	@ResponseBody
+	public Map<String, Object> companyMessageList(int companyNO, Model model) {
+		List<CompanyMessageVO> list = service.companyMessageList(companyNO);
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
 
-		model.addAttribute("companyMessageList", service.companyMessageList());
-
-		return "/login/msg-list";
+		return map;
 	}
 	
-
-
-	// 쪽지 삭제 처리
-	@PostMapping("/companyMessageDelete")
-	public String companyMessageDelete(int companyMessageNO, RedirectAttributes ra) {
-
-		service.companyMessageDelete(companyMessageNO);
-
-		ra.addFlashAttribute("msg", "deleteSuccess");
-		return "redirect:/login/msg-list";
+	// 관리자로부터 받은 쪽지함 상세보기요청
+	@PostMapping("/companyMessageContent")
+	@ResponseBody
+	public CompanyMessageVO companyMessageContent(int companyMessageNO) {
+		return service.companyMessageContent(companyMessageNO);
 	}
 	
 }

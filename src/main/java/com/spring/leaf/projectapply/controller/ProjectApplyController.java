@@ -17,32 +17,50 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.leaf.company.command.CompanyVO;
+import com.spring.leaf.project.command.ProjectContentVO;
+import com.spring.leaf.project.command.ProjectVO;
+import com.spring.leaf.project.service.IProjectService;
 import com.spring.leaf.projectapply.command.ApplyVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyDetailVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyListVO;
+import com.spring.leaf.projectapply.command.ProjectPassListVO;
 import com.spring.leaf.projectapply.service.IProjectApplyService;
 
 @Controller
 @RequestMapping("/project")
 public class ProjectApplyController {
+	
 	@Autowired
 	private IProjectApplyService service;
 	
-	@GetMapping("/projectapply")
-	public String project3(@RequestParam int projectNO, Model model) {
+	@Autowired
+	private IProjectService pservice;
+	
+	// 지원하기 클릭 시 지원하기 페이지 요청 (POST로 하여 URL로 아무 프로젝트 지원에 접근할 수 없도록 제한)
+	@PostMapping("/projectApply")
+	public String project3(int projectNO, int userNO, Model model) {
 		
+		ProjectContentVO vo = pservice.getContent(projectNO);
+		
+		model.addAttribute("resumeRealname", service.userInfoGet(userNO));
 		model.addAttribute("projectNO", projectNO);
+		model.addAttribute("projectInfo", vo);
 		
 		return "project/project-putin";
 	}
 	
 	//지원 후 상세보기 창
 	@PostMapping("/projectapply")
-	public String projectapply(ApplyVO vo) {
+	public String projectapply(ApplyVO vo, RedirectAttributes ra) {
+		
 		service.projectapply(vo);
-		return "redirect:/project/project";
+		
+		ra.addFlashAttribute("msg", "해당 프로젝트에 지원하셨습니다.");
+		
+		return "redirect:/project/projectview?projectNO=" + vo.getProjectNO();
 	}
 	
 	
@@ -128,5 +146,27 @@ public class ProjectApplyController {
 	}
 	
 	
+	// 지원 취소 처리
+	@PostMapping("/applyCancel")
+	@ResponseBody
+	public String applyCancel(int userNO, int projectNO) {
+		
+		service.applyCancel(userNO, projectNO);
+		
+		return "YesApplyCancel";
+	}
 	
+	
+	// 프로젝트 최종 합격자 목록 불러오기
+	@PostMapping("/projectPassList/{projectNO}")
+	@ResponseBody
+	public Map<String, Object> projectPassList(@PathVariable("projectNO") int projectNO) {
+		
+		List<ProjectPassListVO> list = service.applyPassList(projectNO);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectPassList", list);
+		
+		return map;
+	}
 }

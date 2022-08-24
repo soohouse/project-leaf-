@@ -66,7 +66,7 @@
 							
 							<div class="col-sm-12">
 								<br>
-								<a href="#">ID / PW 찾기</a>
+								<a href="#" id="btn-modal-id-pw-find">ID / PW 찾기</a>
 							</div>
 							
 							<div class="col-sm-12" style="font-size: 12px;">
@@ -123,7 +123,7 @@
 							
 							<div class="col-sm-12">
 								<br>
-								<a href="#">ID / PW 찾기</a>
+								<a href="#" id="btn-modal-company-id-pw-find">ID / PW 찾기</a>
 							</div>
 							
 							<div class="col-sm-12" style="font-size: 12px;">

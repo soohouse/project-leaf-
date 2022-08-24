@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="boardContent" column="board_content" />
 		<result property="boardDate" column="board_date" />
 		<result property="boardViews" column="board_views" />
+		<result property="boardReplyCount" column="board_reply_count" />
 	</resultMap>
 	
 	
@@ -46,14 +47,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM
 			( 
 			SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
-				(
-				SELECT * FROM board
-				<include refid="search" />
-				ORDER BY board_NO DESC
-				) A,(SELECT @ROWNUM := 0) B
+
+				(	
+				SELECT 
+					b.board_NO, b.board_title, b.board_writer, b.board_content, b.board_date, b.board_views, 
+					COUNT(br.board_reply_NO) AS board_reply_count
+                FROM board b LEFT OUTER JOIN board_reply br
+                ON b.board_NO = br.board_NO
+                <include refid="search" />
+                GROUP BY b.board_NO				
+                ORDER BY board_NO
+				) A,(SELECT @ROWNUM := 0)B
 				ORDER BY rn DESC
-			) B 
-			
+			) B
 		LIMIT ${cpp}
 		OFFSET ${skip}
 

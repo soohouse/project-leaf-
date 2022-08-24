@@ -20,4 +20,6 @@ public class NoticeVO {
 	private Timestamp noticeDate; //공지사항 날짜
 	private int noticeViews;  //공지사항 조회수
 	
+	private int rn;//글번호
+	
 }

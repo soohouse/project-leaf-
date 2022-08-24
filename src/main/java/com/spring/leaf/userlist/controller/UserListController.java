@@ -30,20 +30,20 @@ public class UserListController {
 	private static final Logger logger = LoggerFactory.getLogger(UserListController.class);
 
 	// 일반회원 목록 이동 요청
-	@GetMapping("/userList")
-	public String userList(Model model) {
+		@GetMapping("/userList")
+		public String userList(Model model) {
 		logger.info("/userList/userList: GET (일반회원 목록 페이지 이동)");
 		model.addAttribute("userList", service.userList());
 		return "/board/dev_list";
 	}
 	
 	
-	// 일반회원 목록 상세보기
+	//일반회원 목록 상세보기
 		@GetMapping("/userListDetail")
 		@ResponseBody
 		public UserListDetailVO userListDetail(int userNO) {
-			logger.info("/modal_mypage/developerInfo : GET (개발자목록 상세 보기 요청)");
-			return service.userListDetail(userNO);
+		logger.info("/modal_mypage/developerInfo : GET (개발자목록 상세 보기 요청)");
+		return service.userListDetail(userNO);
 		}
 		
 		

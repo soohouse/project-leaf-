@@ -93,5 +93,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE p.project_NO = #{projectNO}
 	</select>
 	
+	<!-- 지원한 프로젝트 개수 구하기 SELECT 쿼리 -->
+	<select id="projectApplyCount" resultType="int">
+		SELECT COUNT(*)
+		FROM apply
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
 
 </mapper>

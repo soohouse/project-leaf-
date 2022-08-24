@@ -44,13 +44,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(
 				SELECT * FROM notice
 				<include refid="search" />
-				ORDER BY notice_NO DESC
+				ORDER BY notice_NO
 				) A,(SELECT @ROWNUM := 0)B
+				ORDER BY rn DESC
 			) B
-		<![CDATA[
-		WHERE rn > (#{pageNum}-1) * #{cpp}
-		AND rn <= #{pageNum} * #{cpp}
-		]]>
+		LIMIT ${cpp}
+		OFFSET ${skip}
 	</select>
 	
 	<!-- 공지사항 프로필 사진 불러오기 SELECT 쿼리 -->
@@ -73,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="noticeViews">
 		UPDATE notice
 		SET notice_views = notice_views + 1
-		WHERE notice_no = #{noticeNo}
+		WHERE notice_NO = #{noticeNo}
 	</update>
 	
 	<select id="noticeContent" resultMap="NoticeMap">

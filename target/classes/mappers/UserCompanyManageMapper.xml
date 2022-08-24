@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.spring.leaf.usersmanage.mapper.IUserCompanyManageMapper">
+
+	<resultMap type="com.spring.leaf.usersmanage.command.UserMembersVO" id="UserMembersMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	<resultMap type="com.spring.leaf.usersmanage.command.UserMembersDetailVO" id="UserMembersDetailMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userIntro" column="user_intro" />
+		<result property="resumeRealname" column="resume_realname" />
+	</resultMap>
+	
+	<resultMap type="com.spring.leaf.usersmanage.command.CompanyMembersVO" id="CompanyMembersMap">
+		<result property="companyNO" column="company_NO" />
+		<result property="companyID" column="company_ID" />
+		<result property="companyName" column="company_name" />
+		<result property="companyEmail" column="company_email" />
+		<result property="companyPhone" column="company_phone" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	<resultMap type="com.spring.leaf.usersmanage.command.CompanyMembersDetailVO" id="CompanyMembersDetailMap">
+		<id property="companyNO" column="company_NO" />
+		<result property="companyID" column="company_ID" />
+		<result property="companyName" column="company_name" />
+		<result property="companyEmail" column="company_email" />
+		<result property="companyPhone" column="company_phone" />
+		<result property="companyIntro" column="company_intro" />
+		<result property="companyIntroRealname" column="company_intro_realname" />
+	</resultMap>
+	
+	<!-- 개발자 목록 끌어오기 -->
+	<select id="userMembers" resultMap="UserMembersMap">
+		SELECT 
+			u.user_NO, u.user_ID, u.user_name, 
+			CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone, 
+	        CONCAT(u.user_email1, '@', u.user_email2) AS user_email, 
+			cd.common_value
+		FROM user u LEFT OUTER JOIN common cd
+		ON u.common_CODE = cd.common_CODE
+		WHERE u.common_CODE = 'ADM001'
+		AND u.common_CODE != 'ADM003'
+		AND u.user_NO != 1
+	</select>
+	
+	<!-- 기업 목록 끌어오기 -->
+	<select id="companyMembers" resultMap="CompanyMembersMap">
+		SELECT 
+			c.company_NO, c.company_ID, c.company_name, 
+			CONCAT(c.company_phone1, '-', c.company_phone2, '-', c.company_phone3) AS company_phone, 
+	        CONCAT(c.company_email1, '@', c.company_email2) AS company_email, 
+			cd.common_value
+		FROM company c LEFT OUTER JOIN common cd
+		ON c.common_CODE = cd.common_CODE
+		WHERE c.common_CODE = 'CRG002'
+		AND c.common_CODE != 'ADM003'
+		AND c.company_NO != 1
+	</select>
+	
+	<!-- 개발자 상세보기 -->
+	<select id="userMembersDetail" resultMap="UserMembersDetailMap">
+		SELECT 
+			u.user_NO, u.user_ID, u.user_name, 
+			CONCAT(u.user_email1, '@', u.user_email2) AS user_email, 
+			CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone,
+			u.user_intro, rm.resume_realname
+		FROM 
+			user u LEFT OUTER JOIN resume rm
+		ON 
+			u.user_NO = rm.user_NO
+		WHERE u.user_NO=#{userNO}
+	</select>
+	
+	<!-- 기업 상세보기 -->
+	<select id="companyMembersDetail" resultMap="CompanyMembersDetailMap">
+		SELECT 
+			c.company_NO, c.company_ID, c.company_name, 
+			CONCAT(c.company_email1, '@', c.company_email2) AS company_email, 
+			CONCAT(c.company_phone1, '-', c.company_phone2, '-', c.company_phone3) AS company_phone,
+			c.company_intro, ci.company_intro_realname
+		FROM 
+			company c LEFT OUTER JOIN company_intro ci
+		ON 
+			c.company_NO = ci.company_NO
+		WHERE c.company_NO=#{companyNO}
+	</select>
+		
+
+</mapper>

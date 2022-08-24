@@ -7,7 +7,7 @@
 
 <meta charset="UTF-8">
 
-<title>오신것을 환영합니다</title>
+<title>RunWith</title>
 
 <!-- jQuery -->
 <script
@@ -208,7 +208,7 @@
 							<div class="col-sm-9">
 								<div class="form-group btn-profile">
 									<input type="button" class="btn" id="btn-company-mypage-update" value="수정완료">
-									<button type="button" class="btn btn-default" onclick="location.href='<c:url value="/usermypage/userprofile"/>'">돌아가기</button>
+									<button type="button" class="btn btn-default" onclick="history.back();">돌아가기</button>
 								</div>
 							</div>
 						</div>
@@ -356,6 +356,9 @@
 			// 만약 수정창에서 회사 소개서만 새로 등록했다면
 			if(companyIntroCheck && !logoCheck) {
 				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-company-mypage-update').attr('disabled', true);
+				
 				// 이미 올렸던 회사 소개서 파일을 서버에서 삭제한 후에
 				$.ajax({
 					type: 'POST',
@@ -412,6 +415,10 @@
 				});
 				
 			} else if(logoCheck && !companyIntroCheck) {
+				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-company-mypage-update').attr('disabled', true);
+				
 				// 만약 사용자가 로고 사진만 새로 등록했다면
 				// 사용자가 이미 올렸던 로고 사진이 있는지 체크한다.
 				$.ajax({
@@ -525,6 +532,10 @@
 				}); 
 				
 			} else if(logoCheck && companyIntroCheck) {
+				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-company-mypage-update').attr('disabled', true);
+				
 				// 사용자가 둘 다 새로 등록했다면
 				// 이미 올렸던 회사 소개서 파일을 서버에서 삭제한 후에
 				$.ajax({
@@ -691,6 +702,10 @@
 				});
 				
 			} else {
+				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-company-mypage-update').attr('disabled', true);
+				
 				// 아무 파일을 선택하지 않았다면 그냥 나머지 정보만 수정을 진행한다.
 				document.companyUpdateForm.submit();
 			}

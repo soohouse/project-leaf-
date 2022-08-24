@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 일반회원 회원탈퇴 UPDATE 쿼리 -->
 	<update id="userDelete">
 		UPDATE user
-		SET common_CODE = 'ADM003'
+		SET common_CODE = 'ADM003', user_delete = NOW()
 		WHERE user_NO = #{userNO}
 	</update>
 	
@@ -112,6 +112,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE session_ID = #{sessionID}
 		AND session_limit > now()
 	</select>
+	
+	
+	<!-- 일반회원 ID 찾기 -->
+	<select id="userIDFind" resultMap="UserMap">
+		SELECT *
+		FROM user
+		WHERE user_name = #{userName}
+	</select>
+	
+	
+	<!-- 일반회원 PW 초기화 -->
+	<update id="userPWReset">
+		UPDATE user
+		SET user_PW = #{newPassword}
+		WHERE user_ID = #{userID}
+	</update>
 	
 	
 	<!-- 일반회원 회원번호 얻어내는 SELECT 쿼리 -->

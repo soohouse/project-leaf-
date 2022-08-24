@@ -22,19 +22,21 @@ public class CompanyMessageService implements ICompanyMessageService {
 	@Override
 	public void userSendMessage(UserMessageVO vo) {
 		mapper.userSendMessage(vo);
-
 	}
 
+	@Override
+	public List<CompanyMessageVO> companyMessageList(int companyNO) {
+		return mapper.companyMessageList(companyNO);
+	}
+
+	@Override
+	public CompanyMessageVO companyMessageContent(int companyMessageNO) {
+		return mapper.companyMessageContent(companyMessageNO);
+	}
+	
 	@Override
 	public List<CompanySendMessageVO> companySendList(String userMessageWriter) {
 		return mapper.companySendList(userMessageWriter);
-	}
-
-	
-	@Override
-	public List<CompanyMessageVO> companyMessageList() {
-		List<CompanyMessageVO> list = mapper.companyMessageList();
-		return list;
 	}
 
 	@Override
@@ -42,10 +44,5 @@ public class CompanyMessageService implements ICompanyMessageService {
 		return mapper.sendMessageContent(userMessageNO);
 	}
 
-	@Override
-	public void companyMessageDelete(int companyMessageNO) {
-		mapper.companyMessageDelete(companyMessageNO);
-
-	}
 
 }

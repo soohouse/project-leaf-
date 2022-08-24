@@ -7,7 +7,7 @@
 
    <meta charset="UTF-8">
 
-   <title>나뭇잎 홈페이지</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -22,116 +22,151 @@
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainstyle.css">
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/project-putin.css">
 
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
+   
+   <style>
+   
+	   	.sections {
+	   			width: 1000px;
+	   			margin: 0 auto;
+	   	}
+   
+   </style>
+   
 </head>
 <body>
 
 <%@ include file="../include/header.jsp" %>
-	   
-	   
-<div class="container">
-  <div id="main-box">
-    <div class="first-box">
-      <p>(주) 성진하이텍</p>
-    </div> <br>
-    <div class="container-top-icons">
-      <div class="project-name">
-      <p>2022년 환경 푸르미 프로젝트 개발자 모집 </p>
-      <input type="hidden" >
-      </div>
-      <div class="project-user">
-        <p>신청자 : 3명 </p>
-      </div>
-      <div class="project-heart">
-        <a href="##"><i class="glyphicon glyphicon-thumbs-up"></i>좋아요</a>
-      </div>
-      <div class="project-seen">
-        <p>조회수 : 12</p>
-      </div>
-      <div class="mojibjung">
-        <p>현재 모집중</p>
-      </div>
-    </div>
-    <br>
-    </div>
-
-	<form action="<c:url value='/project/projectapply'/>" method="post">
-
-    <div class="user-profile-intro">
-        
-            <div class="username-input-box">
-                <div class="project-user-name">
-                    <p>이름</p> 
-                    <input type="hidden" value="${projectNO}" id="project-list-content2" name="projectNO">
-                    <input type="hidden" value="${user.userNO}" name="userNO">
-                    <input type="search" id="project-user-name" class="input-all input1" placeholder="이름을 입력해 주세요." maxlength="40" value="${user.userName}" style="background-color: lightgray;" readonly>
-                    <span id="span-name"></span>
-                </div>
-                <div class="project-e-mail">
-                    <p>이메일</p>
-                    <input type="search" id="project-user-email" class="input-all input2" placeholder="이메일을 입력해 주세요." maxlength="40" value="${user.userEmail1} @ ${user.userEmail2}" style="background-color: lightgray;" readonly>
-                    <span id="span-email"></span>
-                </div>
-                <div class="project-phone">
-                    <p>전화번호</p>
-                    <select name="userPhone1" id="project-user-phone1" class="regi-droup-down input4-1">
-                        <option value="010" selected>010</option>
-                        <option value="010" >011</option>
-                        <option value="010" >016</option>
-                    </select>&nbsp;-
-                    <input type="search" id="user-phone2" class="input-all input4-2" placeholder="전화번호 앞 4자" maxlength="4" value="${user.userPhone2}" style="background-color: lightgray;" readonly>&nbsp;-
-                       <input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자" maxlength="4" value="${user.userPhone3}" style="background-color: lightgray;" readonly>
-                    <br><span id="span-phone"></span>
-                </div>
-                <div class="resume-user">  
-                    <p>이력서 등록</p>
-                    <input type="file" id="user-profile" onchange="previewFile(this,'View_area')" accept="file/hwp, file/docx" >
-                </div>
-                <div class="user-saying">
-                  <p>담당자에게 전할 메세지</p>
-                  <textarea name="applyMsg" id="user-textarea" cols="30" rows="10"></textarea>
-                </div>
-            </div>
-       
-        <!-- value="${project.projectNO}" name="projectNO" -->
-        <div class="jechul-button">
-            <div class="project-container-bottom">
-                <button type="submit" id="jiwon-btn" class="btn btn-success">제출하기</button>
-                <button type="button" id="chwiso-btn"  class="btn btn-danger">취소</button>
-              </div>
-        </div>
-        
-        <div class="user-check-box">
-          <label>
-            <input type="checkbox"> 개인정보 제공 동의
-          </label>
-        </div>
-
-
-
-
-  </div>
-	</form>
-
-  <%@ include file="../include/footer.jsp" %>
-  </div>
   
+	<div class="mainbox">
+  
+		<div class="sections">
+   
+			<div class="list-group-item active notice-list-top" style="margin-top: 20px; border-radius: 0;"> 
+			
+				<div style="clear: both;">
+					<span class="main-board-title" style="color: #909090; font-size: 14px;">${projectInfo.companyName}</span>
+			      	
+					<span class=" main-board-title pull-right" style="font-size: 14px; font-weight: 500; color: green;">현재 모집 중</span>
+				</div>
+				
+				<div style="clear: both; margin-top: 6px;">
+					<span class="main-board-title" style="color: #2B2B2B; font-size: 20px; margin-top: 10px; font-family: sans-serif;">${projectInfo.projectName}</span>
+				</div>
+				
+			</div>
+			
+			<form action="<c:url value='/project/projectapply' />" method="post" name="projectApplyForm">
+			
+				<div class="project-apply-main" style="padding: 15px;">
+				
+					<input type="hidden" name="projectNO" value="${projectInfo.projectNO}">
+					<input type="hidden" name="userNO" value="${user.userNO}">
+			
+					<div class="form-group">
+						<label>지원자 이름</label>
+						<input type="text" class="form-control" value="${user.userName}" readonly style="width: 40%;">
+					</div>
+					
+					<div class="form-group">
+						<label>지원자 이메일</label>
+						<input type="text" class="form-control" value="${user.userEmail1}@${user.userEmail2}" readonly style="width: 40%;">
+					</div>
+					
+					<div class="form-group">
+						<label>지원자 전화번호</label>
+						<input type="text" class="form-control" value="${user.userPhone1} - ${user.userPhone2} - ${user.userPhone3}" readonly style="width: 40%;">
+					</div>
+					
+					<div class="form-group">
+						<label>담당자에게 전할 메세지</label>
+						<textarea name="applyMsg" class="form-control" rows="5" style="width: 50%; resize: none;"></textarea>
+					</div>
+					
+					<div class="form-group">
+						<label>등록된 이력서</label>
+						
+						<c:if test="${resumeRealname == null}">
+							<span id="btn-user-profile-modify" style="font-size: 10px; margin-left: 280px; cursor: pointer; text-decoration: underline; color: #00036A;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 이력서 등록하러 가기</span>
+							<p id="btn-user-mypage-resume-no" style="font-family: sans-serif; width: max-content;">등록한 이력서가 없습니다.</p>
+						</c:if>
+												
+						<c:if test="${resumeRealname != null}">
+							<span id="btn-user-profile-modify" style="font-size: 10px; margin-left: 280px; cursor: pointer; text-decoration: underline; color: #00036A;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>이력서 수정하러 가기</span>
+							<p id="btn-user-mypage-resume" style="text-decoration: underline; color: blue; cursor: pointer; margin-left: 4px; width: max-content;"><a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a> ${resumeRealname}</p>
+						</c:if>				
+					</div>
+					
+				</div>
+				
+				<div class="project-apply-footer" style="padding: 15px; display: block;">
+					<div class="form-group pull-left">
+						<label style="font-size: 10px; font-weight: 500; color: #8C8C8C;">
+							<input type="checkbox" value="">
+							개인정보 제공 동의
+						</label>
+					</div>
+				
+					<div class="form-group pull-right">
+						<button type="button" id="btn-apply" class="btn btn-success" style="height: 30px; font-size: 12px;">지원하기</button>
+	                	<button type="button" id="chwiso-btn" onclick="history.back();" class="btn" style="height: 30px; font-size: 12px;">취소</button>
+					</div>
+				</div>
+	    
+			</div>
+			
+		</form>
+			
+ 
+	<%@ include file="../include/footer.jsp" %>
+	
+	</div>
+
 </body>
 
 </html>
 <script>
-$(function() {
-	$('#chwiso-btn').click(function() {
-		const projectNO = $('#project-list-content2').val();
-		
-		console.log(projectNO);
-		
-		location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
-	})
-	
-});
 
+	$(function() {
+		
+		// 이력서 파일 클릭 시 이력서 다운로드
+		$('#btn-user-mypage-resume').click(function() {
+			
+			const userNO = '${user.userNO}';
+			
+			location.href="<c:url value='/user/userResume/download?userNO=' />" + userNO;
+		});
+		
+		
+		// 이력서 수정하기 버튼 또는 이력서 등록하기 버튼 클릭 시 내 정보 수정 페이지로 이동
+		$('#btn-user-profile-modify').click(function() {
+			location.href="<c:url value='/usermypage/usermypagemod' />";
+		});
+		
+		
+		// 지원하기 버튼 클릭 시
+		$('#btn-apply').click(function() {
+			
+			if(confirm('해당 프로젝트에 지원하시겠습니까?')) {
+					
+				const resumeCheck = '${resumeRealname}';
+				
+				if(resumeCheck == '') {
+					alert('등록된 이력서가 없습니다. 이력서를 먼저 등록해주세요.');
+					location.href="<c:url value='/usermypage/usermypagemod' />";
+					return;
+				}
+				
+				$('#btn-apply').attr('disabled', true);
+				
+				document.projectApplyForm.submit();
+				
+			} else {
+				return false;
+			}
+		});
+		
+	});
 
 </script> 

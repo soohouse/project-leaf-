@@ -7,7 +7,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -64,7 +64,7 @@
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="submit" class="btn btn-success pull-right" style="margin-right:20px; value="답변하기">
+    	    			<input type="submit" class="btn btn-success pull-right" id="answer-btn" style="margin-right:20px; value="답변하기">
     	    			<button type="button" id="btn-question-list" class="btn btn-primary pull-right" style="margin-right:10px;" >목록</button>
 					  </form>
 					</div>
@@ -88,7 +88,14 @@
 		$('#btn-question-list').click(function() {
 			location.href='<c:url value="/question/questionList" />';
 		})
-		
 	});
+	
+	//등록버튼 연속클릭 방지
+	var ww = document.querySelector("#answer-btn");
+	ww.addEventListener("click", function (e) {
+		alert('답변을 등록하였습니다.');
+		//this.setAttribute("disabled", true);
+	});
+	
 
 </script>

@@ -56,10 +56,11 @@
 		
 		<!-- 로그인 여부를 체크할 핸들러 -->
 		<mvc:interceptor>
-			<mvc:mapping path="/project/project"/>
-			<mvc:mapping path="/project/projectview"/>
-			<mvc:mapping path="/project/projectapply"/>
+			
+			<mvc:mapping path="/project/projectApply"/>
 			<mvc:mapping path="/project/projectputin"/>
+			<mvc:mapping path="/project/projectadmin"/>
+			<mvc:mapping path="/project/projectviewfix"/>
 			<mvc:mapping path="/userList/userList"/>
 			<mvc:mapping path="/project/projectMyApply"/>
 			
@@ -69,18 +70,23 @@
 			<mvc:mapping path="/question/questionList"/>
 			<mvc:mapping path="/question/questionWrite"/>
 			<mvc:mapping path="/question/questionContent"/>
+			<mvc:mapping path="/question/questionModify"/>
+			<mvc:mapping path="/question/answerWrite"/>
 			
 			<mvc:mapping path="/board/boardWrite"/>
-			<mvc:mapping path="/board/boardContent"/>
 			<mvc:mapping path="/board/boardModify"/>
 			
 			<mvc:mapping path="/archive/archiveList"/>
 			<mvc:mapping path="/archive/archiveWrite"/>
 			<mvc:mapping path="/archive/archiveModify"/>
+			<mvc:mapping path="/archive/archiveContent"/>
 			
 			<mvc:mapping path="/usermypage/usermypage"/>
 			<mvc:mapping path="/usermypage/usermypagemod"/>
 			<mvc:mapping path="/usermypage/companymypagemod"/>
+			
+			<mvc:mapping path="/userapply/applystatus"/>
+			<mvc:mapping path="/userapply/applyresult"/>
 			
 			<mvc:mapping path="/admin/companyAccept"/>
 			<mvc:mapping path="/admin/commonCODE"/>
@@ -96,6 +102,11 @@
 			<mvc:mapping path="/question/questionList"/>
 			<mvc:mapping path="/question/questionWrite"/>
 			<mvc:mapping path="/question/questionContent"/>
+			<mvc:mapping path="/question/questionModify"/>
+			<mvc:mapping path="/question/answerWrite"/>
+			
+			<mvc:mapping path="/userapply/applystatus"/>
+			<mvc:mapping path="/userapply/applyresult"/>
 			
 			<mvc:mapping path="/usermypage/usermypagemod"/>
 			
@@ -106,8 +117,10 @@
 		<!-- 기업회원 여부를 체크할 핸들러 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/project/projectputin"/>
-			<mvc:mapping path="/userList/userList"/>
+			<mvc:mapping path="/project/projectadmin"/>
+			<mvc:mapping path="/project/projectviewfix"/>
 			<mvc:mapping path="/project/projectMyApply"/>
+			<mvc:mapping path="/userList/userList"/>
 			
 			<mvc:mapping path="/usermypage/companymypagemod"/>
 			

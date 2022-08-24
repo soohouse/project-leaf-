@@ -25,10 +25,6 @@ public class UserMessageService implements IUserMessageService {
 		return mapper.userMessageContent(userMessageNO);
 	}
 
-	@Override
-	public void userMessageDelete(int userMessageNO) {
-		mapper.userMessageDelete(userMessageNO);
-
-	}
+	
 
 }

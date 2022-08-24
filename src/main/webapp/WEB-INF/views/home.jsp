@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -102,7 +103,7 @@
 			    
 			    
 			    
-			    <a href="#" class="list-group-item active notice-list-top" style="width: 780px; margin-top: 20px;">
+			    <a id="a-main-project-list" class="list-group-item active notice-list-top" style="width: 780px; margin-top: 20px; cursor: pointer;">
 			        <span class="main-board-title">프로젝트 목록</span>
 			    	<span class="main-notice-detail">더보기 <span class="glyphicon glyphicon-triangle-right"></span></span>
 			    </a>
@@ -111,124 +112,40 @@
 			    
 			    <!-- 메인화면 프로젝트 목록 -->
 			    <div class="project-minilist col-md-8">
-			    		<div class="project-box">
+			    
+			    	<c:forEach var="miniProject" items="${miniProjectList}" varStatus="index">
+			    
+			    		<input type="hidden" id="hidden-project-no${index.index}" value="${miniProject.miniProjectNO}">
+			    
+			    		<div id="div-main-project${index.index}" class="project-box" style="z-index: 100;">
 				    		<div class="project-img-box">
-					    		<img alt="사진" src="resources/img/main4.jpg" width="100%">
+					    		<img alt="사진" src="<c:url value='/project/projectImageGet?projectNO=${miniProject.miniProjectNO}' />" width="100%" height="140px">
 					    	</div>
-					    	<div class="project-form">
+					    	<div class="project-form" style="font-family: sans-serif;">
 					    		<div class="project-title">
-					    			<p>환경 푸르미 프로젝트 개발자 모집 안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요</p>
+					    			<p>${miniProject.miniProjectName}</p>
 						    	</div>
 						    	<div class="project-content">
-						    		<p>(주)그린컴퍼니</p>
+						    		<p style="font-weight: 700; font-size: 13px; color: #909090;">${miniProject.miniCompanyName}</p>
 						    	</div>
 						    	<div class="project-date">
-						    		<p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
+						    		<p style="font-size: 11px; color: black;">개발자 모집기간 : <fmt:formatDate value="${miniProject.miniProjectDate1}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${miniProject.miniProjectDate2}" pattern="yyyy-MM-dd" /></p>
 						    	</div>
 					    	</div>
 					    </div>
 					    
-					    <div class="project-box">
-				    		<div class="project-img-box">
-					    		<img alt="사진" src="resources/img/main4.jpg" width="100%">
-					    	</div>
-					    	<div class="project-form">
-					    		<div class="project-title">
-					    			<p>환경 푸르미 프로젝트 개발자 모집 안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요</p>
-						    	</div>
-						    	<div class="project-content">
-						    		<p>(주)그린컴퍼니</p>
-						    	</div>
-						    	<div class="project-date">
-						    		<p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-						    	</div>
-					    	</div>
-					    </div>
+					    <script>
 					    
-					    <div class="project-box">
-				    		<div class="project-img-box">
-					    		<img alt="사진" src="resources/img/main4.jpg" width="100%">
-					    	</div>
-					    	<div class="project-form">
-					    		<div class="project-title">
-					    			<p>환경 푸르미 프로젝트 개발자 모집</p>
-						    	</div>
-						    	<div class="project-content">
-						    		<p>(주)그린컴퍼니</p>
-						    	</div>
-						    	<div class="project-date">
-						    		<p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-						    	</div>
-					    	</div>
-					    </div>
+					    	$('#div-main-project${index.index}').click(function() {
+					    		var projectNO = $('#hidden-project-no${index.index}').val();
+					    		
+					    		location.href='<c:url value="/project/projectview?projectNO=" />' + projectNO;
+					    	});
 					    
-					    <div class="project-box">
-				    		<div class="project-img-box">
-					    		<img alt="사진" src="resources/img/main4.jpg" width="100%">
-					    	</div>
-					    	<div class="project-form">
-					    		<div class="project-title">
-					    			<p>환경 푸르미 프로젝트 개발자 모집</p>
-						    	</div>
-						    	<div class="project-content">
-						    		<p>(주)그린컴퍼니</p>
-						    	</div>
-						    	<div class="project-date">
-						    		<p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-						    	</div>
-					    	</div>
-					    </div>
+					    </script>
+					    
+					</c:forEach>
 
-					    <div class="project-box">
-				    		<div class="project-img-box">
-					    		<img alt="사진" src="resources/img/main4.jpg" width="100%">
-					    	</div>
-					    	<div class="project-form">
-					    		<div class="project-title">
-					    			<p>환경 푸르미 프로젝트 개발자 모집</p>
-						    	</div>
-						    	<div class="project-content">
-						    		<p>(주)그린컴퍼니</p>
-						    	</div>
-						    	<div class="project-date">
-						    		<p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-						    	</div>
-					    	</div>
-					    </div>
-					    
-					    <div class="project-box">
-				    		<div class="project-img-box">
-					    		<img alt="사진" src="resources/img/main4.jpg" width="100%">
-					    	</div>
-					    	<div class="project-form">
-					    		<div class="project-title">
-					    			<p>환경 푸르미 프로젝트 개발자 모집</p>
-						    	</div>
-						    	<div class="project-content">
-						    		<p>(주)그린컴퍼니</p>
-						    	</div>
-						    	<div class="project-date">
-						    		<p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-						    	</div>
-					    	</div>
-					    </div>
-					    
-					    <div class="project-box">
-				    		<div class="project-img-box">
-					    		<img alt="사진" src="resources/img/main4.jpg" width="100%">
-					    	</div>
-					    	<div class="project-form">
-					    		<div class="project-title">
-					    			<p>환경 푸르미 프로젝트 개발자 모집</p>
-						    	</div>
-						    	<div class="project-content">
-						    		<p>(주)그린컴퍼니</p>
-						    	</div>
-						    	<div class="project-date">
-						    		<p>개발자 모집기간 : 2022.06.10 ~ 2022.07.10</p>
-						    	</div>
-					    	</div>
-					    </div> 
 			    </div>
 			    <!-- 프로젝트 목록 끝 -->
 			    
@@ -238,37 +155,36 @@
 			    <!--  메인화면 미니 공지사항 -->
 			    <div class="main-notice main-notice-first">
 			          <div class="list-group main-notice-list">
+			          
 			          	<!-- 메인화면 공지사항 상단 -->
-			            <a href="#" class="list-group-item active notice-list-top">
+			            <a id="a-main-notice-list" class="list-group-item active notice-list-top" style="border-radius: 0px; cursor: pointer;">
 			            	<span class="main-notice-title">공지사항</span>
 			            	<span class="main-notice-detail">더보기 <span class="glyphicon glyphicon-triangle-right"></span></span>
 			            </a>
+			          
+			          		<c:forEach var="miniNotice" items="${miniNoticeList}" varStatus="index">
+			          	
+			          			<input type="hidden" id="hidden-notice-no${index.index}" value="${miniNotice.miniNoticeNO}">
+			          			
+				          		<!-- 메인화면 공지사항 목록 -->
+				           		<a id="a-main-notice${index.index}" class="list-group-item main-notice-list-under" style="cursor: pointer;">
+				            		<span>${miniNotice.miniNoticeTitle}</span>
+				            		<span class="main-notice-date"><fmt:formatDate value="${miniNotice.miniNoticeDate}" pattern="yyyy-MM-dd" /></span>
+				            	</a>
+				            	
+				            	<script>
+					    
+							    	$('#a-main-notice${index.index}').click(function() {
+							    		var noticeNO = $('#hidden-notice-no${index.index}').val();
+							    		
+							    		location.href='<c:url value="/notice/noticeContent/" />' + noticeNO;
+							    	});
+							    
+							    </script>
+			          	
+			          		</c:forEach>
+
 			            
-			            <!-- 메인화면 공지사항 목록 -->
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
 			          </div>
 			    </div>
 			    <!-- 메인화면 미니 공지사항 끝 -->
@@ -278,36 +194,32 @@
 			    <div class="main-notice main-notice-last">
 			          <div class="list-group main-notice-list">
 			          	<!-- 메인화면 공지사항 상단 -->
-			            <a href="#" class="list-group-item active notice-list-top">
+			            <a id="a-main-board-list" class="list-group-item active notice-list-top" style="border-radius: 0px; cursor: pointer;">
 			            	<span class="main-board-title">자유게시판</span>
 			            	<span class="main-notice-detail">더보기 <span class="glyphicon glyphicon-triangle-right"></span></span>
 			            </a>
 			            
-			            <!-- 메인화면 공지사항 목록 -->
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
-			            
-			            <a href="#" class="list-group-item main-notice-list-under">
-			            	<span>2022년 기업회원 가입 일시 제한 안내</span>
-			            	<span class="main-notice-date">2022-07-24</span>
-			            </a>
+			           		<c:forEach var="miniBoard" items="${miniBoardList}" varStatus="index">
+			           		
+			           			<input type="hidden" id="hidden-board-no${index.index}" value="${miniBoard.miniBoardNO}">
+			          	
+				          		<!-- 메인화면 공지사항 목록 -->
+				           		<a id="a-main-board${index.index}" class="list-group-item main-notice-list-under" style="cursor: pointer;">
+				            		<span>${miniBoard.miniBoardTitle}</span>
+				            		<span class="main-notice-date"><fmt:formatDate value="${miniBoard.miniBoardDate}" pattern="yyyy-MM-dd" /></span>
+				            	</a>
+				            	
+				            	<script>
+					    
+							    	$('#a-main-board${index.index}').click(function() {
+							    		var boardNO = $('#hidden-board-no${index.index}').val();
+							    		
+							    		location.href='<c:url value="/board/boardContent/" />' + boardNO;
+							    	});
+							    
+							    </script>
+			          	
+			          		</c:forEach>
 			          </div>
 			    </div>    
 			</div> 
@@ -336,5 +248,27 @@
 	if(msg != '') {
 		alert(msg);
 	}
+	
+	
+	$(function() {
+		
+		// 프로젝트 목록 더보기 클릭 시
+		$('#a-main-project-list').click(function() {
+			location.href="<c:url value='/project/project' />";
+		});
+		
+		
+		// 공지사항 목록 더보기 클릭 시
+		$('#a-main-notice-list').click(function() {
+			location.href="<c:url value='/notice/noticeList' />";
+		});
+		
+		
+		// 자유게시판 목록 더보기 클릭 시
+		$('#a-main-board-list').click(function() {
+			location.href="<c:url value='/board/boardList' />";
+		});
+		
+	});
 
 </script>

@@ -59,8 +59,15 @@ public class BoardReplyService implements IBoardReplyService {
 	
 	//댓글 수정
 	@Override
-	public void boardReplyUpdate(int boardReplyNo) {
-		mapper.boardReplyUpdate(boardReplyNo);
+	public void boardReplyUpdate(int boardReplyNo, String boardReplyContent) {
+		BoardReplyVO vo = new BoardReplyVO();
+		vo.setBoardReplyNo(boardReplyNo);
+		vo.setBoardReplyContent(boardReplyContent);
+		
+		//댓글줄바꿈
+		vo.setBoardReplyContent(vo.getBoardReplyContent().replace("\n", "<br>"));
+		
+		mapper.boardReplyUpdate(vo);
 	}
 	
 	//댓글 삭제

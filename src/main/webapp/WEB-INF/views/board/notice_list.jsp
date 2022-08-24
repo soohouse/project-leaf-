@@ -8,7 +8,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -25,6 +25,7 @@
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
+   .container { min-height: 500px; }
    
    .borderline {
    	border-bottom: solid lightgray;
@@ -79,7 +80,7 @@
 				<button type="submit" class="btn btn-success mb-2 pull-right" id="btn-notice-write">글쓰기</button>
             </c:if>
                  
-                <table class="table table-bordered"  style="text-align: center; font-size:15px;">
+                <table class="table table-bordered"  style="text-align: center; font-size:14px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center; width:5%">번호</th>
@@ -95,7 +96,7 @@
                     <!-- 공지사항 목록 -->
                     <c:forEach var="notice" items="${noticeList}">
                         <tr>
-                            <td>${notice.noticeNo}</td>
+                            <td>${notice.rn}</td>
                             <td style="text-align: left;">
                             	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}${pc.makeURI(pc.paging.pageNum)}'/>">
                             		${notice.noticeTitle}

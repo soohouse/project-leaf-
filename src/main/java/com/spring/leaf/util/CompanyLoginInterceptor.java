@@ -82,6 +82,14 @@ public class CompanyLoginInterceptor implements HandlerInterceptor {
 					writer.print("<script>" + "alert('가입이 거절된 계정입니다. 관리자에게 문의하세요.');" + "location.replace('/');" + "</script>");
 					writer.flush();
 					writer.close();
+				} else if(vo.getCommonCODE().equals("CRG004")) {
+					logger.info("CompanyLoginInterceptor : Login 실패 (탈퇴한 회원)");
+
+					// class 파일에서 자바스크립트 경고창을 띄우기 위한 PrintWriter 사용
+					PrintWriter writer = response.getWriter();
+					writer.print("<script>" + "alert('탈퇴한 회원입니다.');" + "location.replace('/');" + "</script>");
+					writer.flush();
+					writer.close();
 				} else {
 					logger.info("CompanyLoginInterceptor : Login 성공");
 

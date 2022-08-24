@@ -7,7 +7,7 @@
 
 <meta charset="UTF-8">
 
-<title>오신것을 환영합니다</title>
+<title>RunWith</title>
 
 <!-- jQuery -->
 <script
@@ -311,6 +311,9 @@
 			// 만약 수정창에서 이력서만 새로 등록했다면
 			if(resumeCheck && !profileCheck) {
 				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-user-mypage-update').attr('disabled', true);
+				
 				// 사용자가 이미 올렸던 이력서 파일이 있는지 체크한다.
 				$.ajax({
 					type: 'POST',
@@ -423,6 +426,10 @@
 				}); 
 				
 			} else if(profileCheck && !resumeCheck) {
+				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-user-mypage-update').attr('disabled', true);
+				
 				// 만약 사용자가 프로필 사진만 새로 등록했다면
 				// 사용자가 이미 올렸던 프로필 사진이 있는지 체크한다.
 				$.ajax({
@@ -536,6 +543,10 @@
 				}); 
 				
 			} else if(profileCheck && resumeCheck) {
+				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-user-mypage-update').attr('disabled', true);
+				
 				// 사용자가 둘 다 새로 등록했다면
 				// 사용자가 이미 올렸던 이력서 파일이 있는지 체크한다.
 				$.ajax({
@@ -867,6 +878,10 @@
 				}); 
 				
 			} else {
+				
+				// 처리 될 동안 중복클릭을 방지
+				$('#btn-user-mypage-update').attr('disabled', true);
+				
 				// 아무 파일을 선택하지 않았다면 그냥 나머지 정보만 수정을 진행한다.
 				document.userUpdateForm.submit();
 			}

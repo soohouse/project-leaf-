@@ -8,7 +8,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -25,6 +25,7 @@
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
+   .container { min-height: 500px; }
    
    .mainbox .hr .headline {
    	text-align: left;
@@ -49,11 +50,7 @@
     margin-top: 1px;
     border-radius: 5px;
    }
-
- 
-
-
-   
+	
    </style>
    
 </head>
@@ -83,7 +80,7 @@
 					<button type="submit" class="btn btn-success mb-2 pull-right" id="btn-free-write">글쓰기</button>
 	            </c:if>
                  
-                <table class="table table-bordered"  style="text-align: center; font-size:15px;">
+                <table class="table table-bordered"  style="text-align: center;font-size:14px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center; width:5%">번호</th>
@@ -106,8 +103,9 @@
 									<c:if test="${board.boardDate>=nowday }">
 		                           		<img alt="newmark" src="<c:url value='/resources/img/newmark.gif' />">
 									</c:if>
-									<c:if test="${boardReplyCount} >= 1">
-										<span style="color:red; font-weight:bold; font-size:10px;">[${boardReplyCount}]</span>
+									<!-- 댓글수 -->
+									<c:if test="${board.boardReplyCount >= 1}">
+										<span style="color:red; font-size:15px;">[${board.boardReplyCount}]</span>
 									</c:if>
 								</a>
                             </td>
@@ -217,5 +215,5 @@
 	        location.href="${path}/board/boardList?pageIndex="+pagenum+"&cpp="+nowPaging;    
 	    }
 	}
-
+	
 </script>

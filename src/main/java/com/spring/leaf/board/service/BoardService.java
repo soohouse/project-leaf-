@@ -33,9 +33,7 @@ public class BoardService implements IBoardService {
 	//자유게시판 글 목록
 	@Override
 	public List<BoardVO> boardList(PageVO vo) {
-
 		List<BoardVO> list = mapper.boardList(vo);
-		
 		return list;
 	}
 	

@@ -14,7 +14,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -94,7 +94,7 @@
 		                                        	<input type="hidden" value="${notice.noticeNo}" name="noticeNo">
 		                                        	<h4 style="display:inline-block;">${notice.noticeTitle}</h4>
 		                                        	<c:if test="${notice.noticeWriter eq admin.adminID }">
-				                                        <button type="button" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</button>
+				                                        <button type="button" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</button>
 		                                        	</c:if>
 		                                        </div>
 		                                        
@@ -106,17 +106,18 @@
 			                                            	<span style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">&nbsp; ${notice.noticeWriter} &nbsp;</span>
 			                                            	<c:if test="${notice.noticeWriter eq user.userID }">
 
-			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px;">내가 작성한 글</span>
+			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px; margin-left:10px;">내가 작성한 글</span>
 			                                            	</c:if>
 			                                            </span>
 		                                       		</div>
 		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
-				                                        <div style="display:inline-block;" >
+				                                        <div style=" margin-left:50px; ">
+		                                        			<span style="color:black; font-style: bold;">조회수</span> ${notice.noticeViews }
+				                                        </div>
+				                                        <div style="float:right; margin-top:10px; margin-right:40px; color:gray;" >
 				                                            <fmt:formatDate value="${notice.noticeDate}" pattern="yyyy-MM-dd HH:mm" />
 				                                        </div>
-				                                        <div style="display:inline-block;">
-				                                        	조회수 : ${notice.noticeViews }
-				                                        </div>
+				                                        
 			                                        </div>
 		                                        </div>
                                     </div>
@@ -129,7 +130,6 @@
 
 	                            <c:if test="${notice.noticeWriter eq user.userID }">
 		                            <button type="button" id="btn-notice-modify" class="btn btn-info pull-right" onclick="location.href='<c:url value="/notice/noticeModify?noticeNo=${notice.noticeNo}"/>'" style="margin-left:10px;">수정하기</button>
-
 	                            </c:if>
 	                            <button type="button" id="btn-notice-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='<c:url value="/notice/noticeList"/>'" style="margin-left:10px;">목록</button>
                        	</form>

@@ -52,13 +52,4 @@ public class UserMessageController {
 		return service.userMessageContent(userMessageNO);
 	}
 	
-	//쪽지 삭제 처리
-	@PostMapping("/userMessageDelete")
-	public String userMessageDelete(int userMessageNO, RedirectAttributes ra) {
-		
-		service.userMessageDelete(userMessageNO);
-		
-		ra.addFlashAttribute("msg", "deleteSuccess");
-		return "redirect:/login/msg-list";
-	}
 }

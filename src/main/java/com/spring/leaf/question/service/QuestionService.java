@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.spring.leaf.question.command.AnswerVO;
 import com.spring.leaf.question.command.QuestionVO;
 import com.spring.leaf.question.mapper.IQuestionMapper;
+import com.spring.leaf.util.PageVO;
 
 // Question(질문글) 서비스 : 2022-08-05 생성
 
@@ -24,22 +25,18 @@ public class QuestionService implements IQuestionService {
 	@Override
 	public void questionWrite(QuestionVO vo) {
 		mapper.questionWrite(vo);
-
 	}
 
 	//질문글 목록
 	@Override
-	public List<QuestionVO> questionList() {
-
-		List<QuestionVO> list = mapper.questionList();
-		
+	public List<QuestionVO> questionList(PageVO vo) {
+		List<QuestionVO> list = mapper.questionList(vo);
 		return list;
 	}
 
 	//질문글 상세보기
 	@Override
 	public QuestionVO questionContent(int questionNo) {
-
 		return mapper.questionContent(questionNo);
 	}
 	
@@ -55,33 +52,46 @@ public class QuestionService implements IQuestionService {
 		return mapper.questionwriterProfile(questionInfo);
 	}
 	
-
 	//질문글 수정하기
 	@Override
 	public void questionModify(QuestionVO vo) {
-
 		mapper.questionModify(vo);
 	}
 
 	//질문글 삭제하기
 	@Override
 	public void questionDelete(int questionNo) {
-
 		mapper.questionDelete(questionNo);
 	}
+	
+	//질문글 조회수
+	@Override
+	public void questionViews(int questionNo) {
+		mapper.questionViews(questionNo);
+	}
+	
+	//질문글 총 개수
+	@Override
+	public int questionTotal(PageVO vo) {
+		return mapper.questionTotal(vo);
+	}
+	
+	//답변글 총 개수
+	@Override
+	public int answerTotal(int questionNo) {
+		return mapper.answerTotal(questionNo);
+	}
+	
 	
 	//답변글 글 등록
 	@Override
 	public void answerWrite(AnswerVO vo) {
 		mapper.answerWrite(vo);
-		
 	}
 	
 	//답변글 상세보기
 	@Override
 	public List<AnswerVO> answerList(int questionNo) {
-
-	
 		return mapper.answerList(questionNo);
 	}
 	
@@ -107,14 +117,12 @@ public class QuestionService implements IQuestionService {
 	@Override
 	public void answerModify(AnswerVO vo) {
 		mapper.answerModify(vo);
-		
 	}
 	
 	//답변글 삭제하기
 	@Override
 	public void answerDelete(int answerNo) {
 		mapper.answerDelete(answerNo);
-		
 	}
 
 }

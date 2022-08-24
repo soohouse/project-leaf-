@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.spring.leaf.user.command.UserVO;
+
 
 // 기업회원 권한 체크 핸들러 : 2022-07-28 생성
 
@@ -22,6 +24,17 @@ public class CompanyLoginHandler implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
+		
+		// 관리자는 모든 요청을 허용한다.
+		UserVO uvo = null;
+		
+		if(session.getAttribute("user") != null) {
+			uvo = (UserVO) session.getAttribute("user");
+			
+			if(uvo.getCommonCODE().equals("ADM002")) {
+				return true;
+			}
+		}
 		
 		if(session.getAttribute("company") == null) {		// "company" 세션이 있는지 없는지 확인, 없다면 로그인 안 한 것이다.
 			response.setContentType("text/html; charset=utf-8");

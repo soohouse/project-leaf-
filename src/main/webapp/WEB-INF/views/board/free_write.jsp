@@ -7,7 +7,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -70,7 +70,7 @@
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="submit" id="btn-board-write"  class="btn btn-success pull-right" style="margin-right:20px;" onclick="location.href='free_list'" value="등록">
+    	    			<input type="button" id="btn-board-write"  class="btn btn-success pull-right" style="margin-right:20px;" onclick="location.href='free_list'" value="등록">
     	    			<button type="button" id="btn-board-list" class="btn btn-primary pull-right" style="margin-right:10px;">목록</button>
     	    		  </form>
 					</div>
@@ -94,8 +94,21 @@
 		$('#btn-board-list').click(function() {
 			location.href='<c:url value="/board/boardList" />';
 		})
-	});
 		
+		$('#btn-board-write').click(function() {
+			document.boardWriteForm.submit();
+		})
+	});
+	
+	
+	//등록버튼 연속클릭 방지
+	var bbw = document.querySelector("#btn-board-write");
+	bbw.addEventListener("click", function (e) {
+	    this.setAttribute("disabled", true);
+	});
+	
+	
+	
 	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
 
 	

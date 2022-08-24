@@ -33,4 +33,9 @@ public class UserApplyService implements IUserApplyService {
 		return null;
 	}
 	
+	@Override
+	public int projectApplyCount(int userNO) {
+		return mapper.projectApplyCount(userNO);
+	}
+	
 }

@@ -15,8 +15,8 @@
 			
 			<div class="modal-body modal-body-sections">
 				<a href="#" class="list-group-item active notice-list-top" style="cursor: default;"> 
-					<span style="color: #737373; font-size: 13px; margin-left: -10px; display: block;">그린컴퍼니</span>
-					<h5 style="color: black; font-weight: bold; margin-left: -10px; display: inline-block;">환경 푸르미 프로젝트 개발자 모집</h5>
+					<span id="span-company-name" style="color: #737373; font-size: 13px; margin-left: -10px; display: block;">&nbsp;</span>
+					<h5 id="h5-project-name" style="color: black; font-weight: bold; margin-left: -10px; display: inline-block;">&nbsp;</h5>
 					<span class="pull-right" style="font-size: 12px; color: #737373;">지원자 : <span id="span-apply-count" style="color: red;"></span> 명</span>
 				</a>
 				
@@ -33,7 +33,7 @@
 							<th style="width: 25%;">지원 현황</th>
 						</tr>
 					</thead>
-					<tbody id="modalApplyList" style="width: 10px; font-size: 10px; background: #F7F7F7;">
+					<tbody id="modalApplyList" style="width: 10px; font-size: 10px; background: #FCFCFC;">
 						
 						
 							
@@ -41,7 +41,7 @@
 						
 	
 					</tbody>
-			</table>
+				</table>
 
 			
 		    </div>

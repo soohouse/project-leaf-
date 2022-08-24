@@ -1,5 +1,6 @@
 package com.spring.leaf.company.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import com.spring.leaf.company.command.CompanyAutoLoginVO;
@@ -7,6 +8,7 @@ import com.spring.leaf.company.command.CompanyIntroVO;
 import com.spring.leaf.company.command.CompanyLogoVO;
 import com.spring.leaf.company.command.CompanyPasswordVO;
 import com.spring.leaf.company.command.CompanyVO;
+import com.spring.leaf.user.command.UserVO;
 
 
 // 기업회원 매퍼 인터페이스 : 2022-07-28 생성
@@ -33,12 +35,28 @@ public interface ICompanyMapper {
 	void companyPasswordChange(CompanyPasswordVO vo);
 	
 	
+	// 기업회원 회원탈퇴 요청
+	void companyDelete(int companyNO);
+	
+	
+	// 기업회원 탈퇴 전 등록 프로젝트 존재 여부 체크 요청
+	int companyProjectCheck(int companyNO);
+	
+	
 	// 기업회원 자동로그인 요청
 	void companyAutoLogin(CompanyAutoLoginVO vo);
 		
 		
 	// 기업회원 자동로그인시 기업회원 정보 얻어오기 요청
 	CompanyVO companyAutoGet(String sessionID);
+	
+	
+	// 기업회원 ID 찾기 요청
+	List<CompanyVO> companyIDFind(String companyName);
+		
+		
+	// 기업회원 PW 초기화 요청
+	void companyPWReset(Map<String, Object> newPW);
 	
 	
 	// 기업회원 회원번호 얻는 요청

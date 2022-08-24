@@ -79,5 +79,9 @@
 	<mybatis-spring:scan base-package="com.spring.leaf.admin.mapper"/>
 	<!-- 지원현황 및 결과조회 연결 -->
 	<mybatis-spring:scan base-package="com.spring.leaf.userapply.mapper"/>
+	<!-- 사용자 관리 조회 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.usersmanage.mapper"/>
+	<!-- 메인화면 관련 IHomeMapper 연결 -->
+	<mybatis-spring:scan base-package="com.spring.leaf.home.mapper"/>
 	
 </beans>

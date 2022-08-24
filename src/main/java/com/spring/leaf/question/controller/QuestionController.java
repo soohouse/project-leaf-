@@ -1,5 +1,7 @@
 package com.spring.leaf.question.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.leaf.question.command.AnswerVO;
 import com.spring.leaf.question.command.QuestionVO;
 import com.spring.leaf.question.service.IQuestionService;
+import com.spring.leaf.util.PageCreator;
+import com.spring.leaf.util.PageVO;
 
 //Question 컨트롤러 : 2022-07-30 생성
 
@@ -37,9 +41,23 @@ public class QuestionController {
 	
 	//질문글 목록 페이지로 이동 요청
 	@GetMapping("/questionList")
-	public String questionList(Model model) {
+	public String questionList(Model model, PageVO vo) {
+		//페이징
+		System.out.println(vo);
+		PageCreator pc = new PageCreator();
+		pc.setPaging(vo);
+		pc.setArticleTotalCount(service.questionTotal(vo));
+		System.out.println(pc);
 		
-		model.addAttribute("questionList", service.questionList());
+		//현재시간 구하기 (뉴마크) https://mingbocho.tistory.com/11참고
+	    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.DAY_OF_MONTH, -1); //게시글 등록 후 1일간 뉴마크 표시.
+	    String nowday = format.format(cal.getTime());
+		
+	    model.addAttribute("pc", pc);
+	    model.addAttribute("nowday", nowday);
+		model.addAttribute("questionList", service.questionList(vo));
 		
 		return "/board/qna_list";
 	}
@@ -63,6 +81,9 @@ public class QuestionController {
 	@GetMapping("/questionContent/{questionNo}")
 	public String questionContent(@PathVariable int questionNo, Model model) {
 		
+    //조회수 증가
+		service.questionViews(questionNo);
+
 		QuestionVO vo = service.questionContent(questionNo);
 		
 		int questionWriterNo = service.questionwriterProfile(vo.getQuestionWriter(), questionNo);
@@ -122,12 +143,16 @@ public class QuestionController {
 	
 	//답변글 상세보기(목록)프로필사진용
 	@PostMapping("/answerList/{answerNo}")
-	public String answerList(@PathVariable int answerNo, Model model) {		
+	public String answerList(@PathVariable int answerNo, int questionNo, Model model) {		
 
 		
 		AnswerVO vo = service.answerContent(answerNo);
 		
 		int answerWriterNo = service.answerwriterProfile(vo.getAnswerWriter(), answerNo);
+		
+		//답변글 수
+		int answerTotal = service.answerTotal(questionNo);
+		model.addAttribute("answerCount", answerTotal);
 		
 		model.addAttribute("answer", vo);
 		model.addAttribute("answerWriterNo", answerWriterNo);
@@ -142,7 +167,7 @@ public class QuestionController {
 	@PostMapping("/answerList")
 	@ResponseBody
 	public Map<String, Object> answerList(int questionNo) {		
-		List<AnswerVO> list = service.answerList(questionNo);
+		List<AnswerVO> list = service.answerList(questionNo);		
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("answerList", list);

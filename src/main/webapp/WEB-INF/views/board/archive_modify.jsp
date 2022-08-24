@@ -7,7 +7,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -135,12 +135,12 @@
 										
 										const data = $('#file-archive-file');
 										
-										formData.append('newarchiveFile', data[0].files[0]);
+										formData.append('newArchiveFile', data[0].files[0]);
 										
 										// 수정창에서 업로드한 파일로 새로 적용한다.
 										$.ajax({
 											type: 'POST',
-											url: '<c:url value="/archive/archiveFileUpdate/" />' + archiveNo,
+											url: '<c:url value="/archive/archiveUpdate/" />' + archiveNo,
 											contentType: false,
 											processData: false,
 											

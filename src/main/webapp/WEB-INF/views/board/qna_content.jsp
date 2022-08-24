@@ -11,7 +11,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -89,22 +89,28 @@
 		                                        <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" id="hidden-questionNo" name="questionNo" value="${question.questionNo}">
 		                                        	<h4 style="display:inline-block;"> 질문 : ${question.questionTitle}</h4>
-			                                        <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
+			                                        <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</a>
 		                                        </div>
 		                                        
 		                                        <div style="margin-top:30px;">
 			                                        <div class="qa_writer" style="display: inline-block;">
 			                                            <img src="<c:url value='/user/userProfileGet?userNO=${questionWriterNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
 			                                            <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">${question.questionWriter}</div>
-			                                            
+			                                            <c:if test="${question.questionWriter eq user.userID }">
+		                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px; margin-left:10px;">내가 작성한 글</span>
+		                                            	</c:if>
+			                                            <c:if test="${question.questionWriter eq company.companyID }">
+		                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px; margin-left:10px;">내가 작성한 글</span>
+		                                            	</c:if>
 		                                       		</div>
 		                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
-				                                        <div style="display:inline-block;" >
+				                                        <div style="margin-left:50px;">
+				                                        	<span style="color:black; font-style: bold;">조회수</span> ${question.questionViews }
+				                                        </div>
+				                                        <div style="float:right; margin-top:10px; margin-right:40px; color:gray;" >
 				                                            <fmt:formatDate value="${question.questionDate}" pattern="yyyy-MM-dd HH:mm" />
 				                                        </div>
-				                                        <div style="display:inline-block;">
-				                                        	조회수 : 2
-				                                        </div>
+				                                        
 			                                        </div>
 		                                        </div>
                                     </div>
@@ -118,7 +124,9 @@
                              <hr class="borderline" style="margin-bottom:40px;" />
                              <button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
                              <button type="button" id="btn-question-list" class="btn btn-info mb-2 pull-right" style="margin-left:10px;">목록 </button>
-                             <button type="button" class="btn btn-primary mb-2 pull-right"  style="margin-left:10px;" onclick="location.href='<c:url value="/question/questionModify?questionNo=${question.questionNo}"/>'">수정 </button>
+                             <c:if test="${question.questionWriter eq user.userID || question.questionWriter eq company.companyID }">
+                             	<button type="button" class="btn btn-primary mb-2 pull-right"  style="margin-left:10px;" onclick="location.href='<c:url value="/question/questionModify?questionNo=${question.questionNo}"/>'">수정 </button>
+                             </c:if>
                              <button type="button" id="btn-go-answer" class="btn btn-success mb-2 pull-right"  style="margin-left:10px;">답변하기 </button>
                            
                         </div>
@@ -127,8 +135,8 @@
                     
                     <form action="<c:url value='/question/answerModify' />" method="post" name="answerDetailForm">
                     	<div id="answerList">
-                    
                     	
+                    		<!-- ----------------답변 목록---------------- -->
                     
                     	</div>
                     </form>
@@ -211,8 +219,10 @@
 				for(let i = 0; i < answerList.length; i++) {
 					
 					var timestamp = answerList[i].answerDate;
-					var date = new Date(timestamp).toISOString().replace("T", "").replace(/\..*/, "");
+					var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, "");
 					
+					var content = answerList[i].answerContent.replace(/\n/g, '<br/>');
+
 					strAdd +=
 						`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
 		                    <div class="row">
@@ -241,7 +251,7 @@
 		
 		                                    <div class="qa_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 		                                        
-		                                        	` + answerList[i].answerContent + `
+		                                        	` + content + `
 		                                           
 		                                    </div>
 		                            </div>

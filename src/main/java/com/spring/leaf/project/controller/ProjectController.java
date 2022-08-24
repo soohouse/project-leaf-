@@ -32,12 +32,16 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.spring.leaf.company.command.CompanyLogoVO;
+import com.spring.leaf.company.command.CompanyVO;
 import com.spring.leaf.project.command.ProjectContentVO;
 import com.spring.leaf.project.command.ProjectImageVO;
 import com.spring.leaf.project.command.ProjectLikeVO;
 import com.spring.leaf.project.command.ProjectVO;
 import com.spring.leaf.project.service.IProjectService;
+import com.spring.leaf.projectapply.command.ApplyVO;
+import com.spring.leaf.projectapply.service.IProjectApplyService;
 import com.spring.leaf.user.command.UserProfileVO;
+import com.spring.leaf.user.command.UserVO;
 
 
 @Controller
@@ -46,6 +50,8 @@ public class ProjectController {
 	@Autowired
 	private IProjectService service;
 	
+	@Autowired
+	private IProjectApplyService aservice;
 	
 	//프로젝트 목록 
 	@GetMapping("/project")
@@ -58,9 +64,27 @@ public class ProjectController {
 	
 	//프로젝트 상세보기
 	@GetMapping("/projectview")
-	public String project1(@RequestParam int projectNO, Model model) {
+	public String project1(@RequestParam int projectNO, HttpSession session, Model model) {
+		
+		if(session.getAttribute("user") != null) {
+			UserVO vo = (UserVO) session.getAttribute("user");
+			
+			ApplyVO avo = aservice.applyGet(projectNO, vo.getUserNO());
+			
+			model.addAttribute("apply", avo);
+		} 
+		
+		if(session.getAttribute("company") != null) {
+			CompanyVO vo = (CompanyVO) session.getAttribute("company");
+			
+			model.addAttribute("companyNO", vo.getCompanyNO());
+		}
 		
 		model.addAttribute("projectview", service.getContent(projectNO));
+		model.addAttribute("projectPassCount", aservice.applyPassCount(projectNO));
+		
+		// 조회수 증가
+		aservice.projectViewCount(projectNO);
 		
 		return "project/project-view";
 	}
@@ -120,7 +144,7 @@ public class ProjectController {
 		service.updateProjectContent(vo);
 		
 		ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
-		return "redirect:/project/projectviewcompany";
+		return "redirect:/project/projectview";
 		
 	}
 

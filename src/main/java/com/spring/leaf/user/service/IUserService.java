@@ -1,5 +1,6 @@
 package com.spring.leaf.user.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.spring.leaf.user.command.AutoLoginVO;
@@ -43,6 +44,14 @@ public interface IUserService {
 	
 	// 사용자 자동로그인시 사용자 정보 얻어오기 요청
 	UserVO userAutoGet(String sessionID);
+	
+	
+	// 사용자 PW 초기화 요청
+	void userPWReset(String newPassword, String userID);
+	
+	
+	// 사용자 ID 찾기 요청
+	List<UserVO> userIDFind(String userName);
 	
 
 	// 사용자 회원번호 얻는 요청

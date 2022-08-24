@@ -16,4 +16,7 @@ public interface IUserApplyMapper {
 	
 	//지원현황 리스트
 	UserApplyStatusContentVO applyStatusContent(int projectNO);
+	
+	//지원한 프로젝트 개수 얻어오기 요청
+	int projectApplyCount(int userNO);
 }

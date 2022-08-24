@@ -15,6 +15,7 @@ import lombok.Getter;
 @ToString
 public class ArchiveReplyVO {
 	
+	
 	private int archiveReplyNo;
 	private String archiveReplyWriter;
 	private String archiveReplyContent;

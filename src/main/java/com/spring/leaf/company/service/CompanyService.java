@@ -1,5 +1,7 @@
 package com.spring.leaf.company.service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -88,6 +90,20 @@ public class CompanyService implements ICompanyService {
 		mapper.companyPasswordChange(vo);
 	}
 	
+	
+	// 기업회원 회원탈퇴 요청
+	@Override
+	public void companyDelete(int companyNO) {
+		mapper.companyDelete(companyNO);
+	}
+	
+	
+	// 기업회원 탈퇴 전 등록 프로젝트 존재 여부 체크 요청
+	@Override
+	public int companyProjectCheck(int companyNO) {
+		return mapper.companyProjectCheck(companyNO);
+	}
+	
 
 	// 기업회원 자동로그인 요청
 	@Override
@@ -100,6 +116,34 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public CompanyVO companyAutoGet(String sessionID) {
 		return mapper.companyAutoGet(sessionID);
+	}
+	
+	
+	// 기업회원 ID 찾기 요청
+	@Override
+	public List<CompanyVO> companyIDFind(String companyName) {
+		return mapper.companyIDFind(companyName);
+	}
+	
+	
+	// 기업회원 PW 초기화 요청
+	@Override
+	public void companyPWReset(String newPassword, String companyID) {
+		logger.info("암호화 전 비밀번호 : " + newPassword);
+		
+		// 비밀번호 암호화를 위한 BCrypt 객체 생성
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		// encode로 암호화한 비밀번호를 새로 변수로 만든 후 vo에 새로 지정해준다.
+		String bcryptPW = encoder.encode(newPassword);
+				
+		logger.info("암호화 후 비밀번호 : " + bcryptPW);
+		
+		Map<String, Object> newPW = new HashMap<>();
+		newPW.put("newPassword", bcryptPW);
+		newPW.put("companyID", companyID);
+		
+		mapper.companyPWReset(newPW);
 	}
 	
 	

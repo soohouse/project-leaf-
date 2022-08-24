@@ -29,11 +29,14 @@ public class UserApplyController {
 		
 		// 지원결과 페이지 이동 요청
 		@GetMapping("/applyresult")
-		public String applyResultList(HttpSession session,Model model) {
+		public String applyResultList(HttpSession session, Model model) {
 			logger.info("/userapply/applyresult: GET (지원결과조회 페이지로 이동)");
 			
 			UserVO vo = (UserVO) session.getAttribute("user");
+			
 			model.addAttribute("applyResultList", service.applyResultList(vo.getUserNO()));
+			model.addAttribute("userNO", vo.getUserNO());
+			
 			return "user_mypage/user_apply_result";
 		}
 		
@@ -45,6 +48,7 @@ public class UserApplyController {
 			
 			UserVO vo = (UserVO) session.getAttribute("user");
 			model.addAttribute("applyStatusList", service.applyStatusList(vo.getUserNO()));
+			model.addAttribute("projectApplyCount", service.projectApplyCount(vo.getUserNO()));
 			return "user_mypage/user_apply_status";
 		}
 		

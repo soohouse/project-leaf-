@@ -94,6 +94,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
+	<!-- 기업회원 회원탈퇴 UPDATE 쿼리 -->
+	<update id="companyDelete">
+		UPDATE company
+		SET common_CODE = 'CRG004', company_delete = NOW()
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 기업회원이 탈퇴하기 전 등록한 프로젝트가 있는지 체크하는 SELECT 쿼리 -->
+	<select id="companyProjectCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE company_NO = #{companyNO}
+		AND common_CODE != 'PST003'
+	</select>
+	
+	
 	<!-- 자동로그인 UPDATE 쿼리 -->
 	<update id="companyAutoLogin">
 		UPDATE company
@@ -109,6 +126,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE session_ID = #{sessionID}
 		AND session_limit > now()
 	</select>
+	
+	
+	<!-- 기업회원 ID 찾기 -->
+	<select id="companyIDFind" resultMap="CompanyMap">
+		SELECT *
+		FROM company
+		WHERE company_name = #{companyName}
+	</select>
+	
+	
+	<!-- 일반회원 PW 초기화 -->
+	<update id="companyPWReset">
+		UPDATE company
+		SET company_PW = #{newPassword}
+		WHERE company_ID = #{companyID}
+	</update>
 	
 	
 	<!-- 기업회원 기업회원번호 얻어내는 SELECT 쿼리 -->

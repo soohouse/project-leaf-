@@ -50,9 +50,11 @@ public class BoardController {
 	//자유게시판 서비스 연결
 	@Autowired
 	private IBoardService service;
+	
 	//자유게시판 댓글 전체개수 불러오기 위해 사용
 	@Autowired
 	private IBoardReplyService rservice;
+	
 	
 	//자유게시판 목록 페이지로 이동 요청
 	@GetMapping("/boardList")
@@ -71,7 +73,6 @@ public class BoardController {
 	    cal.add(Calendar.DAY_OF_MONTH, -1); //게시글 등록 후 1일간 뉴마크 표시.
 	    String nowday = format.format(cal.getTime());
 	    
-		
 	    model.addAttribute("nowday",nowday);
 		model.addAttribute("boardList", service.boardList(vo));
 		model.addAttribute("pc", pc);

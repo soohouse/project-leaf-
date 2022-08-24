@@ -49,6 +49,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- ApplyVO와 데이터베이스를 일치시켜주는 applyMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.ApplyVO" id="applyMap">
+		<id property="applyNO" column="apply_NO" />
+		<result property="userNO" column="user_NO" />
+		<result property="projectNO" column="project_NO" />
+		<result property="applyDate" column="apply_date" />
+		<result property="applyMsg" column="apply_msg" />
+		<result property="commonCODE" column="common_CODE" />
+	</resultMap>
+	
+	
+	<!-- 프로젝트 최종 합격자 목록을 저장하는 ProjectPassListVO와 데이터베이스를 일치시켜주는 projectPassListMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.ProjectPassListVO" id="projectPassListMap">
+		<id property="applyNum" column="ROWNUM" />
+		<result property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="applyDate" column="apply_date" />
+		<result property="commonCODE" column="common_CODE" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	
 	<insert id="projectapply">
 		INSERT INTO apply(user_NO, apply_msg, project_NO)
 		VALUES (#{userNO}, #{applyMsg}, #{projectNO})
@@ -57,6 +80,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="projectapply2">
 		SELECT * FROM apply;
+	</select>
+	
+	
+	<!-- 프로젝트에 지원할 때 지원자의 이력서 이름을 가져오는 SELECT 쿼리 -->
+	<select id="userInfoGet" resultType="String">
+		SELECT resume_realname
+		FROM resume
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 조회수 증가 Update 쿼리 -->
+	<update id="projectViewCount">
+		UPDATE project
+		SET project_views = project_views + 1
+		WHERE project_NO = #{projectNO}
+	</update>
+	
+	
+	<!-- 프로젝트 지원한 지원자의 정보를 가져오는 SELECT 쿼리 -->
+	<select id="applyGet" resultMap="applyMap">
+		SELECT *
+		FROM apply
+		WHERE project_NO = #{projectNO}
+		AND user_NO = #{userNO}
 	</select>
 	
 	
@@ -71,6 +119,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON p.company_NO = c.company_NO
 			LEFT OUTER JOIN apply a
 		ON p.project_NO = a.project_NO
+			LEFT OUTER JOIN user u
+		ON a.user_NO = u.user_NO
 		WHERE c.company_NO = #{companyNO}
 		GROUP BY p.project_NO
 	</select>
@@ -99,6 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				LEFT OUTER JOIN common c
 					ON a.common_CODE = c.common_CODE
 				WHERE a.project_NO = #{projectNO}
+				AND u.common_CODE != 'ADM003'
 				AND a.common_CODE NOT IN('SPT004', 'SPT005')
 		) al, (SELECT @ROWNUM := 0) ROWNUM
 	</select>
@@ -106,9 +157,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 프로젝트 지원자 수  SELECT 쿼리 -->
 	<select id="myProjectApplyCount" resultType="int">
-		SELECT COUNT(case when common_CODE NOT IN('SPT004', 'SPT005') then 1 end)
-		FROM apply
-		WHERE project_NO = #{projectNO}
+		SELECT COUNT(case when a.common_CODE NOT IN('SPT004', 'SPT005') then 1 end)
+		FROM 
+			apply a LEFT OUTER JOIN user u
+        	ON a.user_NO = u.user_NO
+			WHERE project_NO = #{projectNO}
+        	AND u.common_CODE != 'ADM003'
 	</select>
 	
 	
@@ -162,5 +216,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET common_CODE = 'SPT005'
 		WHERE apply_NO = #{applyNO}
 	</update>
+	
+	
+	<!-- 지원 취소 DELETE 쿼리 -->
+	<delete id="applyCancel">
+		DELETE FROM apply
+		WHERE user_NO = #{userNO}
+		AND project_NO = #{projectNO}
+	</delete>
+	
+	
+	<!-- 프로젝트 최종 합격자 수 SELECT 쿼리 -->
+	<select id="applyPassCount" resultType="int">
+		SELECT COUNT(*)
+		FROM apply
+		WHERE project_NO = #{projectNO}
+		AND common_CODE != 'SPT005'
+	</select>
+	
+	
+	<!-- 프로젝트 지원자 목록 SELECT 쿼리 -->
+	<select id="applyPassList" resultMap="projectPassListMap">
+		SELECT 
+			@ROWNUM := @ROWNUM + 1 AS ROWNUM, al.*
+		FROM (
+			SELECT 
+				u.user_NO, u.user_ID, u.user_name,
+		        a.apply_date, a.common_CODE, c.common_value
+			FROM
+				user u LEFT OUTER JOIN apply a
+					ON u.user_NO = a.user_NO
+				LEFT OUTER JOIN common c
+					ON a.common_CODE = c.common_CODE
+				WHERE a.project_NO = #{projectNO}
+				AND u.common_CODE != 'ADM003'
+				AND a.common_CODE != 'SPT005'
+                ORDER BY a.common_CODE DESC
+		) al, (SELECT @ROWNUM := 0) ROWNUM;
+	</select>
 
 </mapper>

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.leaf.board.command.BoardVO;
 import com.spring.leaf.boardreply.command.BoardReplyListVO;
 import com.spring.leaf.boardreply.command.BoardReplyVO;
 import com.spring.leaf.boardreply.service.IBoardReplyService;
@@ -50,14 +52,13 @@ public class BoardReplyController {
 	@ResponseBody
 	@GetMapping("/boardReplyList/{boardNo}/{pageNum}")
 	public Map<String, Object> boardReplyList(@PathVariable int boardNo, @PathVariable int pageNum, Model model) {		
+		//페이징
 		PageVO vo = new PageVO();
 		vo.setPageNum(pageNum); //화면에서 전달된 페이지 번호
 		vo.setCpp(10); //댓글은 한 화면에 n개씩.
 		
-		List<BoardReplyListVO> list = service.boardReplyList(vo, boardNo); //(boardNo);
-		int total = service.boardReplyTotal(boardNo); //(boardNo);
-		
-	//	int boardReplyWriterNo = service.rboardwriterProfile(vo.getBoardReplyWriter(), boardReplyNo);
+		List<BoardReplyListVO> list = service.boardReplyList(vo, boardNo);
+		int total = service.boardReplyTotal(boardNo);
 		
 		//댓글수
 		int ReplyTotal = service.boardReplyTotal(boardNo); //(boardNo);
@@ -69,27 +70,13 @@ public class BoardReplyController {
 		
 		return map;
 	}
-	/*
-	//댓글 프로필 사진 불러오기
-	@PostMapping("/boardReplyList/{boardReplyNo}")
-	public String boardReplyList(@PathVariable int boardReplyNo, Model model) {
-		
 
-		
-		
-		model.addAttribute("rboard", vo);
-		model.addAttribute("boardReplyWriterNo", boardReplyWriterNo);
-		
-		return "redirect:/board/boardList";
-	}
-	*/
 	//댓글 수정
 	@PostMapping("/boardReplyUpdate")
 	@ResponseBody
-	public String boardReplyUpdate(@RequestParam("boardReplyNO") int boardReplyNo) {
-		service.boardReplyUpdate(boardReplyNo);
-		
-		return "UpdateSuccess";
+	public String boardReplyUpdate(int boardReplyNo, String boardReplyContent) {
+		service.boardReplyUpdate(boardReplyNo, boardReplyContent);
+		return "UpdateSuccess"; 
 	}
 	
 	//댓글 삭제
@@ -97,8 +84,8 @@ public class BoardReplyController {
 	@ResponseBody
 	public String boardReplyDelete(@RequestParam("boardReplyNO") int boardReplyNo) {
 		service.boardReplyDelete(boardReplyNo);
-		
 		return "DeleteSuccess";
 	}
-
+	
+	
 }

@@ -64,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 프로젝트 상세보기 -->
 	<select id="getContent" resultMap="ProjectContentMap">
 		SELECT
-			p.project_NO, p.project_name, p.project_desc, p.project_manager, p.project_manager_phone, p.project_manager_email, p.project_views, p.project_require_license, p.project_require_people, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, c.company_phone1, c.company_phone2, c.company_phone3, c.company_address1, c.company_address2, c.company_address3, p.common_CODE, cd.common_value
+			p.project_NO, p.project_name, p.project_desc, p.project_manager, p.project_manager_phone, p.project_manager_email, p.project_views, p.project_require_license, p.project_require_role, p.project_require_people, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, c.company_phone1, c.company_phone2, c.company_phone3, c.company_address1, c.company_address2, c.company_address3, p.common_CODE, cd.common_value
 		FROM
 			project p LEFT OUTER JOIN company c
 		ON p.company_NO = c.company_NO
@@ -92,8 +92,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		LEFT OUTER JOIN common cd
       	ON p.common_CODE = cd.common_CODE
       	WHERE p.project_NO != 1
+      	AND p.common_CODE != 'PST003'
       	ORDER BY p.project_NO DESC
-		
 	</select>
 	
 	

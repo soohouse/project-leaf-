@@ -28,6 +28,7 @@ public class UserListService implements IUserListService {
 		return mapper.userList();
 	}
 	
+	//일반회원 상세 보기
 	@Override
 	public UserListDetailVO userListDetail(int userNO) {
 		// TODO Auto-generated method stub

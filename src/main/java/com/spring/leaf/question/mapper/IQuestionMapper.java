@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.leaf.question.command.AnswerVO;
 import com.spring.leaf.question.command.QuestionVO;
+import com.spring.leaf.util.PageVO;
 
 //Question(질문글) 매퍼 인터페이스 : 2022-08-05 생성
 
@@ -14,7 +15,7 @@ public interface IQuestionMapper {
 	void questionWrite(QuestionVO vo);
 	
 	//질문글 목록
-	List<QuestionVO> questionList();
+	List<QuestionVO> questionList(PageVO vo);
 	
 	//질문글 상세보기
 	QuestionVO questionContent(int questionNo);
@@ -27,6 +28,15 @@ public interface IQuestionMapper {
 	
 	//질문글 삭제
 	void questionDelete(int questionNo);
+	
+	//질문글 조회수
+	void questionViews(int questionNo);
+	
+	//질문글 총 게시물 수
+	int questionTotal(PageVO vo);
+	
+	//답변글 총 게시물 수
+	int answerTotal(int questionNo);
 	
 	//답변글 등록
 	void answerWrite(AnswerVO vo);

@@ -7,6 +7,8 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -242,6 +244,51 @@ public class UserController {
 		service.userDelete(userNO);
 		
 		return "YesUserDelete";
+	}
+	
+	
+	// 사용자 ID 찾기 요청
+	@PostMapping("/userIDFind")
+	@ResponseBody
+	public Map<String, Object> userIDFind(String userName) {
+		logger.info("/user/userIDFind : POST (사용자 ID 찾기 요청)");
+		
+		List<UserVO> IDList = service.userIDFind(userName);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("IDList", IDList);
+		
+		return map;
+	}
+	
+	
+	// 사용자 ID 검색 후 인증번호 발송
+	@PostMapping("/userPWFindEmail")
+	@ResponseBody
+	public String userPWFindEmail(String userID) {
+		logger.info("/user/userPWFindEmail : POST (사용자 ID 검색 후 인증번호 발송 요청)");
+		
+		UserVO vo = service.userGetInfo(userID);
+		
+		if(vo == null) {
+			return "NoFindEmail";
+		} else {
+			String email = vo.getUserEmail1() + '@' + vo.getUserEmail2();
+			
+			return mailService.joinEmail(email);
+		}
+	}
+	
+	
+	// 사용자 비밀번호 초기화 요청
+	@PostMapping("/userPWReset")
+	@ResponseBody
+	public String userPWReset(String newPassword, String userID) {
+		logger.info("/user/userPWReset : POST (사용자 비밀번호 초기화 요청)");
+		
+		service.userPWReset(newPassword, userID);
+		
+		return "YesUserPWReset";
 	}
 	
 	

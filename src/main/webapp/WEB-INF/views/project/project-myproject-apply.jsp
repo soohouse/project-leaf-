@@ -11,7 +11,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -131,6 +131,12 @@
 							let projectNO = $('#hidden-project-no${index.index}').val();
 							let strAdd = '';
 							
+							let companyName = '${myProject.companyName}';
+							let projectName = '${myProject.projectName}';
+							
+							$('#span-company-name').text(companyName);
+							$('#h5-project-name').text(projectName);
+							
 							$.ajax({
 								type: 'POST',
 								url: '<c:url value="/project/projectMyApply/" />' + projectNO,
@@ -144,7 +150,7 @@
 			    					
 			    					if(applyList == '') {    							
 		    							strAdd +=
-					    					`<tr id="" style="cursor: pointer; font-size: 12px;">
+					    					`<tr style="cursor: pointer; font-size: 12px;">
 					    						<td colspan="6" style="text-align: center;">해당 프로젝트에는 지원자가 없습니다.</td>
 											</tr>`;
 			    					} else {

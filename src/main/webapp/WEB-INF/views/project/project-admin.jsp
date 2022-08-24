@@ -8,7 +8,7 @@
 
    <meta charset="UTF-8">
 
-   <title>나뭇잎 홈페이지</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

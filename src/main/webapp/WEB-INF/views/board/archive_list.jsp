@@ -8,7 +8,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -25,6 +25,7 @@
    
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <style>
+   .container { min-height: 500px; }
    
    .mainbox .hr .headline {
    	text-align: left;
@@ -50,10 +51,6 @@
     margin-top: 1px;
     border-radius: 5px;
    }
-
- 
-
-
    
    </style>
    
@@ -85,7 +82,7 @@
 					<button type="submit" class="btn btn-success mb-2 pull-right" id="btn-archive-write">글쓰기</button>
 	            </c:if>
                  
-                <table class="table table-bordered"  style="text-align: center;">
+                <table class="table table-bordered"  style="text-align: center; font-size:14px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center; width:5%">번호</th>
@@ -100,12 +97,17 @@
                     <tbody>
                       <c:forEach var="archive" items="${archiveList}">
                         <tr>
-                            <td>${archive.archiveNo}</td>
+                            <td>${archive.rn}</td>
                             <td style="text-align: left;">
                             	<a href="<c:url value='/archive/archiveContent/${archive.archiveNo}${pc.makeURI(pc.paging.pageNum)}'/>">
                             		${archive.archiveTitle}
+                            		<!-- new마크 -->
                             		<c:if test="${archive.archiveDate>=nowday }">
 	                            		<img alt="newmark" src="<c:url value='/resources/img/newmark.gif' />">
+									</c:if>
+									<!-- 댓글수 -->
+									<c:if test="${archive.archiveReplyCount >= 1}">
+										<span style="color:red; font-size:15px;">[${archive.archiveReplyCount}]</span>
 									</c:if>
                             	</a>
                             	<a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a>

@@ -8,7 +8,7 @@
 
    <meta charset="UTF-8">
 
-   <title>오신것을 환영합니다</title>
+   <title>RunWith</title>
    
    <!-- jQuery -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -68,7 +68,7 @@
 
 
 			<table class="table table-bordered" style="margin-top: 20px;">
-				<thead style="width: 10px; font-size: 13px; background: #89C578;">
+				<thead style="width: 10px; font-size: 13px; background: #A6CAEE;">
 					<tr style="font-family: sans-serif;">
 						<th style="width: 6%;">번호</th>
 						<th style="width: 40%;">프로젝트명</th>

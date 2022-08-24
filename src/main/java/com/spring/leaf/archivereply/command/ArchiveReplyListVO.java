@@ -21,5 +21,10 @@ public class ArchiveReplyListVO {
 	private String archiveReplyContent;
 	private Timestamp archiveReplyDate;
 	private int archiveNo;
+	
+	private int userNo;
+	private String userID;
+	private int companyNo;
+	private String companyID;
 
 }

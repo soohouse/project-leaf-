@@ -7,10 +7,23 @@ import com.spring.leaf.projectapply.command.ApplyVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyDetailVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyListVO;
 import com.spring.leaf.projectapply.command.MyProjectStatusVO;
+import com.spring.leaf.projectapply.command.ProjectPassListVO;
 
 public interface IProjectApplyMapper {
 	
 	void projectapply(ApplyVO vo);
+	
+	
+	// 사용자의 이력서 원본 이름 얻어오기 요청
+	String userInfoGet(int userNO);
+	
+	
+	// 조회수 증가 요청
+	void projectViewCount(int projectNO);
+	
+	
+	// 사용자의 지원현황 얻어오기 요청
+	ApplyVO applyGet(Map<String, Object> numbers);
 	
 	
 	// 기업회원 지원 현황 내 프로젝트 목록 요청
@@ -47,5 +60,17 @@ public interface IProjectApplyMapper {
 	
 	// 불합격 처리
 	void applySetNo(int applyNO);
+	
+	
+	// 지원 취소 처리
+	void applyCancel(Map<String, Object> numbers);
+	
+	
+	// 프로젝트 최종 합격자 수 조회 요청
+	int applyPassCount(int projectNO);
+	
+	
+	// 프로젝트 최종 합격자 목록 조회 요청
+	List<ProjectPassListVO> applyPassList(int projectNO);
 	
 }

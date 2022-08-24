@@ -1,5 +1,7 @@
 package com.spring.leaf.user.service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -107,6 +109,35 @@ public class UserService implements IUserService {
 	@Override
 	public UserVO userAutoGet(String sessionID) {
 		return mapper.userAutoGet(sessionID);
+	}
+	
+	
+	// 사용자 ID 찾기 요청
+	@Override
+	public List<UserVO> userIDFind(String userName) {
+		return mapper.userIDFind(userName);
+	}
+	
+	
+	// 사용자 PW 초기화 요청
+	@Override
+	public void userPWReset(String newPassword, String userID) {
+		
+		logger.info("암호화 전 비밀번호 : " + newPassword);
+		
+		// 비밀번호 암호화를 위한 BCrypt 객체 생성
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		// encode로 암호화한 비밀번호를 새로 변수로 만든 후 vo에 새로 지정해준다.
+		String bcryptPW = encoder.encode(newPassword);
+				
+		logger.info("암호화 후 비밀번호 : " + bcryptPW);
+		
+		Map<String, Object> newPW = new HashMap<>();
+		newPW.put("newPassword", bcryptPW);
+		newPW.put("userID", userID);
+		
+		mapper.userPWReset(newPW);	
 	}
 	
 	

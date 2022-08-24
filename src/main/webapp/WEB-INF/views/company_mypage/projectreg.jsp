@@ -7,7 +7,7 @@
 
 <meta charset="UTF-8">
 
-<title>오신것을 환영합니다</title>
+<title>RunWith</title>
 
 <!-- jQuery -->
 <script
@@ -77,7 +77,7 @@ input.form-control {
 					</div>
 					<div>
 						<input type="text" id="project-name" class="form-control" name="projectName"
-							placeholder="프로젝트 이름을 입력하세요." style="width: 700px;">
+							placeholder="프로젝트 이름을 입력하세요." style="width: 700px;"><br>
 							<span id="span-name"></span>
 					</div>
 				</div>
@@ -155,7 +155,7 @@ input.form-control {
 					</div>
 					<div>
 						<input type="text" class="form-control" id="project-manager" name="projectManager"
-							placeholder="담당자 이름을 입력하세요." style="width: 300px;">
+							placeholder="담당자 이름을 입력하세요." style="width: 300px;"><br>
 							<span id="span-manager"></span>
 					</div>
 				</div>
@@ -165,7 +165,7 @@ input.form-control {
 					</div>
 					<div>
 						<input type="text" class="form-control" id="project-mg-phone" name="projectManagerPhone"
-							placeholder="전화번호를 입력하세요." style="width: 300px;">
+							placeholder="전화번호를 입력하세요." style="width: 300px;"><br>
 							<span id="span-phone"></span>
 					</div>
 				</div>
@@ -174,13 +174,7 @@ input.form-control {
 						<p class="projectFont">담당자 이메일 *</p>
 					</div>
 					<div>
-						<input type="text" class="form-control" id="project-mg-email" name="projectManagerEmail"
-							placeholder="담당자 이메일을 입력해주세요." style="width: 230px;"> <span id="span-email"></span> <select
-							class="form-control" style="width: 145px;">
-							<option>@naver.com</option>
-							<option>@gmail.com</option>
-							<option>@daum.net</option>
-						</select>
+						<input type="text" class="form-control" id="project-mg-email" name="projectManagerEmail" placeholder="담당자 이메일을 입력해주세요." style="width: 230px;"><br> <span id="span-email"></span> 
 					</div>
 				</div>
 				<div class="projectReg">
@@ -199,7 +193,7 @@ input.form-control {
 					</div>
 					<div>
 						<input type="text" class="form-control" id="project-role" name="projectRequireRole"
-							placeholder="모집하는 역할을 간단하게 입력하세요." style="width: 700px;">
+							placeholder="모집하는 역할을 간단하게 입력하세요." style="width: 700px;"><br>
 							<span id="span-role"></span>
 					</div>
 				</div>
@@ -209,7 +203,7 @@ input.form-control {
 					</div>
 					<div>
 						<input type="text" class="form-control" id="project-people" name="projectRequirePeople"
-							placeholder="모집 인원을 입력하세요." style="width: 700px;">
+							placeholder="모집 인원을 입력하세요." style="width: 700px;"><br>
 							<span id="span-people"></span>
 					</div>
 				</div>

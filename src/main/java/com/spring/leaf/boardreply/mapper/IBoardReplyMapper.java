@@ -21,14 +21,12 @@ public interface IBoardReplyMapper {
 	int boardReplyTotal(int boardNo);
 	
 	//댓글 수정
-	void boardReplyUpdate(int boardReplyNo);
+	void boardReplyUpdate(BoardReplyVO vo);
 	
 	//댓글 삭제
 	void boardReplyDelete(int boardReplyNo);
-	
+
 	// 사용자 프로필사진 불러오기 요청
 	int rboardwriterProfile(Map<String, Object> rboardInfo);
-	
-	
 
 }
