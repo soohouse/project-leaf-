@@ -41,7 +41,7 @@
  		text-align:center;
  		line-height: 40px;
  		border-bottom:1px solid #D8D8D8; 
- 		margin: 10px 0px;
+ 		padding: 10px 0px;
  		
  	}
     
@@ -376,6 +376,7 @@
 					
 					for(let i=0; i<boardReplyList.length; i++) {
 						
+						
 						var timestamp = boardReplyList[i].boardReplyDate;
 						var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
 						
@@ -396,7 +397,7 @@
 							if(replyWriter == replyReader) {
 								strAdd += 
 									`<div class='boardReplyWrap'>
-										<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin-right: 8px; float:left; border-radius:50%;"><span>
+										<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 										</div>
 				                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
 				                        </div>
@@ -411,8 +412,8 @@
 			                        </div>`;
 							} else {
 								strAdd += 
-									`<div class='boardReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
-										<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50%;"><span>
+									`<div class='boardReplyWrap' \> 
+										<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 				                        </div>
 										<div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
 				                        </div>
@@ -434,7 +435,7 @@
 							if(replyWriter == replyReader) {
 								strAdd += 
 									`<div class='boardReplyWrap'>
-										<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50%;"><span>
+										<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 										</div>
 				                        <div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
 				                        </div>
@@ -449,8 +450,8 @@
 			                        </div>`;
 							} else {
 								strAdd += 
-									`<div class='boardReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
-										<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50%;"><span>
+									`<div class='boardReplyWrap'> 
+										<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 				                        </div>
 										<div id='boardReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ boardReplyList[i].boardReplyWriter +`
 				                        </div>

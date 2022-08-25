@@ -39,7 +39,7 @@
 			text-align:center;
 			line-height: 40px;
 			border-bottom:1px solid #D8D8D8; 
-			margin: 10px 0px;
+			padding: 10px 0px;
 		}
 		
 		#btn-archiveReply-Modify {
@@ -167,17 +167,17 @@
 						</div>
 					</div>
                        
-                                
-						<table class="table table-borderless"  style="text-align: center; font-size:12px;">
-							<thead>
+                       <!-- 댓글 보여지는 부분 -->         
+						<div class="archivereply-List" style="text-align: center; font-size:12px;">
+							<div>
 		                    	<div style="background-color: #bbd0e7;" >
 									<div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
 										<p id="p-reply-count" style="color:red; display:inline-block; "></p>
 							        </div>
 		                        </div>
-							</thead>
+							</div>
 				                  	
-		                  	<!-- 댓글이 보여지는 부분 (여기서댓글이 반복됨) -->
+		                  	<!-- 댓글 보기 모드 (여기서댓글이 반복됨) -->
 							<div id="archiveReplyList" style="width=100%; background:#FAFAFA; padding:5px 15px 5px 15px;">
 								<!-- ------------------------댓글이 반복됨---------------------------- -->
 								<!-- ------------------------댓글이 반복됨---------------------------- -->
@@ -190,7 +190,7 @@
 							<button class="form-control" id="moreList">댓글 더보기</button>
 							
 							
-						</table>
+						</div>
 				                
 				                
 						<div class="text-center">
@@ -407,7 +407,7 @@
 						if(replyWriter == replyReader) {
 							strAdd +=
 								`<div class='archiveReplyWrap'>
-									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50%;"><span>
+									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>
@@ -422,8 +422,8 @@
 								</div>`;
 						} else {
 							strAdd +=
-								`<div class='archiveReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
-									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50%;"><span>
+								`<div class='archiveReplyWrap'> 
+									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>
@@ -445,7 +445,7 @@
 						if(replyWriter == replyReader) {
 							strAdd +=
 								`<div class='archiveReplyWrap'>
-									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50%;"><span>
+									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>
@@ -460,8 +460,8 @@
 								</div>`;
 						} else {
 							strAdd +=
-								`<div class='archiveReplyWrap' style="border-bottom:1px solid #D8D8D8; margin: 10px 0px;"> 
-									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="float:left; border-radius:50%;"><span>
+								`<div class='archiveReplyWrap'> 
+									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>

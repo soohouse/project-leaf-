@@ -88,7 +88,7 @@
                                     <div class="qa_content_up" style="margin-left:30px;" >
 		                                        <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" id="hidden-questionNo" name="questionNo" value="${question.questionNo}">
-		                                        	<h4 style="display:inline-block;"> 질문 : ${question.questionTitle}</h4>
+		                                        	<h4 style="display:inline-block;"><span style="font-weight: bolder;"> Q : </span> ${question.questionTitle}</h4>
 			                                        <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</a>
 		                                        </div>
 		                                        
@@ -222,40 +222,78 @@
 					var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, "");
 					
 					var content = answerList[i].answerContent.replace(/\n/g, '<br/>');
+					
+					var ansWriter = answerList[i].answerWriter;
+					var answerReader = '${user.userID}';
+					
+					if(ansWriter == answerReader){
 
-					strAdd +=
-						`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
-		                    <div class="row">
-		                            <div class="qa_content" >
-		                                    <div class="qa_content_up" style="margin-left:30px;" >
-				                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
-				                                   		<input type="hidden" id="hidden-answer-no" name="answerNo">
-				                                       	<h4 style="display:inline-block;"> 답변 : ` + answerList[i].answerTitle + `</h4>
-					                                    <a type="submit" id="btn-answer-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;" data-value="` + answerList[i].answerNo + `">삭제</a>
-				                                       	<a type="button" id="btn-answer-update" data-value="` + answerList[i].answerNo + `" class="btn mb-2 answerModify" style="display: inline-block; float:right;">수정</a>
-				                                   </div>
-				                                   
-				                                   <div style="margin-top:30px;">
-					                                    <div class="qa_writer" style="display: inline-block;">
-					                                        <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
-					                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `</div>
-					                                            
-				                                        </div>
-				                                       	<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
-						                                    <div style="display:inline-block;" >
-						                                        ` + date + `
+						strAdd +=
+							`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
+			                    <div class="row">
+			                            <div class="qa_content" >
+			                                    <div class="qa_content_up" style="margin-left:30px;" >
+					                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
+					                                   		<input type="hidden" id="hidden-answer-no" name="answerNo">
+					                                       	<h4 style="display:inline-block;"> <span style="font-weight: bolder;"> ㄴ A : </span> ` + answerList[i].answerTitle + `</h4>
+					                                       	<a type="submit" id="btn-answer-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;" data-value="` + answerList[i].answerNo + `">삭제</a>
+					                                       	<a type="button" id="btn-answer-update" data-value="` + answerList[i].answerNo + `" class="btn mb-2 answerModify" style="display: inline-block; float:right;">수정</a>
+					                                   </div>
+					                                   
+					                                   <div style="margin-top:30px;">
+						                                    <div class="qa_writer" style="display: inline-block;">
+						                                        <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
+						                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `</div>
+						                                            
+					                                        </div>
+					                                       	<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
+							                                    <div style="display:inline-block;" >
+							                                        ` + date + `
+							                                    </div>
 						                                    </div>
-					                                    </div>
-				                                   </div>
-		                                    </div>
-		
-		                                    <div class="qa_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
-		                                        
-		                                        	` + content + `
-		                                           
-		                                    </div>
-		                            </div>
-		                        </div>`;
+					                                   </div>
+			                                    </div>
+			
+			                                    <div class="qa_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+			                                        
+			                                        	` + content + `
+			                                           
+			                                    </div>
+			                            </div>
+			                        </div>`;
+					} else {
+						strAdd +=
+							`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
+			                    <div class="row">
+			                            <div class="qa_content" >
+			                                    <div class="qa_content_up" style="margin-left:30px;" >
+					                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
+					                                   		<input type="hidden" id="hidden-answer-no" name="answerNo">
+					                                       	<h4 style="display:inline-block;"> <span style="font-weight: bolder;"> A : </span> ` + answerList[i].answerTitle + `</h4>
+					                                       	</div>
+					                                   
+					                                   <div style="margin-top:30px;">
+						                                    <div class="qa_writer" style="display: inline-block;">
+						                                        <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
+						                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `</div>
+						                                            
+					                                        </div>
+					                                       	<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
+							                                    <div style="display:inline-block;" >
+							                                        ` + date + `
+							                                    </div>
+						                                    </div>
+					                                   </div>
+			                                    </div>
+			
+			                                    <div class="qa_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+			                                        
+			                                        	` + content + `
+			                                           
+			                                    </div>
+			                            </div>
+			                        </div>`;
+					}
 						
 				}
 				

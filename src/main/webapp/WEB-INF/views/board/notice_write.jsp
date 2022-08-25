@@ -60,7 +60,7 @@
 					    	    		<th colspan= "2">공지사항 내용</th>
 					    	    	</tr>
 						    		<tr>
-						    			<td><textarea class="form-control" name="noticeContent" id="noticeContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px" ></textarea></td>
+						    			<td><textarea class="form-control" name="noticeContent" id="noticeContent" placeholder="내용을 입력하세요." maxlength="2048" style= "height:350px; resize:none;" ></textarea></td>
 						    		</tr>
 						    	</tbody>
 			    	    	</table>
