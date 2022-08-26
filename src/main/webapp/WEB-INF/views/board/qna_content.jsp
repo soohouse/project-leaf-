@@ -88,7 +88,7 @@
                                     <div class="qa_content_up" style="margin-left:30px;" >
 		                                        <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" id="hidden-questionNo" name="questionNo" value="${question.questionNo}">
-		                                        	<h4 style="display:inline-block;"><span style="font-weight: bolder;"> Q : </span> ${question.questionTitle}</h4>
+		                                        	<h4 style="display:inline-block;"><span style="font-weight: bolder; font-size:24px;"> Q : </span> ${question.questionTitle}</h4>
 			                                        <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</a>
 		                                        </div>
 		                                        
@@ -209,7 +209,7 @@
 			dataType: 'json',
 			
 			data: {
-				'questionNo': questionNo
+				'questionNo': questionNo,
 			},
 			
 			success: function(result) {
@@ -225,25 +225,29 @@
 					
 					var ansWriter = answerList[i].answerWriter;
 					var answerReader = '${user.userID}';
+					var memberNo = answerList[i].userNo;
+					
+					
 					
 					if(ansWriter == answerReader){
+						
 
 						strAdd +=
 							`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
-			                    <div class="row">
+			                    <div class="row" style="background:lightgrey;">
 			                            <div class="qa_content" >
 			                                    <div class="qa_content_up" style="margin-left:30px;" >
 					                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
 					                                   		<input type="hidden" id="hidden-answer-no" name="answerNo">
-					                                       	<h4 style="display:inline-block;"> <span style="font-weight: bolder;"> ㄴ A : </span> ` + answerList[i].answerTitle + `</h4>
+					                                       	<h4 style="display:inline-block;"> <span style="font-weight: bolder; color:blue; font-size:24px;"> A : </span> ` + answerList[i].answerTitle + `</h4>
 					                                       	<a type="submit" id="btn-answer-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;" data-value="` + answerList[i].answerNo + `">삭제</a>
 					                                       	<a type="button" id="btn-answer-update" data-value="` + answerList[i].answerNo + `" class="btn mb-2 answerModify" style="display: inline-block; float:right;">수정</a>
 					                                   </div>
 					                                   
 					                                   <div style="margin-top:30px;">
 						                                    <div class="qa_writer" style="display: inline-block;">
-						                                        <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
-						                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `</div>
+						                                        <img src="<c:url value='/user/userProfileGet?userNO='/>` + memberNo + `" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
+						                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `님의 답변</div>
 						                                            
 					                                        </div>
 					                                       	<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
@@ -262,6 +266,7 @@
 			                            </div>
 			                        </div>`;
 					} else {
+						
 						strAdd +=
 							`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
 			                    <div class="row">
@@ -269,13 +274,13 @@
 			                                    <div class="qa_content_up" style="margin-left:30px;" >
 					                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
 					                                   		<input type="hidden" id="hidden-answer-no" name="answerNo">
-					                                       	<h4 style="display:inline-block;"> <span style="font-weight: bolder;"> A : </span> ` + answerList[i].answerTitle + `</h4>
+					                                       	<h4 style="display:inline-block;"> <span style="font-weight: bolder; color:blue; font-size:24px;"> A :</span> ` + answerList[i].answerTitle + `</h4>
 					                                       	</div>
 					                                   
 					                                   <div style="margin-top:30px;">
 						                                    <div class="qa_writer" style="display: inline-block;">
-						                                        <img src="<c:url value='/user/userProfileGet?userNO=${user.userNO}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
-						                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `</div>
+						                                        <img src="<c:url value='/user/userProfileGet?userNO='/>` + memberNo + `" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
+						                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `님의 답변</div>
 						                                            
 					                                        </div>
 					                                       	<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
