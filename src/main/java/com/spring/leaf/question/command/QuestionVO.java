@@ -22,5 +22,6 @@ public class QuestionVO {
 	
 	private int answerCount;
 	private int rn;//글번호
+//	private int answerNo;
 
 }

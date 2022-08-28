@@ -102,6 +102,10 @@
 				               	<input type="search" id="user-phone3" class="input-all input4-3" placeholder="전화번호 뒷 4자리" maxlength="4" name="userPhone3">
 				                <br><span id="span-phone"></span>
 				            </div>
+				            <div class="introduce">
+				            	<p>간단한 소개</p>
+				                <textarea class="form-control" name="userIntro" style="width: 598px; height: 120px; margin-bottom: 30px; resize: none;"></textarea>
+				            </div>
 				        </div>
 				    </form>
 				    
@@ -196,6 +200,10 @@
 				                <input type="search" id="company-address3" class="input-all input1" placeholder="상세주소를 입력해 주세요." maxlength="100" name="companyAddress3">
 				                <span id="span-address2"></span>
 				            </div>
+				            <div class="introduce">
+				            	<p style="margin-top: 30px;">기업 소개</p>
+				                <textarea class="form-control" name="companyIntro" style="width: 598px; height: 120px; margin-bottom: 30px; resize: none;"></textarea>
+				            </div>
 				            <div class="company_sub all">
 				                <p>회사 소개서 *</p>
 				                <div class="form-group">
@@ -212,7 +220,7 @@
 				        </div>
 				    </form>
 			        
-			        <div class="regi-button">
+			        <div class="regi-button" style="position: relative; bottom: 20px;">
 			            <input type="button" class="regi-button1" value="가입신청" style=" cursor: pointer;" id="btn-company-regist-go">
 			            <input type="button" class="regi-button2" value="취소" style=" cursor: pointer;" >
 			        </div>

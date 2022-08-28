@@ -15,6 +15,8 @@ import com.spring.leaf.usersmanage.command.CompanyMembersVO;
 import com.spring.leaf.usersmanage.command.UserMembersDetailVO;
 import com.spring.leaf.usersmanage.command.UserMembersVO;
 import com.spring.leaf.usersmanage.service.IUserCompanyManageService;
+import com.spring.leaf.util.PageCreator;
+import com.spring.leaf.util.PageVO;
 
 //22-08-19 사용자 리스트 컨트롤러
 @Controller
@@ -30,10 +32,28 @@ public class UserCompanyManageController {
 		
 		// 사용자관리 이동 요청
 		@GetMapping("/membersList")
-		public String membersList(Model model) {
+		public String membersList(Model model, PageVO vo, PageVO cvo) {
+			
+			//일반회원 페이징
+			System.out.println(vo);
+			PageCreator pc = new PageCreator();
+			pc.setPaging(vo);
+			pc.setArticleTotalCount(service.getUserTotal(vo));
+			System.out.println(pc);
+			
+			//기업회원 페이징
+			System.out.println(cvo);
+			PageCreator pcc = new PageCreator();
+			pc.setPaging(cvo);
+			pc.setArticleTotalCount(service.getCompanyTotal(cvo));
+			System.out.println(pcc);
+			
 			logger.info("/membersList/membersList: GET (일반회원 목록 페이지 이동)");
-			model.addAttribute("userMembers", service.userMembers());
-			model.addAttribute("companyMembers", service.companyMembers());
+			model.addAttribute("userMembers", service.userMembers(vo));
+			model.addAttribute("companyMembers", service.companyMembers(vo));
+			model.addAttribute("pc", pc);
+			model.addAttribute("pcc", pcc);
+			
 			return "/admin/members-list";
 		}
 		
@@ -52,4 +72,5 @@ public class UserCompanyManageController {
 			logger.info("/membersList/membersCompany : GET (기업목록 상세 보기 요청)");
 			return service.companyMembersDetail(companyNO);
 		}
+	
 }

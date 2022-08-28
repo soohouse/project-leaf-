@@ -9,7 +9,13 @@ import com.spring.leaf.admin.command.CommonListVO;
 import com.spring.leaf.admin.command.CommonVO;
 import com.spring.leaf.admin.command.CompanyAcceptListVO;
 import com.spring.leaf.admin.command.CompanyAcceptVO;
+import com.spring.leaf.admin.command.UserDateVO;
+import com.spring.leaf.admin.command.UserNewListVO;
+import com.spring.leaf.admin.command.UserProfileCountVO;
+import com.spring.leaf.admin.command.UserRegistCountVO;
+import com.spring.leaf.admin.command.UserResumeCountVO;
 import com.spring.leaf.admin.mapper.IAdminMapper;
+import com.spring.leaf.util.PageVO;
 
 
 // 관리자 서비스 : 2022-08-07 생성
@@ -24,8 +30,9 @@ public class AdminService implements IAdminService {
 	
 	// 공통코드 목록 불러오기
 	@Override
-	public List<CommonListVO> commonList() {
-		return mapper.commonList();
+	public List<CommonListVO> commonList(PageVO vo) {
+		List<CommonListVO> list = mapper.commonList(vo);
+		return list;
 	}
 	
 	
@@ -73,8 +80,15 @@ public class AdminService implements IAdminService {
 	
 	// 가입 승인 대기중인 기업 목록 불러오기
 	@Override
-	public List<CompanyAcceptListVO> companyAcceptList() {
-		return mapper.companyAcceptList();
+	public List<CompanyAcceptListVO> companyAcceptList(PageVO vo) {
+		List<CompanyAcceptListVO> list = mapper.companyAcceptList(vo);
+		return list;
+	}
+	
+	//
+	@Override
+	public int getTotal(PageVO vo) {
+		return mapper.getTotal(vo);
 	}
 	
 	
@@ -89,6 +103,41 @@ public class AdminService implements IAdminService {
 	@Override
 	public void companyAccept(int companyNO) {
 		mapper.companyAccept(companyNO);
+	}
+	
+	
+	// 개발자 날짜 정보 중 6개월 간의 날짜 정보를 얻기 위한 요청
+	@Override
+	public UserDateVO userDate() {
+		return mapper.userDate();
+	}
+	
+	
+	// 6개월 동안 일반회원(개발자) 신규 가입 수를 얻기 위한 요청
+	@Override
+	public UserRegistCountVO userRegistCount() {
+		return mapper.userRegistCount();
+	}
+	
+	
+	// 개발자 이력서 등록 현황을 얻기 위한 요청
+	@Override
+	public UserResumeCountVO userResumeCount() {
+		return mapper.userResumeCount();
+	}
+	
+	
+	// 개발자 프로필사진 등록 현황을 얻기 위한 요청
+	@Override
+	public UserProfileCountVO userProfileCount() {
+		return mapper.userProfileCount();
+	}
+	
+	
+	// 한 달 동안 일반회원 신규가입자 목록을 얻기 위한 요청
+	@Override
+	public List<UserNewListVO> userNewList() {
+		return mapper.userNewList();
 	}
 	
 }

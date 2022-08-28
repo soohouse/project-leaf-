@@ -88,8 +88,12 @@
                                     <div class="qa_content_up" style="margin-left:30px;" >
 		                                        <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" id="hidden-questionNo" name="questionNo" value="${question.questionNo}">
+
 		                                        	<h4 style="display:inline-block;"><span style="font-weight: bolder; font-size:24px;"> Q : </span> ${question.questionTitle}</h4>
-			                                        <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</a>
+                                              <c:if test="${ question.questionWriter eq user.userID  || user.commonCODE == 'ADM002' }">
+			                                          <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</a>
+                                              </c:if>
+
 		                                        </div>
 		                                        
 		                                        <div style="margin-top:30px;">
@@ -132,7 +136,7 @@
                         </div>
                       </form>  
                     </div>
-                    
+                    </div>
                     <form action="<c:url value='/question/answerModify' />" method="post" name="answerDetailForm">
                     	<div id="answerList">
                     	
@@ -141,9 +145,12 @@
                     	</div>
                     </form>
               		
-				</div>
+				
 			</div> 
         </section> 
+        <div>
+        
+        </div>
  
         
 				
@@ -152,38 +159,6 @@
 	   
 	    <%@ include file="../include/footer.jsp" %>
 	    
-	    <!-- 답변 수정 모달  -->
-			<div class="modal fade" id="answerModal" role="dialog"">
-				<div class="modal-dialog modal-md">		                
-					<div class="modal-content">
-			    			<div class= "modal-header">
-					    	    	<div>
-					    	    		<div colspan= "2" style="float:left;">답변글 제목</div>
-					    	    		<button type="button" class="btn btn-default pull-right" data-dismiss="modal">닫기</button>
-					    	    		<button type="submit" id="btn-answer-update" class="btn btn-info pull-right" style="margin-left:10px;">수정</button>
-					    	    		<div><input type="hidden" name="answerNo" id="answerNo" value="${answer.answerNo}"></div>
-					    	    	</div>
-					    	    	<div>
-						    			<div><input type="text" name="answerTitle" class="form-control" ></div>
-						    			
-						    		</div>
-				    	    </div>
-						    <div class="modal-body" style="margin:8px;">
-						    	<input type="hidden" id="modalAnswerNo">
-						    		<div>
-					    	    		<div colspan= "2">답변글 내용</div>
-					    	    	</div>
-						    		<div>
-						    			<div>
-						    				<textarea class="form-control" name="answerContent" maxlength="2048"></textarea>
-						    			</div>
-						    			
-						    		</div>
-						    </div>
-			    	    </div>
-	    	    			
-					</div>
-				</div>
 	</div>
    
    
@@ -215,6 +190,9 @@
 			success: function(result) {
 				
 				let answerList = result.answerList;
+				let answerNoList = result.answerNoList;
+				
+				console.log(answerNoList);
 				
 				for(let i = 0; i < answerList.length; i++) {
 					
@@ -225,7 +203,7 @@
 					
 					var ansWriter = answerList[i].answerWriter;
 					var answerReader = '${user.userID}';
-					var memberNo = answerList[i].userNo;
+					var memberNo = answerNoList[i];
 					
 					
 					
@@ -234,7 +212,7 @@
 
 						strAdd +=
 							`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
-			                    <div class="row" style="background:lightgrey;">
+			                    <div class="row" style="background:#F0F0F0;">
 			                            <div class="qa_content" >
 			                                    <div class="qa_content_up" style="margin-left:30px;" >
 					                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
@@ -269,7 +247,7 @@
 						
 						strAdd +=
 							`<hr class="borderline" style="margin-bottom:15px; margin-top:25px;" />
-			                    <div class="row">
+			                    <div class="row" style="background:#F0F0F0">
 			                            <div class="qa_content" >
 			                                    <div class="qa_content_up" style="margin-left:30px;" >
 					                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">

@@ -13,6 +13,7 @@ import com.spring.leaf.projectapply.command.ApplyVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyDetailVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyListVO;
 import com.spring.leaf.projectapply.command.MyProjectStatusVO;
+import com.spring.leaf.projectapply.command.ProjectApplyCountVO;
 import com.spring.leaf.projectapply.command.ProjectPassListVO;
 import com.spring.leaf.projectapply.mapper.IProjectApplyMapper;
 
@@ -176,5 +177,12 @@ public class ProjectApplyService implements IProjectApplyService {
 		}
 		
 		return list;
+	}
+	
+	
+	// 프로젝트 별 지원자 수 얻어오기 요청 (통계)
+	@Override
+	public List<ProjectApplyCountVO> projectApplyCount(int companyNO) {
+		return mapper.projectApplyCount(companyNO);
 	}
 }

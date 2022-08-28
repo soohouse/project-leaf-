@@ -358,7 +358,7 @@ $(function() {
 			// 모집 인원 입력 여부 체크
 			if($('#project-people').val() == '') {
 				alert('이메일을 입력해주세요.');
-				$('#span-people').text('담당자 이메일을 입력해주세요.');
+				$('#span-people').text('모집인원을 입력해주세요.');
 				$('#span-people').css('color', 'red');
 				
 				$('#project-people').focus();
@@ -372,7 +372,7 @@ $(function() {
 			// +1을 한 것은 점 바로 이후 문자부터 잘라서 추출하기 위해
 			image = image.slice(image.indexOf('.') + 1).toLowerCase();
 			
-			if(image !== 'png' && image !== 'jpg' && image !== 'jpeg' && image !== '') {
+			if(image !== 'png' && image !== 'jpg' && image !== 'jpeg' && image !== 'bmp') {
 				alert('이미지 파일 형식만 등록이 가능합니다.');
 				$('#image').val('');
 				return;

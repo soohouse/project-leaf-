@@ -116,6 +116,34 @@
 		$('#btn-archive-write').click(function(){
 			
 			
+			//제목 작성 여부 체크
+			if($('#archiveTitle').val() == '') {
+				alert('제목을 입력해주세요.');
+				$('#archiveTitle').focus();
+				return;
+			}
+			
+			//게시글 작성 여부 체크
+			if($('#archiveContent').val() == '') {
+				alert('제목을 입력해주세요.');
+				$('#archiveContent').focus();
+				return;
+			}
+			
+			// 자바스크립트의 파일 크기 체크 (5MB 이내의 크기만 첨부할 수 있도록)
+			if($('#file-archive-file').val() != '') {
+				let maxIntroSize = 5 * 1024 * 1024;		// 5MB
+				let introSize = $('#file-archive-file')[0].files[0].size;
+				
+				if(introSize > maxIntroSize) {
+					alert("자료실 첨부파일은 5MB 이내로 첨부가 가능합니다.");
+					$('#file-archive-file').val('');
+					$('#file-archive').text('${archive.archiveFileRealname}');
+					return;
+				}
+			}
+			
+			
 			// 자료실 파일 첨부 여부 체크
 			if($('#archive-file').val() == '') {
 				alert('자료실 파일 첨부는 필수입니다.');

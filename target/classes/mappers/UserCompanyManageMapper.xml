@@ -44,6 +44,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="companyIntroRealname" column="company_intro_realname" />
 	</resultMap>
 	
+	<sql id="searchUser">
+		<if test="condition == 'UID'">
+			AND user_ID LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'Uname'">
+			AND user_name LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	<sql id="searchCompany">
+		<if test="condition == 'CID'">
+			AND company_ID LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'Cname'">
+			AND company_name LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
 	<!-- 개발자 목록 끌어오기 -->
 	<select id="userMembers" resultMap="UserMembersMap">
 		SELECT 
@@ -53,8 +71,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			cd.common_value
 		FROM user u LEFT OUTER JOIN common cd
 		ON u.common_CODE = cd.common_CODE
-		WHERE u.common_CODE = 'ADM001'
-		AND u.common_CODE != 'ADM003'
+		WHERE u.common_CODE != 'ADM002'
+		AND u.user_NO != 1
+		 <include refid="searchUser" />
+		LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	<!-- 총 개발자 수 -->
+	<select id="getUserTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM user u LEFT OUTER JOIN common c
+		ON c.common_CODE = u.common_CODE
+		WHERE c.common_CODE != 'ADM002'
 		AND u.user_NO != 1
 	</select>
 	
@@ -66,6 +95,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	        CONCAT(c.company_email1, '@', c.company_email2) AS company_email, 
 			cd.common_value
 		FROM company c LEFT OUTER JOIN common cd
+		ON c.common_CODE = cd.common_CODE
+		WHERE c.common_CODE = 'CRG002'
+		AND c.common_CODE != 'ADM003'
+		AND c.company_NO != 1
+		 <include refid="searchCompany" />
+		LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	<!-- 총 기업 수 -->
+	<select id="getCompanyTotal" resultType="int">        
+		SELECT COUNT(*)
+		FROM company c 
+		LEFT OUTER JOIN common cd
 		ON c.common_CODE = cd.common_CODE
 		WHERE c.common_CODE = 'CRG002'
 		AND c.common_CODE != 'ADM003'

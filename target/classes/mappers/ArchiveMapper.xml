@@ -121,6 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="archiveTotal" resultType="int">
 		SELECT COUNT(*)
 		FROM archive
+		WHERE archive_title IS NOT NULL
 		<where>
 			<include refid="search" />
 		</where>

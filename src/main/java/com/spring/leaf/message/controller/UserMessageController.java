@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import com.spring.leaf.message.command.UserMessageVO;
 import com.spring.leaf.message.service.ICompanyMessageService;
 import com.spring.leaf.message.service.IUserMessageService;
 import com.spring.leaf.notice.service.INoticeService;
+import com.spring.leaf.user.command.UserVO;
 import com.spring.leaf.user.controller.UserController;
 import com.spring.leaf.userlist.command.UserListVO;
 
@@ -37,10 +40,13 @@ public class UserMessageController {
 	// 유저쪽지함(목록으로) 이동 요청
 	@PostMapping("/userMessageList")
 	@ResponseBody
-	public Map<String, Object> userMessageList(int userNO, Model model) {
+	public Map<String, Object> userMessageList(int userNO) {
 		List<UserMessageVO> list = service.userMessageList(userNO);
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
+		
+		map.put("count", service.userMessageCount(userNO));
+	
 		
 		return map;
 	}

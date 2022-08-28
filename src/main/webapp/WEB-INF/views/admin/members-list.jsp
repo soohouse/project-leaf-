@@ -60,7 +60,7 @@
 			  <li role="presentation" class="nav-item active">
 			  	<a href="#tab-user-regist" data-toggle="tab" style="color: #3071A9;">일반회원</a>
 			  </li>
-			  <li role="presentation" class="nav-item">
+			  <li role="presentation" class="nav-item" id="li-company-tab">
 			  	<a href="#tab-company-regist" data-toggle="tab" style="color: #3071A9;">기업회원</a>
 			  </li>
 			</ul>
@@ -71,14 +71,14 @@
 				<!-- 일반회원 탭 클릭 시 뜨는 화면 -->
 				<div class="tab-pane fade in active" id="tab-user-regist">
 				
-					<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0; margin-top: 30px;">
+					<form class="navbar-form navbar-left navbar-main-top pull-left" action="<c:url value='/membersList/membersList'/>" style="padding: 0; margin-left: 0; margin-top: 30px;">
 						<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-		                            <option value="id">개발자 ID</option>
-		                            <option value="name">개발자 이름</option>
+		                            <option value="UID" ${pc.paging.condition == 'UID' ? 'selected' : ''}>개발자 ID</option>
+		                            <option value="Uname" ${pc.paging.condition == 'Uname' ? 'selected' : ''}>개발자 이름</option>
 		                </select>
 					
 						<div class="input-group"> 
-							<input type="text" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
+							<input type="text" name="keyword" class="form-control" value="${pc.paging.keyword}" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
 							</span>
@@ -96,7 +96,7 @@
 								<th style="width: 12%;">비고</th>
 							</tr>
 						</thead>
-						<tbody style="width: 10px; font-size: 13px; background: #F7F7F7;">
+						<tbody style="width: 10px; font-size: 13px; background: #FCFCFC;">
 						
 							<c:forEach var="userMembers" items="${userMembers}" varStatus="index">
 							<tr id="userMembersDetail${index.index}" style="cursor: pointer;">
@@ -109,7 +109,9 @@
 							</tr>
 							
 							<%@ include file="../modal_mypage/members-user.jsp" %>
-						
+							
+							
+							
 						<script>
 							
 							$(function() {
@@ -161,24 +163,70 @@
 						</script>
 						
 						</c:forEach>
+						
 						</tbody>
+						
+						
 					</table>
+					<!-- 일반회원 탭 페이징 -->
+					<div class="text-center">
+						<form action="<c:url value='/membersList/membersList'/>" name="pageForm">
+							<ul class="pagination pagination-sm">
+								<c:if test="${pc.prev }">
+									<!-- 이전버튼 -->
+									<li><a
+										href="/membersList/membersList?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
+										data-pagenum="${pc.beginPage-1 }"> << </a></li>
+								</c:if>
+								<c:forEach var="num" begin="${pc.beginPage }"
+									end="${pc.endPage }">
+									<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a
+										href="/membersList/membersList?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
+										data-pagenum='${num }'>${num }</a></li>
+								</c:forEach>
+								<c:if test="${pc.next }">
+									<!-- 다음버튼 -->
+									<li><a
+										href="/membersList/membersList?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
+										data-pagenum="${pc.endPage-1 }"> >> </a></li>
+								</c:if>
+							</ul>
+							<input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
+							<input type="hidden" name="cpp" value="${pc.paging.cpp}">
+							<input type="hidden" name="condition"
+								value="${pc.paging.condition}"> <input type="hidden"
+								name="keyword" value="${pc.paging.keyword}">
+						</form>
+					</div>
 				</div>
 				
 				
 				<!-- 기업회원 탭 클릭 시 뜨는 화면 -->
 				<div class="tab-pane fade" id="tab-company-regist">
 					
-					<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0; margin-top: 30px;">
+					<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" action="<c:url value='/membersList/membersList'/>" style="padding: 0; margin-left: 0; margin-top: 30px;">
 						<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-		                            <option value="id">기업 ID</option>
-		                            <option value="name">기업명</option>
+		                            <option value="CID" ${pcc.paging.condition == 'CID' ? 'selected' : ''}>기업 ID</option>
+		                            <option value="Cname" ${pcc.paging.condition == 'Cname' ? 'selected' : ''}>기업명</option>
 		                </select>
 					
 						<div class="input-group"> 
-							<input type="text" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
+							<input type="text" name="keyword" class="form-control" value="${pcc.paging.keyword}" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
+								<button class="btn btn-default" id="btn-company-search" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
+								
+								<script>
+								
+									$(function(){
+										
+										$('#btn-company-search').click(function(e){
+											$('#li-company-tab').attr('class', 'active');
+										});
+										
+									});
+								
+								</script>
+								
 							</span>
 						</div>
 					</form>
@@ -194,7 +242,7 @@
 								<th style="width: 12%;">비고</th>
 							</tr>
 						</thead>
-						<tbody style="width: 10px; font-size: 13px; background: #F7F7F7;">
+						<tbody style="width: 10px; font-size: 13px; background: #FCFCFC;">
 							
 							<c:forEach var="companyMembers" items="${companyMembers}" varStatus="index">
 							<tr id="companyMembersDetail${index.index}" style="cursor: pointer;">
@@ -260,6 +308,37 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					<!-- 기업회원 탭 페이징 -->
+					<div class="text-center">
+						<form action="<c:url value='/membersList/membersList'/>" name="pageForm">
+							<ul class="pagination pagination-sm">
+								<c:if test="${pcc.prev }">
+									<!-- 이전버튼 -->
+									<li><a
+										href="/membersList/membersList?pageNum=${pcc.beginPage-1}&cpp=${pcc.paging.cpp }&condition=${pcc.paging.condition}&keyword=${pcc.paging.keyword}"
+										data-pagenum="${pcc.beginPage-1 }"> << </a></li>
+								</c:if>
+								<c:forEach var="num" begin="${pcc.beginPage }"
+									end="${pcc.endPage }">
+									<li class="${pcc.paging.pageNum == num ? 'active' : '' }"><a
+										href="/membersList/membersList?pageNum=${num}&cpp=${pcc.paging.cpp }&condition=${pcc.paging.condition}&keyword=${pcc.paging.keyword}"
+										data-pagenum='${num }'>${num }</a></li>
+								</c:forEach>
+								<c:if test="${pcc.next }">
+									<!-- 다음버튼 -->
+									<li><a
+										href="/membersList/membersList?pageNum=${pcc.endPage+1}&cpp=${pcc.paging.cpp }&condition=${pcc.paging.condition}&keyword=${pcc.paging.keyword}"
+										data-pagenum="${pcc.endPage-1 }"> >> </a></li>
+								</c:if>
+							</ul>
+							<input type="hidden" name="pageNum" value="${pcc.paging.pageNum}">
+							<input type="hidden" name="cpp" value="${pcc.paging.cpp}">
+							<input type="hidden" name="condition"
+								value="${pcc.paging.condition}"> <input type="hidden"
+								name="keyword" value="${pcc.paging.keyword}">
+						</form>
+					</div>
+
 				</div>
 	
 			</div>
@@ -282,5 +361,6 @@
 	if(msg != '') {
 		alert(msg);
 	}
+	
 
 </script>

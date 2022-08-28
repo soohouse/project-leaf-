@@ -93,8 +93,9 @@
 		                                        <div class="notice_title" scope="col" style="width: 100%;  margin-top:10px;">
 		                                        	<input type="hidden" value="${notice.noticeNo}" name="noticeNo">
 		                                        	<h4 style="display:inline-block;">${notice.noticeTitle}</h4>
-		                                        	<c:if test="${notice.noticeWriter eq admin.adminID }">
-				                                        <button type="button" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</button>
+
+		                                        	<c:if test="${user.commonCODE == 'ADM002'}">
+				                                        <button type="button" id="btn-notice-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</button>
 		                                        	</c:if>
 		                                        </div>
 		                                        
@@ -121,7 +122,8 @@
 			                                        </div>
 		                                        </div>
                                     </div>
-								
+									
+									<!-- 글 내용 -->
                                     <div class="notice_content_down" style="min-height:300px; margin-top:50px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 										${fn:replace(notice.noticeContent, cn, br) }
                                     </div>

@@ -79,6 +79,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			LEFT OUTER JOIN common cm
 			ON a.common_CODE = cm.common_CODE
 		WHERE a.user_NO = #{userNO}
+		LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
 	</select>
 	
 	<!-- 프로젝트 상세보기 -->
@@ -99,7 +101,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM apply
 		WHERE user_NO = #{userNO}
 	</select>
-	
-	
 
 </mapper>

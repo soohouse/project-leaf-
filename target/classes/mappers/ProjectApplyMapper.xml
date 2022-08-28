@@ -72,6 +72,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- 프로젝트 별 지원자 통계를 집계하기 위한 ProjectApplyCountVO와 데이터베이스를 일치시켜주는 projectApplyCountMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.ProjectApplyCountVO" id="projectApplyCountMap">
+		<result property="projectName" column="project_name" />
+		<result property="applyCount" column="apply_count" />
+	</resultMap>
+	
+	
 	<insert id="projectapply">
 		INSERT INTO apply(user_NO, apply_msg, project_NO)
 		VALUES (#{userNO}, #{applyMsg}, #{projectNO})
@@ -253,6 +260,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND a.common_CODE != 'SPT005'
                 ORDER BY a.common_CODE DESC
 		) al, (SELECT @ROWNUM := 0) ROWNUM;
+	</select>
+	
+	
+	<!-- 프로젝트 별 지원자 수 통계 데이터 SELECT 쿼리 -->
+	<select id="projectApplyCount" resultMap="projectApplyCountMap">
+		SELECT p.project_name, COUNT(a.apply_NO) AS apply_count
+		FROM project p LEFT OUTER JOIN apply a
+		ON p.project_NO = a.project_NO
+		LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		WHERE c.company_NO = #{companyNO}
+		GROUP BY p.project_NO
+		ORDER BY apply_count DESC
 	</select>
 
 </mapper>

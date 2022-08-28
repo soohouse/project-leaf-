@@ -1,6 +1,7 @@
 package com.spring.leaf.question.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -141,36 +142,25 @@ public class QuestionController {
 	return "redirect:/question/questionList";
 	}
 	
-	//답변글 상세보기(목록)프로필사진용
-	@PostMapping("/answerList/{answerNo}")
-	public String answerList(@PathVariable int answerNo, int questionNo, Model model) {		
-
+	
+	//답변글 상세보기(목록)
+	@PostMapping("/answerList")
+	@ResponseBody
+	public Map<String, Object> answerList(int questionNo, Model model) {		
+		List<AnswerVO> list = service.answerList(questionNo);
+		List<Integer> count = new ArrayList<Integer>();
 		
-		AnswerVO vo = service.answerContent(answerNo);
-		
-		int answerWriterNo = service.answerwriterProfile(vo.getAnswerWriter(), answerNo);
+		for(int i = 0; i < list.size(); i++) {
+			count.add(i, service.answerwriterProfile(list.get(i).getAnswerWriter(), list.get(i).getAnswerNo())); 
+		}
 		
 		//답변글 수
 		int answerTotal = service.answerTotal(questionNo);
 		model.addAttribute("answerCount", answerTotal);
 		
-		model.addAttribute("answer", vo);
-		model.addAttribute("answerWriterNo", answerWriterNo);
-		
-		
-		
-		return "redirect:/question/answerList" ;
-	}
-
-	
-	//답변글 상세보기(목록)
-	@PostMapping("/answerList")
-	@ResponseBody
-	public Map<String, Object> answerList(int questionNo) {		
-		List<AnswerVO> list = service.answerList(questionNo);		
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("answerList", list);
+		map.put("answerNoList", count);
 		
 		return map;
 	}

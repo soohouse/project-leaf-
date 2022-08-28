@@ -17,7 +17,7 @@ public interface IArchiveReplyMapper {
 	List<ArchiveReplyVO> archiveReplyList(Map<String, Object> data);
 	
 	//댓글 개수
-	int archiveReplyTotal(int archvieNo);
+	int archiveReplyTotal(int archiveNo);
 	
 	//댓글 수정
 	void archiveReplyUpdate(ArchiveReplyVO vo);

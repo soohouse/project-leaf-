@@ -85,7 +85,24 @@
 							<td>${applyResultList.projectName}</td>
 							<td><fmt:formatDate value="${applyResultList.applyDate}" pattern="yyyy-MM-dd" /></td>
 							<td><fmt:formatDate value="${applyResultList.projectRequireDate1}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${applyResultList.projectRequireDate2}" pattern="yyyy-MM-dd" /></td>
-							<td>${applyResultList.commonValue}</td>
+							
+							<c:choose>
+							<c:when test="${applyResultList.commonValue == '확인 대기중'}">
+							<td style="color:#2b7d10; font-weight:bold;">${applyResultList.commonValue}</td>
+							</c:when>
+							<c:when test="${applyResultList.commonValue == '1차 서류 합격'}">
+							<td style="color:#034fab; font-weight:bold;">${applyResultList.commonValue}</td>
+							</c:when>
+							<c:when test="${applyResultList.commonValue == '2차 면접 인터뷰 합격'}">
+							<td style="color:#51b5a4; font-weight:bold;">${applyResultList.commonValue}</td>
+							</c:when>
+							<c:when test="${applyResultList.commonValue == '최종 합격'}">
+							<td style="color:#0400ff; font-weight:bold;">${applyResultList.commonValue}</td>
+							</c:when>
+							<c:when test="${applyResultList.commonValue == '불합격'}">
+							<td style="color:#ed1117; font-weight:bold;">${applyResultList.commonValue}</td>
+							</c:when>
+							</c:choose>
 						</tr>
 												
 					</c:forEach>

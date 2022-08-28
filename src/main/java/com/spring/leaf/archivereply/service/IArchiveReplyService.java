@@ -20,7 +20,7 @@ public interface IArchiveReplyService {
 	int archiveReplyTotal(int archvieNo);
 	
 	//댓글 수정
-	void archiveReplyUpdate(int archvieReplyNo, String archiveReplyContent);
+	void archiveReplyUpdate(int archiveReplyNo, String archiveReplyContent);
 	
 	//댓글 삭제
 	void archiveReplyDelete(int archvieReplyNo);

@@ -6,6 +6,7 @@ import com.spring.leaf.userapply.command.UserApplyResultVO;
 import com.spring.leaf.userapply.command.UserApplyStatusContentVO;
 import com.spring.leaf.userapply.command.UserApplyStatusVO;
 import com.spring.leaf.userlist.command.UserListVO;
+import com.spring.leaf.util.PageApplyVO;
 
 public interface IUserApplyService {
 	
@@ -13,11 +14,13 @@ public interface IUserApplyService {
 	List<UserApplyResultVO> applyResultList(int userNO);
 	
 	//지원현황 리스트
-	List<UserApplyStatusVO> applyStatusList(int userNO);
+	List<UserApplyStatusVO> applyStatusList(int userNO, PageApplyVO pvo);
 	
 	//지원현황 리스트
 	UserApplyStatusContentVO applyStatusContent(int projectNO);
 	
 	//지원한 프로젝트 개수 얻어오기 요청
 	int projectApplyCount(int userNO);
+	
+
 }

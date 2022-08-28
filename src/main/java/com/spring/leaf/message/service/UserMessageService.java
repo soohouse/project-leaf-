@@ -25,6 +25,9 @@ public class UserMessageService implements IUserMessageService {
 		return mapper.userMessageContent(userMessageNO);
 	}
 
-	
+	@Override
+	public int userMessageCount(int userNO) {
+		return mapper.userMessageCount(userNO);
+	}
 
 }

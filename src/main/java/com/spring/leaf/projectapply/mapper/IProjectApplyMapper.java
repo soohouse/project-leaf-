@@ -7,6 +7,7 @@ import com.spring.leaf.projectapply.command.ApplyVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyDetailVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyListVO;
 import com.spring.leaf.projectapply.command.MyProjectStatusVO;
+import com.spring.leaf.projectapply.command.ProjectApplyCountVO;
 import com.spring.leaf.projectapply.command.ProjectPassListVO;
 
 public interface IProjectApplyMapper {
@@ -72,5 +73,9 @@ public interface IProjectApplyMapper {
 	
 	// 프로젝트 최종 합격자 목록 조회 요청
 	List<ProjectPassListVO> applyPassList(int projectNO);
+	
+	
+	// 프로젝트 별 지원자 수 얻어오기 요청 (통계)
+	List<ProjectApplyCountVO> projectApplyCount(int companyNO);
 	
 }

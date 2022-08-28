@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.leaf.project.command.ProjectContentVO;
+import com.spring.leaf.project.command.ProjectDateVO;
 import com.spring.leaf.project.command.ProjectImageVO;
 import com.spring.leaf.project.command.ProjectLikeVO;
 import com.spring.leaf.project.command.ProjectListVO;
+import com.spring.leaf.project.command.ProjectRegistCountVO;
 import com.spring.leaf.project.command.ProjectVO;
 import com.spring.leaf.project.mapper.IProjectMapper;
 
@@ -32,6 +34,11 @@ public class ProjectService implements IProjectService {
 		List<ProjectListVO> list = mapper.projectlist();
 		
 		return list;
+	}
+	
+	@Override
+	public List<ProjectListVO> projectadmin(int companyNO) {
+		return mapper.projectadmin(companyNO);
 	}
 	//프로젝트 상세보기 
 	@Override
@@ -62,6 +69,29 @@ public class ProjectService implements IProjectService {
 	@Override
 	public ProjectImageVO projectImageGet(int projectNO) {
 		return mapper.projectImageGet(projectNO);
+	}
+	
+	@Override
+	public void projectImageUpdate(ProjectImageVO vo) {
+		
+		mapper.projectImageUpdate(vo);
+	}
+	
+	@Override
+	public void projectImageDelete(int projectNO) {
+		
+		mapper.projectImageDelete(projectNO);
+	}
+	
+	@Override
+	public ProjectRegistCountVO projectRegistCount(int companyNO) {
+		return mapper.projectRegistCount(companyNO);
+	}
+	
+	
+	@Override
+	public ProjectDateVO projectDate() {
+		return mapper.projectDate();
 	}
 	
 	

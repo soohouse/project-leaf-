@@ -1,5 +1,8 @@
 package com.spring.leaf.admin.controlller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ import com.spring.leaf.admin.command.CommonVO;
 import com.spring.leaf.admin.command.CompanyAcceptVO;
 import com.spring.leaf.admin.service.IAdminService;
 import com.spring.leaf.user.controller.UserController;
+import com.spring.leaf.util.PageCreator;
+import com.spring.leaf.util.PageVO;
 
 
 // 관리자 컨트롤러 : 2022-08-07 생성
@@ -37,10 +42,18 @@ public class AdminController {
 	
 	// 공통코드 관리 페이지 이동 요청
 	@GetMapping("/commonCODE")
-	public String commonCODE(Model model) {
+	public String commonCODE(Model model,  PageVO vo) {
 		logger.info("/admin/commonCODE : GET (공통코드 관리 페이지 이동)");
 		
-		model.addAttribute("commonList", service.commonList());
+		//페이징
+		System.out.println(vo);
+		PageCreator pc = new PageCreator();
+		pc.setPaging(vo);
+		pc.setArticleTotalCount(service.getTotal(vo));
+		System.out.println(pc);
+		
+		model.addAttribute("commonList", service.commonList(vo));
+		model.addAttribute("pc", pc);
 		
 		return "/admin/common-code";
 	}
@@ -126,10 +139,18 @@ public class AdminController {
 	
 	// 기업회원 가입 관리 페이지 이동 요청
 	@GetMapping("/companyAccept")
-	public String companyAccept(Model model) {
+	public String companyAccept(Model model, PageVO vo) {
 		logger.info("/admin/companyAccept : GET (기업회원 가입 관리 페이지 이동 요청)");
 		
-		model.addAttribute("companyAcceptList", service.companyAcceptList());
+		//페이징
+		System.out.println(vo);
+		PageCreator pc = new PageCreator();
+		pc.setPaging(vo);
+		pc.setArticleTotalCount(service.getTotal(vo));
+		System.out.println(pc);
+		
+		model.addAttribute("companyAcceptList", service.companyAcceptList(vo));
+		model.addAttribute("pc", pc);
 		
 		return "/admin/company-accept";
 	}
@@ -154,6 +175,64 @@ public class AdminController {
 		service.companyAccept(companyNO);
 		
 		return "YesCompanyAccept";
+	}
+	
+	
+	// 개발자 통계 페이지 이동 요청
+	@GetMapping("/chartDevelopers")
+	public String chartDevelopers() {
+		logger.info("/admin/chartDevelopers : GET (개발자 통계 페이지 이동)");
+		
+		return "/admin/chart-developers";
+	}
+	
+	
+	// 개발자 신규 가입 현황 데이터 얻어오는 요청
+	@PostMapping("/chartDevelopers1")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers1() {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userRegistCount", service.userRegistCount());
+		map.put("userDate", service.userDate());
+		
+		return map;
+	}
+	
+	
+	// 개발자 프로필사진 등록 현황 데이터 얻어오는 요청
+	@PostMapping("/chartDevelopers2")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers2() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userProfileCount", service.userProfileCount());
+
+		return map;
+	}
+	
+	
+	// 개발자 이력서 등록 현황 데이터 얻어오는 요청
+	@PostMapping("/chartDevelopers3")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers3() {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userResumeCount", service.userResumeCount());
+		
+		return map;
+	}
+	
+	
+	// 한 달간 개발자 신규가입 목록을 얻어오는 요청
+	@PostMapping("/chartDevelopers4")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers4() {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userNewList", service.userNewList());
+		
+		return map;
 	}
 	
 }

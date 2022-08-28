@@ -11,19 +11,24 @@
 				<input type="hidden" id="hidden-company-no">
 				<div id="companyReceiveMessageContent">
 				
-					<div style="height:415px; padding:20px;">
-						<div style="height:55px;">
-							<div class="col-md-2" style="border:1px solid; background:lightcyan; height:55px;"><p>보낸이</p></div>
-							<div class="col-md-4" style="border:1px solid; height:55px; margin:auto;"><p id="modal-message-detail-from2"></p></div>
-							<div class="col-md-2" style="border:1px solid; background:lightcyan; height:55px;"><p>날짜</p></div>
-							<div id="modal-message-detail-date2"class="col-md-4" style="border:1px solid; height:55px;"><p></p></div>
-						</div>
-						<div style="height:325px;">
-							<div class="col-md-2" style="border:1px solid; background:lightcyan; height:325px;"><p>내용</p></div>
-							<div id="modal-message-detail-content2" class="col-md-10" style="border:1px solid; height:325px;"><p></p></div>
-						</div>
-						
-					</div>
+					<table class="table table-bordered" style="border-collapse:unset; border-spacing:0;">
+						<thead>
+							<tr>
+								<th style="width:20%; background:#edffde; text-align:center; font-size:13px;">보낸이</th>
+								<th style="width:30%; font-weight:normal; font-size:13px;" id="modal-message-detail-from2"></th>
+								<th style="width:20%; background:#edffde; text-align:center; font-size:13px;">날&nbsp;짜</th>
+								<th style="width:30%; font-weight:normal; font-size:13px;" id="modal-message-detail-date2"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="width:20%; background:#edffde; font-weight:bold; text-align:center; font-size:13px;">내&nbsp;용</td>
+								<td colspan="3" id="modal-message-detail-content2" style="overflow:auto; height:354px; font-size:13px;"></td>
+							</tr>	
+						</tbody>
+					
+					
+					</table>
 
 
 

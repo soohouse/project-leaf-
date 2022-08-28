@@ -76,6 +76,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE user_message_NO=#{userMessageNO}
 		</select>
 		
+		<!-- 유저 받은 메세지 개수 구하기 SELECT 쿼리 -->
+		<select id="companyMessageCount" resultType="int">
+			SELECT COUNT(*)
+			FROM company_message
+			WHERE company_NO = #{companyNO}
+		</select>
+		
 		
 		
 		

@@ -24,4 +24,6 @@ public interface ICompanyMessageService {
 		//쪽지 상세보기 (유저에게 보낸 쪽지목록 상세보기)
 		UserMessageVO sendMessageContent(int userMessageNO);
 
+		//관리자 -> 기업 메세지 개수 얻어오기 요청
+		int companyMessageCount(int companyNO);
 }

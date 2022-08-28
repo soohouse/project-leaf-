@@ -80,14 +80,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 자료실 댓글 수정 -->
 	<update id="archiveReplyUpdate">
 		UPDATE archive_reply
-		SET archive_reply_content = ${archiveReplyContent}
-		WHERE archive_reply_NO = ${archiveReplyNo}
+		SET archive_reply_content = #{archiveReplyContent}
+		WHERE archive_reply_NO = #{archiveReplyNo}
 	</update>
 	
 	<!-- 자료실 댓글 삭제 -->
 	<delete id="archiveReplyDelete">
 		DELETE FROM archive_reply
-		WHERE archive_reply_NO = ${archiveReplyNo}
+		WHERE archive_reply_NO = #{archiveReplyNo}
 	</delete>
+	
+	
 	
 </mapper>

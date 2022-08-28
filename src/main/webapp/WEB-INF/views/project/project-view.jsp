@@ -390,7 +390,7 @@
 					if(passList == '') {
 						strAdd +=
 	    					`<tr style="font-size: 12px;">
-	    						<td colspan="5" style="text-align: center;">아직 합격자가 없습니다.</td>
+	    						<td colspan="5" style="text-align: center;">아직 지원자가 없습니다.</td>
 							</tr>`;
 					} else {
 						for(let i = 0; i < passList.length; i++) {

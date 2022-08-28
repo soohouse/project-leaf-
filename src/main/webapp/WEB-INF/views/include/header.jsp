@@ -172,7 +172,8 @@
 		                               </a>
 		                               <ul class="dropdown-menu" role="menu">
 		                                  <li class="dropdown-header">쪽지</li>
-		                                  <li><a href="#" id="company-receive-message">받은 쪽지함</a></li>
+		                                  <li><a href="#" id="company-receive-message2">받은 쪽지함</a></li>
+		                                  <li><a href="#" id="company-send-message2">보낸 쪽지함</a></li>
 		                                  <li><a href="<c:url value='/userList/userList' />">쪽지 쓰기</a></li>
 		                               </ul>
 		                              </li>
@@ -226,6 +227,7 @@
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu" style="background: #3C6C2D;">
 		                            <li><a href="<c:url value='/usermypage/usermypage' />"><i class="fa fa-caret-right"></i>기업 정보</a></li>
 		                            <li><a href="#" id="company-send-message"><i class="fa fa-caret-right"></i>보낸 쪽지함</a></li>
+		                            <li><a href="#" id="company-receive-message"><i class="fa fa-caret-right"></i>받은 쪽지함</a></li>
 		                            <li><a href="<c:url value='/project/projectMyApply' />"><i class="fa fa-caret-right"></i>지원 현황</a></li>
 		                            <li><a href="<c:url value='/project/projectadmin' />"><i class="fa fa-caret-right"></i>프로젝트 관리</a></li>
 		                        </ul>
@@ -320,7 +322,7 @@
 		                        </a>
 		                        <ul id="submenu-1" class="panel-collapse collapse panel-switch" role="menu" style="background: #C0A703;">
 		                            <li><a href="#"><i class="fa fa-caret-right"></i>프로젝트 관리</a></li>
-			                        <li><a href="#"><i class="fa fa-caret-right"></i>공지사항 관리</a></li>
+			                        <li><a href="<c:url value='/notice/noticeList' />"><i class="fa fa-caret-right"></i>공지사항 관리</a></li>
 			                        <li><a href="<c:url value='/membersList/membersList' />"><i class="fa fa-caret-right"></i>사용자 관리</a></li>
 		                        </ul>
 		                    </li>
@@ -343,9 +345,9 @@
 		                            <b class="caret"></b>
 		                        </a>
 		                        <ul id="submenu-3" class="panel-collapse collapse panel-switch" role="menu" style="background: #7A6A00;">
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>Q&A 관리</a></li>
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>자유게시판 관리</a></li>
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>자료실 관리</a></li>
+		                            <li><a href="<c:url value='/question/questionList' />"><i class="fa fa-caret-right"></i>Q&A 관리</a></li>
+		                            <li><a href="<c:url value='/board/boardList' />"><i class="fa fa-caret-right"></i>자유게시판 관리</a></li>
+		                            <li><a href="<c:url value='/archive/archiveList' />"><i class="fa fa-caret-right"></i>자료실 관리</a></li>
 		                        </ul>
 		                    </li>
 		                    <li>
@@ -355,7 +357,7 @@
 		                            <b class="caret"></b>
 		                        </a>
 		                        <ul id="submenu-4" class="panel-collapse collapse panel-switch" role="menu" style="background: #574D00;">
-		                            <li><a href="#" style="color: white;"><i class="fa fa-caret-right"></i>개발자 통계</a></li>
+		                            <li><a href="<c:url value='/admin/chartDevelopers' />" style="color: white;"><i class="fa fa-caret-right"></i>개발자 통계</a></li>
 		                            <li><a href="#" style="color: white;"><i class="fa fa-caret-right"></i>기업 통계</a></li>
 		                            <li><a href="#" style="color: white;"><i class="fa fa-caret-right"></i>프로젝트 통계</a></li>
 		                        </ul>
@@ -530,6 +532,8 @@
     				success: function(result) {
     					
     					let mailList = result.list;
+    					let userMessageCount = result.count;
+    					$('#userMessageCount').text(userMessageCount);
     					
     					for(let i = 0; i < mailList.length; i++) {
     						var timestamp = mailList[i].userMessageDate;
@@ -548,12 +552,12 @@
     						strAdd +=
 	    						`<div data-value="` + mailList[i].userMessageNO + `" style="cursor: pointer;">
     								<a 	class="list-group-item main-notice-list-under" data-value="` + mailList[i].userMessageNO + `">
-	    							<h5 style="font-weight: bold; color: royalblue; margin-top:0px;" data-value="` + mailList[i].userMessageNO + `">` + mailList[i].userMessageWriter + `</h5>
+	    							<h5 style="font-weight: bold; color: royalblue;" data-value="` + mailList[i].userMessageNO + `">` + mailList[i].userMessageWriter + `</h5>
 	    							<p data-value="` + mailList[i].userMessageNO + `">` + txt + `</p>
-	    							<p style="margin-bottom:-20px;" data-value="` + mailList[i].userMessageNO + `">` + date + `</p>
+	    							<p data-value="` + mailList[i].userMessageNO + `">` + date + `</p>
 	    							</a>
 	    						</div>
-	    						<hr>`;
+	    						<hr style="margin:1;">`;
     					}
  
     					$('#mailList').html(strAdd);
@@ -569,7 +573,7 @@
     		});
     		
     		
-    		// 유저 쪽지함 버튼 클릭 시 받은 쪽지함 모달 창 오픈(상위메뉴)
+    		// 유저 쪽지함 버튼 클릭 시 받은 쪽지함 모달 창 오픈(상단메뉴)
     		$('#user-receive-message2').click(function() {
     			
     			const userNO = '${user.userNO}';
@@ -587,6 +591,8 @@
     				success: function(result) {
     					
     					let mailList = result.list;
+    					let userMessageCount = result.count;
+    					$('#userMessageCount').text(userMessageCount);
     					
     					for(let i = 0; i < mailList.length; i++) {
     						var timestamp = mailList[i].userMessageDate;
@@ -604,13 +610,13 @@
     						
     						strAdd +=
 	    						`<div data-value="` + mailList[i].userMessageNO + `" style="cursor: pointer;">
-    								<a class="list-group-item main-notice-list-under" data-value="` + mailList[i].userMessageNO + `">
-	    							<h5 style="font-weight: bold;" data-value="` + mailList[i].userMessageNO + `">` + mailList[i].userMessageWriter + `</h5>
+    								<a 	class="list-group-item main-notice-list-under" data-value="` + mailList[i].userMessageNO + `">
+	    							<h5 style="font-weight: bold; color: royalblue;" data-value="` + mailList[i].userMessageNO + `">` + mailList[i].userMessageWriter + `</h5>
 	    							<p data-value="` + mailList[i].userMessageNO + `">` + txt + `</p>
 	    							<p data-value="` + mailList[i].userMessageNO + `">` + date + `</p>
 	    							</a>
 	    						</div>
-	    						<hr>`;
+	    						<hr style="margin:1;">`;
     					}
  
     					$('#mailList').html(strAdd);
@@ -650,16 +656,27 @@
     					for(let i = 0; i < sendmailList.length; i++) {
     						var timestamp = sendmailList[i].userMessageDate;
     		                var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+    		                
+    		                var len = 30;
+    						var last = "...";
+    						var txt = '';
+    						
+    						
+    						if(sendmailList[i].userMessageContent.length > len) {
+    							txt = sendmailList[i].userMessageContent.substring(0,len) + last;
+    						} else {
+    							txt = sendmailList[i].userMessageContent;
+    						}
     						
     						strAdd +=
 	    						`<div data-value="` + sendmailList[i].userMessageNO + `" style="cursor: pointer;">
     								<a class="list-group-item main-notice-list-under" data-value="` + sendmailList[i].userMessageNO + `">
-	    							<h5 style="font-weight: bold;" data-value="` + sendmailList[i].userMessageNO + `">` + sendmailList[i].userID + ` (` + sendmailList[i].userName + `)` + `</h5>
-	    							<p data-value="` + sendmailList[i].userMessageNO + `">` + sendmailList[i].userMessageContent + `</p>
+	    							<h5 style="font-weight: bold; color:#436328;" data-value="` + sendmailList[i].userMessageNO + `">` + sendmailList[i].userID + ` (` + sendmailList[i].userName + `)` + `</h5>
+	    							<p data-value="` + sendmailList[i].userMessageNO + `">` + txt + `</p>
 	    							<p data-value="` + sendmailList[i].userMessageNO + `">` + date + `</p>
 	    							</a>
 	    						</div>
-	    						<hr>`;
+	    						<hr style="margin:1;">`;
     					}
  
     					$('#sendmailList').html(strAdd);
@@ -672,6 +689,65 @@
     			});
     			$('#modal-company-send-message').modal('show');
     		});
+    		
+    		// 기업 쪽지함 버튼 클릭 시 보낸 쪽지함 모달 창 오픈2
+    		$('#company-send-message2').click(function() {
+    			
+    			const companyName = '${company.companyName}';
+    			
+    			let strAdd = '';
+    			
+    		
+    			$.ajax({
+    				type: 'POST',
+    				url: '<c:url value="/companyMessage/companySendList" />',
+    				
+    				dataType: 'json',
+    				data: {
+    					'companyName': companyName
+    				},
+    				
+    				success: function(result) {
+    					
+    					let sendmailList = result.list;
+    					
+    					for(let i = 0; i < sendmailList.length; i++) {
+    						var timestamp = sendmailList[i].userMessageDate;
+    		                var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+    		                
+    		                var len = 30;
+    						var last = "...";
+    						var txt = '';
+    						
+    						
+    						if(sendmailList[i].userMessageContent.length > len) {
+    							txt = sendmailList[i].userMessageContent.substring(0,len) + last;
+    						} else {
+    							txt = sendmailList[i].userMessageContent;
+    						}
+    						
+    						strAdd +=
+	    						`<div data-value="` + sendmailList[i].userMessageNO + `" style="cursor: pointer;">
+    								<a class="list-group-item main-notice-list-under" data-value="` + sendmailList[i].userMessageNO + `">
+	    							<h5 style="font-weight: bold; color:#436328;" data-value="` + sendmailList[i].userMessageNO + `">` + sendmailList[i].userID + ` (` + sendmailList[i].userName + `)` + `</h5>
+	    							<p data-value="` + sendmailList[i].userMessageNO + `">` + txt + `</p>
+	    							<p data-value="` + sendmailList[i].userMessageNO + `">` + date + `</p>
+	    							</a>
+	    						</div>
+	    						<hr style="margin:1;">`;
+    					}
+ 
+    					$('#sendmailList').html(strAdd);
+    				},
+    				
+    				error: function() {
+    					alert('쪽지 목록을 불러오는 중 서버오류가 발생했습니다.');
+    					return;
+    				}
+    			});
+    			$('#modal-company-send-message').modal('show');
+    		});
+    		
     		
     		// 기업 쪽지함 버튼 클릭 시 관리자로부터 받은 쪽지함 모달 창 오픈
     		$('#company-receive-message').click(function() {
@@ -691,6 +767,8 @@
     				success: function(result) {
     					
     					let companyMessageList = result.list;
+    					let companyMessageCount = result.count;
+    					$('#companyMessageCount').text(companyMessageCount);
     					
     					for(let i = 0; i < companyMessageList.length; i++) {
     						var timestamp = companyMessageList[i].companyMessageDate;
@@ -709,12 +787,12 @@
     						strAdd +=
 	    						`<div data-value="` + companyMessageList[i].companyMessageNO + `" style="cursor: pointer;">
     								<a class="list-group-item main-notice-list-under" data-value="` + companyMessageList[i].companyMessageNO + `">
-	    							<h5 style="font-weight: bold;" data-value="` + companyMessageList[i].companyMessageNO + `">` + companyMessageList[i].companyMessageWriter + `</h5>
+	    							<h5 style="font-weight: bold; color:#436328;" data-value="` + companyMessageList[i].companyMessageNO + `">` + companyMessageList[i].companyMessageWriter + `</h5>
 	    							<p data-value="` + companyMessageList[i].companyMessageNO + `">` + txt + `</p>
 	    							<p data-value="` + companyMessageList[i].companyMessageNO + `">` + date + `</p>
 	    							</a>
 	    						</div>
-	    						<hr>`;
+	    						<hr style="margin:1;">`;
     					}
  
     					$('#companyMessageList').html(strAdd);
@@ -728,6 +806,66 @@
     			
     			$('#modal-company-receive-message').modal('show');
     		});
+    		
+    		// 기업 쪽지함 버튼 클릭 시 관리자로부터 받은 쪽지함 모달 창 오픈2
+    		$('#company-receive-message2').click(function() {
+    			
+    			const companyNO = '${company.companyNO}';
+    			let strAdd = '';
+    			
+    			$.ajax({
+    				type: 'POST',
+    				url: '<c:url value="/companyMessage/companyMessageList" />',
+    				
+    				dataType: 'json',
+    				data: {
+    					'companyNO': companyNO
+    				},
+    				
+    				success: function(result) {
+    					
+    					let companyMessageList = result.list;
+    					let companyMessageCount = result.count;
+    					$('#companyMessageCount').text(companyMessageCount);
+    					
+    					for(let i = 0; i < companyMessageList.length; i++) {
+    						var timestamp = companyMessageList[i].companyMessageDate;
+    		                var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+    		                
+    		                var len = 30;
+    						var last = "...";
+    						var txt = '';
+    						
+    						if(companyMessageList[i].companyMessageContent.length > len) {
+    							txt = companyMessageList[i].companyMessageContent.substring(0,len) + last;
+    						} else {
+    							txt = companyMessageList[i].companyMessageContent;
+    						}
+    						
+    						strAdd +=
+	    						`<div data-value="` + companyMessageList[i].companyMessageNO + `" style="cursor: pointer;">
+    								<a class="list-group-item main-notice-list-under" data-value="` + companyMessageList[i].companyMessageNO + `">
+	    							<h5 style="font-weight: bold; color:#436328;" data-value="` + companyMessageList[i].companyMessageNO + `">` + companyMessageList[i].companyMessageWriter + `</h5>
+	    							<p data-value="` + companyMessageList[i].companyMessageNO + `">` + txt + `</p>
+	    							<p data-value="` + companyMessageList[i].companyMessageNO + `">` + date + `</p>
+	    							</a>
+	    						</div>
+	    						<hr style="margin:1;">`;
+    					}
+ 
+    					$('#companyMessageList').html(strAdd);
+    				},
+    				
+    				error: function() {
+    					alert('쪽지 목록을 불러오는 중 서버오류가 발생했습니다.');
+    					return;
+    				}
+    			});
+    			
+    			$('#modal-company-receive-message').modal('show');
+    		});
+    		
+    		
     		
     		// 유저 쪽지함 리스트 클릭시 쪽지 상세보기
     		$('#modal-user-receive-message').on('click', 'a', function(e) {

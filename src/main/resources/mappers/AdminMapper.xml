@@ -40,6 +40,70 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- 현재 날짜에서 6달 전 달 까지의 값을 가져오는 UserDateVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserDateMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserDateVO" id="UserDateMap">
+		<result property="userDateNow" column="user_date_now" />
+		<result property="userDateBefore1" column="user_date_before1" />
+		<result property="userDateBefore2" column="user_date_before2" />
+		<result property="userDateBefore3" column="user_date_before3" />
+		<result property="userDateBefore4" column="user_date_before4" />
+		<result property="userDateBefore5" column="user_date_before5" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 6달 전 까지의 일반회원 신규 가입자 수를 가져오는 UserRegistCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserRegistCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserRegistCountVO" id="UserRegistCountMap">
+		<result property="userRegistCountNow" column="user_regist_count_now" />
+		<result property="userRegistCountBefore1" column="user_regist_count_before1" />
+		<result property="userRegistCountBefore2" column="user_regist_count_before2" />
+		<result property="userRegistCountBefore3" column="user_regist_count_before3" />
+		<result property="userRegistCountBefore4" column="user_regist_count_before4" />
+		<result property="userRegistCountBefore5" column="user_regist_count_before5" />
+	</resultMap>
+	
+	
+	<!-- 일반 회원의 이력서 등록 여부를 체크하고 등록 인원 수를 가져오는 UserResumeCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserResumeCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserResumeCountVO" id="UserResumeCountMap">
+		<result property="resumeYes" column="resume_yes" />
+		<result property="resumeNo" column="resume_no" />
+	</resultMap>
+	
+	
+	<!-- 일반 회원의 프로필사진 등록 여부를 체크하고 등록 인원 수를 가져오는 UserProfileCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserProfileCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserProfileCountVO" id="UserProfileCountMap">
+		<result property="userProfileYes" column="user_profile_yes" />
+		<result property="userProfileNo" column="user_profile_no" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 한 달 전까지의 일반회원 신규가입 목록을 가져오는 UserNewListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserNewListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserNewListVO" id="UserNewListMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userDate" column="user_date" />
+	</resultMap>
+	
+	<sql id="search">
+		<if test="condition == 'ID'">
+			AND company_ID LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'name'">
+			AND company_name LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	<sql id="searchCode">
+		<if test="condition == 'common'">
+			WHERE common_CODE LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'upper'">
+			WHERE upper_CODE LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	
 	<!-- 공통코드 목록 받아오기 SELECT 쿼리 -->
 	<select id="commonList" resultMap="CommonListMap">
 		SELECT 
@@ -51,6 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				common c LEFT OUTER JOIN upper_common u
 			ON c.upper_CODE = u.upper_CODE
 		) cl, (SELECT @ROWNUM := 0) ROWNUM
+		<include refid="searchCode" />
 	</select>
 	
 	
@@ -108,6 +173,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE common_CODE = #{commonCODE}
 	</delete>
 	
+	<!-- 가입 승인 대기중인 기업목록 총 갯수 -->
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM common 
+		WHERE common_CODE = 'CRG001'
+	</select>
 	
 	<!-- 가입 승인 대기중인 기업 목록 SELECT 쿼리 -->
 	<select id="companyAcceptList" resultMap="CompanyAcceptListMap">
@@ -118,7 +189,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			cd.common_value
 		FROM company c LEFT OUTER JOIN common cd
 		ON c.common_CODE = cd.common_CODE
-		WHERE c.common_CODE = 'CRG001'
+		
+		 WHERE c.common_CODE = 'CRG001'
+		 <include refid="search" />
+		LIMIT ${cpp}
+		OFFSET ${skip}
 	</select>
 	
 	
@@ -144,5 +219,67 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET common_CODE = 'CRG002'
 		WHERE company_NO = #{companyNO}
 	</update>
+	
+	
+	<!-- 6달 전 까지의 날짜 달 값 가져오기 -->
+	<select id="userDate" resultMap="UserDateMap">
+		SELECT 
+			SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7) AS user_date_now,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7) AS user_date_before1,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7) AS user_date_before2,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7) AS user_date_before3,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7) AS user_date_before4,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7) AS user_date_before5
+		FROM user
+		WHERE user_NO = 1
+	</select>
+	
+	
+	<!-- 6달 간 회원가입 한 사용자 수 가져오기 -->
+	<select id="userRegistCount" resultMap="UserRegistCountMap">
+		SELECT 
+			COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7), '%') then 1 end) AS user_regist_count_now,
+			COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7), '%') then 1 end) AS user_regist_count_before1,
+		    COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7), '%') then 1 end) AS user_regist_count_before2,
+		    COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7), '%') then 1 end) AS user_regist_count_before3,
+		    COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS user_regist_count_before4,
+		    COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS user_regist_count_before5
+		FROM user
+	</select>
+	
+	
+	<!-- 일반회원들의 프로필사진 등록 여부를 체크하여 가져오기 -->
+	<select id="userProfileCount" resultMap="UserProfileCountMap">	
+		SELECT
+			COUNT(case when user_profile_filename IS NOT NULL then 1 end) AS user_profile_yes,
+			COUNT(case when user_profile_filename IS NULL then 1 end) AS user_profile_no
+		FROM user_profile
+	</select>
+	
+	
+	<!-- 일반회원들의 이력서 등록 여부를 체크하여 가져오기 -->
+	<select id="userResumeCount" resultMap="UserResumeCountMap">
+		SELECT
+			COUNT(case when resume_filename IS NOT NULL then 1 end) AS resume_yes,
+			COUNT(case when resume_filename IS NULL then 1 end) AS resume_no
+		FROM resume
+	</select>
+	
+	
+	<!-- 한 달 간 신규 가입한 일반회원 목록 가져오기 -->
+	<select id="userNewList" resultMap="UserNewListMap">
+		SELECT
+			user_NO, user_ID, user_name, 
+		    CONCAT(user_email1, '@', user_email2) AS user_email,
+		    CONCAT(user_phone1, '-', user_phone2, '-', user_phone3) AS user_phone,
+		    user_date
+		FROM user
+		WHERE user_date > DATE_ADD(NOW(), INTERVAL -1 MONTH)
+	</select>
+	
+	
+	<select id="">
+		
+	</select>
 	
 </mapper>

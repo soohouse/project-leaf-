@@ -77,8 +77,9 @@
                                         <div class="archive_title_up" scope="col" style="width: 100%;  margin-top:10px;">
                                         	<input type="hidden" id="hidden-archiveNo" name="archiveNo" value="${archive.archiveNo}">
                                         	<h4 style="display:inline-block;">${archive.archiveTitle}</h4>
-                                        	<c:if test="${archive.archiveWriter eq user.userID || archive.archiveWriter eq company.companyID}">
-	                                        	<a type="submit" id="btn-archive-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</a>
+
+                                        	<c:if test="${archive.archiveWriter eq user.userID || archive.archiveWriter eq company.companyID || user.commonCODE == 'ADM002'}">
+	                                        	<a type="submit" id="btn-archive-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
 	                                        </c:if>
                                         </div>
                                         
@@ -196,7 +197,7 @@
 						<div class="text-center">
 							<div style="margin-top:20px;">
 								<button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
-								<c:if test="${archive.archiveWriter eq user.userID || archive.archiveWriter eq company.companyID}">
+								<c:if test="${archive.archiveWriter eq user.userID || archive.archiveWriter eq company.companyID || user.commonCODE == 'ADM002'}">
 									<button type="button" class="btn btn-info mb-2 pull-right btn-boardReply-Modify"  style="margin-left:10px;" onclick="location.href='<c:url value="/archive/archiveModify?archiveNo=${archive.archiveNo}"/>'">수정 </button>
 								</c:if>
 								<button type="button" id="btn-archive-list" class="btn btn-primary mb-2 pull-right"  style="margin-left:10px;">목록 </button>
@@ -394,6 +395,7 @@
 					var replyReader = ''; 
 					
 					var memberNo = '';
+          
 					
 					if(archiveReplyList[i].userNo != '') {
 						memberNo = archiveReplyList[i].userNo;
@@ -431,6 +433,12 @@
 									</div>
 									<div style="float:right; width:13%;">`+ date +`
 									</div>
+                  <c:if test="${user.commonCODE == 'ADM002'}">
+			                            <div style="float:right; width:5%;">
+			                        		<a id="btn-archive-reply-delete` + i + `" class="glyphicon glyphicon-remove replyDelete" aria-hidden="true" data-value="` + archiveReplyList[i].archiveReplyNo + `"></a>
+		                            		<a id="btn-archive-reply-update` + i + `" class="glyphicon glyphicon-ok replyModify" aria-hidden="true" data-value="` + archiveReplyList[i].archiveReplyNo + `" aria-hidden="true"></a>
+				                        </div>
+	                            	</c:if>
 								</div>`;
 						}
 					} else {	
@@ -469,9 +477,16 @@
 									</div>
 									<div style="float:right; width:13%;">`+ date +`
 									</div>
+                  <c:if test="${user.commonCODE == 'ADM002'}">
+				                            <div style="float:right; width:5%;">
+				                        		<a id="btn-archive-reply-delete` + i + `" class="glyphicon glyphicon-remove replyDelete" aria-hidden="true" data-value="` + archiveReplyList[i].archiveReplyNo + `"></a>
+			                            		<a id="btn-archive-reply-update` + i + `" class="glyphicon glyphicon-ok replyModify" aria-hidden="true" data-value="` + archiveReplyList[i].archiveReplyNo + `" aria-hidden="true"></a>
+					                        </div>
+		                            	</c:if>
 								</div>`;
 						}
 					}
+
 					$('#archiveReplyList').html(strAdd);
 					
 				}//for문 끝.

@@ -11,6 +11,7 @@ import com.spring.leaf.usersmanage.command.CompanyMembersVO;
 import com.spring.leaf.usersmanage.command.UserMembersDetailVO;
 import com.spring.leaf.usersmanage.command.UserMembersVO;
 import com.spring.leaf.usersmanage.mapper.IUserCompanyManageMapper;
+import com.spring.leaf.util.PageVO;
 
 @Service
 public class UserCompanyManageService implements IUserCompanyManageService {
@@ -20,13 +21,25 @@ public class UserCompanyManageService implements IUserCompanyManageService {
 	
 	
 	@Override
-	public List<UserMembersVO> userMembers() {
-		return mapper.userMembers();
+	public List<UserMembersVO> userMembers(PageVO vo) {
+		List<UserMembersVO> list = mapper.userMembers(vo);
+		return list;
 	}
 	
 	@Override
-	public List<CompanyMembersVO> companyMembers() {
-		return mapper.companyMembers();
+	public int getUserTotal(PageVO vo) {
+		return mapper.getUserTotal(vo);
+	}
+	
+	@Override
+	public List<CompanyMembersVO> companyMembers(PageVO cvo) {
+		List<CompanyMembersVO> list = mapper.companyMembers(cvo);
+		return list;
+	}
+	
+	@Override
+	public int getCompanyTotal(PageVO cvo) {
+		return mapper.getCompanyTotal(cvo);
 	}
 	
 	//일반회원 상세 보기

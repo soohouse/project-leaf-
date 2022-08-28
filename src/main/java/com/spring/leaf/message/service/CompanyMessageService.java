@@ -43,6 +43,11 @@ public class CompanyMessageService implements ICompanyMessageService {
 	public UserMessageVO sendMessageContent(int userMessageNO) {
 		return mapper.sendMessageContent(userMessageNO);
 	}
+	
+	@Override
+	public int companyMessageCount(int companyNO) {
+		return mapper.companyMessageCount(companyNO);
+	}
 
 
 }

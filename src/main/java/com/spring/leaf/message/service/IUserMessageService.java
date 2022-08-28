@@ -13,5 +13,7 @@ public interface IUserMessageService {
 	
 	//쪽지 상세보기 (쪽지목록 상세보기)
 	UserMessageVO userMessageContent(int userMessageNO);
-
+	
+	//유저 메세지 개수 얻어오기 요청
+	int userMessageCount(int userNO);
 }

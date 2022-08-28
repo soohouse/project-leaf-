@@ -162,11 +162,11 @@
 											if(applyList[i].commonCODE == 'SPT001') {
 												strAdd +=
 							    					`<tr id="tr-project-apply-detail` + i + `" style="cursor: pointer; font-size: 12px;">
-														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `">` + applyList[i].applyNum + `</td>
-														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `">` + applyList[i].userID + `</td>
-														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `">` + applyList[i].userName + `</td>
-														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `">` + applyList[i].userPhone + `</td>
-														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `">` + date + `</td>
+														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `" style="border-right: 1px solid #DDDDDD;">` + applyList[i].applyNum + `</td>
+														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `" style="border-right: 1px solid #DDDDDD;">` + applyList[i].userID + `</td>
+														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `" style="border-right: 1px solid #DDDDDD;">` + applyList[i].userName + `</td>
+														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `" style="border-right: 1px solid #DDDDDD;">` + applyList[i].userPhone + `</td>
+														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `" style="border-right: 1px solid #DDDDDD;">` + date + `</td>
 														<td value="` + applyList[i].userNO + `" data-value="` + projectNO + `" style="font-weight: bold; color: #700073;">` + applyList[i].commonValue + `</td>
 													</tr>`;
 											} else if(applyList[i].commonCODE == 'SPT002') {

@@ -71,6 +71,8 @@ public class CompanyMessageController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);
 
+		map.put("count", service.companyMessageCount(companyNO));
+		
 		return map;
 	}
 	

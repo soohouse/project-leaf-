@@ -61,7 +61,7 @@ public class BoardReplyController {
 		int total = service.boardReplyTotal(boardNo);
 		
 		//댓글수
-		int ReplyTotal = service.boardReplyTotal(boardNo); //(boardNo);
+		int ReplyTotal = service.boardReplyTotal(boardNo); 
 		model.addAttribute("boardReplyCount", ReplyTotal);
 		
 		Map<String, Object> map = new HashMap<>();

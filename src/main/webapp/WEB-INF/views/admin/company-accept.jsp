@@ -50,28 +50,22 @@
 			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;"> 
 				<span class="main-board-title" style="color: #2C4F22;">기업 가입 관리</span>
 			</a>
-
-			<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0;">
+			<!-- 검색 기능(버튼) -->
+			<form class="navbar-form navbar-left navbar-main-top pull-left" action="<c:url value='/admin/companyAccept'/>" style="padding: 0; margin-left: 0;">
 				<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-                            <option value="title">코드</option>
-                            <option value="content">상위코드</option>
+                            <option value="ID" ${pc.paging.condition == 'ID' ? 'selected' : ''}>회사ID</option>
+                            <option value="name" ${pc.paging.condition == 'name' ? 'selected' : ''}>기업명</option>
                 </select>
 			
 				<div class="input-group"> 
-					<input type="text" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
+					<input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword}" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
 					</span>
 				</div>
 			</form>
 			
-			<form class="navbar-form navbar-left navbar-main-top pull-right" role="search" style="padding: 0; margin-left: 0;">
-				<div class="input-group"> 
-					<span class="input-group-btn">
-						<button id="btn-common-regist" class="btn btn-success" type="button" style="height: 30px; font-size: 13px;">11111</button>
-					</span>
-				</div>
-			</form>
+		
 
 
 			<table class="table table-bordered" style="margin-top: 20px;">
@@ -85,7 +79,7 @@
 						<th style="width: 12%;">비고</th>
 					</tr>
 				</thead>
-				<tbody style="width: 10px; font-size: 13px; background: #F7F7F7;">
+				<tbody style="width: 10px; font-size: 13px; background: #FCFCFC;">
 					
 					<c:forEach var="companyList" items="${companyAcceptList}" varStatus="index">
 						<tr id="companyDetail${index.index}" style="cursor: pointer;">
@@ -151,6 +145,27 @@
 
 				</tbody>
 			</table>
+			
+			<!-- 기업가입관리 페이징 -->
+            <div class="text-center">
+				<form action="<c:url value='/admin/company-accept'/>" name="pageForm">
+	                <ul class="pagination pagination-sm">
+						<c:if test="${pc.prev }"><!-- 이전버튼 -->
+		                    <li><a href="/admin/companyAccept?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.beginPage-1 }"> << </a></li>
+						</c:if>
+						<c:forEach var="num" begin="${pc.beginPage }" end="${pc.endPage }">
+							<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a href="/admin/companyAccept?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum='${num }'>${num }</a></li>
+						</c:forEach>
+						<c:if test="${pc.next }"><!-- 다음버튼 -->
+		                    <li><a href="/admin/companyAccept?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.endPage-1 }"> >> </a></li>
+						</c:if>
+					</ul>
+                    <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
+                    <input type="hidden" name="cpp" value="${pc.paging.cpp}">
+                    <input type="hidden" name="condition" value="${pc.paging.condition}">
+                    <input type="hidden" name="keyword" value="${pc.paging.keyword}">
+				</form>
+			</div>
 
 		</div>
 	
@@ -170,6 +185,17 @@
 	if(msg != '') {
 		alert(msg);
 	}
+	
+	//페이징
+	$(function() {
+		$('#pagination').on('click', 'a', function(e) {
+			e.preventDefault(); //a태그의 고유기능 중지.
+			const value = $(this).data('pagenum'); //-> jQuery
+			console.log(value);
+			document.pageForm.pageNum.value = value;
+			document.pageForm.submit();
+		});
+	}); //end jQuery
 	
 	
 	$(function() {
