@@ -70,7 +70,7 @@
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="button" id="btn-board-write"  class="btn btn-success pull-right" style="margin-right:20px;" onclick="location.href='free_list'" value="등록">
+    	    			<input type="submit" id="btn-board-write"  class="btn btn-success pull-right" style="margin-right:20px;" value="등록">
     	    			<button type="button" id="btn-board-list" class="btn btn-primary pull-right" style="margin-right:10px;">목록</button>
     	    		  </form>
 					</div>
@@ -95,22 +95,32 @@
 			location.href='<c:url value="/board/boardList" />';
 		})
 		
-		$('#btn-board-write').click(function() {
-			document.boardWriteForm.submit();
-		})
 	});
 	
 	
-	//등록버튼 연속클릭 방지
-	var bbw = document.querySelector("#btn-board-write");
-	bbw.addEventListener("click", function (e) {
-	    this.setAttribute("disabled", true);
-	});
-	
+
 	
 	
 	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
-
+	$('#btn-board-write').click(function() { 
+		const title = $('#boardTitle').val();
+		const content = $('#boardContent').val();
+		
+		if(title == '') {
+			alert('제목을 입력해주세요.');
+			$('#boardTitle').css('border-color', 'red');
+			return false;
+		} else if(content == '') {
+			alert('내용을 입력해주세요.');
+			$('#boardContent').css('border-color', 'red');
+			return false;
+		} else {
+			if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
+				alert('글이 성공적으로 등록되었습니다!');
+				return;
+			} else {return false;} //아니요->등록실패
+		}
+	});
 	
 
 </script>

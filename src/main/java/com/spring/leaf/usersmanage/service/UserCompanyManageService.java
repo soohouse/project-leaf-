@@ -32,14 +32,14 @@ public class UserCompanyManageService implements IUserCompanyManageService {
 	}
 	
 	@Override
-	public List<CompanyMembersVO> companyMembers(PageVO cvo) {
-		List<CompanyMembersVO> list = mapper.companyMembers(cvo);
+	public List<CompanyMembersVO> companyMembers(PageVO vo) {
+		List<CompanyMembersVO> list = mapper.companyMembers(vo);
 		return list;
 	}
 	
 	@Override
-	public int getCompanyTotal(PageVO cvo) {
-		return mapper.getCompanyTotal(cvo);
+	public int getCompanyTotal(PageVO vo) {
+		return mapper.getCompanyTotal(vo);
 	}
 	
 	//일반회원 상세 보기

@@ -30,9 +30,9 @@ public class UserCompanyManageController {
 	private static final Logger logger = LoggerFactory.getLogger(UserCompanyManageController.class);
 		
 		
-		// 사용자관리 이동 요청
+		// 사용자관리 개발자 탭 이동 요청
 		@GetMapping("/membersList")
-		public String membersList(Model model, PageVO vo, PageVO cvo) {
+		public String membersList(Model model, PageVO vo) {
 			
 			//일반회원 페이징
 			System.out.println(vo);
@@ -41,21 +41,41 @@ public class UserCompanyManageController {
 			pc.setArticleTotalCount(service.getUserTotal(vo));
 			System.out.println(pc);
 			
-			//기업회원 페이징
-			System.out.println(cvo);
-			PageCreator pcc = new PageCreator();
-			pc.setPaging(cvo);
-			pc.setArticleTotalCount(service.getCompanyTotal(cvo));
-			System.out.println(pcc);
 			
 			logger.info("/membersList/membersList: GET (일반회원 목록 페이지 이동)");
 			model.addAttribute("userMembers", service.userMembers(vo));
 			model.addAttribute("companyMembers", service.companyMembers(vo));
 			model.addAttribute("pc", pc);
-			model.addAttribute("pcc", pcc);
+			
 			
 			return "/admin/members-list";
 		}
+		
+		
+		
+		// 사용자관리 기업  이동 요청
+		@GetMapping("/membersListCompany")
+		public String membersListCompany(Model model, PageVO vo) {
+
+					
+			//기업회원 페이징
+			System.out.println(vo);
+			PageCreator pc = new PageCreator();
+			pc.setPaging(vo);
+			pc.setArticleTotalCount(service.getCompanyTotal(vo));
+			System.out.println(pc);
+					
+					
+			logger.info("/membersList/membersList: GET (일반회원 목록 페이지 이동)");
+			model.addAttribute("userMembers", service.userMembers(vo));
+			model.addAttribute("companyMembers", service.companyMembers(vo));
+			model.addAttribute("pc", pc);
+					
+					
+			return "/admin/members-company";
+		}
+		
+		
 		
 		//일반회원 목록 상세보기
 		@GetMapping("/membersUser")

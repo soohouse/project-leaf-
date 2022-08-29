@@ -57,25 +57,26 @@
 			
 			
 			<ul class="nav nav-tabs" style="text-align: center;">
-			  <li role="presentation" class="nav-item active">
+			  <li role="presentation" class="nav-item">
 			  	<a href="#" id="btn-user-tab" data-toggle="tab" style="color: #3071A9;">일반회원</a>
 			  </li>
-			  <li role="presentation" class="nav-item" id="li-company-tab">
+			  <li role="presentation" class="nav-item active" id="li-company-tab">
 			  	<a href="#" id="btn-company-tab" data-toggle="tab" style="color: #3071A9;">기업회원</a>
 			  </li>
 			</ul>
-
-				
-					<form class="navbar-form navbar-left navbar-main-top pull-left" action="<c:url value='/membersList/membersList'/>" style="padding: 0; margin-left: 0; margin-top: 30px;">
+			
+			
+					
+					<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" action="<c:url value='/membersList/membersListCompany'/>" style="padding: 0; margin-left: 0; margin-top: 30px;">
 						<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-		                            <option value="UID" ${pc.paging.condition == 'UID' ? 'selected' : ''}>개발자 ID</option>
-		                            <option value="Uname" ${pc.paging.condition == 'Uname' ? 'selected' : ''}>개발자 이름</option>
+		                            <option value="CID" ${pc.paging.condition == 'CID' ? 'selected' : ''}>기업 ID</option>
+		                            <option value="Cname" ${pc.paging.condition == 'Cname' ? 'selected' : ''}>기업명</option>
 		                </select>
 					
 						<div class="input-group"> 
 							<input type="text" name="keyword" class="form-control" value="${pc.paging.keyword}" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
+								<button class="btn btn-default" id="btn-company-search" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
 							</span>
 						</div>
 					</form>
@@ -84,105 +85,99 @@
 						<thead style="width: 10px; font-size: 13px; background: #ccac00;">
 							<tr style="font-family: sans-serif;">
 								<th style="width: 6%;">회원번호</th>
-								<th style="width: 12%;">개발자 ID</th>
-								<th style="width: 30%;">개발자 이름</th>
-								<th style="width: 20%;">개발자 전화번호</th>
-								<th style="width: 20%;">개발자 이메일</th>
+								<th style="width: 12%;">기업 ID</th>
+								<th style="width: 30%;">기업명</th>
+								<th style="width: 20%;">기업 전화번호</th>
+								<th style="width: 20%;">기업 이메일</th>
 								<th style="width: 12%;">비고</th>
 							</tr>
 						</thead>
 						<tbody style="width: 10px; font-size: 13px; background: #FCFCFC;">
-						
-							<c:forEach var="userMembers" items="${userMembers}" varStatus="index">
-							<tr id="userMembersDetail${index.index}" style="cursor: pointer;">
-								<td>${userMembers.userNO}</td>
-								<td>${userMembers.userID}</td>
-								<td>${userMembers.userName}</td>
-								<td>${userMembers.userPhone}</td>
-								<td>${userMembers.userEmail}</td>
-								<td>${userMembers.commonValue}</td>
+							
+							<c:forEach var="companyMembers" items="${companyMembers}" varStatus="index">
+							<tr id="companyMembersDetail${index.index}" style="cursor: pointer;">
+								<td>${companyMembers.companyNO}</td>
+								<td>${companyMembers.companyID}</td>
+								<td>${companyMembers.companyName}</td>
+								<td>${companyMembers.companyPhone}</td>
+								<td>${companyMembers.companyEmail}</td>
+								<td>${companyMembers.commonValue}</td>
 							</tr>
 							
-							<%@ include file="../modal_mypage/members-user.jsp" %>
-							
-							
-							
+							<%@ include file="../modal_mypage/members-company.jsp" %>
+						
 						<script>
 							
 							$(function() {
 								
-								$('#userMembersDetail${index.index}').click(function() {
+								$('#companyMembersDetail${index.index}').click(function() {
 									
 									$.ajax({
 										type: 'GET',
-										url: '<c:url value="/membersList/membersUser?userNO=" />' + '${userMembers.userNO}',
+										url: '<c:url value="/membersList/membersCompany?companyNO=" />' + '${companyMembers.companyNO}',
 										
-										success: function(user) {
-											console.log(user.userNO);
+										success: function(company) {
+											console.log(company.companyNO);
 											
-											$('#members-user-id').text(user.userID);
-											$('#members-user-name').text(user.userName);
-											$('#members-user-phone').text(user.userPhone);
-											$('#members-user-email').text(user.userEmail);
+											$('#members-company-id').text(company.companyID);
+											$('#members-company-name').text(company.companyName);
+											$('#members-company-phone').text(company.companyPhone);
+											$('#members-company-email').text(company.companyEmail);
 											
-											if(user.userIntro == null || user.userIntro == '') {
-												$('#members-user-intro').text('');
+											if(company.companyIntro == null || company.companyIntro == '') {
+												$('#members-company-intro').text('');
 											} else {
-												$('#members-user-intro').text(user.userIntro);
+												$('#members-company-intro').text(company.companyIntro);
 											}
 											
-											if(user.resumeRealname == null || user.resumeRealname == '') {
-												$('#members-user-resume-realname').text('');
+											if(company.companyIntroRealname == null || company.companyIntroRealname == '') {
+												$('#members-company-intro-realname').text('');
 											} else {
-												$('#members-user-resume-realname').text(user.resumeRealname);
+												$('#members-company-intro-realname').text(company.companyIntroRealname);
 											}
 											
-											$('#members-user-logo').attr('src', '<c:url value="/user/userProfileGet?userNO=" />' + user.userNO);
-											
-											$('#hidden-members-user-no').val(user.userNO);
-											$('#members-main-user-id').text(user.userID);
-											$('#members-main-user-name').text(user.userName);
+											$('#members-company-logo').attr('src', '<c:url value="/company/companyLogoGet?companyNO=" />' + company.companyNO);
+											$('#hidden-members-company-no').val(company.companyNO);
+											$('#members-main-company-id').text(company.companyID);
+											$('#members-main-company-name').text(company.companyName);
 										},
 										
 										error: function() {
-											alert('개발자 목록 상세보기 요청 처리 중 서버오류가 발생했습니다.');
+											alert('기업 목록 상세보기 요청 처리 중 서버오류가 발생했습니다.');
 											return;
 										}
 									});
 									
-									$('#modal-members-user').modal('show');
+									$('#modal-members-company').modal('show');
 								});
 								
 							});
 						
 						</script>
-						
-						</c:forEach>
-						
+							
+							</c:forEach>
 						</tbody>
-						
-						
 					</table>
-					<!-- 일반회원 탭 페이징 -->
+					<!-- 기업회원 탭 페이징 -->
 					<div class="text-center">
-						<form action="<c:url value='/membersList/membersList'/>" name="pageForm">
+						<form action="<c:url value='/membersList/membersListCompany'/>" name="pageForm">
 							<ul class="pagination pagination-sm">
 								<c:if test="${pc.prev }">
 									<!-- 이전버튼 -->
 									<li><a
-										href="/membersList/membersList?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
+										href="/membersList/membersListCompany?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
 										data-pagenum="${pc.beginPage-1 }"> << </a></li>
 								</c:if>
 								<c:forEach var="num" begin="${pc.beginPage }"
 									end="${pc.endPage }">
 									<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a
-										href="/membersList/membersList?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
+										href="/membersList/membersListCompany?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
 										data-pagenum='${num }'>${num }</a></li>
 								</c:forEach>
 								<c:if test="${pc.next }">
 									<!-- 다음버튼 -->
 									<li><a
-										href="/membersList/membersList?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
+										href="/membersList/membersListCompany?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}"
 										data-pagenum="${pc.endPage-1 }"> >> </a></li>
 								</c:if>
 							</ul>
@@ -193,14 +188,14 @@
 								name="keyword" value="${pc.paging.keyword}">
 						</form>
 					</div>
+
 				</div>
 				
 				<%@ include file="../include/footer.jsp" %>
 	
 			</div>
-
+			
 		
-
    
 </body>
 </html>

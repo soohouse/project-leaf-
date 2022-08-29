@@ -51,7 +51,7 @@
 				    	    		<th colspan= "2">답변 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" name="answerTitle" class="form-control" placeholder="질문 제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" id="answerTitle" name="answerTitle" class="form-control" placeholder="질문 제목을 입력하세요." maxlength="50" ></td>
 					    			<td><input type="hidden" name="answerWriter" value="${user.userID}"></td>
 					    		</tr>
 			    	    	</thead>
@@ -60,11 +60,11 @@
 				    	    		<th colspan= "2">답변 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" name="answerContent" placeholder="질문 내용을 입력하세요." maxlength="2048" style= "height:350px; resize:none;" ></textarea></td>
+					    			<td><textarea class="form-control" id="answerContent" name="answerContent" placeholder="질문 내용을 입력하세요." maxlength="2048" style= "height:350px; resize:none;" ></textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="submit" class="btn btn-success pull-right" id="answer-btn" style="margin-right:20px; value="답변하기">
+    	    			<input type="submit" id="btn-answer-write" class="btn btn-success pull-right" style="margin-right:20px; value="답변하기">
     	    			<button type="button" id="btn-question-list" class="btn btn-primary pull-right" style="margin-right:10px;" >목록</button>
 					  </form>
 					</div>
@@ -90,11 +90,26 @@
 		})
 	});
 	
-	//등록버튼 연속클릭 방지
-	var ww = document.querySelector("#answer-btn");
-	ww.addEventListener("click", function (e) {
-		alert('답변을 등록하였습니다.');
-		//this.setAttribute("disabled", true);
+
+	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
+	$('#btn-answer-write').click(function() { 
+		const title = $('#answerTitle').val();
+		const content = $('#answerContent').val();
+		
+		if(title == '') {
+			alert('제목을 입력해주세요.');
+			$('#answerTitle').css('border-color', 'red');
+			return false;
+		} else if(content == '') {
+			alert('내용을 입력해주세요.');
+			$('#answerContent').css('border-color', 'red');
+			return false;
+		} else {
+			if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
+				alert('글이 성공적으로 등록되었습니다!');
+				return;
+			} else {return false;} //아니요->등록실패
+		}
 	});
 	
 

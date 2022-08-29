@@ -18,9 +18,9 @@ public interface IUserCompanyManageMapper {
 	int getUserTotal(PageVO vo);
 	
 	//기업 사용자 목록 조회
-	List<CompanyMembersVO> companyMembers(PageVO cvo);
+	List<CompanyMembersVO> companyMembers(PageVO vo);
 	
-	int getCompanyTotal(PageVO cvo);
+	int getCompanyTotal(PageVO vo);
 	
 	//개발자 목록 상세보기
 	UserMembersDetailVO userMembersDetail(int userNO);

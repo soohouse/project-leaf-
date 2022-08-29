@@ -51,7 +51,7 @@
 				    	    		<th><input type="hidden" name="questionNo" id="questionNo" value="${question.questionNo}"></th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" name="questionTitle" class="form-control" value="${question.questionTitle}" maxlength="50" ></td>
+					    			<td><input type="text" id="questionTitle" name="questionTitle" class="form-control" value="${question.questionTitle}" maxlength="50" ></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -59,7 +59,7 @@
 				    	    		<th colspan= "2">질문 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" name="questionContent" maxlength="2048" style= "height:350px">${question.questionContent}</textarea></td>
+					    			<td><textarea class="form-control" id="questionContent" name="questionContent" maxlength="2048" style= "height:350px; resize:none;">${question.questionContent}</textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
@@ -82,6 +82,25 @@
 
 <script>
 
-
+//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
+$('#btn-question-update').click(function() { 
+	const title = $('#questionTitle').val();
+	const content = $('#questionContent').val();
+	
+	if(title == '') {
+		alert('제목을 입력해주세요.');
+		$('#questionTitle').css('border-color', 'red');
+		return false;
+	} else if(content == '') {
+		alert('내용을 입력해주세요.');
+		$('#questionContent').css('border-color', 'red');
+		return false;
+	} else {
+		if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
+			alert('글이 성공적으로 등록되었습니다!');
+			return;
+		} else {return false;} //아니요->등록실패
+	}
+});
 
 </script>

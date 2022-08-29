@@ -152,7 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<!-- 답변글 총 개수 -->
-	<select id="AnswerTotal" resultType="int">
+	<select id="answerTotal" resultType="int">
 		SELECT COUNT(*)
 		FROM answer
 		WHERE question_NO = #{questionNo}

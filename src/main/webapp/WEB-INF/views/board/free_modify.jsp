@@ -51,7 +51,7 @@
 				    	    		<th><input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}"></th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" name="boardTitle" class="form-control" value="${board.boardTitle}" maxlength="50" ></td>
+					    			<td><input type="text" id="boardTitle" name="boardTitle" class="form-control" value="${board.boardTitle}" maxlength="50" ></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -60,7 +60,7 @@
 				    	    	</tr>
 					    		<tr>
 					    			<td>
-					    				<textarea class="form-control" name="boardContent" maxlength="2048" style= "height:350px" >${board.boardContent}</textarea>
+					    				<textarea class="form-control" id="boardContent" name="boardContent" maxlength="2048" style= "height:350px; resize:none;" >${board.boardContent}</textarea>
 					    			</td>
 					    		</tr>
 					    	</tbody>
@@ -84,6 +84,26 @@
 
 <script>
 
+//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
+$('#btn-board-update').click(function() { 
+	const title = $('#boardTitle').val();
+	const content = $('#boardContent').val();
+	
+	if(title == '') {
+		alert('제목을 입력해주세요.');
+		$('#boardTitle').css('border-color', 'red');
+		return false;
+	} else if(content == '') {
+		alert('내용을 입력해주세요.');
+		$('#boardContent').css('border-color', 'red');
+		return false;
+	} else {
+		if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
+			alert('글이 성공적으로 등록되었습니다!');
+			return;
+		} else {return false;} //아니요->등록실패
+	}
+});
 
 
 </script>

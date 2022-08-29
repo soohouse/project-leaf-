@@ -63,7 +63,7 @@
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
-    	    			<input type="submit" class="btn btn-success pull-right" style="margin-right:20px;" value="질문하기">
+    	    			<input type="submit" id="btn-question-write" class="btn btn-success pull-right" style="margin-right:20px;" value="질문하기">
     	    			<button type="button" id="btn-question-list" class="btn btn-primary pull-right" style="margin-right:10px;" >목록</button>
 					  </form>
 					</div>
@@ -88,6 +88,27 @@
 			location.href='<c:url value="/question/questionList" />';
 		})
 		
+	});
+	
+	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
+	$('#btn-question-write').click(function() { 
+		const title = $('#questionTitle').val();
+		const content = $('#questionContent').val();
+		
+		if(title == '') {
+			alert('제목을 입력해주세요.');
+			$('#questionTitle').css('border-color', 'red');
+			return false;
+		} else if(content == '') {
+			alert('내용을 입력해주세요.');
+			$('#questionContent').css('border-color', 'red');
+			return false;
+		} else {
+			if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
+				alert('글이 성공적으로 등록되었습니다!');
+				return;
+			} else {return false;} //아니요->등록실패
+		}
 	});
 
 </script>

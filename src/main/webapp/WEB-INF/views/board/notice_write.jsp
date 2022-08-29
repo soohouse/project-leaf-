@@ -93,12 +93,7 @@
 	});
 	
 	
-	//등록버튼 연속클릭 방지
-	var bbw = document.querySelector("#btn-notice-write");
-	bbw.addEventListener("click", function (e) {
-	    this.setAttribute("disabled", true);
-	});
-	
+
 	
 	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.
 	$('#btn-notice-write').click(function() { 
