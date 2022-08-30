@@ -51,6 +51,11 @@
     border-radius: 5px;
    }
    
+   .sections {
+    width: 1200px;
+   	margin: 0 auto;
+   }
+   
    </style>
    
 </head>
@@ -60,7 +65,7 @@
 	   
 	<div class="mainbox">
 	
-		<section>
+		<section class="sections">
         
        
         

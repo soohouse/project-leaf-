@@ -63,6 +63,8 @@ public class Archivecontroller {
 	//자료실 목록 페이지로 이동 요청
 	@GetMapping("/archiveList")
 	public String archiveList(PageVO vo ,Model model) {
+		
+		
 		//페이징
 		System.out.println(vo);
 		PageCreator pc = new PageCreator();

@@ -51,6 +51,11 @@
 			background-color:transparent; 
 			border: none;
 		}
+		
+		.container{
+			width:1200px;
+			margin: 0 auto;
+		}
 
 	</style>
    
@@ -131,7 +136,7 @@
 								</div>   
 								
 								<div style="margin-top:30px;">
-									<a class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a>
+									<a id="archive-file-download" class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></a>
 									<a id="archive-file-download">${archive.archiveFileRealname}</a>
 								</div>
 							</div>
@@ -409,7 +414,7 @@
 						if(replyWriter == replyReader) {
 							strAdd +=
 								`<div class='archiveReplyWrap'>
-									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
+									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px; margin: 5px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>
@@ -425,7 +430,7 @@
 						} else {
 							strAdd +=
 								`<div class='archiveReplyWrap'> 
-									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
+									<div><span><img src="<c:url value='/user/userProfileGet?userNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px; margin: 5px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>
@@ -453,7 +458,7 @@
 						if(replyWriter == replyReader) {
 							strAdd +=
 								`<div class='archiveReplyWrap'>
-									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
+									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px; margin: 5px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>
@@ -469,7 +474,7 @@
 						} else {
 							strAdd +=
 								`<div class='archiveReplyWrap'> 
-									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px;"><span>
+									<div><span><img src="<c:url value='/company/companyLogoGet?companyNO=' />` + memberNo + `" width="30px" style="margin: 5px; float:left; border-radius:50px; width:30px; height:30px; margin: 5px;"><span>
 									</div>
 									<div id='archiveReply-Writer' style="text-align: left; float:left; width:10%; font-weight:bold; ">&nbsp;`+ archiveReplyList[i].archiveReplyWriter +`
 									</div>

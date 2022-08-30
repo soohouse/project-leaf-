@@ -54,6 +54,11 @@
 	.text-center #active-button {
 	background: #92bce0;
 	}
+	
+	.sections {
+   	width: 1200px;
+   	margin: 0 auto;
+   	}
 
 
    
@@ -66,7 +71,8 @@
 	   
 	<div class="mainbox">
 	
-		<section>
+		<section class="sections">
+		
         
        
         

@@ -65,6 +65,11 @@
     	margin-top:30px;
     
     }
+    
+    .container{
+	width:1200px;
+	margin: 0 auto;
+	}
  
    </style>
    
