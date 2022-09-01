@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -645,7 +646,7 @@ public class UserController {
 	
 	// 사용자 프로필사진 불러오기 요청
 	@GetMapping("/userProfileGet")
-	public ResponseEntity<byte[]> userProfileGet(int userNO) throws Exception {
+	public ResponseEntity<byte[]> userProfileGet(@RequestParam int userNO, HttpServletRequest request) throws Exception {
 		logger.info("/user/userProfileGet : GET (프로필사진 불러오기 요청)");
 		
 		UserProfileVO vo = service.userProfileGet(userNO);
@@ -654,8 +655,10 @@ public class UserController {
 		if(vo.getUserProfileFilename() == null) {
 			ResponseEntity<byte[]> result = null;
 			
+			String context = request.getRealPath("/");
+			
 			// 기본 프로필사진을 불러온다.
-			File noProfile = new File("C:/leaf/Leaf/src/main/webapp/resources/img/profile.png");
+			File noProfile = new File(context + "/resources/img/profile.png");
 			
 			// 응답 헤더파일에 여러가지 정보를 담아서 전송하는 것도 가능하다.
 			HttpHeaders headers = new HttpHeaders();

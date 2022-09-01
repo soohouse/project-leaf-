@@ -86,6 +86,282 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userDate" column="user_date" />
 	</resultMap>
 	
+
+	<!-- 현재 날짜에서 6달 전 까지의 일반회원 탈퇴 수를 가져오는 UserDeleteCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserDeleteCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserDeleteCountVO" id="UserDeleteCountMap">
+		<result property="userDeleteCountNow" column="user_delete_now" />
+		<result property="userDeleteCountBefore1" column="user_delete_before1" />
+		<result property="userDeleteCountBefore2" column="user_delete_before2" />
+		<result property="userDeleteCountBefore3" column="user_delete_before3" />
+		<result property="userDeleteCountBefore4" column="user_delete_before4" />
+		<result property="userDeleteCountBefore5" column="user_delete_before5" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 한 달 전까지의 일반회원 탈퇴 목록을 가져오는 UserDeleteListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserDeleteListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserDeleteListVO" id="UserDeleteListMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail" column="user_email" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userDelete" column="user_delete" />
+	</resultMap>
+	
+	
+	<!-- 각각의 개발자들이 지원한 프로젝트 수를 가져오는 UserApplyCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserApplyCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserApplyCountVO" id="UserApplyCountMap">
+		<result property="userID" column="user_ID" />
+		<result property="userApplyCount" column="user_apply_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 개발자들이 수신한 쪽지 수를 가져오는 UserMessageCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserMessageCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserMessageCountVO" id="UserMessageCountMap">
+		<result property="userID" column="user_ID" />
+		<result property="userMessageCount" column="user_message_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 개발자들이 작성한 자유게시판 게시글 수를 가져오는 UserBoardCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserBoardCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserBoardCountVO" id="UserBoardCountMap">
+		<result property="userID" column="user_ID" />
+		<result property="userBoardCount" column="user_board_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 개발자들이 작성한 질문글 수를 가져오는 UserQuestionCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserQuestionCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserQuestionCountVO" id="UserQuestionCountMap">
+		<result property="userID" column="user_ID" />
+		<result property="userQuestionCount" column="user_question_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 개발자들이 작성한 답변글 수를 가져오는 UserAnswerCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserAnswerCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserAnswerCountVO" id="UserAnswerCountMap">
+		<result property="userID" column="user_ID" />
+		<result property="userAnswerCount" column="user_answer_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 개발자들이 작성한 질문글 수를 가져오는 UserQuestionCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserQuestionCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.UserArchiveCountVO" id="UserArchiveCountMap">
+		<result property="userID" column="user_ID" />
+		<result property="userArchiveCount" column="user_archive_count" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 6달 전 까지의 기업 신규가입 수를 가져오는 CompanyRegistCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyRegistCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyRegistCountVO" id="CompanyRegistCountMap">
+		<result property="companyRegistCountNow" column="company_regist_count_now" />
+		<result property="companyRegistCountBefore1" column="company_regist_count_before1" />
+		<result property="companyRegistCountBefore2" column="company_regist_count_before2" />
+		<result property="companyRegistCountBefore3" column="company_regist_count_before3" />
+		<result property="companyRegistCountBefore4" column="company_regist_count_before4" />
+		<result property="companyRegistCountBefore5" column="company_regist_count_before5" />
+	</resultMap>
+	
+	
+	<!-- 전체 기업들의 가입 상태를 가져오는 CompanyStatusCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyStatusCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyStatusCountVO" id="CompanyStatusCountMap">
+		<result property="commonValue" column="common_value" />
+		<result property="companyStatus" column="company_status" />
+	</resultMap>
+	
+	
+	<!-- 각각의 기업들의 가입 상태를 가져오는 CompanyCRGVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyCRGListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyCRGVO" id="CompanyCRGListMap">
+		<result property="companyID" column="company_ID" />
+		<result property="companyName" column="company_name" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 한 달 전까지의 기업회원 신규가입 목록을 가져오는 CompanyNewListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyNewListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyNewListVO" id="CompanyNewListMap">
+		<id property="companyNO" column="company_NO" />
+		<result property="companyID" column="company_ID" />
+		<result property="companyName" column="company_name" />
+		<result property="companyEmail" column="company_email" />
+		<result property="companyPhone" column="company_phone" />
+		<result property="companyAddress" column="company_address" />
+		<result property="companyDate" column="company_date" />
+	</resultMap>
+	
+	
+	<!-- 기업들의 주소를 가져오는 CompanyRegionVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyRegionMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyRegionVO" id="CompanyRegionMap">
+		<result property="companyRegion" column="company_region" />
+		<result property="companyScore" column="company_score" />
+	</resultMap>
+	
+	
+	<!-- 기업 회원의 로고사진 등록 여부를 체크하고 등록 회원 수를 가져오는 CompanyLogoCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyLogoCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyLogoCountVO" id="CompanyLogoCountMap">
+		<result property="logoYes" column="logo_yes" />
+		<result property="logoNo" column="logo_no" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 6달 전 까지의 기업회원 탈퇴 수를 가져오는 CompanyDeleteCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyDeleteCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyDeleteCountVO" id="CompanyDeleteCountMap">
+		<result property="companyDeleteCountNow" column="company_delete_now" />
+		<result property="companyDeleteCountBefore1" column="company_delete_before1" />
+		<result property="companyDeleteCountBefore2" column="company_delete_before2" />
+		<result property="companyDeleteCountBefore3" column="company_delete_before3" />
+		<result property="companyDeleteCountBefore4" column="company_delete_before4" />
+		<result property="companyDeleteCountBefore5" column="company_delete_before5" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 한 달 전까지의 기업회원 탈퇴 목록을 가져오는 CompanyDeleteListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyDeleteListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyDeleteListVO" id="CompanyDeleteListMap">
+		<id property="companyNO" column="company_NO" />
+		<result property="companyID" column="company_ID" />
+		<result property="companyName" column="company_name" />
+		<result property="companyEmail" column="company_email" />
+		<result property="companyPhone" column="company_phone" />
+		<result property="companyAddress" column="company_address" />
+		<result property="companyDelete" column="company_delete" />
+	</resultMap>
+	
+	
+	<!-- 각각의 기업들이 등록한 프로젝트 수를 가져오는 CompanyProjectCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyProjectCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyProjectCountVO" id="CompanyProjectCountMap">
+		<result property="companyName" column="company_name" />
+		<result property="companyProjectCount" column="company_project_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 기업들이 보낸 쪽지 수를 가져오는 CompanyMessageCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyMessageCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyMessageCountVO" id="CompanyMessageCountMap">
+		<result property="companyName" column="company_name" />
+		<result property="userMessageCount" column="user_message_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 기업들이 작성한 자유게시판 게시글 수를 가져오는 CompanyBoardCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyBoardCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyBoardCountVO" id="CompanyBoardCountMap">
+		<result property="companyName" column="company_name" />
+		<result property="companyBoardCount" column="company_board_count" />
+	</resultMap>
+	
+	
+	<!-- 각각의 기업들이 작성한 자료실 게시글 수를 가져오는 CompanyArchiveCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyArchiveCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.CompanyArchiveCountVO" id="CompanyArchiveCountMap">
+		<result property="companyName" column="company_name" />
+		<result property="companyArchiveCount" column="company_archive_count" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 6달 전 까지의 프로젝트 등록 수를 가져오는ProjectRegistCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectRegistCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectRegistCountVO" id="ProjectRegistCountMap">
+		<result property="projectRegistCountNow" column="project_regist_count_now" />
+		<result property="projectRegistCountBefore1" column="project_regist_count_before1" />
+		<result property="projectRegistCountBefore2" column="project_regist_count_before2" />
+		<result property="projectRegistCountBefore3" column="project_regist_count_before3" />
+		<result property="projectRegistCountBefore4" column="project_regist_count_before4" />
+		<result property="projectRegistCountBefore5" column="project_regist_count_before5" />
+	</resultMap>
+	
+	
+	<!-- 현재 날짜에서 6달 전 까지의 프로젝트 삭제 수를 가져오는 ProjectDeleteCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectDeleteCountMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectDeleteCountVO" id="ProjectDeleteCountMap">
+		<result property="projectDeleteCountNow" column="project_delete_count_now" />
+		<result property="projectDeleteCountBefore1" column="project_delete_count_before1" />
+		<result property="projectDeleteCountBefore2" column="project_delete_count_before2" />
+		<result property="projectDeleteCountBefore3" column="project_delete_count_before3" />
+		<result property="projectDeleteCountBefore4" column="project_delete_count_before4" />
+		<result property="projectDeleteCountBefore5" column="project_delete_count_before5" />
+	</resultMap>
+	
+	
+	<!-- 최근 한 달 간 등록된 프로젝트 목록을 가져오는 ProjectNewListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectNewListMap 선언  -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectNewListVO" id="ProjectNewListMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name" />
+		<result property="projectManager" column="project_manager" />
+		<result property="projectRequireRole" column="project_require_role" />
+		<result property="projectRequireDate1" column="project_require_date1" />
+		<result property="projectRequireDate2" column="project_require_date2" />
+		<result property="projectDate" column="project_date" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	
+	<!-- 최근 한 달 간 삭제된 프로젝트 목록을 가져오는 ProjectDeleteListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectDeleteListMap 선언  -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectDeleteListVO" id="ProjectDeleteListMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name" />
+		<result property="projectManager" column="project_manager" />
+		<result property="projectRequireRole" column="project_require_role" />
+		<result property="projectRequireDate1" column="project_require_date1" />
+		<result property="projectRequireDate2" column="project_require_date2" />
+		<result property="projectDate" column="project_date" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	
+	<!-- 모집 중인 프로젝트의 지원자 수를 가져오는 ProjectApplyNowVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectApplyNowMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectApplyNowVO" id="ProjectApplyNowMap">
+		<result property="projectName" column="project_name" />
+		<result property="applyCount" column="apply_count" />
+	</resultMap>
+	
+	
+	<!-- 모집이 종료된 프로젝트의 지원자 수를 가져오는 ProjectApplyEndVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectApplyEndMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectApplyEndVO" id="ProjectApplyEndMap">
+		<result property="projectName" column="project_name" />
+		<result property="applyCount" column="apply_count" />
+	</resultMap>
+	
+	
+	<!-- 전체 프로젝트의 지원자 수를 가져오는 ProjectApplyVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectApplyMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectApplyVO" id="ProjectApplyMap">
+		<result property="projectName" column="project_name" />
+		<result property="applyCount" column="apply_count" />
+	</resultMap>
+	
+	
+	<!-- 전체 프로젝트의 지원자 수 목록을 가져오는 ProjectApplyListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectApplyListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectApplyListVO" id="ProjectApplyListMap">
+		<result property="projectName" column="project_name" />
+		<result property="projectRequireRole" column="project_require_role" />
+		<result property="projectRequireDate1" column="project_require_date1" />
+		<result property="projectRequireDate2" column="project_require_date2" />
+		<result property="commonValue" column="common_value" />
+		<result property="applyCount" column="apply_count" />
+	</resultMap>
+	
+	
+	<!-- 프로젝트의 조회수들을 가져오는 ProjectViewsVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectViewsMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectViewsVO" id="ProjectViewsMap">
+		<result property="projectName" column="project_name" />
+		<result property="projectViews" column="project_views" />
+	</resultMap>
+	
+	
+	<!-- 프로젝트의 좋아요 수 들을 가져오는 ProjectLikesVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectLikesMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectLikesVO" id="ProjectLikesMap">
+		<result property="projectName" column="project_name" />
+		<result property="likeCount" column="like_count" />
+	</resultMap>
+	
+	
+	<!-- 프로젝트들의 현재 상태들을 가져오는 ProjectStatusListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectStatusListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ProjectStatusListVO" id="ProjectStatusListMap">
+		<result property="commonValue" column="common_value" />
+		<result property="statusCount" column="status_count" />
+	</resultMap>
+	
+	
+	<!-- 전체 지원 상태들을 가져오는 ApplyStatusListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ApplyStatusListMap 선언 -->
+	<resultMap type="com.spring.leaf.admin.command.ApplyStatusListVO" id="ApplyStatusListMap">
+		<result property="commonValue" column="common_value" />
+		<result property="statusCount" column="status_count" />
+	</resultMap>
+	
+	
 	<sql id="search">
 		<if test="condition == 'ID'">
 			AND company_ID LIKE concat('%', #{keyword}, '%')
@@ -189,8 +465,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			cd.common_value
 		FROM company c LEFT OUTER JOIN common cd
 		ON c.common_CODE = cd.common_CODE
-		
 		 WHERE c.common_CODE = 'CRG001'
+		 AND c.company_NO != 1
 		 <include refid="search" />
 		LIMIT ${cpp}
 		OFFSET ${skip}
@@ -221,6 +497,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
+	<!-- 가입 거부 UPDATE 쿼리 -->
+	<update id="companyDenied">
+		UPDATE company
+		SET common_CODE = 'CRG003'
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
 	<!-- 6달 전 까지의 날짜 달 값 가져오기 -->
 	<select id="userDate" resultMap="UserDateMap">
 		SELECT 
@@ -245,6 +529,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS user_regist_count_before4,
 		    COUNT(case when user_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS user_regist_count_before5
 		FROM user
+		WHERE user_NO != 1
+		AND common_CODE NOT IN('ADM002', 'ADM003')
 	</select>
 	
 	
@@ -254,6 +540,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			COUNT(case when user_profile_filename IS NOT NULL then 1 end) AS user_profile_yes,
 			COUNT(case when user_profile_filename IS NULL then 1 end) AS user_profile_no
 		FROM user_profile
+		WHERE user_profile_NO != 1
 	</select>
 	
 	
@@ -263,6 +550,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			COUNT(case when resume_filename IS NOT NULL then 1 end) AS resume_yes,
 			COUNT(case when resume_filename IS NULL then 1 end) AS resume_no
 		FROM resume
+		WHERE resume_NO != 1
 	</select>
 	
 	
@@ -275,11 +563,449 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    user_date
 		FROM user
 		WHERE user_date > DATE_ADD(NOW(), INTERVAL -1 MONTH)
+		AND user_NO != 1
+		AND common_CODE NOT IN('ADM002', 'ADM003')
+		ORDER BY user_date DESC
 	</select>
 	
 	
-	<select id="">
-		
+	<!-- 6달 간 회원탈퇴 한 사용자 수 가져오기 -->
+	<select id="userDeleteCount" resultMap="UserDeleteCountMap">
+		SELECT 
+			COUNT(case when user_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7), '%') then 1 end) AS user_delete_now,
+			COUNT(case when user_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7), '%') then 1 end) AS user_delete_before1,
+		    COUNT(case when user_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7), '%') then 1 end) AS user_delete_before2,
+		    COUNT(case when user_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7), '%') then 1 end) AS user_delete_before3,
+		    COUNT(case when user_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS user_delete_before4,
+		    COUNT(case when user_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS user_delete_before5
+		FROM user
+	</select>
+	
+	
+	<!-- 한 달 간 탈퇴한 회원 목록 가져오기 -->
+	<select id="userDeleteList" resultMap="UserDeleteListMap">
+		SELECT
+			user_NO, user_ID, user_name, 
+		    CONCAT(user_email1, '@', user_email2) AS user_email,
+		    CONCAT(user_phone1, '-', user_phone2, '-', user_phone3) AS user_phone,
+		    user_delete
+		FROM user
+		WHERE user_delete > DATE_ADD(NOW(), INTERVAL -1 MONTH)
+		AND user_NO != 1
+		ORDER BY user_delete DESC
+	</select>
+	
+	
+	<!-- 개발자 별 프로젝트 지원 수 가져오기 -->
+	<select id="userApplyCount" resultMap="UserApplyCountMap">
+		SELECT 
+			u.user_ID ,COUNT(a.apply_NO) AS user_apply_count
+		FROM 
+			user u LEFT OUTER JOIN apply a
+			ON u.user_NO = a.user_NO
+		    WHERE u.user_NO != 1
+		    AND u.common_CODE NOT IN('ADM002', 'ADM003')
+		    GROUP BY u.user_NO
+		    ORDER BY user_apply_count DESC
+	</select>
+	
+	
+	<!-- 개발자 별 받은 쪽지 수 가져오기 -->
+	<select id="userMessageCount" resultMap="UserMessageCountMap">
+		SELECT
+			u.user_ID, COUNT(um.user_message_NO) AS user_message_count
+		FROM
+			user u LEFT OUTER JOIN user_message um
+		    ON u.user_NO = um.user_NO
+		    WHERE u.user_NO != 1
+		    AND u.common_CODE NOT IN('ADM002', 'ADM003')
+		    GROUP BY u.user_NO
+		    ORDER BY user_message_count DESC
+	</select>
+	
+	
+	<!-- 개발자 별 작성한 자유게시판 글 수 가져오기 -->
+	<select id="userBoardCount" resultMap="UserBoardCountMap">
+		SELECT
+			u.user_ID, COUNT(b.board_NO) AS user_board_count
+		FROM
+			user u LEFT OUTER JOIN board b
+		    ON u.user_ID = b.board_writer
+		    WHERE u.user_NO != 1
+		    AND u.common_CODE NOT IN('ADM002', 'ADM003')
+		    GROUP BY u.user_NO
+		    ORDER BY user_board_count DESC
+	</select>
+	
+	
+	<!-- 개발자 별 작성한 질문글 수 가져오기 -->
+	<select id="userQuestionCount" resultMap="UserQuestionCountMap">
+		SELECT
+			u.user_ID, COUNT(q.question_NO) AS user_question_count
+		FROM
+			user u LEFT OUTER JOIN question q
+		    ON u.user_ID = q.question_writer
+		    WHERE u.user_NO != 1
+		    AND u.common_CODE NOT IN('ADM002', 'ADM003')
+		    GROUP BY u.user_NO
+		    ORDER BY user_question_count DESC
+	</select>
+	
+	
+	<!-- 개발자 별 작성한 답변글 수 가져오기 -->
+	<select id="userAnswerCount" resultMap="UserAnswerCountMap">
+		SELECT
+			u.user_ID, COUNT(a.answer_NO) AS user_answer_count
+		FROM
+			user u LEFT OUTER JOIN answer a
+		    ON u.user_ID = a.answer_writer
+		    WHERE u.user_NO != 1
+		    AND u.common_CODE NOT IN('ADM002', 'ADM003')
+		    GROUP BY u.user_NO
+		    ORDER BY user_answer_count DESC
+	</select>
+	
+	
+	<!-- 개발자 별 작성한 자료실 글 수 가져오기 -->
+	<select id="userArchiveCount" resultMap="UserArchiveCountMap">
+		SELECT
+			u.user_ID, COUNT(a.archive_NO) AS user_archive_count
+		FROM
+			user u LEFT OUTER JOIN archive a
+		    ON u.user_ID = a.archive_writer
+		    WHERE u.user_NO != 1
+		    AND u.common_CODE NOT IN('ADM002', 'ADM003')
+		    GROUP BY u.user_NO
+		    ORDER BY user_archive_count DESC
+	</select>
+	
+	
+	<!-- 6달 간 기업 신규가입 수 가져오기 -->
+	<select id="companyRegistCount" resultMap="CompanyRegistCountMap">
+		SELECT 
+			COUNT(case when company_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7), '%') then 1 end) AS company_regist_count_now,
+			COUNT(case when company_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7), '%') then 1 end) AS company_regist_count_before1,
+		    COUNT(case when company_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7), '%') then 1 end) AS company_regist_count_before2,
+		    COUNT(case when company_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7), '%') then 1 end) AS company_regist_count_before3,
+		    COUNT(case when company_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS company_regist_count_before4,
+		    COUNT(case when company_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS company_regist_count_before5
+		FROM company
+		WHERE company_NO != 1
+		AND common_CODE NOT IN('CRG001', 'CRG003', 'CRG004')
+	</select>
+	
+	
+	<!-- 기업 전체 가입 현황 가져오기 -->
+	<select id="companyStatus" resultMap="CompanyStatusCountMap">
+		SELECT 
+			cc.common_value, COUNT(c.common_CODE) AS company_status
+		FROM common cc LEFT OUTER JOIN company c
+		ON cc.common_CODE = c.common_CODE
+		WHERE cc.common_CODE IN ('CRG001', 'CRG002', 'CRG003')
+		AND c.company_NO != 1
+		GROUP BY cc.common_CODE
+		ORDER BY company_status DESC
+	</select>
+	
+	
+	<!-- 기업 별 가입 상태 현황 가져오기 -->
+	<select id="companyCRG" resultMap="CompanyCRGListMap">
+		SELECT 
+			c.company_ID, c.company_name, cm.common_value
+		FROM 
+			company c LEFT OUTER JOIN common cm
+			ON c.common_CODE = cm.common_CODE
+		    WHERE c.company_NO != 1
+		    AND c.common_CODE NOT IN('CRG004')
+            ORDER BY cm.common_value DESC
+	</select>
+	
+	
+	<!-- 한 달 간 신규 기업 회원의 목록 가져오기 -->
+	<select id="companyNewList" resultMap="CompanyNewListMap">
+		SELECT
+			company_NO, company_ID, company_name, 
+		    CONCAT(company_email1, '@', company_email2) AS company_email,
+		    CONCAT(company_phone1, '-', company_phone2, '-', company_phone3) AS company_phone,
+		    CONCAT(company_address2, ' ', company_address3) AS company_address,
+            company_date
+		FROM company
+		WHERE company_date > DATE_ADD(NOW(), INTERVAL -1 MONTH)
+		AND company_NO != 1
+		AND common_CODE NOT IN('CRG001', 'CRG003', 'CRG004')
+		ORDER BY company_date DESC
+	</select>
+	
+	
+	<!-- 지역 별 기업 위치 가져오기 -->
+	<select id="companyRegion" resultMap="CompanyRegionMap">
+		SELECT
+			SUBSTR(company_address2, 1, 2) AS company_region,
+		    COUNT(*) AS company_score
+		FROM company
+		WHERE company_NO != 1
+        AND common_CODE NOT IN ('CRG001', 'CRG003', 'CRG004')
+		GROUP BY company_region
+	</select>
+	
+	
+	<!-- 기업회원 로고 사진 등록 여부 가져오기 -->
+	<select id="companyLogoCount" resultMap="CompanyLogoCountMap">
+		SELECT
+			COUNT(case when company_logo_filename IS NOT NULL then 1 end) AS logo_yes,
+			COUNT(case when company_logo_filename IS NULL then 1 end) AS logo_no
+		FROM company_logo
+        WHERE company_logo_NO != 1
+	</select>
+	
+	
+	<!-- 6달 간 기업 탈퇴 수 가져오기 -->
+	<select id="companyDeleteCount" resultMap="CompanyDeleteCountMap">
+		SELECT 
+			COUNT(case when company_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7), '%') then 1 end) AS company_delete_now,
+			COUNT(case when company_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7), '%') then 1 end) AS company_delete_before1,
+		    COUNT(case when company_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7), '%') then 1 end) AS company_delete_before2,
+		    COUNT(case when company_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7), '%') then 1 end) AS company_delete_before3,
+		    COUNT(case when company_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS company_delete_before4,
+		    COUNT(case when company_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS company_delete_before5
+		FROM company
+	</select>
+	
+	
+	<!-- 한 달 간 탈퇴 기업 목록 가져오기 -->
+	<select id="companyDeleteList" resultMap="CompanyDeleteListMap">
+		SELECT
+			company_NO, company_ID, company_name, 
+		    CONCAT(company_email1, '@', company_email2) AS company_email,
+		    CONCAT(company_phone1, '-', company_phone2, '-', company_phone3) AS company_phone,
+            CONCAT(company_address2, ' ', company_address3) AS company_address,
+		    company_delete
+		FROM company
+		WHERE company_delete > DATE_ADD(NOW(), INTERVAL -1 MONTH)
+		AND company_NO != 1
+		ORDER BY company_delete DESC
+	</select>
+	
+	
+	<!-- 기업 별 프로젝트 등록 수 가져오기 -->
+	<select id="companyProjectCount" resultMap="CompanyProjectCountMap">
+		SELECT 
+			c.company_name, COUNT(p.project_NO) AS company_project_count
+		FROM 
+			company c LEFT OUTER JOIN project p
+			ON c.company_NO = p.company_NO
+		    WHERE c.company_NO != 1
+		    AND c.common_CODE NOT IN('CRG001', 'CRG003', 'CRG004')
+		    GROUP BY c.company_NO
+		    ORDER BY company_project_count DESC
+	</select>
+	
+	
+	<!-- 기업 별 보낸 쪽지 수 가져오기 -->
+	<select id="companyMessageCount" resultMap="CompanyMessageCountMap">
+		SELECT
+			c.company_name, COUNT(um.user_message_NO) AS user_message_count
+		FROM
+			company c LEFT OUTER JOIN user_message um
+		    ON c.company_name = um.user_message_writer
+		    WHERE c.company_NO != 1
+		    AND c.common_CODE NOT IN('CRG001', 'CRG003', 'CRG004')
+		    GROUP BY c.company_NO
+		    ORDER BY user_message_count DESC
+	</select>
+	
+	
+	<!-- 기업 별 자유게시판에 작성한 게시글 수 가져오기 -->
+	<select id="companyBoardCount" resultMap="CompanyBoardCountMap">
+		SELECT
+			c.company_name, COUNT(b.board_NO) AS company_board_count
+		FROM
+			company c LEFT OUTER JOIN board b
+		    ON c.company_ID = b.board_writer
+		    WHERE c.company_NO != 1
+		    AND c.common_CODE NOT IN('CRG001', 'CRG003', 'CRG004')
+		    GROUP BY c.company_NO
+		    ORDER BY company_board_count DESC
+	</select>
+	
+	
+	<!-- 기업 별 자료실에 작성한 게시글 수 가져오기 -->
+	<select id="companyArchiveCount" resultMap="CompanyArchiveCountMap">
+		SELECT
+			c.company_name, COUNT(a.archive_NO) AS company_archive_count
+		FROM
+			company c LEFT OUTER JOIN archive a
+		    ON c.company_ID = a.archive_writer
+		    WHERE c.company_NO != 1
+		    AND c.common_CODE NOT IN('CRG001', 'CRG003', 'CRG004')
+		    GROUP BY c.company_NO
+		    ORDER BY company_archive_count DESC
+	</select>
+	
+	
+	<!-- 6개월 동안 등록한 프로젝트 수 가져오기 -->
+	<select id="projectRegistCount" resultMap="ProjectRegistCountMap">
+		SELECT 
+			COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7), '%') then 1 end) AS project_regist_count_now,
+			COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before1,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before2,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before3,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before4,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before5
+		FROM project
+		WHERE project_NO != 1
+		AND common_CODE NOT IN('PST004')
+	</select>
+	
+	
+	<!-- 6개월 동안 등록한 프로젝트 수 가져오기 -->
+	<select id="projectDeleteCount" resultMap="ProjectDeleteCountMap">
+		SELECT 
+			COUNT(case when project_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7), '%') then 1 end) AS project_delete_count_now,
+			COUNT(case when project_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7), '%') then 1 end) AS project_delete_count_before1,
+		    COUNT(case when project_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7), '%') then 1 end) AS project_delete_count_before2,
+		    COUNT(case when project_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7), '%') then 1 end) AS project_delete_count_before3,
+		    COUNT(case when project_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS project_delete_count_before4,
+		    COUNT(case when project_delete LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS project_delete_count_before5
+		FROM project
+	</select>
+	
+	
+	<!-- 최근 한 달 간 등록된 프로젝트 목록 -->
+	<select id="projectNewList" resultMap="ProjectNewListMap">
+		SELECT
+			p.project_NO, p.project_name, p.project_manager, p.project_require_role,
+            p.project_require_date1, p.project_require_date2, p.project_date,
+            c.common_value
+		FROM project p LEFT OUTER JOIN common c
+        ON p.common_CODE = c.common_CODE
+		WHERE p.project_date > DATE_ADD(NOW(), INTERVAL -1 MONTH)
+		AND p.project_NO != 1
+		AND p.common_CODE NOT IN('PST004')
+		ORDER BY p.project_date DESC
+	</select>
+	
+	
+	<!-- 최근 한 달 간 삭제된 프로젝트 목록 -->
+	<select id="projectDeleteList" resultMap="ProjectDeleteListMap">
+		SELECT
+			p.project_NO, p.project_name, p.project_manager, p.project_require_role,
+            p.project_require_date1, p.project_require_date2, p.project_date,
+            c.common_value
+		FROM project p LEFT OUTER JOIN common c
+        ON p.common_CODE = c.common_CODE
+		WHERE p.project_date > DATE_ADD(NOW(), INTERVAL -1 MONTH)
+		AND p.project_NO != 1
+		AND p.common_CODE = 'PST004'
+		ORDER BY p.project_date DESC
+	</select>
+	
+	
+	<!-- 현재 모집중인 프로젝트들의 지원자 수 가져오기 -->
+	<select id="projectApplyNow" resultMap="ProjectApplyNowMap">
+		SELECT
+			p.project_name, COUNT(a.apply_NO) AS apply_count
+		FROM
+			project p LEFT OUTER JOIN apply a
+		    ON p.project_NO = a.project_NO
+		    WHERE p.project_NO != 1
+		    AND p.common_CODE NOT IN ('PST003', 'PST004')
+		GROUP BY p.project_NO
+		ORDER BY apply_count DESC
+	</select>
+	
+	
+	<!-- 모집이 종료된 프로젝트들의 지원자 수 가져오기 -->
+	<select id="projectApplyEnd" resultMap="ProjectApplyEndMap">
+		SELECT
+			p.project_name, COUNT(a.apply_NO) AS apply_count
+		FROM
+			project p LEFT OUTER JOIN apply a
+		    ON p.project_NO = a.project_NO
+		    WHERE p.project_NO != 1
+		    AND p.common_CODE = 'PST003'
+		GROUP BY p.project_NO
+		ORDER BY apply_count DESC
+	</select>
+	
+	
+	<!-- 전체 프로젝트 지원자 수 가져오기 -->
+	<select id="projectApply" resultMap="ProjectApplyMap">
+		SELECT
+			p.project_name, COUNT(a.apply_NO) AS apply_count
+		FROM
+			project p LEFT OUTER JOIN apply a
+		    ON p.project_NO = a.project_NO
+		    WHERE p.project_NO != 1
+		    AND p.common_CODE != 'PST004'
+		GROUP BY p.project_NO
+		ORDER BY apply_count DESC
+	</select>
+	
+	
+	<!-- 전체 프로젝트의 지원자 수 목록 가져오기 -->
+	<select id="projectApplyList" resultMap="ProjectApplyListMap">
+		SELECT
+			p.project_name, p.project_require_role,
+            p.project_require_date1, p.project_require_date2,
+            c.common_value, COUNT(a.apply_NO) AS apply_count
+		FROM project p LEFT OUTER JOIN common c
+        ON p.common_CODE = c.common_CODE
+        LEFT OUTER JOIN apply a
+        ON p.project_NO = a.project_NO
+		WHERE p.project_NO != 1
+        GROUP BY p.project_NO
+		ORDER BY apply_count DESC
+	</select>
+	
+	
+	<!-- 조회수가 가장 많은 프로젝트 가져오기 -->
+	<select id="projectViews" resultMap="ProjectViewsMap">
+		SELECT
+			project_name, project_views
+		FROM
+			project
+		WHERE project_NO != 1
+		AND common_CODE NOT IN ('PST004')
+		ORDER BY project_views DESC
+	</select>
+	
+	
+	<!-- 좋아요 수가 가장 많은 프로젝트 가져오기 -->
+	<select id="projectLikes" resultMap="ProjectLikesMap">
+		SELECT
+			p.project_name, COUNT(pl.project_like_NO) AS like_count
+		FROM
+			project p LEFT OUTER JOIN project_like pl
+			ON p.project_NO = pl.project_NO
+		WHERE p.project_NO != 1
+		AND p.common_CODE NOT IN ('PST004')
+		GROUP BY p.project_NO
+		ORDER BY like_count DESC
+	</select>
+	
+	
+	<!-- 프로젝트들의 현재 상태 목록 가져오기 -->
+	<select id="projectStatusList" resultMap="ProjectStatusListMap">
+		SELECT
+			c.common_value, COUNT(p.common_CODE) AS status_count
+		FROM
+			common c LEFT OUTER JOIN project p
+		    ON c.common_CODE = p.common_CODE
+		WHERE c.common_CODE IN ('PST001', 'PST002', 'PST003', 'PST004')
+		GROUP BY c.common_CODE
+	</select>
+	
+	
+	<!-- 전체 지원 상태 목록 가져오기 -->
+	<select id="applyStatusList" resultMap="ApplyStatusListMap">
+		SELECT
+			c.common_value, COUNT(a.common_CODE) AS status_count
+		FROM
+			common c LEFT OUTER JOIN apply a
+		    ON c.common_CODE = a.common_CODE
+		WHERE c.common_CODE IN ('SPT001', 'SPT002', 'SPT003', 'SPT004', 'SPT005')
+		GROUP BY c.common_CODE
 	</select>
 	
 </mapper>

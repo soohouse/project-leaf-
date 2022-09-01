@@ -51,19 +51,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="commonValue" column="common_value"/>
 	</resultMap>
 	
-	<!-- 지원결과조회 목록보기 -->
-	<select id="applyResultList" resultMap="UserApplyResultMap">
-		SELECT 
-			a.apply_NO, p.project_name, a.apply_date, 
-		    p.project_require_date1, p.project_require_date2,
-		    c.common_value
-		FROM
-			project p LEFT OUTER JOIN apply a
-			ON p.project_NO = a.project_NO
-		    LEFT OUTER JOIN common c
-		    ON a.common_CODE = c.common_CODE
-		WHERE a.user_NO = #{userNO}
-	</select>
+	<sql id="search">
+		<if test="pvo.condition == 'id'">
+			AND p.project_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'name'">
+			AND c.company_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+	</sql>
 	
 	<!-- 지원현황 리스트 목록보기 -->
 	<select id="applyStatusList" resultMap="UserApplyStatusMap">
@@ -79,6 +74,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			LEFT OUTER JOIN common cm
 			ON a.common_CODE = cm.common_CODE
 		WHERE a.user_NO = #{userNO}
+		<include refid="search" />
+		LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
+	</select>
+	
+	<!-- 지원결과조회 목록보기 -->
+	<select id="applyResultList" resultMap="UserApplyResultMap">
+
+		
+		SELECT * FROM
+			( 
+			SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
+
+				(	
+				SELECT 
+					a.apply_NO, p.project_name, a.apply_date, 
+				    p.project_require_date1, p.project_require_date2,
+				    c.common_value
+				FROM
+					project p LEFT OUTER JOIN apply a
+					ON p.project_NO = a.project_NO
+				    LEFT OUTER JOIN common c
+				    ON a.common_CODE = c.common_CODE
+				WHERE a.user_NO = #{userNO}
+				<include refid="search" />
+				) A,(SELECT @ROWNUM := 0)B
+				ORDER BY rn
+			) B
 		LIMIT ${pvo.cpp}
 		OFFSET ${pvo.skip}
 	</select>
@@ -95,11 +118,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE p.project_NO = #{projectNO}
 	</select>
 	
-	<!-- 지원한 프로젝트 개수 구하기 SELECT 쿼리 -->
+	<!-- 지원한 프로젝트 총 개수 구하기 SELECT 쿼리 -->
 	<select id="projectApplyCount" resultType="int">
 		SELECT COUNT(*)
 		FROM apply
 		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 지원한 프로젝트 총 개수 구하기 SELECT 쿼리 -->
+	<select id="projectApplyCountSearch" resultType="int">
+		SELECT COUNT(*)
+		FROM apply a LEFT OUTER JOIN project p
+        ON a.project_NO = p.project_NO
+        LEFT OUTER JOIN company c
+        ON p.company_NO = c.company_NO
+        WHERE a.user_NO = #{userNO}
+        <include refid="search" />
 	</select>
 
 </mapper>

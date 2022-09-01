@@ -110,7 +110,7 @@ public class NoticeController {
 		
 		service.noticeModify(vo);
 		
-		ra.addFlashAttribute("msg", "updateSuccess");
+		ra.addFlashAttribute("msg", "공지사항 글이 성공적으로 수정되었습니다.");
 		return "redirect:/notice/noticeContent/" + vo.getNoticeNo();
 	}
 	
@@ -120,7 +120,7 @@ public class NoticeController {
 		
 		service.noticeDelete(vo.getNoticeNo());
 		
-		ra.addFlashAttribute("msg", "deleteSuccess");
+		ra.addFlashAttribute("msg", "공지사항 글이 성공적으로 삭제되었습니다.");
 		return "redirect:/notice/noticeList";
 	}
 	

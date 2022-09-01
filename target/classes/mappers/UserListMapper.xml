@@ -25,6 +25,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="resumeRealname" column="resume_realname" />
 	</resultMap>
 	
+	<sql id="search">
+		<if test="condition == 'title'">
+			AND u.user_ID LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'writer'">
+			AND u.user_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'date'">
+			AND u.user_email1 LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	
 	<!-- 개발자 목록 끌어오기 -->
 	<select id="userList" resultMap="UserListMap">
 		SELECT 
@@ -37,6 +50,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE u.common_CODE = 'ADM001'
 		AND u.common_CODE != 'ADM003'
 		AND u.user_NO != 1
+		<include refid="search" />
+		LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	<!-- 개발자 토탈 -->
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE common_CODE = 'ADM001'
 	</select>
 		
 	

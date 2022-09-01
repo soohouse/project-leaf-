@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.leaf.home.service.IHomeService;
 import com.spring.leaf.project.service.IProjectService;
+import com.spring.leaf.util.PageApplyVO;
 
 /*
 	메인 화면으로 이동하도록 제어하는 컨트롤러
@@ -33,14 +34,12 @@ public class HomeController {
 	
 	// 메인페이지 이동 요청
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(PageApplyVO pvo, Model model) {
 		logger.info("/ : GET (메인페이지 이동)");
 		
 		model.addAttribute("miniNoticeList", service.homeNoticeList());
 		model.addAttribute("miniBoardList", service.homeBoardList());
 		model.addAttribute("miniProjectList", service.homeProjectList());
-		
-		model.addAttribute("projectList", pservice.projectlist());
 		
 		return "home";
 	}

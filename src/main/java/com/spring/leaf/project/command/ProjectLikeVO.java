@@ -14,5 +14,6 @@ public class ProjectLikeVO {
 
 	private int projectLikeNO;
 	private int projectNO;
-	private int userNo;
+	private int userNO;
+	private int companyNO;
 }

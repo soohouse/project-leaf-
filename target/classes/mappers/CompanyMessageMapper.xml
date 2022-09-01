@@ -83,6 +83,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE company_NO = #{companyNO}
 		</select>
 		
+		<!-- 기업이 유저한테 보낸 쪽지 개수 구하기 SELECT 쿼리 -->
+		<select id="sendMessageCount" resultType="int">
+			SELECT COUNT(*)
+			FROM 
+				user u LEFT OUTER JOIN user_message um
+			    ON u.user_NO = um.user_NO
+			    LEFT OUTER JOIN company c
+			    ON um.user_message_writer = c.company_name
+			WHERE um.user_message_writer = #{companyName}
+		</select>
+		
 		
 		
 		

@@ -25,6 +25,18 @@
    <!-- 여기다가 나만의 새로운 css 만들기 -->
    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mainpage-style.css">
    
+   <style>
+   
+   	img[src$=".jpg"], img[src$=".png"] {
+	image-rendering: -moz-crisp-edges; /* Firefox */
+	image-rendering: -o-crisp-edges; /* Opera */
+	image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+	image-rendering: crisp-edges;
+	-ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+	}
+   
+   </style>
+   
 </head>
 <body>
 
@@ -47,36 +59,18 @@
 			                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 			                            <li data-target="#myCarousel" data-slide-to="1"></li>
 			                            <li data-target="#myCarousel" data-slide-to="2"></li>
-			                            <li data-target="#myCarousel" data-slide-to="3"></li>
-			                            <li data-target="#myCarousel" data-slide-to="4"></li>
-			                            <li data-target="#myCarousel" data-slide-to="5"></li>
 			                        </ol>
 			
 			                        <!-- Wrapper for slides -->
 			                        <div class="carousel-inner">
 			                            <div class="item active">
 			                                <a href="###">
-			                                <img src="resources/img/banner1.png" alt="슬라이드1">
+			                                <img src="resources/img/banner2.png" alt="슬라이드1">
 			                                </a>
 			                            </div>
 			                            <div class="item">
 			                                <a href="##">
-			                                <img src="resources/img/banner2.png" alt="슬라이드2">
-			                                </a>
-			                            </div>
-			                            <div class="item">
-			                                <a href="##">
-			                                <img src="resources/img/banner3.png" alt="슬라이드3">
-			                                </a>
-			                            </div>
-			                            <div class="item">
-			                                <a href="##">
-			                                <img src="resources/img/banner4.png" alt="슬라이드4">
-			                                </a>
-			                            </div>
-			                            <div class="item">
-			                                <a href="##">
-			                                <img src="resources/img/banner5.png" alt="슬라이드4">
+			                                <img src="resources/img/banner1.png" alt="슬라이드2">
 			                                </a>
 			                            </div>
 			                            <div class="item">
@@ -121,7 +115,7 @@
 					    	</div>
 					    	<div class="project-form" style="font-family: sans-serif;">
 					    		<div class="project-title">
-					    			<p>${miniProject.miniProjectName}</p>
+					    			<p style="">${miniProject.miniProjectName}</p>
 						    	</div>
 						    	<div class="project-content">
 						    		<p style="font-weight: 700; font-size: 13px; color: #909090;">${miniProject.miniCompanyName}</p>

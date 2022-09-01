@@ -26,5 +26,8 @@ public interface ICompanyMessageMapper {
 	
 	//관리자 -> 기업 메세지 개수 얻어오기 요청
 	int companyMessageCount(int companyNO);
+	
+	//기업 -> 유저 메세지 보낸 개수 얻어오기 요청
+	int sendMessageCount(String companyName);
 }
 

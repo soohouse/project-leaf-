@@ -178,6 +178,18 @@ public class AdminController {
 	}
 	
 	
+	// 가입 거부 처리
+	@PostMapping("/companyDenied")
+	@ResponseBody
+	public String companyDenied(@RequestParam("companyNO") int companyNO) {
+		logger.info("/admin/companyDenied : POST (기업 가입 거부 요청)");
+		
+		service.companyDenied(companyNO);
+		
+		return "YesCompanyDenied";
+	}
+	
+	
 	// 개발자 통계 페이지 이동 요청
 	@GetMapping("/chartDevelopers")
 	public String chartDevelopers() {
@@ -232,6 +244,436 @@ public class AdminController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("userNewList", service.userNewList());
 		
+		return map;
+	}
+	
+	
+	// 개발자 탈퇴 현황을 얻어오는 요청
+	@PostMapping("/chartDevelopers5")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers5() {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userDeleteCount", service.userDeleteCount());
+		map.put("userDate", service.userDate());
+		
+		return map;
+	}
+	
+	
+	// 한 달 간 개발자 탈퇴 목록을 얻어오는 요청
+	@PostMapping("/chartDevelopers6")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers6() {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userDeleteList", service.userDeleteList());
+		
+		return map;
+	}
+	
+	
+	// 개발자 별 프로젝트 지원 수를 얻어오는 요청
+	@PostMapping("/chartDevelopers7")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers7() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userApplyCount", service.userApplyCount());
+
+		return map;
+	}
+	
+	
+	// 개발자 별 받은 쪽지 수를 얻어오는 요청
+	@PostMapping("/chartDevelopers8")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers8() {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userMessageCount", service.userMessageCount());
+
+		return map;
+	}
+	
+	
+	// 개발자 별 자유게시판 게시물 수를 얻어오는 요청
+	@PostMapping("/chartDevelopers9")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers9() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userBoardCount", service.userBoardCount());
+
+		return map;
+	}
+	
+	
+	// 개발자 별 질문 글 수를 얻어오는 요청
+	@PostMapping("/chartDevelopers10")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers10() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userQuestionCount", service.userQuestionCount());
+
+		return map;
+	}
+
+	
+	// 개발자 별 답변 글 수를 얻어오는 요청
+	@PostMapping("/chartDevelopers11")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers11() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userAnswerCount", service.userAnswerCount());
+
+		return map;
+	}
+
+	
+	// 개발자 별 자료실 게시물 수를 얻어오는 요청
+	@PostMapping("/chartDevelopers12")
+	@ResponseBody
+	public Map<String, Object> chartDevelopers12() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userArchiveCount", service.userArchiveCount());
+
+		return map;
+	}
+	
+	
+	// 기업 통계 페이지 이동 요청
+	@GetMapping("/chartCompanies")
+	public String chartCompanies() {
+		logger.info("/admin/chartCompanies : GET (기업 통계 페이지 이동)");
+
+		return "/admin/chart-companies";
+	}
+	
+	
+	// 기업 신규 가입 현황 데이터 얻어오는 요청
+	@PostMapping("/chartCompanies1")
+	@ResponseBody
+	public Map<String, Object> chartCompanies1() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyRegistCount", service.companyRegistCount());
+		map.put("companyDate", service.userDate());
+
+		return map;
+	}
+	
+	
+	// 전체 기업들의 가입 현황을 얻어오는 요청
+	@PostMapping("/chartCompanies2")
+	@ResponseBody
+	public Map<String, Object> chartCompanies2() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyStatus", service.companyStatus());
+
+		return map;
+	}
+	
+	
+	// 각 기업들의 가입 현황을 얻어오는 요청
+	@PostMapping("/chartCompanies3")
+	@ResponseBody
+	public Map<String, Object> chartCompanies3() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyCRG", service.companyCRG());
+
+		return map;
+	}
+	
+	
+	// 한 달 간 기업회원 신규 가입 목록을 얻어오는 요청
+	@PostMapping("/chartCompanies4")
+	@ResponseBody
+	public Map<String, Object> chartCompanies4() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyNewList", service.companyNewList());
+
+		return map;
+	}
+	
+	
+	// 가입한 기업들의 위치 정보를 얻어오는 요청
+	@PostMapping("/chartCompanies5")
+	@ResponseBody
+	public Map<String, Object> chartCompanies5() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyRegion", service.companyRegion());
+
+		return map;
+	}
+	
+	
+	// 기업 로고를 등록한 기업의 수를 얻어오는 요청
+	@PostMapping("/chartCompanies6")
+	@ResponseBody
+	public Map<String, Object> chartCompanies6() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyLogoCount", service.companyLogoCount());
+
+		return map;
+	}
+	
+	
+	// 6개월 동안 탈퇴한 기업 수를 얻어오는 요청
+	@PostMapping("/chartCompanies7")
+	@ResponseBody
+	public Map<String, Object> chartCompanies7() {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyDeleteCount", service.companyDeleteCount());
+		map.put("userDate", service.userDate());
+		
+		return map;
+	}
+	
+	
+	// 한 달 간 기업 탈퇴 목록을 얻어오는 요청
+	@PostMapping("/chartCompanies8")
+	@ResponseBody
+	public Map<String, Object> chartCompanies8() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyDeleteList", service.companyDeleteList());
+
+		return map;
+	}
+	
+	
+	// 기업 별 프로젝트 등록 수 얻어오는 요청
+	@PostMapping("/chartCompanies9")
+	@ResponseBody
+	public Map<String, Object> chartCompanies9() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyProjectCount", service.companyProjectCount());
+
+		return map;
+	}
+	
+	
+	// 기업 별 보낸 쪽지 수 얻어오는 요청
+	@PostMapping("/chartCompanies10")
+	@ResponseBody
+	public Map<String, Object> chartCompanies10() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyMessageCount", service.companyMessageCount());
+
+		return map;
+	}
+	
+	
+	// 기업 별 자유게시판 게시글 수 얻어오는 요청
+	@PostMapping("/chartCompanies11")
+	@ResponseBody
+	public Map<String, Object> chartCompanies11() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyBoardCount", service.companyBoardCount());
+
+		return map;
+	}
+
+	
+	// 기업 별 자료실 게시글 수 얻어오는 요청
+	@PostMapping("/chartCompanies12")
+	@ResponseBody
+	public Map<String, Object> chartCompanies12() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("companyArchiveCount", service.companyArchiveCount());
+
+		return map;
+	}
+	
+	
+	// 프로젝트 통계 페이지 이동 요청
+	@GetMapping("/chartProjects")
+	public String chartProjects() {
+		logger.info("/admin/chartProjects : GET (프로젝트 통계 페이지 이동)");
+
+		return "/admin/chart-projects";
+	}
+	
+	
+	// 6개월 동안 등록된 프로젝트 수를 얻어오는 요청
+	@PostMapping("/chartProjects1")
+	@ResponseBody
+	public Map<String, Object> chartProjects1() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectRegistCount", service.projectRegistCount());
+		map.put("userDate", service.userDate());
+
+		return map;
+	}
+	
+	
+	// 6개월 동안 삭제된 프로젝트 수를 얻어오는 요청
+	@PostMapping("/chartProjects2")
+	@ResponseBody
+	public Map<String, Object> chartProjects2() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectDeleteCount", service.projectDeleteCount());
+		map.put("userDate", service.userDate());
+
+		return map;
+	}
+	
+	
+	// 6개월 동안 등록된 프로젝트 수와 삭제된 프로젝트 수를 얻어오는 요청
+	@PostMapping("/chartProjects3")
+	@ResponseBody
+	public Map<String, Object> chartProjects3() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectRegistCount", service.projectRegistCount());
+		map.put("projectDeleteCount", service.projectDeleteCount());
+		map.put("userDate", service.userDate());
+
+		return map;
+	}
+	
+	
+	// 한 달 간 프로젝트 신규 등록을 얻어오는 요청
+	@PostMapping("/chartProjects4")
+	@ResponseBody
+	public Map<String, Object> chartProjects4() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectNewList", service.projectNewList());
+
+		return map;
+	}
+	
+	
+	// 한 달 간 프로젝트 삭제을 얻어오는 요청
+	@PostMapping("/chartProjects5")
+	@ResponseBody
+	public Map<String, Object> chartProjects5() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectDeleteList", service.projectDeleteList());
+
+		return map;
+	}
+	
+	
+	// 모집 중인 프로젝트의 지원자 수를 얻어오는 요청
+	@PostMapping("/chartProjects6")
+	@ResponseBody
+	public Map<String, Object> chartProjects6() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectApplyNow", service.projectApplyNow());
+
+		return map;
+	}
+	
+	
+	// 모집이 종료된 프로젝트의 지원자 수를 얻어오는 요청
+	@PostMapping("/chartProjects7")
+	@ResponseBody
+	public Map<String, Object> chartProjects7() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectApplyEnd", service.projectApplyEnd());
+
+		return map;
+	}
+	
+	
+	// 전체 프로젝트의 지원자 수를 얻어오는 요청
+	@PostMapping("/chartProjects8")
+	@ResponseBody
+	public Map<String, Object> chartProjects8() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectApply", service.projectApply());
+
+		return map;
+	}
+	
+	
+	// 전체 프로젝트의 지원자 수 목록을 얻어오는 요청
+	@PostMapping("/chartProjects9")
+	@ResponseBody
+	public Map<String, Object> chartProjects9() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectApplyList", service.projectApplyList());
+
+		return map;
+	}
+	
+	
+	// 프로젝트 별 조회수를 얻어오는 요청
+	@PostMapping("/chartProjects10")
+	@ResponseBody
+	public Map<String, Object> chartProjects10() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectViews", service.projectViews());
+
+		return map;
+	}
+	
+	
+	// 프로젝트 별 좋아요 수를 얻어오는 요청
+	@PostMapping("/chartProjects11")
+	@ResponseBody
+	public Map<String, Object> chartProjects11() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectLikes", service.projectLikes());
+
+		return map;
+	}
+	
+	
+	// 프로젝트들의 상태를 얻어오는 요청
+	@PostMapping("/chartProjects12")
+	@ResponseBody
+	public Map<String, Object> chartProjects12() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectStatusList", service.projectStatusList());
+
+		return map;
+	}
+	
+	
+	// 지원 통계 페이지 이동 요청
+	@GetMapping("/chartApplies")
+	public String chartApplies() {
+		logger.info("/admin/chartApplies : GET (지원 통계 페이지 이동)");
+
+		return "/admin/chart-applies";
+	}
+	
+	
+	// 전체 지원 상태를 얻어오는 요청
+	@PostMapping("/chartApplies1")
+	@ResponseBody
+	public Map<String, Object> chartApplies1() {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("applyStatusList", service.applyStatusList());
+
 		return map;
 	}
 	

@@ -60,7 +60,16 @@
    	margin: 0 auto;
    	}
 
-
+   .boardclick {
+   	color: black;
+   }
+   .boardclick:hover {
+   	text-decoration: none;
+   	color: 	#4682B4;
+   }
+   .boardclick:active {
+    text-decoration: none;
+   }
    
    </style>
    
@@ -80,10 +89,10 @@
         <div class="container" style="width: 90%;">
             <div class="row">
 						<!-- 메인화면 공지사항 상단 -->
-			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
+			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px; cursor: default;">
 			            	<span class="main-notice-title">Q&A</span>
 			            </a>
-			    <select id="pageUnit" name="pageUnit" onchange="Change(1)" class="head-control mx-sm-3 mb-2" style="float:left;">
+			    <select id="pageUnit" name="pageUnit" onchange="Change(1)" class="head-control mx-sm-3 mb-2" style="float:left; font-size: 13px;">
 			        <option value="10" <c:if test="${pc.paging.cpp == 10}">selected</c:if>>10개씩 보기</option>
 			        <option value="15" <c:if test="${pc.paging.cpp == 15}">selected</c:if>>15개씩 보기</option>
 			        <option value="20" <c:if test="${pc.paging.cpp == 20}">selected</c:if>>20개씩 보기</option>
@@ -91,7 +100,7 @@
                 <button type="submit" class="btn btn-success mb-2 pull-right" id="btn-question-write">질문하기</button>
                  
                  
-                <table class="table table-bordered"  style="text-align: center; font-size:14px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
+                <table class="table table-bordered"  style="text-align: center; font-size:13px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center; width:5%">번호</th>
@@ -109,7 +118,7 @@
                         <tr>
                             <td>${question.rn}</td> 
                             <td style="text-align: left;">
-                            	<a href="<c:url value='/question/questionContent/${question.questionNo}'/>">
+                            	<a href="<c:url value='/question/questionContent/${question.questionNo}'/>" class="boardclick">
                             		${question.questionTitle}
                             		 <!-- new마크 -->
 									<c:if test="${question.questionDate>=nowday }">

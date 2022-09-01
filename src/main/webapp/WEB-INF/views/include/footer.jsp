@@ -72,6 +72,7 @@
 		<c:otherwise>
 			<!-- 일반 푸터 -->
 			<footer>
+				<div>
 				  <div class="notice_box">
 				    <a href="/"><span class="sidebar-icon"><i class="fa fa-building"></i></span> RunWith</a>
 				  </div>
@@ -96,6 +97,7 @@
 				        </ul>
 				      </div>
 				    </div>
+				</div>
 			</footer>
 		</c:otherwise>
 	

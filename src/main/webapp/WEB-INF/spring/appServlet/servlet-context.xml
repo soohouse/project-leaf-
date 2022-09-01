@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -15,6 +17,19 @@
 	<!-- css, img, js 등의 파일 경로가 복잡할 때 많이 사용된다. jsp 파일 등 경로가 긴 곳을 작성하기 편하게 선언한다. -->
 	<!-- 내부 경로를 숨겨주는 역할도 한다. -->
 	<resources mapping="/resources/**" location="/resources/" />
+	
+	
+	<!-- 
+	<websocket:handlers>
+		<websocket:mapping handler="chatHandler" path="/chat/chatPage"/>
+		<websocket:mapping handler="chatHandler" path="/chat/chatMain"/>
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+		<websocket:sockjs></websocket:sockjs>
+	</websocket:handlers>
+	<beans:bean id="chatHandler" class="com.spring.leaf.util.ChatHandler"/>
+	 -->
 
 
 	<!-- 컨트롤러가 리턴한 문자열 앞, 뒤에 적절한 경로를 붙여서 화면을 응답할 수 있도록 도와주는 ViewResolver -->

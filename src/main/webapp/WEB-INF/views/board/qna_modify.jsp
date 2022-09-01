@@ -51,7 +51,7 @@
 				    	    		<th><input type="hidden" name="questionNo" id="questionNo" value="${question.questionNo}"></th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" id="questionTitle" name="questionTitle" class="form-control" value="${question.questionTitle}" maxlength="50" ></td>
+					    			<td><input type="text" id="questionTitle" name="questionTitle" class="form-control" value="${question.questionTitle}" maxlength="100" ></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -90,14 +90,15 @@ $('#btn-question-update').click(function() {
 	if(title == '') {
 		alert('제목을 입력해주세요.');
 		$('#questionTitle').css('border-color', 'red');
+		$('#questionTitle').focus();
 		return false;
 	} else if(content == '') {
 		alert('내용을 입력해주세요.');
 		$('#questionContent').css('border-color', 'red');
+		$('#questionContent').focus();
 		return false;
 	} else {
-		if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
-			alert('글이 성공적으로 등록되었습니다!');
+		if(confirm('글을 수정하시겠습니까?')) { //예->등록성공
 			return;
 		} else {return false;} //아니요->등록실패
 	}

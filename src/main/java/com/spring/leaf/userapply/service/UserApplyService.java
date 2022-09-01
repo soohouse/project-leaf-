@@ -22,17 +22,22 @@ public class UserApplyService implements IUserApplyService {
 	@Autowired
 	private IUserApplyMapper mapper;
 	
-	@Override
-	public List<UserApplyResultVO> applyResultList(int userNO) {
-		return mapper.applyResultList(userNO);
-	}
-	
+	//지원현황 리스트
 	@Override
 	public List<UserApplyStatusVO> applyStatusList(int userNO, PageApplyVO pvo) {
 		Map<String, Object> map = new HashMap<String, Object>(); 
 		map.put("userNO", userNO);
 		map.put("pvo", pvo);
 		return mapper.applyStatusList(map);
+	}
+	
+	//지원결과 리스트
+	@Override
+	public List<UserApplyResultVO> applyResultList(int userNO, PageVO vo) {
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		map.put("userNO", userNO);
+		map.put("pvo", vo);
+		return mapper.applyResultList(map);
 	}
 	
 	@Override
@@ -42,7 +47,17 @@ public class UserApplyService implements IUserApplyService {
 	
 	@Override
 	public int projectApplyCount(int userNO) {
+		
 		return mapper.projectApplyCount(userNO);
+	}
+	
+	@Override
+	public int projectApplyCountSearch(int userNO, PageApplyVO pvo) {
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		map.put("userNO", userNO);
+		map.put("pvo", pvo);
+		
+		return mapper.projectApplyCountSearch(map);
 	}
 	
 }

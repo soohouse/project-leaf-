@@ -35,6 +35,17 @@
    			width: 560px;
    			margin: 0 auto;
    		}
+   		
+   		
+   		#modal-user-intro::-webkit-scrollbar {
+ 			width: 3px;
+  			background-color: #C7C7C7;
+		}
+	
+	
+		#modal-user-intro::-webkit-scrollbar-thumb {
+			background: #535353;
+		}
    
    </style>
    
@@ -50,15 +61,22 @@
 			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;"> 
 				<span class="main-board-title" style="color: #2C4F22;">개발자 목록</span>
 			</a>
-
-			<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0;">
+			
+				<select id="pageUnit" name="pageUnit" onchange="Change(1)" class="head-control mx-sm-3 mb-2" style="float:right;">
+			        <option value="10" <c:if test="${pc.paging.cpp == 10}">selected</c:if>>10개씩 보기</option>
+			        <option value="15" <c:if test="${pc.paging.cpp == 15}">selected</c:if>>15개씩 보기</option>
+			        <option value="20" <c:if test="${pc.paging.cpp == 20}">selected</c:if>>20개씩 보기</option>
+			    </select>
+			
+			<form class="navbar-form navbar-left navbar-main-top pull-left" action="<c:url value='/userList/userList'/>" style="padding: 0; margin-left: 0;">
 				<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-                            <option value="id">개발자 ID</option>
-                            <option value="name">개발자 이름</option>
+                            <option value="title" ${pc.paging.condition == 'title' ? 'selected' : ''}>개발자 ID</option>
+                            <option value="writer" ${pc.paging.condition == 'writer' ? 'selected' : ''}>이름</option>
+                     		<option value="date" ${pc.paging.condition == 'date' ? 'selected' : ''}>이메일</option>
                 </select>
 			
 				<div class="input-group"> 
-					<input type="text" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
+					<input type="text" name="keyword" value="${pc.paging.keyword}" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
 					</span>
@@ -114,12 +132,20 @@
 											if(user.userIntro == null || user.userIntro == '') {
 												$('#modal-user-intro').text('');
 											} else {
-												$('#modal-user-intro').text(user.userIntro);
+												let str = user.userIntro.replaceAll("\n", "<br/>");
+												$('#modal-user-intro').empty().append(str);
 											}
 											
 											if(user.resumeRealname == null || user.resumeRealname == '') {
-												$('#modal-user-resume-realname').text('');
+												$('#modal-user-resume-realname').css('color', '#A4A4A4');
+												$('#modal-user-resume-realname').css('font-weight', '500');
+												$('#modal-user-resume-realname').css('text-decoration', 'none');
+												$('#modal-user-resume-realname').text('등록된 이력서가 없습니다.');
 											} else {
+												$('#modal-user-resume-realname').css('color', 'blue');
+												$('#modal-user-resume-realname').css('font-weight', '500');
+												$('#modal-user-resume-realname').css('text-decoration', 'underline');
+												
 												$('#modal-user-resume-realname').text(user.resumeRealname);
 											}
 											
@@ -146,7 +172,26 @@
 
 				</tbody>
 			</table>
-
+			<!-- 페이징 -->
+            <div class="text-center">
+				<form action="<c:url value='/board/dev_list'/>" name="pageForm">
+	                <ul class="pagination pagination-sm">
+						<c:if test="${pc.prev }"><!-- 이전버튼 -->
+		                    <li><a href="/userList/userList?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.beginPage-1 }"> << </a></li>
+						</c:if>
+						<c:forEach var="num" begin="${pc.beginPage }" end="${pc.endPage }">
+							<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a href="/userList/userList?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum='${num }'>${num }</a></li>
+						</c:forEach>
+						<c:if test="${pc.next }"><!-- 다음버튼 -->
+		                    <li><a href="/userList/userList?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.endPage-1 }"> >> </a></li>
+						</c:if>
+					</ul>
+                    <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
+                    <input type="hidden" name="cpp" value="${pc.paging.cpp}">
+                    <input type="hidden" name="condition" value="${pc.paging.condition}">
+                    <input type="hidden" name="keyword" value="${pc.paging.keyword}">
+				</form>
+			</div>
 		</div>
 	
 		<%@ include file="../include/footer.jsp" %>
@@ -174,5 +219,34 @@
 		});
 		
 	});
+	
+	//페이징
+	$(function() {
+		const msg = '${msg}';
+		if(msg !== '') {
+			alert(msg);
+		}
+		$('#pagination').on('click', 'a', function(e) {
+			e.preventDefault(); //a태그의 고유기능 중지.
+			const value = $(this).data('pagenum'); //-> jQuery
+			console.log(value);
+			document.pageForm.pageNum.value = value;
+			document.pageForm.submit();
+		});
+	}); //end jQuery
+	
+	//n개씩 보기  https://chobopark.tistory.com/95 참고
+	function Change(idx){
+	    var pagenum = idx;
+	    var nowPaging = $("#pageUnit option:selected").val();
+	    
+	    if(nowPaging == 10){
+	        location.href="${path}/userList/userList?pageIndex="+pagenum+"&cpp="+nowPaging;    
+	    }else if(nowPaging == 15){
+	        location.href="${path}/userList/userList?pageIndex="+pagenum+"&cpp="+nowPaging;    
+	    }else if(nowPaging == 20){
+	        location.href="${path}/userList/userList?pageIndex="+pagenum+"&cpp="+nowPaging;    
+	    }
+	}
 
 </script>

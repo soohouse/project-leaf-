@@ -6,9 +6,27 @@
 
 <style>
 
-	::-webkit-scrollbar {
- 		 display: none;
-	}
+		#modal-user-apply-msg::-webkit-scrollbar {
+ 			width: 3px;
+  			background-color: #C7C7C7;
+		}
+	
+	
+		#modal-user-apply-msg::-webkit-scrollbar-thumb {
+			background: #535353;
+		}
+		
+		
+		#modal-user-intro::-webkit-scrollbar {
+ 			width: 3px;
+  			background-color: #C7C7C7;
+		}
+	
+	
+		#modal-user-intro::-webkit-scrollbar-thumb {
+			background: #535353;
+		}
+   		
 
 </style>
 
@@ -21,7 +39,7 @@
 					<span class="main-board-title" style="color: #000686; font-size: 16px;">지원자 상세 정보</span>
 				</a>
 
-				<div style="display: inline-block; margin-top: 20px;">
+				<div style="display: inline-block; position: relative; top: -30px;">
 				  	<img id="modal-user-profile" alt="사진" width="160px" height="160px" style="border-radius: 120px;">
 				  	
 				  	<div style="width: 160px;">
@@ -55,7 +73,7 @@
 					  </div>
 					  <div class="form-group">
 					    <label for="inputEmail3" class="control-label" style="width: 100px;">소개</label>
-					    <p id="modal-user-intro" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
+					    <div id="modal-user-intro" style="width: 240px; height: 70px; font-size: 13px; display: inline-block; vertical-align: top; padding-right: 10px; overflow: auto;"></div>
 					    
 					  </div>
 					  <div class="form-group">
@@ -72,7 +90,7 @@
 				
 				<div class="form-group">
 					<label for="inputEmail3" class="control-label" style="display: block;">담당자에게 전할 메세지</label>
-					    <div id="modal-user-apply-msg" style="height: 120px; border: 1px solid #C7C7C7; padding: 10px; overflow: auto;"></div>
+					    <div id="modal-user-apply-msg" style="height: 100px; border: 1px solid #C7C7C7; padding: 10px; overflow: auto;"></div>
 				</div>
 			
 		    </div>

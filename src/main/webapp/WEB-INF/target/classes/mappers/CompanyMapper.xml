@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.company.mapper.ICompanyMapper">
+
+	<!-- CompanyVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 CompanyMap 선언 -->
+	<resultMap type="com.spring.leaf.company.command.CompanyVO" id="CompanyMap">
+		<id property="companyNO" column="company_NO" />
+		<result property="companyID" column="company_ID" />
+		<result property="companyPW" column="company_PW" />
+		<result property="companyName" column="company_name" />
+		<result property="companyEmail1" column="company_email1" />
+		<result property="companyEmail2" column="company_email2" />
+		<result property="companyPhone1" column="company_phone1" />
+		<result property="companyPhone2" column="company_phone2" />
+		<result property="companyPhone3" column="company_phone3" />
+		<result property="companyAddress1" column="company_address1" />
+		<result property="companyAddress2" column="company_address2" />
+		<result property="companyAddress3" column="company_address3" />
+		<result property="companyDate" column="company_date" />
+		<result property="companyIntro" column="company_intro" />
+		<result property="sessionID" column="session_ID" />
+		<result property="sessionLimit" column="session_limit" />
+		<result property="companyDelete" column="company_delete" />
+		<result property="commonCODE" column="common_CODE" />
+	</resultMap>
+	
+	
+	<!-- CompanyLogoVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 LogoMap 선언 -->
+	<resultMap type="com.spring.leaf.company.command.CompanyLogoVO" id="LogoMap">
+		<id property="companyLogoNO" column="company_logo_NO" />
+		<result property="companyLogoFilename" column="company_logo_filename" />
+		<result property="companyLogoUploadpath" column="company_logo_uploadpath" />
+		<result property="companyLogoRealname" column="company_logo_realname" />
+		<result property="companyNO" column="company_NO" />
+	</resultMap>
+	
+	
+	<!-- CompanyIntroVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 IntroMap 선언 -->
+	<resultMap type="com.spring.leaf.company.command.CompanyIntroVO" id="IntroMap">
+		<id property="companyIntroNO" column="company_intro_NO" />
+		<result property="companyIntroFilename" column="company_intro_filename" />
+		<result property="companyIntroUploadpath" column="company_intro_uploadpath" />
+		<result property="companyIntroRealname" column="company_intro_realname" />
+		<result property="companyNO" column="company_NO" />
+	</resultMap>
+	
+	
+	<!-- 기업 회원가입 INSERT 쿼리 -->
+	<insert id="companyRegist">
+		INSERT INTO company
+			(company_ID, company_PW, company_name, company_email1, company_email2,
+			company_phone1, company_phone2, company_phone3, 
+			company_address1, company_address2, company_address3, company_intro)
+		VALUES
+			(#{companyID}, #{companyPW}, #{companyName}, #{companyEmail1}, #{companyEmail2},
+			#{companyPhone1}, #{companyPhone2}, #{companyPhone3},
+			#{companyAddress1}, #{companyAddress2}, #{companyAddress3}, #{companyIntro})
+	</insert>
+	
+	
+	<!-- 기업 아이디 중복체크 SELECT 쿼리 -->
+	<select id="companyIDCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM company
+		WHERE company_ID = #{companyID}
+	</select>
+	
+	
+	<!-- 기업 이메일 중복체크 SELECT 쿼리 -->
+	<select id="companyEmailCheck" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM company
+		WHERE company_email1 = #{company_email1}
+		AND company_email2 = #{company_email2}
+	</select>
+	
+	
+	<!-- 기업회원 정보 SELECT 쿼리 -->
+	<select id="companyGetInfo" resultMap="CompanyMap">
+		SELECT *
+		FROM company
+		WHERE company_ID = #{companyID}
+	</select>
+	
+	
+	<!-- 기업회원 비밀번호 변경 UPDATE 쿼리 -->
+	<update id="companyPasswordChange">
+		UPDATE company
+		SET company_PW = #{newPassword}
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 기업회원 회원탈퇴 UPDATE 쿼리 -->
+	<update id="companyDelete">
+		UPDATE company
+		SET common_CODE = 'CRG004', company_delete = NOW()
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 기업회원이 탈퇴하기 전 등록한 프로젝트가 있는지 체크하는 SELECT 쿼리 -->
+	<select id="companyProjectCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE company_NO = #{companyNO}
+		AND common_CODE != 'PST003'
+	</select>
+	
+	
+	<!-- 자동로그인 UPDATE 쿼리 -->
+	<update id="companyAutoLogin">
+		UPDATE company
+		SET session_ID = #{sessionID}, session_limit = #{sessionLimit}
+		WHERE company_ID = #{companyID}
+	</update>
+	
+	
+	<!-- 자동로그인 세션값으로 기업회원 정보 얻어오기 SELECT 쿼리 -->
+	<select id="companyAutoGet" resultMap="CompanyMap">
+		SELECT *
+		FROM company
+		WHERE session_ID = #{sessionID}
+		AND session_limit > now()
+	</select>
+	
+	
+	<!-- 기업회원 ID 찾기 -->
+	<select id="companyIDFind" resultMap="CompanyMap">
+		SELECT *
+		FROM company
+		WHERE company_name = #{companyName}
+	</select>
+	
+	
+	<!-- 일반회원 PW 초기화 -->
+	<update id="companyPWReset">
+		UPDATE company
+		SET company_PW = #{newPassword}
+		WHERE company_ID = #{companyID}
+	</update>
+	
+	
+	<!-- 기업회원 기업회원번호 얻어내는 SELECT 쿼리 -->
+	<select id="companyNOGet" resultType="int">
+		SELECT MAX(company_NO) + 1
+		FROM company;
+	</select>
+	
+	
+	<!-- 기업회원 로고사진 INSERT 쿼리 -->
+	<insert id="companyLogo">
+		INSERT INTO company_logo
+			(company_logo_filename, company_logo_uploadpath, company_logo_realname, company_NO)
+		VALUES
+			(#{companyLogoFilename}, #{companyLogoUploadpath}, #{companyLogoRealname}, #{companyNO})
+	</insert>
+	
+	
+	<!-- 기업회원 로고사진 불러오기 SELECT 쿼리 -->
+	<select id="companyLogoGet" resultMap="LogoMap">
+		SELECT *
+		FROM company_logo
+		WHERE company_NO = #{companyNO}
+	</select>
+	
+	
+	<!-- 기업회원 로고사진 삭제 UPDATE 쿼리 -->
+	<update id="companyLogoDelete">
+		UPDATE company_logo
+		SET
+			company_logo_filename = null, company_logo_uploadpath = null, company_logo_realname = null
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 기업회원 로고사진 수정 UPDATE 쿼리 -->
+	<update id="companyLogoUpdate">
+		UPDATE company_logo
+		SET
+			company_logo_filename = #{companyLogoFilename}, company_logo_uploadpath = #{companyLogoUploadpath}, company_logo_realname = #{companyLogoRealname}
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 기업회원 로고사진 존재 여부 확인 SELECT 쿼리 -->
+	<select id="companyLogoCheck" resultType="int">
+		SELECT COUNT(company_logo_filename)
+		FROM company_logo
+		WHERE company_NO = #{companyNO}
+	</select>
+	
+	
+	<!-- 기업회원 회사 소개서 INSERT 쿼리 -->
+	<insert id="companyIntro">
+		INSERT INTO company_intro
+			(company_intro_filename, company_intro_uploadpath, company_intro_realname, company_NO)
+		VALUES
+			(#{companyIntroFilename}, #{companyIntroUploadpath}, #{companyIntroRealname}, #{companyNO})
+	</insert>
+	
+	
+	<!-- 회사 소개서 SELECT 쿼리 -->
+	<select id="companyIntroGet" resultMap="IntroMap">
+		SELECT *
+		FROM company_intro
+		WHERE company_NO = #{companyNO}
+	</select>
+	
+	
+	<!-- 회사 소개서 삭제 UPDATE 쿼리 -->
+	<update id="companyIntroDelete">
+		UPDATE company_intro
+		SET
+			company_intro_filename = null, company_intro_uploadpath = null, company_intro_realname = null
+		WHERE company_NO = #{companyNO}
+	</update>
+	
+	
+	<!-- 회사 소개서 수정 UPDATE 쿼리 -->
+	<update id="companyIntroUpdate">
+		UPDATE company_intro
+		SET
+			company_intro_filename = #{companyIntroFilename}, company_intro_uploadpath = #{companyIntroUploadpath}, company_intro_realname = #{companyIntroRealname}
+		WHERE company_NO = #{companyNO}
+	</update>
+
+</mapper>

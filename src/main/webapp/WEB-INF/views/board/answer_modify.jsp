@@ -52,7 +52,7 @@
 				    	    		<th><input type="hidden" name="answerNo" id="answerNo" value="${answerContent.answerNo}"></th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" id="answerTitle" name="answerTitle" class="form-control" value="${answerContent.answerTitle}" maxlength="50" ></td>
+					    			<td><input type="text" id="answerTitle" name="answerTitle" class="form-control" value="${answerContent.answerTitle}" maxlength="100" ></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -65,7 +65,7 @@
 					    	</tbody>
 		    	    	</table>
 
-		    	    	<input type="button" class="btn btn-primary pull-right" onclick="location.href='<c:url value="/question/questionList"/>'" value="목록">
+		    	    	<input type="button" class="btn btn-primary pull-right" onclick="location.href='<c:url value="/question/questionList"/>'" value="목록" style="margin-left:10px;">
     	    			<button type="submit" class="btn btn-info pull-right" id="btn-answer-update">수정하기</button>
 
 					  </form>
@@ -93,14 +93,15 @@ $('#btn-answer-update').click(function() {
 	if(title == '') {
 		alert('제목을 입력해주세요.');
 		$('#answerTitle').css('border-color', 'red');
+		$('#answerTitle').focus();
 		return false;
 	} else if(content == '') {
 		alert('내용을 입력해주세요.');
 		$('#answerContent').css('border-color', 'red');
+		$('#answerContent').focus();
 		return false;
 	} else {
-		if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
-			alert('글이 성공적으로 등록되었습니다!');
+		if(confirm('글을 수정하시겠습니까?')) { //예->등록성공
 			return;
 		} else {return false;} //아니요->등록실패
 	}

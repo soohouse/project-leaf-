@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.leaf.project.command.ProjectListVO;
 import com.spring.leaf.projectapply.command.ApplyVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyDetailVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyListVO;
@@ -16,6 +17,7 @@ import com.spring.leaf.projectapply.command.MyProjectStatusVO;
 import com.spring.leaf.projectapply.command.ProjectApplyCountVO;
 import com.spring.leaf.projectapply.command.ProjectPassListVO;
 import com.spring.leaf.projectapply.mapper.IProjectApplyMapper;
+import com.spring.leaf.util.PageApplyVO;
 
 
 @Service
@@ -63,15 +65,23 @@ public class ProjectApplyService implements IProjectApplyService {
 	
 	// 기업회원 지원 현황 내 프로젝트 목록 요청
 	@Override
-	public List<MyProjectStatusVO> myProjectStatus(int companyNO) {
-		return mapper.myProjectStatus(companyNO);
+	public List<MyProjectStatusVO> myProjectStatus(int companyNO, PageApplyVO pvo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("companyNO", companyNO);
+		map.put("pvo", pvo);
+		return mapper.myProjectStatus(map);
 	}
 	
 	
 	// 기업회원 등록 프로젝트 개수 얻어오기 요청
 	@Override
-	public int myProjectCount(int companyNO) {
-		return mapper.myProjectCount(companyNO);
+	public int myProjectCount(int companyNO, PageApplyVO pvo) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("companyNO", companyNO);
+		map.put("pvo", pvo);
+		
+		return mapper.myProjectCount(map);
 	}
 	
 	
@@ -185,4 +195,5 @@ public class ProjectApplyService implements IProjectApplyService {
 	public List<ProjectApplyCountVO> projectApplyCount(int companyNO) {
 		return mapper.projectApplyCount(companyNO);
 	}
+	
 }

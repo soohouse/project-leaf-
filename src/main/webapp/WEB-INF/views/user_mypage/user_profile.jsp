@@ -35,10 +35,32 @@
 
 
 <style>
-input.form-control {
-	width: 100%;
-	display: inline-block;
-}
+	input.form-control {
+		width: 100%;
+		display: inline-block;
+	}
+	
+	#div-user-intro::-webkit-scrollbar {
+ 		width: 3px;
+  		background-color: #C7C7C7;
+	}
+	
+	
+	#div-user-intro::-webkit-scrollbar-thumb {
+		background: #535353;
+	}
+	
+	
+	#div-company-intro::-webkit-scrollbar {
+ 		width: 3px;
+  		background-color: #C7C7C7;
+	}
+	
+	
+	#div-company-intro::-webkit-scrollbar-thumb {
+		background: #535353;
+	}
+	
 </style>
 
 </head>
@@ -63,7 +85,7 @@ input.form-control {
 									정보</span>
 							</a>
 
-							<div class="card" style="width: 20%; transform: translate(0, -90px); text-align: center;">
+							<div class="card" style="width: 20%; text-align: center;">
 								<img src="<c:url value='/user/userProfileGet?userNO=${userDetail.userNO}' />" alt="profile" class="img-circle" style="height: 250px;">
 								<div class="container1">
 									<h3>
@@ -119,7 +141,7 @@ input.form-control {
 									<div class="col-sm-3">
 										<p class="mb-0">소개</p>
 									</div>
-									<div class="col-sm-9">
+									<div class="col-sm-9" id="div-user-intro" style="height: 120px; overflow: auto;">
 										<p class="text-muted mb-0">${fn:replace(userDetail.userIntro, replaceChar, "<br/>")}</p>
 									</div>
 								</div>
@@ -132,7 +154,7 @@ input.form-control {
 									<div class="col-sm-9">
 										<div class="form-group">
 											<c:if test="${userDetail.resumeRealname == null}">
-												<p class="text-muted mb-0" id="btn-user-mypage-resume">등록한 이력서가 없습니다.</p>
+												<p class="text-muted mb-0" id="btn-user-mypage-resume" style="color: #A4A4A4; cursor: pointer;">등록한 이력서가 없습니다.</p>
 											</c:if>
 											
 											<c:if test="${userDetail.resumeRealname != null}">
@@ -264,7 +286,7 @@ input.form-control {
 									<div class="col-sm-3">
 										<p class="mb-0">기업소개</p>
 									</div>
-									<div class="col-sm-9">
+									<div class="col-sm-9" id="div-company-intro" style="height: 120px; overflow: auto;">
 										<p class="text-muted mb-0">${fn:replace(companyDetail.companyIntro, replaceChar, "<br/>")}</p>
 									</div>
 								</div>

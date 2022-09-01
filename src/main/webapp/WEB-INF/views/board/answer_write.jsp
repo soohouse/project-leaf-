@@ -51,7 +51,7 @@
 				    	    		<th colspan= "2">답변 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" id="answerTitle" name="answerTitle" class="form-control" placeholder="질문 제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" id="answerTitle" name="answerTitle" class="form-control" placeholder="질문 제목을 입력하세요." maxlength="100" ></td>
 					    			<td><input type="hidden" name="answerWriter" value="${user.userID}"></td>
 					    		</tr>
 			    	    	</thead>
@@ -99,10 +99,12 @@
 		if(title == '') {
 			alert('제목을 입력해주세요.');
 			$('#answerTitle').css('border-color', 'red');
+			$('#answerTitle').focus();
 			return false;
 		} else if(content == '') {
 			alert('내용을 입력해주세요.');
 			$('#answerContent').css('border-color', 'red');
+			$('#answerContent').focus();
 			return false;
 		} else {
 			if(confirm('글을 등록하시겠습니까?')) { //예->등록성공

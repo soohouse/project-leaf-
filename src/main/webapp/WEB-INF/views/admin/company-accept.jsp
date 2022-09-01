@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 
 <html>
 <head>
@@ -64,8 +66,6 @@
 					</span>
 				</div>
 			</form>
-			
-		
 
 
 			<table class="table table-bordered" style="margin-top: 20px;">
@@ -111,13 +111,20 @@
 											
 											if(company.companyIntro == null || company.companyIntro == '') {
 												$('#modal-company-intro').text('');
-											} else {
-												$('#modal-company-intro').text(company.companyIntro);
+											} else {			
+												let str = company.companyIntro.replaceAll("\n", "<br/>");
+												$('#modal-company-intro').empty().append(str);
 											}
 											
 											if(company.companyIntroRealname == null || company.companyIntroRealname == '') {
-												$('#modal-company-intro-realname').text('');
+												$('#modal-company-intro-realname').css('color', '#A4A4A4');
+												$('#modal-company-intro-realname').css('font-weight', '500');
+												$('#modal-company-intro-realname').css('text-decoration', 'none');
+												$('#modal-company-intro-realname').text('등록된 회사소개서가 없습니다.');
 											} else {
+												$('#modal-company-intro-realname').css('color', 'blue');
+												$('#modal-company-intro-realname').css('font-weight', '500');
+												$('#modal-company-intro-realname').css('text-decoration', 'underline');
 												$('#modal-company-intro-realname').text(company.companyIntroRealname);
 											}
 											

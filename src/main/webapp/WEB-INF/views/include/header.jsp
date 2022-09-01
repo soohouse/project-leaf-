@@ -21,10 +21,9 @@
 		                    </div>
 		                    <div id="navbar-collapse" class="collapse navbar-collapse">
 		                        <form class="navbar-form navbar-left navbar-main-top" role="search">
-		                            <div class="input-group">
-		                                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+		                            <div id="div-chat" onclick="popupOpenMain()" class="input-group">
 		                                <span class="input-group-btn">
-		                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		                                    <button class="btn btn-default" type="button" style="background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #e6e9f0 31%, #eef1f5 75%, #e9e9e7 100%); width: 140px; border-radius: 10px; font-size: 13px; font-weight: bold; font-family: sans-serif;"><span style="color: black;"><i class="fa fa-comments" aria-hidden="true"></i>&nbsp; </span>LIVE CHAT</button>
 		                                </span>
 		                            </div>
 		                        </form>
@@ -138,10 +137,9 @@
 		                    </div>
 		                    <div id="navbar-collapse" class="collapse navbar-collapse">
 		                        <form class="navbar-form navbar-left navbar-main-top" role="search">
-		                            <div class="input-group">
-		                                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+		                            <div id="div-chat" onclick="popupOpenMain()" class="input-group">
 		                                <span class="input-group-btn">
-		                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		                                    <button class="btn btn-default" type="button" style="background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #e6e9f0 31%, #eef1f5 75%, #e9e9e7 100%); width: 140px; border-radius: 10px; font-size: 13px; font-weight: bold; font-family: sans-serif;"><span style="color: black;"><i class="fa fa-comments" aria-hidden="true"></i>&nbsp; </span>LIVE CHAT</button>
 		                                </span>
 		                            </div>
 		                        </form>
@@ -161,7 +159,7 @@
 		                                  </a>
 		                                  <ul class="dropdown-menu">
 		                                      <li><a href="<c:url value='/usermypage/usermypage' />">기업 정보</a></li>
-		                                      <li><a href="#">지원 현황</a></li>
+		                                      <li><a href="<c:url value='/project/projectMyApply' />">지원 현황</a></li>
 		                                  </ul>
 		                              </li>
 		                              
@@ -259,10 +257,9 @@
 		                    </div>
 		                    <div id="navbar-collapse" class="collapse navbar-collapse">
 		                        <form class="navbar-form navbar-left navbar-main-top" role="search">
-		                            <div class="input-group">
-		                                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+		                            <div id="div-chat" onclick="popupOpenMain()" class="input-group">
 		                                <span class="input-group-btn">
-		                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		                                    <button class="btn btn-default" type="button" style="background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #e6e9f0 31%, #eef1f5 75%, #e9e9e7 100%); width: 140px; border-radius: 10px; font-size: 13px; font-weight: bold; font-family: sans-serif;"><span style="color: black;"><i class="fa fa-comments" aria-hidden="true"></i>&nbsp; </span>LIVE CHAT</button>
 		                                </span>
 		                            </div>
 		                        </form>
@@ -281,9 +278,9 @@
 		                                      <span class="caret"></span>
 		                                  </a>
 		                                  <ul class="dropdown-menu">
-		                                      <li><a href="#">프로젝트 관리</a></li>
-		                                      <li><a href="#">공지사항 관리</a></li>
-		                                      <li><a href="#">사용자 관리</a></li>
+		                                      <li><a href="<c:url value='/project/projectadmin' />">프로젝트 관리</a></li>
+		                                      <li><a href="<c:url value='/notice/noticeList' />">공지사항 관리</a></li>
+		                                      <li><a href="<c:url value='/membersList/membersList' />">사용자 관리</a></li>
 		                                  </ul>
 		                              </li>
 		                              
@@ -294,8 +291,7 @@
 		                               </a>
 		                               <ul class="dropdown-menu" role="menu">
 		                                  <li class="dropdown-header">쪽지</li>
-		                                  <li><a href="#">받은 쪽지함</a></li>
-		                                  <li><a href="#">쪽지 쓰기</a></li>
+		                                  <li><a href="<c:url value='/membersList/membersList' />">쪽지 쓰기</a></li>
 		                               </ul>
 		                              </li>
 		                    </div>
@@ -320,8 +316,9 @@
 		                            <span class="sidebar-title">시스템 관리</span>
 		                            <b class="caret"></b>
 		                        </a>
+		                        <input type="hidden" value="${company.companyNO}">
 		                        <ul id="submenu-1" class="panel-collapse collapse panel-switch" role="menu" style="background: #C0A703;">
-		                            <li><a href="#"><i class="fa fa-caret-right"></i>프로젝트 관리</a></li>
+		                            <li><a href="<c:url value='/project/projectadmin' />"><i class="fa fa-caret-right"></i>프로젝트 관리</a></li>
 			                        <li><a href="<c:url value='/notice/noticeList' />"><i class="fa fa-caret-right"></i>공지사항 관리</a></li>
 			                        <li><a href="<c:url value='/membersList/membersList' />"><i class="fa fa-caret-right"></i>사용자 관리</a></li>
 		                        </ul>
@@ -358,8 +355,9 @@
 		                        </a>
 		                        <ul id="submenu-4" class="panel-collapse collapse panel-switch" role="menu" style="background: #574D00;">
 		                            <li><a href="<c:url value='/admin/chartDevelopers' />" style="color: white;"><i class="fa fa-caret-right"></i>개발자 통계</a></li>
-		                            <li><a href="#" style="color: white;"><i class="fa fa-caret-right"></i>기업 통계</a></li>
-		                            <li><a href="#" style="color: white;"><i class="fa fa-caret-right"></i>프로젝트 통계</a></li>
+		                            <li><a href="<c:url value='/admin/chartCompanies' />" style="color: white;"><i class="fa fa-caret-right"></i>기업 통계</a></li>
+		                            <li><a href="<c:url value='/admin/chartProjects' />" style="color: white;"><i class="fa fa-caret-right"></i>프로젝트 통계</a></li>
+		                            <li><a href="<c:url value='/admin/chartApplies' />" style="color: white;"><i class="fa fa-caret-right"></i>지원 통계</a></li>
 		                        </ul>
 		                    </li>
 		                </ul>
@@ -389,10 +387,9 @@
 		                    </div>
 		                    <div id="navbar-collapse" class="collapse navbar-collapse">
 		                        <form class="navbar-form navbar-left navbar-main-top" role="search">
-		                            <div class="input-group">
-		                                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+		                            <div id="div-chat" onclick="alert('로그인이 필요한 서비스입니다.')" class="input-group">
 		                                <span class="input-group-btn">
-		                                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		                                    <button class="btn btn-default" type="button" style="background-image: linear-gradient(to top, #d5d4d0 0%, #d5d4d0 1%, #e6e9f0 31%, #eef1f5 75%, #e9e9e7 100%); width: 140px; border-radius: 10px; font-size: 13px; font-weight: bold; font-family: sans-serif;"><span style="color: black;"><i class="fa fa-comments" aria-hidden="true"></i>&nbsp; </span>LIVE CHAT</button>
 		                                </span>
 		                            </div>
 		                        </form>
@@ -652,6 +649,8 @@
     				success: function(result) {
     					
     					let sendmailList = result.list;
+    					let sendmailCount = result.count;
+    					$('#sendMessageCount').text(sendmailCount);
     					
     					for(let i = 0; i < sendmailList.length; i++) {
     						var timestamp = sendmailList[i].userMessageDate;
@@ -710,6 +709,8 @@
     				success: function(result) {
     					
     					let sendmailList = result.list;
+    					let sendmailCount = result.count;
+    					$('#sendMessageCount').text(sendmailCount);
     					
     					for(let i = 0; i < sendmailList.length; i++) {
     						var timestamp = sendmailList[i].userMessageDate;
@@ -1026,7 +1027,7 @@
     					},
     					
     					error: function() {
-    						alert('로그아웃 처리 중 서버 오류가 발생했습니다.');
+    						alert('로그인이 필요한 서비스입니다.');
     						return;
     					}
     				});		// ajax 끝
@@ -1035,6 +1036,36 @@
     			}
     		});
     		
+    		
+    		$('#popup-test').click(function() {
+    			popupOpen();
+    		});
+    		
+    		
+    		$('#popup-test-main').click(function() {
+    			popupOpenMain();
+    		});
+    		
     	});    // jQuery 끝
+    	
+    	
+    	function popupOpen() {
+    		//const rand = Math.floor(Math.random() * 100000);
+    		
+    		var url = '/chat/chatPage';
+    		var winWidth = 800;
+    		var winHeight = 600;
+    		var popupOption = 'width=' + winWidth + ', height=' + winHeight;
+    		window.open(url, '', popupOption);
+    	}
+    	
+    	
+    	function popupOpenMain() {
+    		var url = '/chat/chatMain';
+    		var winWidth = 800;
+    		var winHeight = 600;
+    		var popupOption = 'width=' + winWidth + ', height=' + winHeight;
+    		window.open(url, '', popupOption);
+    	}
     	
     </script>

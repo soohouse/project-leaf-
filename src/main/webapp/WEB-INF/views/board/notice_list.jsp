@@ -51,10 +51,21 @@
     border-radius: 5px;
    }
    
-   .sections {
-    width: 1200px;
-   	margin: 0 auto;
+
+   .boardclick {
+   	color: black;
    }
+   .boardclick:hover {
+   	text-decoration: none;
+   	color: 	#4682B4;
+   }
+   .boardclick:active {
+    text-decoration: none;
+	}
+   .sections {
+	width: 1200px;
+   	margin: 0 auto;
+   }   
    
    </style>
    
@@ -67,16 +78,14 @@
 	
 		<section class="sections">
         
-       
-        
         
         <div class="container" style="width: 90%;">
             <div class="row">
 			<!-- 공지사항 상단 -->
-			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
+			<a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px; cursor: default;">
 				<span class="main-notice-title">공지사항</span>
 			</a>
-		    <select id="pageUnit" name="pageUnit" onchange="Change(1)" class="head-control mx-sm-3 mb-2" style="float:left;">
+		    <select id="pageUnit" name="pageUnit" onchange="Change(1)" class="head-control mx-sm-3 mb-2" style="float:left; font-size: 13px;">
 		        <option value="10" <c:if test="${pc.paging.cpp == 10}">selected</c:if>>10개씩 보기</option>
 		        <option value="15" <c:if test="${pc.paging.cpp == 15}">selected</c:if>>15개씩 보기</option>
 		        <option value="20" <c:if test="${pc.paging.cpp == 20}">selected</c:if>>20개씩 보기</option>
@@ -85,7 +94,7 @@
 				<button type="submit" class="btn btn-success mb-2 pull-right" id="btn-notice-write">글쓰기</button>
             </c:if>
                  
-                <table class="table table-bordered"  style="text-align: center; font-size:14px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
+                <table class="table table-bordered"  style="text-align: center; font-size:13px; font-family:Helvetica Neue, Helvetica, Arial, sans-serif;">
                     <thead>
                         <tr>
                             <th style="background-color: #bbd0e7; text-align: center; width:5%">번호</th>
@@ -103,8 +112,8 @@
                         <tr>
                             <td>${notice.rn}</td>
                             <td style="text-align: left;">
-                            	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}${pc.makeURI(pc.paging.pageNum)}'/>">
-                            		${notice.noticeTitle}
+                            	<a href="<c:url value='/notice/noticeContent/${notice.noticeNo}${pc.makeURI(pc.paging.pageNum)}'/>" class="boardclick">
+                            		${notice.noticeTitle} 
 									<c:if test="${notice.noticeDate>=nowday }">
 	                            		<img alt="newmark" src="<c:url value='/resources/img/newmark.gif' />">
 									</c:if>

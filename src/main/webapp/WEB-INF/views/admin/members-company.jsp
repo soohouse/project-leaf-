@@ -39,6 +39,17 @@
    			width: 560px;
    			margin: 0 auto;
    		}
+   		
+   		#members-company-intro::-webkit-scrollbar {
+ 			width: 3px;
+  			background-color: #C7C7C7;
+		}
+	
+	
+		#members-company-intro::-webkit-scrollbar-thumb {
+			background: #535353;
+		}
+   		
    </style>
    
 </head>

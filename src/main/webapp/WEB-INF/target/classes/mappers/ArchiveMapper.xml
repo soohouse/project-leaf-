@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.archive.mapper.IArchiveMapper">
+
+	<!-- ArchiveVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ArchiveMap 선언 -->
+	<resultMap type="com.spring.leaf.archive.command.ArchiveVO" id="ArchiveMap">
+		<id property="archiveNo" column="archive_NO" />
+		<result property="archiveTitle" column="archive_title"/>
+		<result property="archiveWriter" column="archive_writer"/>
+		<result property="archiveContent" column="archive_content"/>
+		<result property="archiveDate" column="archive_date"/>
+		<result property="archiveViews" column="archive_views"/>
+		<result property="archiveReplyCount" column="archive_reply_count"/>
+	</resultMap>
+	
+	<!-- ArchiveFileVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ArchiveFileMap 선언 -->
+	<resultMap type="com.spring.leaf.archive.command.ArchiveFileVO" id="ArchiveFileMap">
+		<id property="archiveFileNo" column="archive_file_NO"/>
+		<result property="archiveFileFilename" column="archive_file_filename"/>
+		<result property="archiveFileUploadpath" column="archive_file_uploadpath"/>
+		<result property="archiveFileRealname" column="archive_file_realname"/>
+		<result property="archiveNo" column="archive_NO"/>
+	</resultMap>
+	
+	<!-- ArchiveContentVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ArchiveContentMap 선언 -->
+	<resultMap type="com.spring.leaf.archive.command.ArchiveContentVO" id="ArchiveContentMap">
+		<id property="archiveNo" column="archive_NO" />
+		<result property="archiveTitle" column="archive_title"/>
+		<result property="archiveWriter" column="archive_writer"/>
+		<result property="archiveContent" column="archive_content"/>
+		<result property="archiveDate" column="archive_date"/>
+		<result property="archiveViews" column="archive_views"/>
+		<result property="archiveFileNo" column="archive_file_NO"/>
+		<result property="archiveFileRealname" column="archive_file_realname"/>
+	</resultMap>
+	
+	<!-- ArchiveWriterVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ArchiveWriterMap 선언 -->
+	<resultMap type="com.spring.leaf.archive.command.ArchiveWriterVO" id="ArchiveWriterMap">
+		<result property="userNo" column="user_NO" />
+		<result property="companyNo" column="company_NO" />
+	</resultMap>
+	
+	<sql id="search">
+		<if test="condition == 'title'">
+			AND archive_title LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'writer'">
+			AND archive_writer LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'date'">
+			AND archive_date LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	<!-- 자료실 글 등록 INSERT 쿼리 -->
+	<insert id="archiveWrite">
+		INSERT INTO archive(archive_title, archive_writer, archive_content)
+		VALUES (#{archiveTitle}, #{archiveWriter}, #{archiveContent})
+	</insert>
+	
+	<!-- 자료실 파일첨부 INSERT 쿼리 -->
+	<insert id="archiveFile">
+		INSERT INTO archive_file
+			(archive_file_filename, archive_file_uploadpath, archive_file_realname, archive_NO)
+		VALUES
+			(#{archiveFileFilename}, #{archiveFileUploadpath}, #{archiveFileRealname}, #{archiveNo})
+	</insert>
+	
+	<!-- 자료실 글번호 얻어내는 SELECT 쿼리 -->
+	<select id="archiveNoGet" resultType="int">
+		SELECT MAX(archive_NO) + 1
+		FROM archive;
+	</select>
+	
+	<!-- 자료실 파일첨부 SELECT 쿼리 -->
+	<select id="archiveFileGet" resultMap="ArchiveFileMap">
+		SELECT *
+		FROM archive_file
+		WHERE archive_NO = #{archiveNo}
+	</select>
+	
+	<!-- 자료실 목록 SELECT 쿼리 -->
+	<select id="archiveList" resultMap="ArchiveMap">
+		SELECT * FROM
+			(
+				SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
+				(
+            SELECT 
+              a.archive_NO, a.archive_title, a.archive_writer, a.archive_content, a.archive_date, a.archive_views, 
+              COUNT(ar.archive_reply_NO) AS archive_reply_count
+            FROM archive a LEFT OUTER JOIN archive_reply ar
+            ON a.archive_NO = ar.archive_NO
+            WHERE a.archive_title IS NOT NULL
+                    AND a.archive_NO != 1
+                    <include refid="search" />
+            GROUP BY a.archive_NO	
+            ORDER BY a.archive_NO ASC
+				) A,(SELECT @ROWNUM := 0)B
+				ORDER BY rn DESC
+			) B
+		LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	<!-- 자료실 프로필 사진 불러오기 SELECT 쿼리 -->
+	<select id="archivewriterProfile" resultMap="ArchiveWriterMap">
+		SELECT u.user_NO, c.company_NO
+		FROM 
+			archive a LEFT OUTER JOIN user u
+			ON a.archive_writer = u.user_ID
+				LEFT OUTER JOIN company c
+				ON a.archive_writer = c.company_ID
+		WHERE a.archive_writer = #{archiveWriter}
+		AND a.archive_NO = #{archiveNo}
+	</select>
+	
+	<!-- 자료실 총 게시물 수 -->
+	<select id="archiveTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM archive
+		WHERE archive_title IS NOT NULL
+		<where>
+			<include refid="search" />
+		</where>
+	</select>
+	
+	<!-- 자료실 조회수 archive_views--> 
+	<update id="archiveViews">
+		UPDATE archive
+		SET archive_views = archive_views + 1
+		WHERE archive_no = #{archiveNo}
+	</update>
+	
+	<!-- 자료실 글 상세보기 SELECT 쿼리 -->
+	<select id="archiveContent" resultMap="ArchiveContentMap">
+		SELECT a.archive_NO, a.archive_title, a.archive_writer, a.archive_content, a.archive_date, a.archive_views, f.archive_file_NO, f.archive_file_realname
+		FROM archive a LEFT OUTER JOIN archive_file f
+		ON a.archive_NO = f.archive_NO
+		WHERE a.archive_NO=#{archiveNo} 
+	</select>
+	
+	<!-- 자료실 글 수정하기 UPDATE 쿼리 -->
+	<update id="archiveModify" >
+		UPDATE archive
+		SET archive_title=#{archiveTitle}, archive_content=#{archiveContent}
+		WHERE archive_NO=#{archiveNo}
+	</update>
+	
+	<!-- 자료실 파일 수정하기 UPDATE 쿼리 -->
+	<update id="archiveFileModify">
+		UPDATE archive_file
+		SET archive_file_filename=#{archiveFileFilename}, archive_file_uploadpath=#{archiveFileUploadpath}, archive_file_realname=#{archiveFileRealname}
+		WHERE archive_NO=#{archiveNo}
+	</update>
+	
+	<!-- 자료실 글 삭제하기 UPDATE 쿼리 -->
+	<update id="archiveDelete">
+		UPDATE archive 
+		SET archive_title=null, archive_writer=null, archive_content=null
+		WHERE archive_NO=#{archiveNo}
+	</update>
+	
+	<!-- 자료실 파일 삭제하기 UPDATE 쿼리 -->
+	<update id="archiveFileDelete">
+		UPDATE archive_file
+		SET archive_file_filename=null, archive_file_uploadpath=null, archive_file_realname=null
+		WHERE archive_NO=#{archiveNo}
+	</update>
+
+		
+</mapper>

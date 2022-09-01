@@ -52,24 +52,22 @@
 				<span class="main-board-title" style="color: #2C4F22;">지원현황</span>
 			</a>
 			
-			<div>
-			<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0;">
+			
+			
+			<div style="padding: 0; margin-left: 0; float:left;">
 				
-				<!-- 검색기능 -->
-				<form action="<c:url value='/userapply/applystatus'/>">
-					<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-	                    <option value="id ${pc.paging.condition == 'id' ? 'selected' : ''}">프로젝트명</option>
-	                    <option value="name ${pc.paging.condition == 'name' ? 'selected' : ''}">회사명</option>
-	                </select>
-					<div class="input-group"> 
-						<input type="text" name="keyword"  value="${pc.paging.keyword}" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
-						</span>
+				<!-- 검색 -->
+				<form class="form-inline d-flex justify-content-end" action="<c:url value='/userapply/applystatus'/>" >
+					<div class="form-group mx-sm-3 mb-2 pull-right">
+						<select class="foot-control search-select form-control" name="condition" style="height: 30px; font-size: 13px;">
+		                    <option value="id" ${pc.paging.condition == 'id' ? 'selected' : ''}>프로젝트명</option>
+		                    <option value="name" ${pc.paging.condition == 'name' ? 'selected' : ''}>회사명</option>
+						</select>
+						<input type="text" name="keyword" class="form-control search-input" value="${pc.paging.keyword}" style="height: 30px; font-size: 13px;" placeholder="검색어를 입력하세요.">
+						<button type="submit" class="btn btn-default" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색 </button>
 					</div>
 				</form>
 				
-			</form>
 			</div>
 
 			<div style="clear: both;">

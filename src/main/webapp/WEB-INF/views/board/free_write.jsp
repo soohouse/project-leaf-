@@ -50,7 +50,7 @@
 				    	    		<th colspan= "2">게시글 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" name="boardTitle" id="boardTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="45" ></td>
+					    			<td><input type="text" name="boardTitle" id="boardTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="100" ></td>
 
 					    			<c:if test="${user.userID != null }">
 					    				<td><input type="hidden" name="boardWriter" value="${user.userID}"></td>
@@ -109,10 +109,12 @@
 		if(title == '') {
 			alert('제목을 입력해주세요.');
 			$('#boardTitle').css('border-color', 'red');
+			$('#boardTitle').focus();
 			return false;
 		} else if(content == '') {
 			alert('내용을 입력해주세요.');
 			$('#boardContent').css('border-color', 'red');
+			$('#boardContent').focus();
 			return false;
 		} else {
 			if(confirm('글을 등록하시겠습니까?')) { //예->등록성공

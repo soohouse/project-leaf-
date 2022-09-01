@@ -16,6 +16,8 @@ import com.spring.leaf.user.controller.UserController;
 import com.spring.leaf.userlist.command.UserListDetailVO;
 import com.spring.leaf.userlist.command.UserListVO;
 import com.spring.leaf.userlist.service.IUserListService;
+import com.spring.leaf.util.PageCreator;
+import com.spring.leaf.util.PageVO;
 
 //개발자 리스트 컨트롤러 : 2022-08-04 생성
 
@@ -31,9 +33,20 @@ public class UserListController {
 
 	// 일반회원 목록 이동 요청
 		@GetMapping("/userList")
-		public String userList(Model model) {
+		public String userList(PageVO vo, Model model) {
+			
+		//페이징
+		System.out.println(vo);
+		PageCreator pc = new PageCreator();
+		pc.setPaging(vo);
+		pc.setArticleTotalCount(service.getTotal(vo));
+		System.out.println(pc);
+		//
+		
 		logger.info("/userList/userList: GET (일반회원 목록 페이지 이동)");
-		model.addAttribute("userList", service.userList());
+		
+		model.addAttribute("pc", pc);
+		model.addAttribute("userList", service.userList(vo));
 		return "/board/dev_list";
 	}
 	

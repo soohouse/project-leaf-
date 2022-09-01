@@ -31,6 +31,16 @@ public class QuestionService implements IQuestionService {
 	@Override
 	public List<QuestionVO> questionList(PageVO vo) {
 		List<QuestionVO> list = mapper.questionList(vo);
+		
+		for(int i = 0; i < list.size(); i++) {
+			
+			if(list.get(i).getQuestionTitle().length() > 44) {
+				String questionTitle = list.get(i).getQuestionTitle().substring(0, 43) + "...";
+				
+				list.get(i).setQuestionTitle(questionTitle);
+			}
+		}
+		
 		return list;
 	}
 

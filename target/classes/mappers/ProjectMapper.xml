@@ -73,6 +73,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="projectRegistCountBefore5" column="project_regist_count_before5" />
 	</resultMap>
 	
+	<sql id="search2">
+		<if test="condition == 'title'">
+			AND p.project_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'writer'">
+			AND c.company_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'date'">
+			AND p.project_require_date1 LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'title'">
+			AND p.project_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'writer'">
+			AND c.company_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'date'">
+			AND p.project_require_date1 LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+	</sql>
+	
+	
+	<sql id="search">
+		<if test="condition == 'title'">
+			AND project_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'writer'">
+			AND company_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'date'">
+			AND project_require_date1 LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	
+	<sql id="search3">
+		<if test="condition == 'title'">
+			AND p.project_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'writer'">
+			AND c.company_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'date'">
+			AND p.project_require_date1 LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	
 	<!-- 프로젝트 등록하기 -->
 	<insert id="projectputin">
 		INSERT INTO project(project_name, project_desc, project_manager, project_manager_phone, project_manager_email, project_require_license
@@ -111,8 +159,190 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		LEFT OUTER JOIN common cd
       	ON p.common_CODE = cd.common_CODE
       	WHERE p.project_NO != 1
-      	AND p.common_CODE != 'PST003'
+      	AND p.common_CODE NOT IN ('PST003', 'PST004')
+      	<include refid="search3" />
       	ORDER BY p.project_NO DESC
+      	LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	
+	<!-- 프로젝트 총 게시글 수 -->
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM project p LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		WHERE p.common_CODE NOT IN ('PST003', 'PST004')
+		<include refid="search3" />
+	</select>
+	
+	
+	<!-- 현재 모집 진행중인 프로젝트 검색 -->
+	<select id="projectNow" resultMap="ProjectListMap">
+		SELECT
+   			p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+   			project p LEFT OUTER JOIN company c
+      	ON p.company_NO = c.company_NO
+   		LEFT OUTER JOIN common cd
+      	ON p.common_CODE = cd.common_CODE
+      	WHERE p.project_NO != 1
+      	AND p.common_CODE = 'PST001'
+      	<include refid="search" />
+      	ORDER BY p.project_NO DESC
+      	LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	
+	<!-- 모집 중인 프로젝트 총 게시글 수 -->
+	<select id="getTotalNow" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE common_CODE = 'PST001'
+	</select>
+	
+	
+	<!-- 모집 마감 임박인 프로젝트 검색 -->
+	<select id="projectHurry" resultMap="ProjectListMap">
+		SELECT
+   			p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+   			project p LEFT OUTER JOIN company c
+      	ON p.company_NO = c.company_NO
+   		LEFT OUTER JOIN common cd
+      	ON p.common_CODE = cd.common_CODE
+      	WHERE p.project_NO != 1
+      	AND p.common_CODE = 'PST002'
+      	<include refid="search" />
+      	ORDER BY p.project_NO DESC
+      	LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	
+	<!-- 모집 마감 임박인 프로젝트 총 게시글 수 -->
+	<select id="getTotalHurry" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE common_CODE = 'PST002'
+	</select>
+	
+	
+	<!-- 모집이 종료된 프로젝트 검색 -->
+	<select id="projectEnd" resultMap="ProjectListMap">
+		SELECT
+   			p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+   			project p LEFT OUTER JOIN company c
+      	ON p.company_NO = c.company_NO
+   		LEFT OUTER JOIN common cd
+      	ON p.common_CODE = cd.common_CODE
+      	WHERE p.project_NO != 1
+      	AND p.common_CODE = 'PST003'
+      	<include refid="search" />
+      	ORDER BY p.project_NO DESC
+      	LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	
+	<!-- 모집 종료된 프로젝트 총 게시글 수 -->
+	<select id="getTotalEnd" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE common_CODE = 'PST003'
+	</select>
+	
+	
+	<!-- 일반회원 좋아요 누른 프로젝트 목록 -->
+	<select id="projectLikeUser" resultMap="ProjectListMap">
+		SELECT
+            p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+      FROM
+            project p LEFT OUTER JOIN company c
+         ON p.company_NO = c.company_NO
+            LEFT OUTER JOIN project_like pl
+            ON p.project_NO = pl.project_NO
+         LEFT OUTER JOIN common cd
+         ON p.common_CODE = cd.common_CODE
+         WHERE p.project_NO != 1
+         AND p.common_CODE NOT IN ('PST004')
+        AND pl.user_NO = #{userNO}
+         ORDER BY p.project_NO DESC
+         LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
+	</select>
+	
+	
+	<!-- 일반회원 좋아요 누른 프로젝트 목록 총 게시물 수 -->
+	<select id="getTotalLikeUser" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		   project p LEFT OUTER JOIN project_like pl
+		    ON p.project_NO = pl.project_NO
+		WHERE 
+		   pl.user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 기업회원 좋아요 누른 프로젝트 목록 -->
+	<select id="projectLikeCompany" resultMap="ProjectListMap">
+		SELECT
+            p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+      FROM
+            project p LEFT OUTER JOIN company c
+         ON p.company_NO = c.company_NO
+            LEFT OUTER JOIN project_like pl
+            ON p.project_NO = pl.project_NO
+         LEFT OUTER JOIN common cd
+         ON p.common_CODE = cd.common_CODE
+         WHERE p.project_NO != 1
+         AND p.common_CODE NOT IN ('PST004')
+        AND pl.company_NO = #{companyNO}
+         ORDER BY p.project_NO DESC
+         LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
+	</select>
+	
+	
+	<!-- 기업회원 좋아요 누른 프로젝트 목록 총 게시물 수 -->
+	<select id="getTotalLikeCompany" resultType="int">
+		SELECT COUNT(*)
+		FROM
+		   project p LEFT OUTER JOIN project_like pl
+		    ON p.project_NO = pl.project_NO
+		WHERE 
+		   pl.company_NO = #{companyNO}
+	</select>
+	
+	
+	<!-- 날짜로 프로젝트 검색 -->
+	<select id="projectSearchDate" resultMap="ProjectListMap">
+		SELECT
+            p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+      FROM
+            project p LEFT OUTER JOIN company c
+         ON p.company_NO = c.company_NO
+         LEFT OUTER JOIN common cd
+         ON p.common_CODE = cd.common_CODE
+         WHERE p.project_NO != 1
+         AND p.common_CODE NOT IN ('PST004')
+         AND #{date}
+        BETWEEN DATE_ADD(p.project_require_date1, INTERVAL -1 SECOND) AND DATE_ADD(p.project_require_date2, INTERVAL -1 SECOND)
+         ORDER BY p.project_NO DESC
+         LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
+	</select>
+	
+	
+	<!-- 날짜로 검색한 프로젝트 목록 총 게시물 수 -->
+	<select id="getTotalSearchDate" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE #{date}
+        BETWEEN DATE_ADD(project_require_date1, INTERVAL -1 SECOND) AND DATE_ADD(project_require_date2, INTERVAL -1 SECOND)
+        AND common_CODE != 'PST004'
 	</select>
 
 
@@ -130,6 +360,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY p.project_NO DESC
 	</select>
 	
+	
 	<select id="projectadmin" resultMap="ProjectListMap">
 		SELECT
    			p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
@@ -139,9 +370,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    		LEFT OUTER JOIN common cd
       	ON p.common_CODE = cd.common_CODE
       	WHERE p.project_NO != 1
-      	AND p.common_CODE != 'PST003'
+      	AND p.common_CODE NOT IN ('PST003', 'PST004')
       	AND c.company_NO = #{companyNO}
+      	<include refid="search2" />
       	ORDER BY p.project_NO DESC
+      	LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
+	</select>
+	
+	
+	<select id="projectadminAll" resultMap="ProjectListMap">
+		SELECT
+   			p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+   			project p LEFT OUTER JOIN company c
+      	ON p.company_NO = c.company_NO
+   		LEFT OUTER JOIN common cd
+      	ON p.common_CODE = cd.common_CODE
+      	WHERE p.project_NO != 1
+      	AND p.common_CODE NOT IN ('PST003', 'PST004')
+      	<include refid="search2" />
+      	ORDER BY p.project_NO DESC
+      	LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
+	</select>
+	
+	
+	<select id="getTotalAdmin" resultType="int">
+		SELECT COUNT(*)
+		FROM project p LEFT OUTER JOIN company c
+        ON p.company_NO = c.company_NO
+		WHERE p.project_NO != 1
+      	AND p.common_CODE NOT IN ('PST003', 'PST004')
+      	AND c.company_NO = #{companyNO}
+      	<include refid="search2" />
+	</select>
+	
+	
+	<select id="getTotalAdminAll" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE project_NO != 1
+      	AND common_CODE NOT IN ('PST003', 'PST004')
+      	<include refid="search" />
 	</select>
 	
 	
@@ -211,27 +482,77 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	<!-- 좋아요 검색 -->
-	<select id="searchLike" resultType="int">
-		SELECT COUNT(*) FROM project_like
-		WHERE project_NO=#{projectNO} AND user_NO=#{userNO}
+	<!-- 일반회원이 해당 프로젝트에 좋아요 버튼을 눌렀는지 체크하는 SELECT 쿼리 -->
+	<select id="projectLikeCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM project_like
+		WHERE user_NO = #{userNO}
+		AND project_NO = #{projectNO}
 	</select>
 	
-	<!-- 좋아요 등록 -->
-	<insert id="createLike">
-		INSERT INTO project_like
-		(projectLikeNO, userNO, projectNO)
-		VALUES(#{projectLikeNO}, #{userNO}, snslike_seq.NEXTVAL)
+	
+	<!-- 기업회원이 해당 프로젝트에 좋아요 버튼을 눌렀는지 체크하는 SELECT 쿼리 -->
+	<select id="projectLikeCheckCompany" resultType="int">
+		SELECT COUNT(*)
+		FROM project_like
+		WHERE company_NO = #{companyNO}
+		AND project_NO = #{projectNO}
+	</select>
+	
+	
+	<!-- 일반회원 좋아요 버튼 클릭 시 좋아요 테이블에 값 추가 INSERT 쿼리 -->
+	<insert id="projectLikeOK">
+		INSERT INTO project_like(project_NO, user_NO, company_NO)
+		VALUES(#{projectNO}, #{userNO}, null)
 	</insert>
 	
-	<!-- 좋아요 삭제 -->
-	<delete id="deleteLike">
+	
+	<!-- 일반회원 좋아요 버튼 다시 클릭 시 좋아요 취소 DELETE 쿼리 -->
+	<delete id="projectLikeCancel">
 		DELETE FROM project_like
-		WHERE projectLikeNO=#{projectLikeNO} AND userNO=#{userNO}
+		WHERE project_NO = #{projectNO}
+		AND user_NO = #{userNO}
+	</delete>
+	
+
+	<!-- 기업회원 좋아요 버튼 클릭 시 좋아요 테이블에 값 추가 INSERT 쿼리 -->
+	<insert id="projectLikeCompanyOK">
+		INSERT INTO project_like(project_NO, user_NO, company_NO)
+		VALUES(#{projectNO}, null, #{companyNO})
+	</insert>
+	
+	
+	<!-- 기업회원 좋아요 버튼 다시 클릭 시 좋아요 취소 DELETE 쿼리 -->
+	<delete id="projectLikeCompanyCancel">
+		DELETE FROM project_like
+		WHERE project_NO = #{projectNO}
+		AND company_NO = #{companyNO}
 	</delete>
 	
 	
+	<!-- 프로젝트 좋아요 수 얻어오는 SELECT 쿼리 -->
+	<select id="projectLikeGet" resultType="int">
+		SELECT COUNT(*)
+		FROM project_like
+		WHERE project_NO = #{projectNO}
+	</select>
 	
+	
+	<!-- 프로젝트 삭제 -->
+	<update id="deleteProject">
+		UPDATE project
+		SET 
+			common_CODE = 'PST004', project_delete = NOW()
+		WHERE project_NO = #{projectNO}
+	</update>
+	
+	
+	<!-- 프로젝트를 삭제하기 전 지원한 일반회원이 있는지 체크하는 SELECT 쿼리 -->
+	<select id="projectUserCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM apply
+		WHERE project_NO = #{projectNO}
+		AND common_CODE != 'SPT005'
+	</select>
 
 </mapper>
-

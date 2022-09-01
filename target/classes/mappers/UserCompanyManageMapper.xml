@@ -96,8 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			cd.common_value
 		FROM company c LEFT OUTER JOIN common cd
 		ON c.common_CODE = cd.common_CODE
-		WHERE c.common_CODE = 'CRG002'
-		AND c.common_CODE != 'ADM003'
+		WHERE c.common_CODE != 'CRG001'
 		AND c.company_NO != 1
 		 <include refid="searchCompany" />
 		LIMIT ${cpp}

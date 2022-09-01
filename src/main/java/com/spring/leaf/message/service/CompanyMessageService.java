@@ -49,5 +49,9 @@ public class CompanyMessageService implements ICompanyMessageService {
 		return mapper.companyMessageCount(companyNO);
 	}
 
+	@Override
+	public int sendMessageCount(String companyName) {
+		return mapper.sendMessageCount(companyName);
+	}
 
 }

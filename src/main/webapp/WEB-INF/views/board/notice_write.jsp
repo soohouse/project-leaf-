@@ -50,7 +50,7 @@
 					    	    		<th colspan= "2">공지사항 제목</th>
 					    	    	</tr>
 					    	    	<tr>
-						    			<td><input type="text" name="noticeTitle" id="noticeTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="45" ></td>
+						    			<td><input type="text" name="noticeTitle" id="noticeTitle" class="form-control" placeholder="제목을 입력하세요." maxlength="100" ></td>
 						    			<td><input type="hidden" name="noticeWriter" value="${user.userID}"></td>
 						    		</tr>
 						    		
@@ -89,10 +89,7 @@
 		$('#btn-notice-list').click(function() {
 			location.href='<c:url value="/notice/noticeList" />';
 		})
-		
 	});
-	
-	
 
 	
 	//제목이 공백일시 '제목을 입력하세요!'문구와 글 등록 문구.

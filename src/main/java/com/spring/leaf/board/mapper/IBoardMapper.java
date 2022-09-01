@@ -17,7 +17,6 @@ public interface IBoardMapper {
 	
 	//자유게시판 글 목록
 	List<BoardVO> boardList(PageVO vo);
-	
 	//자유게시판 총 게시물 수
 	int getTotal(PageVO vo);
 	

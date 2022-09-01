@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.project.mapper.IProjectMapper">
+	
+	<!-- ProjectListVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectListMap 선언 -->
+	<resultMap type="com.spring.leaf.project.command.ProjectListVO" id="ProjectListMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name"/>
+		<result property="projectRequireRole" column="project_require_role"/>
+		<result property="projectRequireDate1" column="project_require_date1"/>
+		<result property="projectRequireDate2" column="project_require_date2"/>
+		<result property="companyNO" column="company_NO"/>
+		<result property="companyName" column="company_name"/>
+		<result property="commonCODE" column="common_CODE"/>
+		<result property="commonValue" column="common_value"/>
+	</resultMap>
+	
+	<!-- ProjectContentVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectContentMap 선언 -->
+	<resultMap type="com.spring.leaf.project.command.ProjectContentVO" id="ProjectContentMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name"/>
+		<result property="projectDesc" column="project_desc"/>
+		<result property="projectManager" column="project_manager"/>
+		<result property="projectManagerPhone" column="project_manager_phone"/>
+		<result property="projectManagerEmail" column="project_manager_email"/>
+		<result property="projectRequireLicense" column="project_require_license"/>
+		<result property="projectRequireRole" column="project_require_role"/>
+		<result property="projectRequirePeople" column="project_require_people"/>
+		<result property="projectRequireDate1" column="project_require_date1"/>
+		<result property="projectRequireDate2" column="project_require_date2"/>
+		<result property="projectViews" column="project_views"/>
+		<result property="companyNO" column="company_NO"/>
+		<result property="companyName" column="company_name"/>
+		<result property="companyPhone1" column="company_phone1"/>
+		<result property="companyPhone2" column="company_phone2"/>
+		<result property="companyPhone3" column="company_phone3"/>
+		<result property="companyAddress1" column="company_address1"/>
+		<result property="companyAddress2" column="company_address2"/>
+		<result property="companyAddress3" column="company_address3"/>
+		<result property="commonCODE" column="common_CODE"/>
+		<result property="commonValue" column="common_value"/>
+	</resultMap>
+	
+	<!-- ProjectImageVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ImageMap 선언 -->
+	<resultMap type="com.spring.leaf.project.command.ProjectImageVO" id="ImageMap">
+		<id property="projectImageNO" column="project_image_NO" />
+		<result property="projectImageFilename" column="project_image_filename" />
+		<result property="projectImageUploadpath" column="project_image_uploadpath" />
+		<result property="projectImageRealname" column="project_image_realname" />
+		<result property="projectNO" column="project_NO" />
+	</resultMap>
+	
+	<!-- 현재 날짜에서 6달 전 달 까지의 값을 가져오는 ProjectDateVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectDateMap 선언 -->
+	<resultMap type="com.spring.leaf.project.command.ProjectDateVO" id="ProjectDateMap">
+		<result property="projectDateNow" column="project_date_now" />
+		<result property="projectDateBefore1" column="project_date_before1" />
+		<result property="projectDateBefore2" column="project_date_before2" />
+		<result property="projectDateBefore3" column="project_date_before3" />
+		<result property="projectDateBefore4" column="project_date_before4" />
+		<result property="projectDateBefore5" column="project_date_before5" />
+	</resultMap>
+	
+	<!-- 현재 날짜에서 6달 전 까지의 프로젝트 등록 빈도를 가져오는 ProjectRegistCountVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProjectRegistCountMap 선언 -->
+	<resultMap type="com.spring.leaf.project.command.ProjectRegistCountVO" id="ProjectRegistCountMap">
+		<result property="projectRegistCountNow" column="project_regist_count_now" />
+		<result property="projectRegistCountBefore1" column="project_regist_count_before1" />
+		<result property="projectRegistCountBefore2" column="project_regist_count_before2" />
+		<result property="projectRegistCountBefore3" column="project_regist_count_before3" />
+		<result property="projectRegistCountBefore4" column="project_regist_count_before4" />
+		<result property="projectRegistCountBefore5" column="project_regist_count_before5" />
+	</resultMap>
+	
+	<!-- 검색 (드롭박스) -->
+	<sql id="drop">
+		<!-- 프로젝트 이름 -->
+		<if test="condition == 'projectname'">
+			AND p.project_name LIKE concat('%', #{keyword}, '%')
+		</if>
+		<!-- 기업이름 -->
+		<if test="condition == 'companyname'">
+			AND c.company_name LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+	<!-- 검색 (체크박스) -->
+	<sql id="check1">
+		<!-- 현재 모집 중인 프로젝트 --> 
+		<if test="check1 == 'now'">
+			AND common_value = '현재 모집중'
+		</if>
+	</sql>
+	<sql id="check2">
+		<!-- 마감 임박 프로젝트  -->
+		<if test="check2 == 'soon'">
+			AND common_value = '마감 임박'
+		</if>
+	</sql>
+	<sql id="check3">
+		<!-- 종료된 프로젝트 -->
+		<if test="check3 == 'end'">
+			AND common_value = '모집 종료'
+		</if>
+	</sql>
+	
+	<!-- 날짜 ~ -->
+	<sql id="datebox1">
+		<if test="datebox1 == 'date1'">
+			AND project_require_date1 <![CDATA[<=]]> ${keyword}
+		</if>
+	</sql>
+	
+	<!-- ~ 날짜 -->
+	<sql id="datebox2">
+		<if test="datebox2 == 'date2'">
+			AND project_require_date2 <![CDATA[>=]]> ${keyword}
+		</if>
+	</sql>	
+	
+	<!-- 프로젝트 등록하기 -->
+	<insert id="projectputin">
+		INSERT INTO project(project_name, project_desc, project_manager, project_manager_phone, project_manager_email, project_require_license
+		, project_require_role, project_require_people, project_require_date1, project_require_date2, company_NO)
+		VALUES (#{projectName}, #{projectDesc}, #{projectManager}, #{projectManagerPhone}, #{projectManagerEmail}, #{projectRequireLicense}
+		, #{projectRequireRole}, #{projectRequirePeople}, #{projectRequireDate1}, #{projectRequireDate2}, #{companyNO})
+	</insert>
+
+	<!-- 프로젝트 상세보기 -->
+	<select id="getContent" resultMap="ProjectContentMap">
+		SELECT
+			p.project_NO, p.project_name, p.project_desc, p.project_manager, p.project_manager_phone, p.project_manager_email, p.project_views, p.project_require_license, p.project_require_role, p.project_require_people, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, c.company_phone1, c.company_phone2, c.company_phone3, c.company_address1, c.company_address2, c.company_address3, p.common_CODE, cd.common_value
+		FROM
+			project p LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		LEFT OUTER JOIN common cd
+		ON p.common_CODE = cd.common_CODE
+		WHERE p.project_NO = #{projectNO}
+	</select>
+	
+	<update id="updateProjectContent">
+		UPDATE project
+		SET
+			project_desc = #{projectDesc}, project_manager = #{projectManager}, project_manager_phone = #{projectManagerPhone},
+			project_manager_email = #{projectManagerEmail}, project_require_people = #{projectRequirePeople}
+		WHERE project_NO = #{projectNO}	
+	</update>
+	
+	<!-- 프로젝트 목록 -->
+	<select id="projectlist" resultMap="ProjectListMap">
+		SELECT
+		 	p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, 
+		 	p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+	 		project p LEFT OUTER JOIN company c
+	     	ON p.company_NO = c.company_NO
+	  		LEFT OUTER JOIN common cd
+	     	ON p.common_CODE = cd.common_CODE
+     	WHERE p.project_NO != 1
+	    <include refid="drop" />
+	    <include refid="check1" />
+	    <include refid="check2" />
+	    <include refid="check3" />
+	    <include refid="datebox1" />
+	    <include refid="datebox2" />
+     	AND p.common_CODE != 'PST003'
+     	ORDER BY p.project_NO DESC
+		LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	<!-- 프로젝트 목록의 총 개수 -->
+	<select id="projectTotal" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+   			project p LEFT OUTER JOIN company c
+	      	ON p.company_NO = c.company_NO
+	   		LEFT OUTER JOIN common cd
+	      	ON p.common_CODE = cd.common_CODE
+      	WHERE p.project_NO != 1
+      	<include refid="drop" />
+      	<include refid="check1" />
+	    <include refid="check2" />
+	    <include refid="check3" />
+	    <include refid="datebox1" />
+	    <include refid="datebox2" />
+      	AND p.common_CODE != 'PST003'
+	</select>
+	
+	
+
+	<!-- 프로젝트 검색 -->
+	<select id="projectSearch" resultMap="ProjectListMap">
+		SELECT
+			p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+			project p LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		LEFT OUTER JOIN common cd
+		ON p.common_CODE = cd.common_CODE
+		WHERE p.project_NO != 1
+		AND p.project_name LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY p.project_NO DESC
+	</select>
+	
+	<select id="projectadmin" resultMap="ProjectListMap">
+		SELECT
+   			p.project_NO, p.project_name, p.project_require_role, p.project_require_date1, p.project_require_date2, p.company_NO, c.company_name, p.common_CODE, cd.common_value
+		FROM
+   			project p LEFT OUTER JOIN company c
+      	ON p.company_NO = c.company_NO
+   		LEFT OUTER JOIN common cd
+      	ON p.common_CODE = cd.common_CODE
+      	WHERE p.project_NO != 1
+      	AND p.common_CODE != 'PST003'
+      	AND c.company_NO = #{companyNO}
+      	ORDER BY p.project_NO DESC
+	</select>
+	
+	
+	<!-- 일반회원 회원번호 얻어내는 SELECT 쿼리 -->
+	<select id="projectNOGet" resultType="int">
+		SELECT MAX(project_NO) + 1
+		FROM project;
+	</select>
+	
+	
+	<!-- 프로젝트 사진 INSERT 쿼리 -->
+	<insert id="projectImage">
+		INSERT INTO project_image
+			(project_image_filename, project_image_uploadpath, project_image_realname, project_NO)
+		VALUES
+			(#{projectImageFilename}, #{projectImageUploadpath}, #{projectImageRealname}, #{projectNO})
+	</insert>
+	
+	
+	<!-- 프로젝트 사진 불러오기 SELECT 쿼리 -->
+	<select id="projectImageGet" resultMap="ImageMap">
+		SELECT *
+		FROM project_image
+		WHERE project_NO = #{projectNO}
+	</select>
+	
+	<!-- 프로젝트 사진 수정하기 UPDATE 쿼리 -->
+	<update id="projectImageUpdate">
+		UPDATE project_image
+		SET project_image_filename=#{projectImageFilename}, project_image_uploadpath=#{projectImageUploadpath}, project_image_realname=#{projectImageRealname}
+		WHERE project_NO=#{projectNO}
+	</update>
+	
+	<!-- 프로젝트 사진 삭제하기 UPDATE 쿼리 -->
+	<update id="projectImageDelete">
+		UPDATE project_image
+		SET project_image_filename=null, project_image_uploadpath=null, project_image_realname=null
+		WHERE project_NO=#{projectNO}
+	</update>
+	
+	<!-- 프로젝트 등록 빈도 달 마다 값 가져오기 -->
+	<select id="projectRegistCount" resultMap="ProjectRegistCountMap">
+		SELECT 
+			COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7), '%') then 1 end) AS project_regist_count_now,
+			COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before1,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before2,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before3,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before4,
+		    COUNT(case when project_date LIKE CONCAT('%', SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7), '%') then 1 end) AS project_regist_count_before5
+		FROM project
+		WHERE company_NO = #{companyNO}
+	</select>
+
+	
+	
+	<!-- 6달 전 까지의 날짜 달 값 가져오기 -->
+	<select id="projectDate" resultMap="ProjectDateMap">
+		SELECT 
+			SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 SECOND), 1, 7) AS project_date_now,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -1 MONTH), 1, 7) AS project_date_before1,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -2 MONTH), 1, 7) AS project_date_before2,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -3 MONTH), 1, 7) AS project_date_before3,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -4 MONTH), 1, 7) AS project_date_before4,
+		    SUBSTRING(DATE_ADD(NOW(), INTERVAL -5 MONTH), 1, 7) AS project_date_before5
+		FROM project
+		WHERE project_NO = 1;
+	</select>
+	
+	
+	<!-- 좋아요 검색 -->
+	<select id="searchLike" resultType="int">
+		SELECT COUNT(*) FROM project_like
+		WHERE project_NO=#{projectNO} AND user_NO=#{userNO}
+	</select>
+	
+	<!-- 좋아요 등록 -->
+	<insert id="createLike">
+		INSERT INTO project_like
+		(projectLikeNO, userNO, projectNO)
+		VALUES(#{projectLikeNO}, #{userNO}, snslike_seq.NEXTVAL)
+	</insert>
+	
+	<!-- 좋아요 삭제 -->
+	<delete id="deleteLike">
+		DELETE FROM project_like
+		WHERE projectLikeNO=#{projectLikeNO} AND userNO=#{userNO}
+	</delete>
+	
+	
+	
+
+</mapper>
+

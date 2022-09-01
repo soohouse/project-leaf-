@@ -33,6 +33,15 @@ public class ArchiveService implements IArchiveService {
 	public List<ArchiveVO> archiveList(PageVO vo) {
 		
 		List<ArchiveVO> list = mapper.archiveList(vo);
+		
+		for(int i = 0; i < list.size(); i++) {
+			
+			if(list.get(i).getArchiveTitle().length() > 44) {
+				String archiveTitle = list.get(i).getArchiveTitle().substring(0, 43) + "...";
+				
+				list.get(i).setArchiveTitle(archiveTitle);
+			}
+		}
 
 		return list;
 	}

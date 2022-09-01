@@ -72,6 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			FROM project p LEFT OUTER JOIN company c
 		    ON p.company_NO = c.company_NO
 		    WHERE p.project_NO != 1
+		    AND p.common_CODE NOT IN ('PST003', 'PST004')
 		    ORDER BY p.project_NO DESC
 		) pl, (SELECT @ROWNUM := 0) ROWNUM
 		<![CDATA[WHERE @ROWNUM < 9]]>

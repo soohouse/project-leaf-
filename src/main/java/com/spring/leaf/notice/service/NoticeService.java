@@ -31,16 +31,16 @@ public class NoticeService implements INoticeService {
 	public List<NoticeVO> noticeList(PageVO vo) {
 		
 		List<NoticeVO> list = mapper.noticeList(vo);
-		/*
-		for(NoticeVO notice : list) {
-			long now = System.currentTimeMillis();
-			long noticeViews = notice.getNoticeViews();
+
+		for(int i = 0; i < list.size(); i++) {
 			
-			if(now - noticeViews < 60 * 60 * 24 * 2 * 1000) {
+			if(list.get(i).getNoticeTitle().length() > 44) {
+				String noticeTitle = list.get(i).getNoticeTitle().substring(0, 43) + "...";
 				
+				list.get(i).setNoticeTitle(noticeTitle);
 			}
 		}
-		*/
+		
 		return list;
 	}
 

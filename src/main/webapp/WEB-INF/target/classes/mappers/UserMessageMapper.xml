@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.spring.leaf.message.mapper.IUserMessageMapper">
+
+	<resultMap type="com.spring.leaf.message.command.CompanyMessageVO" id="CompanyMessageMap">
+		<id property="companyMessageNO" column="company_message_NO" />
+		<result property="companyMessageWriter" column="company_message_writer" />
+		<result property="companyMessageContent" column="company_message_content" />
+		<result property="companyMessageDate" column="company_message_date" />
+		<result property="companyNO" column="company_NO" />
+	</resultMap>
+	
+	<resultMap type="com.spring.leaf.message.command.UserMessageVO" id="UserMessageMap">
+		<id property="userMessageNO" column="user_message_NO" />
+		<result property="userMessageWriter" column="user_message_writer" />
+		<result property="userMessageContent" column="user_message_content" />
+		<result property="userMessageDate" column="user_message_date" />
+		<result property="userNO" column="user_NO" />
+	</resultMap>
+	
+		
+		<!-- 유저 관리자/기업로부터 받은 쪽지 목록보기 -->
+		<select id="userMessageList" resultMap="UserMessageMap">
+			SELECT * FROM user_message
+			WHERE user_NO=#{userNO}
+			ORDER BY user_message_NO DESC
+		</select>
+		
+		<!-- 유저가 관리자/기업로부터 받은 쪽지 상세보기 -->
+		<select id="userMessageContent" resultMap="UserMessageMap">
+			SELECT user_message_NO, user_message_writer, user_message_content, user_message_date, user_NO
+			FROM user_message
+			WHERE user_message_NO=#{userMessageNO}
+		</select>
+		
+		
+		<!-- 유저 받은 메세지 개수 구하기 SELECT 쿼리 -->
+	<select id="userMessageCount" resultType="int">
+		SELECT COUNT(*)
+		FROM user_message
+		WHERE user_NO = #{userNO}
+	</select>
+		
+</mapper>
+

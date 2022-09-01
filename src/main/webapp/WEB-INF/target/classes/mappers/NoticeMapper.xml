@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.spring.leaf.notice.mapper.INoticeMapper">
+
+	<resultMap type="com.spring.leaf.notice.command.NoticeVO" id="NoticeMap">
+		<id property="noticeNo" column="notice_NO"/>
+		<result property="noticeTitle" column="notice_title"/>
+		<result property="noticeWriter" column="notice_writer"/>
+		<result property="noticeContent" column="notice_content"/>
+		<result property="noticeDate" column="notice_date"/>
+		<result property="noticeViews" column="notice_views"/>
+	</resultMap>
+	
+	<sql id="search">
+		<if test="condition == 'title'">
+			WHERE notice_title LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'writer'">
+			WHERE notice_writer LIKE concat('%', #{keyword}, '%')
+		</if>
+		<if test="condition == 'date'">
+			WHERE notice_date LIKE concat('%', #{keyword}, '%')
+		</if>
+	</sql>
+	
+
+	<insert id="noticeWrite">
+		INSERT INTO notice(notice_title, notice_writer, notice_content)
+		VALUES (#{noticeTitle}, #{noticeWriter}, #{noticeContent})
+	</insert>
+	
+	<!--페이징이 완료됐다면 주석 지워도 됨.
+	SELECT * FROM notice
+	ORDER BY notice_NO DESC -->
+	<select id="noticeList" resultMap="NoticeMap">
+		SELECT * FROM
+			(
+			SELECT @ROWNUM:=@ROWNUM+1 AS rn, A.* FROM
+				(
+				SELECT * FROM notice
+				<include refid="search" />
+				ORDER BY notice_NO
+				) A,(SELECT @ROWNUM := 0)B
+				ORDER BY rn DESC
+			) B
+		LIMIT ${cpp}
+		OFFSET ${skip}
+	</select>
+	
+	<!-- 공지사항 프로필 사진 불러오기 SELECT 쿼리 -->
+	<select id="noticewriterProfile" resultType="int">
+		SELECT u.user_NO
+		FROM 
+			user u LEFT OUTER JOIN notice n
+			ON u.user_ID = n.notice_writer
+		WHERE n.notice_writer = #{noticeWriter}
+		AND n.notice_NO = #{noticeNo}
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(*)
+		FROM notice
+		<include refid="search" />
+	</select>
+	
+	<!-- 조회수 notice_views--> 
+	<update id="noticeViews">
+		UPDATE notice
+		SET notice_views = notice_views + 1
+		WHERE notice_NO = #{noticeNo}
+	</update>
+	
+	<select id="noticeContent" resultMap="NoticeMap">
+		SELECT * FROM notice
+		WHERE notice_NO=#{noticeNo}
+	</select>
+	
+	<update id="noticeModify">
+		UPDATE notice
+		SET notice_title=#{noticeTitle}, notice_content=#{noticeContent}
+		WHERE notice_NO=#{noticeNo}
+	</update>
+	
+	<delete id="noticeDelete">
+		DELETE FROM notice
+		WHERE notice_NO=#{noticeNo}
+	</delete>
+
+</mapper>

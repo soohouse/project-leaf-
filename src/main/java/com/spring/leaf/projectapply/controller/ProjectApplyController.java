@@ -28,6 +28,8 @@ import com.spring.leaf.projectapply.command.MyProjectApplyDetailVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyListVO;
 import com.spring.leaf.projectapply.command.ProjectPassListVO;
 import com.spring.leaf.projectapply.service.IProjectApplyService;
+import com.spring.leaf.util.PageApplyCreator;
+import com.spring.leaf.util.PageApplyVO;
 
 @Controller
 @RequestMapping("/project")
@@ -49,6 +51,8 @@ public class ProjectApplyController {
 		model.addAttribute("projectNO", projectNO);
 		model.addAttribute("projectInfo", vo);
 		
+		System.out.println("yaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + vo);
+		
 		return "project/project-putin";
 	}
 	
@@ -66,13 +70,21 @@ public class ProjectApplyController {
 	
 	// 기업회원 자신 프로젝트 지원현황 페이지 이동 요청
 	@GetMapping("/projectMyApply")
-	public String projectMyApply(HttpSession session, Model model) {
+	public String projectMyApply(PageApplyVO pvo, HttpSession session, Model model) {
 		
 		CompanyVO vo = (CompanyVO) session.getAttribute("company");
 		
-		model.addAttribute("myProjectStatus", service.myProjectStatus(vo.getCompanyNO()));
-		model.addAttribute("myProjectCount", service.myProjectCount(vo.getCompanyNO()));
+		//페이징
+		System.out.println(pvo);
+		PageApplyCreator pc = new PageApplyCreator();
+		pc.setPaging(pvo);
+		pc.setArticleTotalCount(service.myProjectCount(vo.getCompanyNO(), pvo));
+		System.out.println(pc);
+		
+		model.addAttribute("myProjectStatus", service.myProjectStatus(vo.getCompanyNO(), pvo));
+		model.addAttribute("myProjectCount", service.myProjectCount(vo.getCompanyNO(), pvo));
 		model.addAttribute("companyNO", vo.getCompanyNO());
+		model.addAttribute("pc", pc);
 		
 		return "project/project-myproject-apply";
 	}

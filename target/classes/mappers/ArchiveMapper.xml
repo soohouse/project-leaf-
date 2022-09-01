@@ -122,9 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*)
 		FROM archive
 		WHERE archive_title IS NOT NULL
-		<where>
-			<include refid="search" />
-		</where>
+		<include refid="search" />
 	</select>
 	
 	<!-- 자료실 조회수 archive_views--> 

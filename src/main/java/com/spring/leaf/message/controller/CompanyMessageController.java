@@ -51,6 +51,9 @@ public class CompanyMessageController {
 		List<CompanySendMessageVO> list = service.companySendList(userMessageWriter);
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", list);	
+		
+		map.put("count", service.sendMessageCount(userMessageWriter));
+		
 		return map;
 	}
 	

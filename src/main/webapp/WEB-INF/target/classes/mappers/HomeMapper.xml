@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.home.mapper.IHomeMapper">
+
+	<!-- 메인화면 미니 공지사항 목록의 MiniNoticeVO와 데이터베이스 컬럼명을 일치시켜주는 miniNoticeMap 선언 -->
+	<resultMap type="com.spring.leaf.home.command.MiniNoticeVO" id="miniNoticeMap">
+		<id property="miniNoticeNum" column="ROWNUM" />
+		<result property="miniNoticeNO" column="notice_NO" />
+		<result property="miniNoticeTitle" column="notice_title" />
+		<result property="miniNoticeDate" column="notice_date" />
+	</resultMap>
+	
+	
+	<!-- 메인화면 미니 자유게시판 목록의 MiniBoardVO와 데이터베이스 컬럼명을 일치시켜주는 miniBoardMap 선언 -->
+	<resultMap type="com.spring.leaf.home.command.MiniBoardVO" id="miniBoardMap">
+		<id property="miniBoardNum" column="ROWNUM" />
+		<result property="miniBoardNO" column="board_NO" />
+		<result property="miniBoardTitle" column="board_title" />
+		<result property="miniBoardDate" column="board_date" />
+	</resultMap>
+	
+	
+	<!-- 메인화면 프로젝트 목록의 MiniProjectVO와 데이터베이스 컬럼명을 일치시켜주는 miniProjectMap 선언 -->
+	<resultMap type="com.spring.leaf.home.command.MiniProjectVO" id="miniProjectMap">
+		<id property="miniProjectNum" column="ROWNUM" />
+		<result property="miniProjectNO" column="project_NO" />
+		<result property="miniProjectName" column="project_name" />
+		<result property="miniCompanyName" column="company_name" />
+		<result property="miniProjectDate1" column="project_require_date1" />
+		<result property="miniProjectDate2" column="project_require_date2" />
+	</resultMap>
+	
+	
+	<!-- 미니 공지사항 목록 SELECT 쿼리 -->
+	<select id="homeNoticeList" resultMap="miniNoticeMap">
+		SELECT
+			@ROWNUM := @ROWNUM + 1 AS ROWNUM, nl.*
+		FROM (
+			SELECT
+				notice_NO, notice_title, notice_date
+			FROM notice
+		    ORDER BY notice_NO DESC
+		) nl, (SELECT @ROWNUM := 0) ROWNUM
+		<![CDATA[WHERE @ROWNUM < 5]]>
+	</select>
+	
+	
+	<!-- 미니 자유게시판 목록 SELECT 쿼리 -->
+	<select id="homeBoardList" resultMap="miniBoardMap">
+		SELECT
+			@ROWNUM := @ROWNUM + 1 AS ROWNUM, bl.*
+		FROM (
+			SELECT
+				board_NO, board_title, board_date
+			FROM board
+		    ORDER BY board_NO DESC
+		) bl, (SELECT @ROWNUM := 0) ROWNUM
+		<![CDATA[WHERE @ROWNUM < 5]]>
+	</select>
+	
+	
+	<!-- 미니 프로젝트 목록 SELECT 쿼리 -->
+	<select id="homeProjectList" resultMap="miniProjectMap">
+		SELECT
+			@ROWNUM := @ROWNUM + 1 AS ROWNUM, pl.*
+		FROM (
+			SELECT
+				p.project_NO, p.project_name, c.company_name, p.project_require_date1, p.project_require_date2
+			FROM project p LEFT OUTER JOIN company c
+		    ON p.company_NO = c.company_NO
+		    WHERE p.project_NO != 1
+		    ORDER BY p.project_NO DESC
+		) pl, (SELECT @ROWNUM := 0) ROWNUM
+		<![CDATA[WHERE @ROWNUM < 9]]>
+	</select>
+
+</mapper>

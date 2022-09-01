@@ -2,6 +2,20 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<style>
+
+	#modal-company-intro::-webkit-scrollbar {
+ 		width: 3px;
+  		background-color: #C7C7C7;
+	}
+	
+	
+	#modal-company-intro::-webkit-scrollbar-thumb {
+		background: #535353;
+	}
+
+</style>
+
 <div class="modal fade" id="modal-company-detail" role="dialog" data-backdrop="static">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -11,7 +25,7 @@
 					<span class="main-board-title" style="color: #000686; font-size: 16px;">기업회원 상세 정보</span>
 				</a>
 
-				<div style="display: inline-block; margin-top: 20px;">
+				<div style="display: inline-block; position: relative; top: -30px;">
 				  	<img id="modal-company-logo" alt="사진" width="160px" height="160px" style="border-radius: 120px;">
 				  	
 				  	<div style="width: 160px;">
@@ -44,8 +58,8 @@
 					  </div>
 					  <div class="form-group">
 					    <label for="inputEmail3" class="control-label" style="width: 100px;">기업 소개</label>
-					    <p id="modal-company-intro" style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
-					    
+					    <div id="modal-company-intro" style="width: 240px; height: 70px; font-size: 13px; display: inline-block; vertical-align: top; padding-right: 10px; overflow: auto;"></div>
+  					    
 					  </div>
 					  <div class="form-group">
 					    <label for="inputEmail3" class="control-label" style="width: 100px;">회사 소개서</label>
@@ -63,6 +77,7 @@
 		    
 		    <div class="modal-footer" style="clear: both;">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+		        <button type="button" class="btn btn-danger" id="btn-modal-company-denied">가입 거부</button>
 		        <button type="button" class="btn btn-warning" id="btn-modal-company-accept">가입 승인</button>
 		    </div>
 			
@@ -121,9 +136,46 @@
 				return false;
 			}
 			
-		})
+		});
 		
 		
+		// 가입 거부 버튼 클릭 시
+		$('#btn-modal-company-denied').off().click(function() {
+			
+			if(confirm('해당 기업의 가입을 거부하시겠습니까?')) {
+				
+				const companyNO = $('#hidden-company-no').val();
+			
+				$.ajax({
+					type: 'POST',
+					url: '<c:url value="/admin/companyDenied" />',
+					
+					dataType: 'text',
+					data: {
+						'companyNO': companyNO
+					},
+					
+					success: function(result) {
+						if(result == 'YesCompanyDenied') {
+							alert('해당 기업 가입을 거부하였습니다.');
+							location.replace('<c:url value="/admin/companyAccept" />');
+						} else {
+							alert('가입 거부 중 오류가 발생했습니다.');
+							return;
+						}
+					},
+					
+					error: function() {
+						alert('가입 거부 중 서버오류가 발생했습니다.');
+						return;
+					}
+				});
+				
+			} else {
+				return false;
+			}
+			
+		});
 		
 	});		// jQuery 끝
 

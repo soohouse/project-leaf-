@@ -51,7 +51,7 @@
 				    	    		<th><input type="hidden" name="boardNo" id="boardNo" value="${board.boardNo}"></th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" id="boardTitle" name="boardTitle" class="form-control" value="${board.boardTitle}" maxlength="50" ></td>
+					    			<td><input type="text" id="boardTitle" name="boardTitle" class="form-control" value="${board.boardTitle}" maxlength="100" ></td>
 					    		</tr>
 			    	    	</thead>
 					    	<tbody>
@@ -92,14 +92,15 @@ $('#btn-board-update').click(function() {
 	if(title == '') {
 		alert('제목을 입력해주세요.');
 		$('#boardTitle').css('border-color', 'red');
+		$('#boardTitle').focus();
 		return false;
 	} else if(content == '') {
 		alert('내용을 입력해주세요.');
 		$('#boardContent').css('border-color', 'red');
+		$('#boardContent').focus();
 		return false;
 	} else {
-		if(confirm('글을 등록하시겠습니까?')) { //예->등록성공
-			alert('글이 성공적으로 등록되었습니다!');
+		if(confirm('글을 수정하시겠습니까?')) { //예->등록성공
 			return;
 		} else {return false;} //아니요->등록실패
 	}

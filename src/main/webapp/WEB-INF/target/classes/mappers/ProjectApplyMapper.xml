@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.projectapply.mapper.IProjectApplyMapper">
+	
+	
+	<!-- 기업회원 지원현황 목록과 데이터베이스 컬럼을 일치시켜주는 myProjectStatusMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.MyProjectStatusVO" id="myProjectStatusMap">
+		<id property="projectNO" column="project_NO" />
+		<result property="projectName" column="project_name" />
+		<result property="projectRequireRole" column="project_require_role" />
+		<result property="projectRequireDate1" column="project_require_date1" />
+		<result property="projectRequireDate2" column="project_require_date2" />
+		<result property="companyName" column="company_name" />
+		<result property="applyCount" column="apply_count" />
+	</resultMap>
+	
+	
+	<!-- 지원현황에서 지원자 목록과 데이터베이스 컬럼을 일치시켜주는 myProjectApplyListMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.MyProjectApplyListVO" id="myProjectApplyListMap">
+		<id property="applyNum" column="ROWNUM" />
+		<result property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userPhone" column="user_phone" />
+		<result property="applyDate" column="apply_date" />
+		<result property="commonCODE" column="common_CODE" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	
+	<!-- 지원현황에서 지원자 정보와 데이터베이스 컬럼을 일치시켜주는 myProjectApplyDetailMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.MyProjectApplyDetailVO" id="myProjectApplyDetailMap">
+		<id property="applyNO" column="apply_NO" />
+		<result property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="userPhone" column="user_phone" />
+		<result property="userEmail" column="user_email" />
+		<result property="userIntro" column="user_intro" />
+		<result property="resumeRealname" column="resume_realname" />
+		<result property="projectNO" column="project_NO" />
+		<result property="commonCODE" column="common_CODE" />
+		<result property="commonValue" column="common_value" />
+		<result property="applyMsg" column="apply_msg" />
+	</resultMap>
+	
+	
+	<!-- ApplyVO와 데이터베이스를 일치시켜주는 applyMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.ApplyVO" id="applyMap">
+		<id property="applyNO" column="apply_NO" />
+		<result property="userNO" column="user_NO" />
+		<result property="projectNO" column="project_NO" />
+		<result property="applyDate" column="apply_date" />
+		<result property="applyMsg" column="apply_msg" />
+		<result property="commonCODE" column="common_CODE" />
+	</resultMap>
+	
+	
+	<!-- 프로젝트 최종 합격자 목록을 저장하는 ProjectPassListVO와 데이터베이스를 일치시켜주는 projectPassListMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.ProjectPassListVO" id="projectPassListMap">
+		<id property="applyNum" column="ROWNUM" />
+		<result property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userName" column="user_name" />
+		<result property="applyDate" column="apply_date" />
+		<result property="commonCODE" column="common_CODE" />
+		<result property="commonValue" column="common_value" />
+	</resultMap>
+	
+	
+	<!-- 프로젝트 별 지원자 통계를 집계하기 위한 ProjectApplyCountVO와 데이터베이스를 일치시켜주는 projectApplyCountMap 선언 -->
+	<resultMap type="com.spring.leaf.projectapply.command.ProjectApplyCountVO" id="projectApplyCountMap">
+		<result property="projectName" column="project_name" />
+		<result property="applyCount" column="apply_count" />
+	</resultMap>
+	
+	
+	<insert id="projectapply">
+		INSERT INTO apply(user_NO, apply_msg, project_NO)
+		VALUES (#{userNO}, #{applyMsg}, #{projectNO})
+	</insert>
+	
+	
+	<select id="projectapply2">
+		SELECT * FROM apply;
+	</select>
+	
+	
+	<!-- 프로젝트에 지원할 때 지원자의 이력서 이름을 가져오는 SELECT 쿼리 -->
+	<select id="userInfoGet" resultType="String">
+		SELECT resume_realname
+		FROM resume
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 조회수 증가 Update 쿼리 -->
+	<update id="projectViewCount">
+		UPDATE project
+		SET project_views = project_views + 1
+		WHERE project_NO = #{projectNO}
+	</update>
+	
+	
+	<!-- 프로젝트 지원한 지원자의 정보를 가져오는 SELECT 쿼리 -->
+	<select id="applyGet" resultMap="applyMap">
+		SELECT *
+		FROM apply
+		WHERE project_NO = #{projectNO}
+		AND user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 기업회원 지원현황 목록 SELECT 쿼리 -->
+	<select id="myProjectStatus" resultMap="myProjectStatusMap">
+		SELECT
+			p.project_NO, p.project_name, p.project_require_role, 
+		    p.project_require_date1, p.project_require_date2, c.company_name,
+			COUNT(case when a.common_CODE NOT IN('SPT004', 'SPT005') then 1 end) AS apply_count
+		FROM
+			project p LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+			LEFT OUTER JOIN apply a
+		ON p.project_NO = a.project_NO
+			LEFT OUTER JOIN user u
+		ON a.user_NO = u.user_NO
+		WHERE c.company_NO = #{companyNO}
+		GROUP BY p.project_NO
+	</select>
+	
+	
+	<!-- 기업회원 프로젝트 개수 SELECT 쿼리 -->
+	<select id="myProjectCount" resultType="int">
+		SELECT COUNT(*)
+		FROM project
+		WHERE company_NO = #{companyNO}
+	</select>
+	
+	
+	<!-- 기업회원의 프로젝트를 지원한 개발자 목록 SELECT 쿼리 -->
+	<select id="myProjectApplyList" resultMap="myProjectApplyListMap">
+		SELECT 
+			@ROWNUM := @ROWNUM + 1 AS ROWNUM, al.*
+		FROM (
+			SELECT 
+				u.user_NO, u.user_ID, u.user_name,
+		        CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone,
+		        a.apply_date, a.common_CODE, c.common_value
+			FROM
+				user u LEFT OUTER JOIN apply a
+					ON u.user_NO = a.user_NO
+				LEFT OUTER JOIN common c
+					ON a.common_CODE = c.common_CODE
+				WHERE a.project_NO = #{projectNO}
+				AND u.common_CODE != 'ADM003'
+				AND a.common_CODE NOT IN('SPT004', 'SPT005')
+		) al, (SELECT @ROWNUM := 0) ROWNUM
+	</select>
+	
+	
+	<!-- 프로젝트 지원자 수  SELECT 쿼리 -->
+	<select id="myProjectApplyCount" resultType="int">
+		SELECT COUNT(case when a.common_CODE NOT IN('SPT004', 'SPT005') then 1 end)
+		FROM 
+			apply a LEFT OUTER JOIN user u
+        	ON a.user_NO = u.user_NO
+			WHERE project_NO = #{projectNO}
+        	AND u.common_CODE != 'ADM003'
+	</select>
+	
+	
+	<!-- 기업회원의 프로젝트를 지원한 개발자의 상세 정보 SELECT 쿼리 -->
+	<select id="myProjectApplyDetail" resultMap="myProjectApplyDetailMap">
+		SELECT
+			a.apply_NO, a.user_NO, u.user_ID, u.user_name,
+		    CONCAT(u.user_phone1, '-', u.user_phone2, '-', u.user_phone3) AS user_phone,
+		    CONCAT(u.user_email1, '@', u.user_email2) AS user_email,
+		    u.user_intro, r.resume_realname,
+		    a.project_NO, a.common_CODE, c.common_value, a.apply_msg
+		FROM
+			user u LEFT OUTER JOIN resume r
+			ON u.user_NO = r.user_NO
+		    LEFT OUTER JOIN apply a
+		    ON u.user_NO = a.user_NO
+		    LEFT OUTER JOIN common c
+		    ON a.common_CODE = c.common_CODE
+		WHERE a.user_NO = #{userNO}
+		AND a.project_NO = #{projectNO}
+	</select>
+	
+	
+	<!-- 기업회원이 지원자의 지원 상태를 1차 서류 합격으로 변경하는 UPDATE 쿼리 -->
+	<update id="applySetPrimary">
+		UPDATE apply
+		SET common_CODE = 'SPT002'
+		WHERE apply_NO = #{applyNO}
+	</update>
+	
+	
+	<!-- 기업회원이 지원자의 지원 상태를 2차 면접 합격으로 변경하는 UPDATE 쿼리 -->
+	<update id="applySetSecondary">
+		UPDATE apply
+		SET common_CODE = 'SPT003'
+		WHERE apply_NO = #{applyNO}
+	</update>
+	
+	
+	<!-- 기업회원이 지원자의 지원 상태를 최종 합격으로 변경하는 UPDATE 쿼리 -->
+	<update id="applySetFinally">
+		UPDATE apply
+		SET common_CODE = 'SPT004'
+		WHERE apply_NO = #{applyNO}
+	</update>
+	
+	
+	<!-- 기업회원이 지원자의 지원 상태를 불합격으로 변경하는 UPDATE 쿼리 -->
+	<update id="applySetNo">
+		UPDATE apply
+		SET common_CODE = 'SPT005'
+		WHERE apply_NO = #{applyNO}
+	</update>
+	
+	
+	<!-- 지원 취소 DELETE 쿼리 -->
+	<delete id="applyCancel">
+		DELETE FROM apply
+		WHERE user_NO = #{userNO}
+		AND project_NO = #{projectNO}
+	</delete>
+	
+	
+	<!-- 프로젝트 최종 합격자 수 SELECT 쿼리 -->
+	<select id="applyPassCount" resultType="int">
+		SELECT COUNT(*)
+		FROM apply
+		WHERE project_NO = #{projectNO}
+		AND common_CODE != 'SPT005'
+	</select>
+	
+	
+	<!-- 프로젝트 지원자 목록 SELECT 쿼리 -->
+	<select id="applyPassList" resultMap="projectPassListMap">
+		SELECT 
+			@ROWNUM := @ROWNUM + 1 AS ROWNUM, al.*
+		FROM (
+			SELECT 
+				u.user_NO, u.user_ID, u.user_name,
+		        a.apply_date, a.common_CODE, c.common_value
+			FROM
+				user u LEFT OUTER JOIN apply a
+					ON u.user_NO = a.user_NO
+				LEFT OUTER JOIN common c
+					ON a.common_CODE = c.common_CODE
+				WHERE a.project_NO = #{projectNO}
+				AND u.common_CODE != 'ADM003'
+				AND a.common_CODE != 'SPT005'
+                ORDER BY a.common_CODE DESC
+		) al, (SELECT @ROWNUM := 0) ROWNUM;
+	</select>
+	
+	
+	<!-- 프로젝트 별 지원자 수 통계 데이터 SELECT 쿼리 -->
+	<select id="projectApplyCount" resultMap="projectApplyCountMap">
+		SELECT p.project_name, COUNT(a.apply_NO) AS apply_count
+		FROM project p LEFT OUTER JOIN apply a
+		ON p.project_NO = a.project_NO
+		LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		WHERE c.company_NO = #{companyNO}
+		GROUP BY p.project_NO
+		ORDER BY apply_count DESC
+	</select>
+
+</mapper>

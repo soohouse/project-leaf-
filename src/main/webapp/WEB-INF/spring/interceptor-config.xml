@@ -88,8 +88,13 @@
 			<mvc:mapping path="/userapply/applystatus"/>
 			<mvc:mapping path="/userapply/applyresult"/>
 			
+			<mvc:mapping path="/membersList/membersList"/>
 			<mvc:mapping path="/admin/companyAccept"/>
 			<mvc:mapping path="/admin/commonCODE"/>
+			<mvc:mapping path="/admin/chartDevelopers"/>
+			<mvc:mapping path="/admin/chartCompanies"/>
+			<mvc:mapping path="/admin/chartProjects"/>
+			<mvc:mapping path="/admin/chartApplies"/>
 			
 			<ref bean="yesLoginHandler" />
 		</mvc:interceptor>
@@ -133,8 +138,13 @@
 			<mvc:mapping path="/notice/noticeWrite"/>
 			<mvc:mapping path="/notice/noticeModify"/>
 		
+			<mvc:mapping path="/membersList/membersList"/>
 			<mvc:mapping path="/admin/companyAccept"/>
 			<mvc:mapping path="/admin/commonCODE"/>
+			<mvc:mapping path="/admin/chartDevelopers"/>
+			<mvc:mapping path="/admin/chartCompanies"/>
+			<mvc:mapping path="/admin/chartProjects"/>
+			<mvc:mapping path="/admin/chartApplies"/>
 			
 			<ref bean="adminLoginHandler" />
 		</mvc:interceptor>

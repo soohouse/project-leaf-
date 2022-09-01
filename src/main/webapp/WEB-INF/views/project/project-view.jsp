@@ -34,6 +34,14 @@
    			margin: 0 auto;
    	}
    	
+   	img[src$=".jpg"], img[src$=".png"] {
+	image-rendering: -moz-crisp-edges; /* Firefox */
+	image-rendering: -o-crisp-edges; /* Opera */
+	image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+	image-rendering: crisp-edges;
+	-ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+	}
+   	
   </style>
 
 
@@ -109,7 +117,37 @@
 					<span class="main-board-title" style="color: #2B2B2B; font-size: 20px; margin-top: 10px; font-family: sans-serif;">${projectview.projectName}</span>
 					<span id="btn-apply-pass" style="margin-top: 14px; font-size: 11px; font-weight: bold; color: rgba(121,7,131,0.5); margin-left: 8px; font-family: sans-serif; cursor: pointer;"><i class="fa fa-search" aria-hidden="true"></i> 지원자 : <span style="color: #EA00AA; font-weight: 500;">${projectPassCount}</span> 명</span>
 					<span class="pull-right" style="margin-top: 14px; font-size: 11px; color: #A0A0A0;">조회수 : ${projectview.projectViews}</span>
-					<span class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; margin-right: 40px;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like1.png"> 좋아요 3</span>
+					
+					<span id="span-like-count" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; margin-right: 40px; cursor: pointer;"></span>
+					
+					<c:choose>
+						
+						<c:when test="${projectLike == 0}">
+							<span id="span-like-ok" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like1.png"> 좋아요 &nbsp;</span>
+							<span id="span-like-cancel" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer; display: none;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like2.png"> 좋아요 &nbsp;</span>
+						</c:when>
+						
+						<c:when test="${projectLike <= 1}">
+							<span id="span-like-ok" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer; display: none;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like1.png"> 좋아요 &nbsp;</span>
+							<span id="span-like-cancel" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like2.png"> 좋아요 &nbsp;</span>
+						</c:when>
+						
+						<c:when test="${projectLikeCompany == 0}">
+							<span id="span-like-ok-company" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like1.png"> 좋아요 &nbsp;</span>
+							<span id="span-like-cancel-company" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer; display: none;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like2.png"> 좋아요 &nbsp;</span>
+						</c:when>
+						
+						<c:when test="${projectLikeCompany <= 1}">
+							<span id="span-like-ok-company" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer; display: none;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like1.png"> 좋아요 &nbsp;</span>
+							<span id="span-like-cancel-company" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like2.png"> 좋아요 &nbsp;</span>
+						</c:when>
+						
+						<c:otherwise>
+							<span id="span-like-nothing" class="pull-right" style="margin-top: 14px; font-size: 11px; color: red; cursor: pointer;"><img alt="하트" width="16px" src="${pageContext.request.contextPath}/resources/img/like1.png"> 좋아요 &nbsp;</span>
+						</c:otherwise>
+						
+					</c:choose>
+
 				</div>
 				
 			</div>
@@ -152,8 +190,8 @@
 							<input type="hidden" value="${projectview.companyAddress1}" id="address-no">
 							${projectview.companyAddress2} ${projectview.companyAddress3}
 							
-				      		<a href="project-map.html" onclick="window.open(this.href, '_blank', 'width=600px, height=400px,toolbars=no,scrollbars=no'); return false;">
-				        		<button type="button" class="btn btn-primary pull-right" style="display: inline; margin-top: -8px; margin-bottom: -8px; margin-right: -8px; height: 37px; width: 120px; border-radius: 0;">지도</button>
+				      		<a href="#">
+				        		<button id="btn-show-map" type="button" class="btn btn-primary pull-right" style="display: inline; margin-top: -8px; margin-bottom: -8px; margin-right: -8px; height: 37px; width: 120px; border-radius: 0;">지도</button>
 				         	</a>
 						</td>
 					</tr>
@@ -258,6 +296,31 @@
 	}
 	
 	$(function() {
+		
+		
+		let project = $('#hidden-projectNO').val();
+		
+		// 상세보기 페이지 열람 시 좋아요 수를 가져온다.
+		$.ajax({
+			type: 'POST',
+			url: '<c:url value="/project/projectLikeGet" />',
+			
+			dataType: 'text',
+			
+			data: {
+				'projectNO': project
+			},
+			
+			success: function(result) {
+				$('#span-like-count').text(result);
+			},
+			
+			error: function() {
+				alert('좋아요 수를 얻어오는 중 서버오류가 발생했습니다.');
+				return;
+			}
+		});
+		
 		
 		// 목록 버튼 클릭 시
 		$('#mokrok-btn').click(function() {
@@ -462,7 +525,259 @@
 			
 		});
 		
+		
+		// 로그인 하지 않고 좋아요 클릭 시
+		$('#span-like-nothing').click(function() {
+			alert('로그인이 필요한 서비스입니다.');
+			return;
+		});
+		
+		
+		// 일반회원 좋아요 안된 상태에서 좋아요 클릭 시 좋아요 적용
+		$('#span-like-ok').click(function() {
+			
+			const userNO = $('#hidden-userNO').val();
+			const projectNO = $('#hidden-projectNO').val();
+			
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/project/projectLikeOK" />',
+				
+				data: {
+					'projectNO': projectNO,
+					'userNO': userNO
+				},
+				
+				success: function(result) {
+					if(result == 'YesProjectLikeOK') {
+						console.log('프로젝트 좋아요 성공');
+						
+						// 바꾼 후 좋아요 수를 가져온다.
+						$.ajax({
+							type: 'POST',
+							url: '<c:url value="/project/projectLikeGet" />',
+							
+							dataType: 'text',
+							
+							data: {
+								'projectNO': projectNO
+							},
+							
+							success: function(result) {
+								$('#span-like-count').text(result);
+							},
+							
+							error: function() {
+								alert('좋아요 수를 얻어오는 중 서버오류가 발생했습니다.');
+								return;
+							}
+						});
+						
+						$('#span-like-ok').css('display', 'none');
+						$('#span-like-cancel').css('display', 'inline');
+					} else {
+						alert('프로젝트 좋아요 처리 중 오류가 발생했습니다.');
+						return;
+					}
+				},
+				
+				error: function() {
+					alert('프로젝트 좋아요 처리 중 서버오류가 발생했습니다.');
+					return;
+				}
+			});
+			
+		});
+
+		
+		// 일반회원 좋아요 된 상태에서 좋아요 클릭 시 좋아요 취소
+		$('#span-like-cancel').click(function() {
+			
+			const userNO = $('#hidden-userNO').val();
+			const projectNO = $('#hidden-projectNO').val();
+			
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/project/projectLikeCancel" />',
+				
+				data: {
+					'projectNO': projectNO,
+					'userNO': userNO
+				},
+				
+				success: function(result) {
+					if(result == 'YesProjectLikeCancel') {
+						console.log('프로젝트 좋아요 취소 성공');
+						
+						// 바꾼 후 좋아요 수를 가져온다.
+						$.ajax({
+							type: 'POST',
+							url: '<c:url value="/project/projectLikeGet" />',
+							
+							dataType: 'text',
+							
+							data: {
+								'projectNO': projectNO
+							},
+							
+							success: function(result) {
+								$('#span-like-count').text(result);
+							},
+							
+							error: function() {
+								alert('좋아요 수를 얻어오는 중 서버오류가 발생했습니다.');
+								return;
+							}
+						});
+						
+						$('#span-like-ok').css('display', 'inline');
+						$('#span-like-cancel').css('display', 'none');
+					} else {
+						alert('프로젝트 좋아요 처리 중 오류가 발생했습니다.');
+						return;
+					}
+				},
+				
+				error: function() {
+					alert('프로젝트 좋아요 처리 중 서버오류가 발생했습니다.');
+					return;
+				}
+			});
+			
+		});
+		
+		
+		// 기업회원 좋아요 안된 상태에서 좋아요 클릭 시 좋아요 적용
+		$('#span-like-ok-company').click(function() {
+			
+			const companyNO = '${companyNO}';
+			const projectNO = $('#hidden-projectNO').val();
+			
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/project/projectLikeCompanyOK" />',
+				
+				data: {
+					'projectNO': projectNO,
+					'companyNO': companyNO
+				},
+				
+				success: function(result) {
+					if(result == 'YesProjectLikeCompanyOK') {
+						console.log('프로젝트 좋아요 성공');
+						
+						// 바꾼 후 좋아요 수를 가져온다.
+						$.ajax({
+							type: 'POST',
+							url: '<c:url value="/project/projectLikeGet" />',
+							
+							dataType: 'text',
+							
+							data: {
+								'projectNO': projectNO
+							},
+							
+							success: function(result) {
+								$('#span-like-count').text(result);
+							},
+							
+							error: function() {
+								alert('좋아요 수를 얻어오는 중 서버오류가 발생했습니다.');
+								return;
+							}
+						});
+						
+						$('#span-like-ok-company').css('display', 'none');
+						$('#span-like-cancel-company').css('display', 'inline');
+					} else {
+						alert('프로젝트 좋아요 처리 중 오류가 발생했습니다.');
+						return;
+					}
+				},
+				
+				error: function() {
+					alert('프로젝트 좋아요 처리 중 서버오류가 발생했습니다.');
+					return;
+				}
+			});
+			
+		});
+
+		
+		// 기업회원 좋아요 된 상태에서 좋아요 클릭 시 좋아요 취소
+		$('#span-like-cancel-company').click(function() {
+			
+			const companyNO = '${companyNO}';
+			const projectNO = $('#hidden-projectNO').val();
+			
+			$.ajax({
+				type: 'POST',
+				url: '<c:url value="/project/projectLikeCompanyCancel" />',
+				
+				data: {
+					'projectNO': projectNO,
+					'companyNO': companyNO
+				},
+				
+				success: function(result) {
+					if(result == 'YesProjectLikeCompanyCancel') {
+						console.log('프로젝트 좋아요 취소 성공');
+						
+						// 바꾼 후 좋아요 수를 가져온다.
+						$.ajax({
+							type: 'POST',
+							url: '<c:url value="/project/projectLikeGet" />',
+							
+							dataType: 'text',
+							
+							data: {
+								'projectNO': projectNO
+							},
+							
+							success: function(result) {
+								$('#span-like-count').text(result);
+							},
+							
+							error: function() {
+								alert('좋아요 수를 얻어오는 중 서버오류가 발생했습니다.');
+								return;
+							}
+						});
+						
+						$('#span-like-ok-company').css('display', 'inline');
+						$('#span-like-cancel-company').css('display', 'none');
+					} else {
+						alert('프로젝트 좋아요 처리 중 오류가 발생했습니다.');
+						return;
+					}
+				},
+				
+				error: function() {
+					alert('프로젝트 좋아요 처리 중 서버오류가 발생했습니다.');
+					return;
+				}
+			});
+			
+		});
+		
+		
+		// 지도 버튼 클릭 시
+		$('#btn-show-map').click(function() {
+			popupMap();
+		});
+		
 	});
+	
+	
+	function popupMap() {
+		var address = '${projectview.companyAddress2}';
+		
+		var url = '/project/projectMap?address=' + address;
+		var winWidth = 400;
+		var winHeight = 460;
+		var popupOption = 'width=' + winWidth + ', height=' + winHeight;
+		window.open(url, '', popupOption);
+	}
 
 </script> 
                  

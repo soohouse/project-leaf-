@@ -12,7 +12,7 @@
 					class="main-board-title" style="color: #000686; font-size: 16px;">기업정보</span>
 				</a>
 
-				<div style="display: inline-block; margin-top: 20px;">
+				<div style="display: inline-block; position: relative; top: -20px;">
 					<img id="members-company-logo" alt="사진" width="160px" height="160px"
 						style="border-radius: 120px;">
 
@@ -59,8 +59,8 @@
 					<div class="form-group">
 						<label for="inputEmail3" class="control-label"
 							style="width: 100px;">소개</label>
-						<p id="members-company-intro"
-							style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
+							
+						<div id="members-company-intro" style="width: 240px; height: 70px; font-size: 13px; display: inline-block; vertical-align: top; padding-right: 10px; overflow: auto;"></div>
 
 					</div>
 					<div class="form-group">
@@ -83,8 +83,7 @@
 			</div>
 
 			<div class="modal-footer" style="clear: both;">
-				<button type="button" class="btn btn-danger" style="float:left;">강제탈퇴</button>
-				<button type="button" class="btn btn-success" style="float:left;">강제수정</button>
+				<button id="admin-editor2" type="button" class="btn btn-success" style="float:left;">강제수정</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				<button type="button" class="btn btn-info" id="btn-members-company-message">쪽지발송</button>
 			</div>
@@ -145,6 +144,12 @@
 			} else {
 				return false;
 			}
+		});
+		
+		//강제수정 버튼 눌렸을때
+		$('#admin-editor2').off().click(function() {
+			const companyNO = $('#hidden-members-company-no').val();
+			location.href="/adminmypage/admincompanymypage?companyNO=" + companyNO;
 		});
 		
 		

@@ -79,6 +79,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<sql id="search">
+		<if test="pvo.condition == 'title'">
+			AND p.project_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'writer'">
+			AND c.company_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'date'">
+			AND p.project_require_date1 LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'title'">
+			AND p.project_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'writer'">
+			AND c.company_name LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+		<if test="pvo.condition == 'date'">
+			AND p.project_require_date1 LIKE concat('%', #{pvo.keyword}, '%')
+		</if>
+	</sql>
+	
+	
 	<insert id="projectapply">
 		INSERT INTO apply(user_NO, apply_msg, project_NO)
 		VALUES (#{userNO}, #{applyMsg}, #{projectNO})
@@ -129,15 +151,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			LEFT OUTER JOIN user u
 		ON a.user_NO = u.user_NO
 		WHERE c.company_NO = #{companyNO}
+		AND p.common_CODE NOT IN ('PST003', 'PST004')
+		<include refid="search" />
 		GROUP BY p.project_NO
+		LIMIT ${pvo.cpp}
+		OFFSET ${pvo.skip}
 	</select>
 	
 	
 	<!-- 기업회원 프로젝트 개수 SELECT 쿼리 -->
 	<select id="myProjectCount" resultType="int">
 		SELECT COUNT(*)
-		FROM project
-		WHERE company_NO = #{companyNO}
+		FROM project p LEFT OUTER JOIN company c
+		ON p.company_NO = c.company_NO
+		WHERE p.company_NO = #{companyNO}
+		AND p.common_CODE NOT IN ('PST003', 'PST004')
+		<include refid="search" />
 	</select>
 	
 	

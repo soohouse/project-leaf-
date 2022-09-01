@@ -125,7 +125,7 @@
 		
 		
 		
-		<!-- 직접 사용하기 위해 추가한 라이브러리들 (16개) -->
+		<!-- 직접 사용하기 위해 추가한 라이브러리들 (18개) -->
 			<!-- Spring-JDBC -->
 			<!-- HikariCP : 커넥션 풀 (기존으로 제공하는 것이 아닌 외부에서 가져온 툴) -->
 			<!-- ojdbc6 : DB 커넥터 드라이버 -->
@@ -142,6 +142,8 @@
 			<!-- commons-io, 파일 업로드에 필요하다. -->
 			<!-- log4jdbc-log4j2-jdbc4.1 : 데이터베이스 로그 출력을 위한 라이브러리 -->
 			<!-- jsch : 서버와 SFTP 통신을 위한 라이브러리 -->
+			<!-- spring-websocket : 채팅에 필요한 라이브러리 -->
+			<!-- json-simple : JSON 파싱을 도와주는 라이브러리 -->
 		
 		
 		<!-- Spring-JDBC -->
@@ -256,6 +258,21 @@
 		    <groupId>com.jcraft</groupId>
 		    <artifactId>jsch</artifactId>
 		    <version>0.1.54</version>
+		</dependency>
+		
+		<!-- spring-websocket : 채팅에 필요한 라이브러리 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		    <version>5.3.18</version>
+		</dependency>
+		
+		
+		<!-- json-simple : JSON 파싱을 도와주는 라이브러리 -->
+		<dependency>
+			 <groupId>com.googlecode.json-simple</groupId>
+		 	 <artifactId>json-simple</artifactId>
+		 	 <version>1.1.1</version>
 		</dependency>
 		
 		

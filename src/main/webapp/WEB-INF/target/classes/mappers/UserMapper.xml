@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.leaf.user.mapper.IUserMapper">
+
+	<!-- UserVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 UserMap 선언 -->
+	<resultMap type="com.spring.leaf.user.command.UserVO" id="UserMap">
+		<id property="userNO" column="user_NO" />
+		<result property="userID" column="user_ID" />
+		<result property="userPW" column="user_PW" />
+		<result property="userName" column="user_name" />
+		<result property="userEmail1" column="user_email1" />
+		<result property="userEmail2" column="user_email2" />
+		<result property="userPhone1" column="user_phone1" />
+		<result property="userPhone2" column="user_phone2" />
+		<result property="userPhone3" column="user_phone3" />
+		<result property="userDate" column="user_date" />
+		<result property="userIntro" column="user_intro" />
+		<result property="sessionID" column="session_ID" />
+		<result property="sessionLimit" column="session_limit" />
+		<result property="userDelete" column="user_delete" />
+		<result property="commonCODE" column="common_CODE" />
+	</resultMap>
+	
+	
+	<!-- UserProfileVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ProfileMap 선언 -->
+	<resultMap type="com.spring.leaf.user.command.UserProfileVO" id="ProfileMap">
+		<id property="userProfileNO" column="user_profile_NO" />
+		<result property="userProfileFilename" column="user_profile_filename" />
+		<result property="userProfileUploadpath" column="user_profile_uploadpath" />
+		<result property="userProfileRealname" column="user_profile_realname" />
+		<result property="userNO" column="user_NO" />
+	</resultMap>
+	
+	
+	<!-- ResumeVO와 데이터베이스 컬럼명을 일치시켜주는 resultMap인 ResumeMap 선언 -->
+	<resultMap type="com.spring.leaf.user.command.ResumeVO" id="ResumeMap">
+		<id property="resumeNO" column="resume_NO" />
+		<result property="resumeFilename" column="resume_filename" />
+		<result property="resumeUploadpath" column="resume_uploadpath" />
+		<result property="resumeRealname" column="resume_realname" />
+		<result property="userNO" column="user_NO" />
+	</resultMap>
+
+
+	<!-- 일반회원 유저 회원가입 INSERT 쿼리 -->
+	<insert id="userRegist">
+		INSERT INTO user
+			(user_ID, user_PW, user_name, user_email1, user_email2, 
+			user_phone1, user_phone2, user_phone3, user_intro)
+		VALUES
+			(#{userID}, #{userPW}, #{userName}, #{userEmail1}, #{userEmail2},
+			#{userPhone1}, #{userPhone2}, #{userPhone3}, #{userIntro})
+	</insert>
+	
+	
+	<!-- 일반회원 유저 아이디 중복체크 SELECT 쿼리 -->
+	<select id="userIDCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE user_ID = #{userID}
+	</select>
+	
+	
+	<!-- 일반회원 유저 이메일 중복체크 SELECT 쿼리 -->
+	<select id="userEmailCheck" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM user
+		WHERE user_email1 = #{user_email1}
+		AND user_email2 = #{user_email2} 
+	</select>
+	
+	
+	<!-- 일반회원 유저 정보 SELECT 쿼리 -->
+	<select id="userGetInfo" resultMap="UserMap">
+		SELECT *
+		FROM user
+		WHERE user_ID = #{userID}
+	</select>
+	
+	
+	<!-- 일반회원 비밀번호 변경 UPDATE 쿼리 -->
+	<update id="userPasswordChange">
+		UPDATE user
+		SET user_PW = #{newPassword}
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 회원탈퇴 UPDATE 쿼리 -->
+	<update id="userDelete">
+		UPDATE user
+		SET common_CODE = 'ADM003', user_delete = NOW()
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 자동로그인 UPDATE 쿼리 -->
+	<update id="userAutoLogin">
+		UPDATE user
+		SET session_ID = #{sessionID}, session_limit = #{sessionLimit}
+		WHERE user_ID = #{userID}
+	</update>
+	
+	
+	<!-- 자동로그인 세션값으로 사용자 정보 얻어오기 SELECT 쿼리 -->
+	<select id="userAutoGet" resultMap="UserMap">
+		SELECT *
+		FROM user
+		WHERE session_ID = #{sessionID}
+		AND session_limit > now()
+	</select>
+	
+	
+	<!-- 일반회원 ID 찾기 -->
+	<select id="userIDFind" resultMap="UserMap">
+		SELECT *
+		FROM user
+		WHERE user_name = #{userName}
+	</select>
+	
+	
+	<!-- 일반회원 PW 초기화 -->
+	<update id="userPWReset">
+		UPDATE user
+		SET user_PW = #{newPassword}
+		WHERE user_ID = #{userID}
+	</update>
+	
+	
+	<!-- 일반회원 회원번호 얻어내는 SELECT 쿼리 -->
+	<select id="userNOGet" resultType="int">
+		SELECT MAX(user_NO) + 1
+		FROM user;
+	</select>
+	
+	
+	<!-- 일반회원 프로필사진 INSERT 쿼리 -->
+	<insert id="userProfile">
+		INSERT INTO user_profile
+			(user_profile_filename, user_profile_uploadpath, user_profile_realname, user_NO)
+		VALUES
+			(#{userProfileFilename}, #{userProfileUploadpath}, #{userProfileRealname}, #{userNO})
+	</insert>
+	
+	
+	<!-- 일반회원 프로필사진 불러오기 SELECT 쿼리 -->
+	<select id="userProfileGet" resultMap="ProfileMap">
+		SELECT *
+		FROM user_profile
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 일반회원 프로필사진 삭제 UPDATE 쿼리 -->
+	<update id="userProfileDelete">
+		UPDATE user_profile
+		SET
+			user_profile_filename = null, user_profile_uploadpath = null, user_profile_realname = null
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 프로필사진 수정 UPDATE 쿼리 -->	
+	<update id="userProfileUpdate">
+		UPDATE user_profile
+		SET
+			user_profile_filename = #{userProfileFilename}, user_profile_uploadpath = #{userProfileUploadpath}, user_profile_realname = #{userProfileRealname}
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 프로필사진 존재 여부 확인 SELECT 쿼리 -->
+	<select id="userProfileCheck" resultType="int">
+		SELECT COUNT(user_profile_filename)
+		FROM user_profile
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 일반회원 자유양식 이력서 INSERT 쿼리 -->
+	<insert id="userResume">
+		INSERT INTO resume
+			(resume_filename, resume_uploadpath, resume_realname, user_NO)
+		VALUES
+			(#{resumeFilename}, #{resumeUploadpath}, #{resumeRealname}, #{userNO})
+	</insert>
+	
+	
+	<!-- 일반회원 이력서 SELECT 쿼리 -->
+	<select id="userResumeGet" resultMap="ResumeMap">
+		SELECT *
+		FROM resume
+		WHERE user_NO = #{userNO}
+	</select>
+	
+	
+	<!-- 일반회원 이력서 삭제 UPDATE 쿼리 -->
+	<update id="userResumeDelete">
+		UPDATE resume
+		SET
+			resume_filename = null, resume_uploadpath = null, resume_realname = null
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 이력서 수정 UPDATE 쿼리 -->
+	<update id="userResumeUpdate">
+		UPDATE resume
+		SET
+			resume_filename = #{resumeFilename}, resume_uploadpath = #{resumeUploadpath}, resume_realname = #{resumeRealname}
+		WHERE user_NO = #{userNO}
+	</update>
+	
+	
+	<!-- 일반회원 이력서 존재 여부 SELECT 쿼리 -->
+	<select id="userResumeCheck" resultType="int">
+		SELECT COUNT(resume_filename)
+		FROM resume
+		WHERE user_NO = #{userNO}
+	</select>
+
+</mapper>

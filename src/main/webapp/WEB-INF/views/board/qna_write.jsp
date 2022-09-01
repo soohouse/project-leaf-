@@ -50,7 +50,7 @@
 				    	    		<th colspan= "2">질문 제목</th>
 				    	    	</tr>
 				    	    	<tr>
-					    			<td><input type="text" name="questionTitle" class="form-control" placeholder="질문 제목을 입력하세요." maxlength="50" ></td>
+					    			<td><input type="text" id="questionTitle" name="questionTitle" class="form-control" placeholder="질문 제목을 입력하세요." maxlength="100" ></td>
 					    			<td><input type="hidden" name="questionWriter" value="${user.userID}"></td>
 					    		</tr>
 			    	    	</thead>
@@ -59,7 +59,7 @@
 				    	    		<th colspan= "2">질문 내용</th>
 				    	    	</tr>
 					    		<tr>
-					    			<td><textarea class="form-control" name="questionContent" placeholder="질문 내용을 입력하세요." maxlength="2048" style= "height:350px; resize:none;" ></textarea></td>
+					    			<td><textarea class="form-control" id="questionContent" name="questionContent" placeholder="질문 내용을 입력하세요." maxlength="2048" style= "height:350px; resize:none;" ></textarea></td>
 					    		</tr>
 					    	</tbody>
 		    	    	</table>
@@ -98,10 +98,12 @@
 		if(title == '') {
 			alert('제목을 입력해주세요.');
 			$('#questionTitle').css('border-color', 'red');
+			$('#questionTitle').focus();
 			return false;
 		} else if(content == '') {
 			alert('내용을 입력해주세요.');
 			$('#questionContent').css('border-color', 'red');
+			$('#questionContent').focus();
 			return false;
 		} else {
 			if(confirm('글을 등록하시겠습니까?')) { //예->등록성공

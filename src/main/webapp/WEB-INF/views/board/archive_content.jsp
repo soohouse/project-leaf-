@@ -129,7 +129,9 @@
                                         </div>
                                         
                                     </div>
-
+							
+							<br><hr>
+							
 							<div class="archive_content_down" style="min-height:300px; margin-top:50px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
 								<div style="min-height:300px;">
 									${fn:replace(archive.archiveContent, newLineChar, '<br/>')}
@@ -394,7 +396,7 @@
 				for(let i=0; i<archiveReplyList.length; i++) {
 					
 					var timestamp = archiveReplyList[i].archiveReplyDate;
-					var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+					var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '').slice(0,16);
 					
 					var replyWriter = archiveReplyList[i].archiveReplyWriter;
 					var replyReader = ''; 

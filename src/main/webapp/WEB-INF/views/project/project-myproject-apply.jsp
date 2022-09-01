@@ -57,31 +57,26 @@
 				<span class="main-board-title" style="color: #215C69;">내 프로젝트 지원자 현황</span>
 			</a>
 
-			<form class="navbar-form navbar-left navbar-main-top pull-left" role="search" style="padding: 0; margin-left: 0;">
+
+			<form class="navbar-form navbar-left navbar-main-top pull-left" style="padding: 0; margin-left: 0;" action="<c:url value='/project/projectMyApply'/>">
 				<select class="form-control" name="condition" style="height: 30px; font-size: 13px;">
-                            <option value="project-name">프로젝트 이름</option>
+                      <option value="title" ${pc.paging.condition == 'title' ? 'selected' : ''}>프로젝트 이름</option>
+                      <option value="date" ${pc.paging.condition == 'date' ? 'selected' : ''}>등록일자</option>
                 </select>
-			
 				<div class="input-group"> 
-					<input type="text" class="form-control" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
+					<input type="text" name="keyword" class="form-control" value="${pc.paging.keyword}" placeholder="검색어를 입력하세요" style="height: 30px; font-size: 13px;">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit" style="height: 30px; background: #d3d3d3; font-size: 13px;">검색</button>
 					</span>
 				</div>
 			</form>
 			
-			<form class="navbar-form navbar-left navbar-main-top pull-right" role="search" style="padding: 0; margin-left: 0;">
-				<div class="input-group"> 
-					<span class="input-group-btn">
-						<button id="btn-apply-check" class="btn btn-success" type="button" style="height: 30px; font-size: 13px;">버튼</button>
-					</span>
-				</div>
-			</form>
+			
 
 			<div class="project-myproject-apply" style="clear: both;">
 				
 				<br>
-				<p style="font-size: 14px; font-weight: bold; margin-top: 20px; margin-left: 16px; margin-bottom: -10px;">등록한 내 프로젝트<span style="color: red;">&nbsp;&nbsp;${myProjectCount}</span></p>
+				<p style="font-size: 14px; font-weight: bold; margin-top: 20px; margin-left: 16px; margin-bottom: -10px;">등록한 프로젝트<span style="color: red;">&nbsp;&nbsp;${myProjectCount}</span></p>
 				<hr>
 				
 				
@@ -231,6 +226,27 @@
 				</c:forEach>
 				
 			</div>
+			
+			<!-- 프로젝트 목록 페이징 -->
+            <div class="text-center">
+				<form action="<c:url value='/project/project-myproject-apply'/>" name="pageForm">
+	                <ul class="pagination pagination-sm">
+						<c:if test="${pc.prev }"><!-- 이전버튼 -->
+		                    <li><a href="/project/projectMyApply?pageNum=${pc.beginPage-1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.beginPage-1 }"> << </a></li>
+						</c:if>
+						<c:forEach var="num" begin="${pc.beginPage }" end="${pc.endPage}">
+							<li class="${pc.paging.pageNum == num ? 'active' : '' }"><a href="/project/projectMyApply?pageNum=${num}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum='${num }'>${num }</a></li>
+						</c:forEach>
+						<c:if test="${pc.next }"><!-- 다음버튼 -->
+		                    <li><a href="/project/projectMyApply?pageNum=${pc.endPage+1}&cpp=${pc.paging.cpp }&condition=${pc.paging.condition}&keyword=${pc.paging.keyword}" data-pagenum="${pc.endPage-1 }"> >> </a></li>
+						</c:if>
+					</ul>
+                    <input type="hidden" name="pageNum" value="${pc.paging.pageNum}">
+                    <input type="hidden" name="cpp" value="${pc.paging.cpp}">
+                    <input type="hidden" name="condition" value="${pc.paging.condition}">
+                    <input type="hidden" name="keyword" value="${pc.paging.keyword}">
+				</form>
+			</div>
 
 		</div>
 	
@@ -250,6 +266,21 @@
 	if(msg != '') {
 		alert(msg);
 	}
+	
+	//페이징
+	$(function() {
+		const msg = '${msg}';
+		if(msg !== '') {
+			alert(msg);
+		}
+		$('#pagination').on('click', 'a', function(e) {
+			e.preventDefault(); //a태그의 고유기능 중지.
+			const value = $(this).data('pagenum'); //-> jQuery
+			console.log(value);
+			document.pageForm.pageNum.value = value;
+			document.pageForm.submit();
+		});
+	}); 
 	
 	
 	// 지원자 목록 하나를 클릭하면 해당되는 지원자의 상세보기 모달창을 띄운다.
@@ -290,12 +321,20 @@
 					if(apply.userIntro == null || apply.userIntro == '') {
 						$('#modal-user-intro').text('');
 					} else {
-						$('#modal-user-intro').text(apply.userIntro);
+						let str = apply.userIntro.replaceAll("\n", "<br/>");
+						$('#modal-user-intro').empty().append(str);
 					}
 					
 					if(apply.resumeRealname == null || apply.resumeRealname == '') {
-						$('#modal-user-resume-realname').text('');
+						$('#modal-user-resume-realname').css('color', '#A4A4A4');
+						$('#modal-user-resume-realname').css('font-weight', '500');
+						$('#modal-user-resume-realname').css('text-decoration', 'none');
+						$('#modal-user-resume-realname').text('등록된 이력서가 없습니다.');
 					} else {
+						$('#modal-user-resume-realname').css('color', 'blue');
+						$('#modal-user-resume-realname').css('font-weight', '500');
+						$('#modal-user-resume-realname').css('text-decoration', 'underline');
+						
 						$('#modal-user-resume-realname').text(apply.resumeRealname);
 					}
 					

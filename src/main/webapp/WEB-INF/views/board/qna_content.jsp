@@ -95,6 +95,7 @@
 		                                        	<input type="hidden" id="hidden-questionNo" name="questionNo" value="${question.questionNo}">
 
 		                                        	<h4 style="display:inline-block;"><span style="font-weight: bolder; font-size:24px; color:#74C9DC;"> Q . </span> ${question.questionTitle}</h4>
+                                              
                                               <c:if test="${ question.questionWriter eq user.userID  || user.commonCODE == 'ADM002' }">
 			                                          <a type="submit" id="btn-question-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:70px;">삭제</a>
                                               </c:if>
@@ -134,8 +135,12 @@
                              <hr class="borderline" style="margin-bottom:40px;" />
                              <button type="submit" class="btn btn-light mb-2 pull-left">신고하기 </button>
                              <button type="button" id="btn-question-list" class="btn btn-info mb-2 pull-right" style="margin-left:10px;">목록 </button>
-                             <c:if test="${question.questionWriter eq user.userID || question.questionWriter eq company.companyID }">
+                             <c:if test="${question.questionWriter eq user.userID || question.questionWriter eq company.companyID}">
                              	<button type="button" class="btn btn-primary mb-2 pull-right"  style="margin-left:10px;" onclick="location.href='<c:url value="/question/questionModify?questionNo=${question.questionNo}"/>'">수정 </button>
+                             </c:if>
+                             
+                             <c:if test="${user.commonCODE == 'ADM002'}">
+                             	<button type="button" class="btn btn-danger mb-2 pull-right"  style="margin-left:10px;" onclick="location.href='<c:url value="/question/questionModify?questionNo=${question.questionNo}"/>'">강제수정 </button>
                              </c:if>
                              <button type="button" id="btn-go-answer" class="btn btn-success mb-2 pull-right"  style="margin-left:10px;">답변하기 </button>
                            
@@ -251,8 +256,48 @@
 			                                           
 			                                    </div>
 			                            </div>
+			                        </div>`; 
+					} else if (ansWriter != answerReader) {
+						
+						strAdd +=
+							`
+			                    <div class="row" style="background:#FAFAFA; border-top: 1px solid black; padding-top: 10px;">
+			                            <div class="qa_content" >
+			                                    <div class="qa_content_up" style="margin-left:30px;" >
+					                                   <div class="qa_title" scope="col" style="width: 100%;  margin-top:10px;">
+					                                   		<input type="hidden" id="hidden-answer-no" name="answerNo">
+					                                   		<c:if test="${user.commonCODE == 'ADM002'}">
+					                                       	<a type="submit" id="btn-answer-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;" data-value="` + answerList[i].answerNo + `">삭제</a>
+					                                       	<a type="button" id="btn-answer-update" data-value="` + answerList[i].answerNo + `" class="btn mb-2 answerModify" style="display: inline-block; float:right;">수정</a>
+					                                       	</c:if>
+					                                   </div>
+					                                   
+					                                   <div style="margin-top:30px;">
+						                                    <div class="qa_writer" style="display: inline-block;">
+						                                        <img src="<c:url value='/user/userProfileGet?userNO='/>` + memberNo + `" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" > 
+						                                        <div style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">` + answerList[i].answerWriter + `님의 답변</div>
+						                                            
+					                                        </div>
+					                                       	<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
+							                                    <div style="display:inline-block;" >
+							                                        ` + date + `
+							                                    </div>
+						                                    </div>
+					                                   </div>
+			                                    </div>
+			
+			                                    <div class="qa_content_down" style="min-height:300px; margin-top:30px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
+			                                        
+			                                        	` + content + `
+			                                           
+			                                    </div>
+			                            </div>
 			                        </div>`;
-					} else {
+					
+					
+					
+					
+				}else {
 						
 						strAdd +=
 							`
@@ -301,6 +346,7 @@
 			
 			
 		}); //답글 목록(상세보기) 끝
+		
 		
 		
 		//답글 수정 이동 버튼 (아직 수정중입니다)

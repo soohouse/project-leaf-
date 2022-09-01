@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.spring.leaf.message.mapper.IAdminMessageMapper">
+
+	
+		<!-- 관리자입장에서 유저에게 쪽지를 보내는 쿼리(이 쿼리는 UserMessage 테이블에 저장이 됨 -->
+		<insert id="adminSendUserMessage">
+			INSERT INTO user_message
+			(user_message_writer, user_message_content, user_NO)
+			VALUES
+			(#{userMessageWriter}, #{userMessageContent}, #{userNO})
+		</insert>
+		
+		<!-- 관리자입장에서 기업에게 쪽지를 보내는 쿼리(이 쿼리는 CompanyMessage 테이블에 저장이 됨 -->
+		<insert id="adminSendCompanyMessage">
+			INSERT INTO company_message
+			(company_message_writer, company_message_content, company_NO)
+			VALUES
+			(#{companyMessageWriter}, #{companyMessageContent}, #{companyNO})
+		</insert>
+		
+		
+		
+</mapper>
+

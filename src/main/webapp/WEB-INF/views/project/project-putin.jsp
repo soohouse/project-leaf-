@@ -48,7 +48,21 @@
 				<div style="clear: both;">
 					<span class="main-board-title" style="color: #909090; font-size: 14px;">${projectInfo.companyName}</span>
 			      	
-					<span class=" main-board-title pull-right" style="font-size: 14px; font-weight: 500; color: green;">현재 모집 중</span>
+					<c:choose>
+			      	
+			      		<c:when test="${projectInfo.commonCODE == 'PST001'}">
+			      			<span class="main-board-title pull-right" style="font-size: 14px; font-weight: 500; color: green;">${projectInfo.commonValue}</span>
+			      		</c:when>
+			      		
+			      		<c:when test="${projectInfo.commonCODE == 'PST002'}">
+			      			<span class="main-board-title pull-right" style="font-size: 14px; font-weight: 500; color: #970000;">${projectInfo.commonValue}</span>
+			      		</c:when>
+			      		
+			      		<c:when test="${projectInfo.commonCODE == 'PST003'}">
+			      			<span class="main-board-title pull-right" style="font-size: 14px; font-weight: 500; color: #808080;">${projectInfo.commonValue}</span>
+			      		</c:when>
+			      	
+			      	</c:choose>
 				</div>
 				
 				<div style="clear: both; margin-top: 6px;">
@@ -103,7 +117,7 @@
 				<div class="project-apply-footer" style="padding: 15px; display: block;">
 					<div class="form-group pull-left">
 						<label style="font-size: 10px; font-weight: 500; color: #8C8C8C;">
-							<input type="checkbox" value="">
+							<input type="checkbox" id="checkbox-agree">
 							개인정보 제공 동의
 						</label>
 					</div>
@@ -151,6 +165,11 @@
 			if(confirm('해당 프로젝트에 지원하시겠습니까?')) {
 					
 				const resumeCheck = '${resumeRealname}';
+				
+				if(!$('#checkbox-agree').is(':checked')) {
+					alert('개인정보동의는 필수입니다.');
+					return;
+				}
 				
 				if(resumeCheck == '') {
 					alert('등록된 이력서가 없습니다. 이력서를 먼저 등록해주세요.');

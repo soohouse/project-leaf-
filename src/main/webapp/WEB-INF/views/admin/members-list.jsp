@@ -39,6 +39,19 @@
    			width: 560px;
    			margin: 0 auto;
    		}
+   		
+		
+		#members-user-intro::-webkit-scrollbar {
+ 			width: 3px;
+  			background-color: #C7C7C7;
+		}
+	
+	
+		#members-user-intro::-webkit-scrollbar-thumb {
+			background: #535353;
+		}
+   		
+   		
    </style>
    
 </head>
@@ -128,14 +141,22 @@
 											if(user.userIntro == null || user.userIntro == '') {
 												$('#members-user-intro').text('');
 											} else {
-												$('#members-user-intro').text(user.userIntro);
+												let str = user.userIntro.replaceAll("\n", "<br/>");
+												$('#members-user-intro').empty().append(str);
 											}
 											
 											if(user.resumeRealname == null || user.resumeRealname == '') {
-												$('#members-user-resume-realname').text('');
+												$('#members-user-resume-realname').css('color', '#A4A4A4');
+												$('#members-user-resume-realname').css('font-weight', '500');
+												$('#members-user-resume-realname').css('text-decoration', 'none');
+												$('#members-user-resume-realname').text('등록된 이력서가 없습니다.');
 											} else {
+												$('#members-user-resume-realname').css('color', 'blue');
+												$('#members-user-resume-realname').css('font-weight', '500');
+												$('#members-user-resume-realname').css('text-decoration', 'underline');
+												
 												$('#members-user-resume-realname').text(user.resumeRealname);
-											}
+											}			
 											
 											$('#members-user-logo').attr('src', '<c:url value="/user/userProfileGet?userNO=" />' + user.userNO);
 											
@@ -160,7 +181,6 @@
 						</c:forEach>
 						
 						</tbody>
-						
 						
 					</table>
 					<!-- 일반회원 탭 페이징 -->

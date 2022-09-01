@@ -3,12 +3,14 @@ package com.spring.leaf.projectapply.service;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.leaf.project.command.ProjectListVO;
 import com.spring.leaf.projectapply.command.ApplyVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyDetailVO;
 import com.spring.leaf.projectapply.command.MyProjectApplyListVO;
 import com.spring.leaf.projectapply.command.MyProjectStatusVO;
 import com.spring.leaf.projectapply.command.ProjectApplyCountVO;
 import com.spring.leaf.projectapply.command.ProjectPassListVO;
+import com.spring.leaf.util.PageApplyVO;
 
 public interface IProjectApplyService {
 	
@@ -28,11 +30,10 @@ public interface IProjectApplyService {
 	
 	
 	// 기업회원 지원 현황 내 프로젝트 목록 요청
-	List<MyProjectStatusVO> myProjectStatus(int companyNO);
-	
+	List<MyProjectStatusVO> myProjectStatus(int companyNO, PageApplyVO pvo);	
 	
 	// 기업회원 등록 프로젝트 개수 얻어오기 요청
-	int myProjectCount(int companyNO);
+	int myProjectCount(int companyNO, PageApplyVO pvo);
 	
 	
 	// 기업회원의 프로젝트를 지원한 지원자 목록 요청
@@ -77,6 +78,6 @@ public interface IProjectApplyService {
 	
 	// 프로젝트 별 지원자 수 얻어오기 요청 (통계)
 	List<ProjectApplyCountVO> projectApplyCount(int companyNO);
-	
+
 }
  

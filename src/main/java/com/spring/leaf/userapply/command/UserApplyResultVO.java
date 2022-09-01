@@ -17,4 +17,5 @@ public class UserApplyResultVO {
 	private Timestamp projectRequireDate2;
 	private String commonValue;
 	
+	private int rn;//글번호
 }

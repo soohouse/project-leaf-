@@ -67,183 +67,233 @@
 
 <%@ include file="../include/header.jsp" %>
 
-	
-	   
+
+
 	<div class="mainbox">
-	
-        <section>
-            <div class="container">
+
+		<section>
+			<div class="container">
 				<div class="row">
-					 <!-- 메인화면 공지사항 상단 -->
-			            <a href="#" class="list-group-item active notice-list-top" style="margin-top: 20px;">
-			            	<span class="main-notice-title">자유게시판</span>
-			            </a>
-				
-                     <div class="container my-1" >
-                       <form action="<c:url value='/board/boardDelete'/>" method="post" name="boardDeleteForm">
-	                        <div class="row" style="margin-bottom:50px;">
-	                        	<div class="free_content" >
-	                                   <div class="free_content_up" style="margin-left:30px;" >
-			                                        <div class="free_title_up" scope="col" style="width: 100%;  margin-top:10px;">
-			                                        	<input type="hidden" id="hidden-boardNo" name="boardNo" value="${board.boardNo}">
-			                                        	<h4 style="display:inline-block;">${board.boardTitle}</h4>
+					<!-- 메인화면 공지사항 상단 -->
+					<a href="#" class="list-group-item active notice-list-top"
+						style="margin-top: 20px;"> <span class="main-notice-title">자유게시판</span>
+					</a>
 
-			                                        	<c:if test="${board.boardWriter eq user.userID || user.commonCODE == 'ADM002'}">
-				                                        	<a type="submit" id="btn-board-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
+					<div class="container my-1">
+						<form action="<c:url value='/board/boardDelete'/>" method="post"
+							name="boardDeleteForm">
+							<div class="row" style="margin-bottom: 50px;">
+								<div class="free_content">
+									<div class="free_content_up" style="margin-left: 30px;">
+										<div class="free_title_up" scope="col"
+											style="width: 100%; margin-top: 10px;">
+											<input type="hidden" id="hidden-boardNo" name="boardNo"
+												value="${board.boardNo}">
+											<h4 style="display: inline-block;">${board.boardTitle}</h4>
 
-				                                        </c:if>
-			                                        </div>
-			                                        
-			                                        <div class="free_title_down" style="margin-top:30px;">
-				                                        <div class="free_writer" style="display: inline-block;">
-				                                        	
-				                                        	<c:choose>
-				                                        	
-				                                        		<c:when test="${boardWriterNumbers.userNo != ''}">
-				                                        			<img src="<c:url value='/user/userProfileGet?userNO=${boardWriterNumbers.userNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >	
-				                                        		</c:when>
-				                                        	
-				                                        		<c:when test="${boardWriterNumbers.companyNo != ''}">
-				                                        			<img src="<c:url value='/company/companyLogoGet?companyNO=${boardWriterNumbers.companyNo}'/>" width="40px" height="40px" style="border-radius: 30px; margin-left: 10px; margin-right: -5px;" >
-				                                        		</c:when>
-				                                        	
-				                                        	</c:choose>
-				                                        
-				                                            
-				                                            <span style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left:15px;">&nbsp; ${board.boardWriter} &nbsp;</span>
-				                                            <c:if test="${board.boardWriter eq user.userID }">
-			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px; margin-left:10px;">내가 작성한 글</span>
-			                                            	</c:if>
-				                                            <c:if test="${board.boardWriter eq company.companyID }">
-			                                            		<span style="background:lightgray; font-size:13px; color:#202020; padding:5px; margin-left:10px;">내가 작성한 글</span>
-			                                            	</c:if>
-			                                       		</div>
-			                                       		<div style="display:inline-block; float:right; margin-top:10px; margin-right:40px; color:gray;">
-					                                         <div style=" margin-left:50px; ">
-		                                        				<span style="color:black; font-style: bold;">조회수</span> ${board.boardViews }
-					                                        </div>
-					                                        <div style="float:right; margin-top:10px; margin-right:40px; color:gray;" >
-					                                            <fmt:formatDate value="${board.boardDate}" pattern="yyyy-MM-dd HH:mm" />
-					                                        </div>
-					                                       
-				                                        </div>
-			                                        </div>
-	                                    </div>
-	
-	                                    <div class="free_content_down" style="min-height:300px; margin-top:50px; margin-left:30px; font-size:15px; margin-bottom: 30px;">
-	                                        
-	                                        	${fn:replace(board.boardContent, newLineChar, '<br/>')}
-	                                           
-	                                    </div>
-	                            </div>
-	                 			
-	                        </div>
-                        </form>
-                    
-                    <!-- 댓글 입력 부분 -->
-					<div style="background-color:#bbd0e7; height: 120px; ">
-						<div style="text-align:left; margin: 10px 10px 10px 10px; padding-top:10px;">회원만 댓글 작성이 가능합니다.</div>
-			    		<div>
-			    			<div>
-			    				<input type="hidden" id="boardNo" name="boardNo" value="${board.boardNo}">
-			    				
-			    				<c:if test="${user != null}">
-			    					<input type="hidden" id="boardReplyWriter" name="boardReplyWriter" value="${user.userID}" >
-			    				</c:if>
-			    				
-			    				<c:if test="${company != null}">
-			    					<input type="hidden" id="boardReplyWriter" name="boardReplyWriter" value="${company.companyID}" >
-			    				</c:if>
-			    				
-			    				<c:if test="${user != null || company != null}">																									
-					      			<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%; margin-left:30px; resize:none;"></textarea>
-				      			</c:if>
-			    				
-				      			<c:if test="${user == null && company == null}">
-					      			<textarea id="boardReplyContent" type="text" class="form-control col-md-8 col-sm-10" placeholder="로그인 한 후 댓글을 입력하세요." name="boardReplyContent" maxlength="2048" style="float:left; width:85%; margin-left:30px; resize:none;" readonly="readonly"></textarea>
-				      			</c:if>
-				      			
-							</div>
-							<div style=" margin-bottom:10px; float:right; margin-right: 40px; width:5%;">
-								<input type="button" id="btn-boardreply-write" class="btn" value="댓글입력" style="height:54px;">
-							</div>
-						</div>
-					</div>
-                    
-					<!-- 댓글 보여지는 부분 -->
-					<div  class="boardreply-List"  style="text-align: center; font-size:12px;">
-						<div>
-						    <div style="background-color: #bbd0e7;" >
-								<div style=" text-align: left; margin-left:10px; padding-top:10px; ">전체댓글
-									<p id="p-reply-count" style="color:red; display:inline-block; "></p>
-						        </div>
-						    </div> 
-						</div>
-					
-						<!-- 댓글 보기 모드 (여기에 댓글 반복이 들어감) -->
-						<div id="boardReplyList" style="width=100%; background:#FAFAFA; padding:5px 15px 5px 15px;">
-														
-							<!-- ------------------------댓글이 반복됨---------------------------- -->
-							<!-- ------------------------댓글이 반복됨---------------------------- -->
-							<!-- ------------------------댓글이 반복됨---------------------------- -->
-							<!-- ------------------------댓글이 반복됨---------------------------- -->
-							<!-- ------------------------댓글이 반복됨---------------------------- -->
-							
-					     </div>
-					     <button class="form-control" id="moreList">댓글 더보기</button>
-					</div>
+											<c:if test="${board.boardWriter eq user.userID || board.boardWriter eq company.companyID || user.commonCODE == 'ADM002'}">
+	                                        	<a type="submit" id="btn-board-delete" class="btn mb-2" style="display: inline-block; float:right; margin-right:50px;">삭제</a>
+	                                        </c:if>
+										</div>
 
-					<div class="text-center">
-						
-						
-						<br>
-						<div style="margin-top:20px;">
-            
-							<button type="submit" class=" mb-2 pull-left">신고하기 </button>
-							<c:if test="${board.boardWriter eq user.userID || board.boardWriter eq company.companyID || user.commonCODE == 'ADM002'}">
-								<button type="button" id="btn-board-modify" class="btn btn-info mb-2 pull-right" onclick="location.href='<c:url value="/board/boardModify?boardNo=${board.boardNo}"/>'" style="margin-left:10px;">수정하기</button>
-							</c:if>
-							<button type="button" id="btn-board-list" class="btn btn-primary mb-2 pull-right" onclick="location.href='free_list'">목록 </button>
-						</div>
-						<!-- 날짜${boardReply.boardReplyDate} -->
-						
-					</div>
-						
-				</div> 
-	        </section> 
-	        
-	        
-	        <!-- 댓글 수정/삭제 모달 -->
-	        <div class="modal fade" id="replyModal" role="dialog">
-				<div class="modal-dialog modal-md">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="btn btn-default pull-right" data-dismiss="modal">닫기</button>
-							<h4 class="modal-title">댓글 수정</h4>
-						</div>
-						<div class="modal-body">
-							<!-- 수정폼 id값을 확인하세요-->
-							<input type="hidden" id="hidden-modal-replyno" name="">
-							<div class="reply-content" >
-								<textarea class="form-control" rows="4" id="modalReply" placeholder="내용입력" style="resize: none;">${boardContent.boardContent }</textarea>
-								<div class="reply-group">
-									<button class="right btn btn-info" id="modalModBtn" style="margin-top:10px;">수정하기</button>
-									<button class="right btn btn-info" id="modalDelBtn">삭제하기</button>
+										<div class="free_title_down" style="margin-top: 30px;">
+											<div class="free_writer" style="display: inline-block;">
+
+												<c:choose>
+
+													<c:when test="${boardWriterNumbers.userNo != ''}">
+														<img
+															src="<c:url value='/user/userProfileGet?userNO=${boardWriterNumbers.userNo}'/>"
+															width="40px" height="40px"
+															style="border-radius: 30px; margin-left: 10px; margin-right: -5px;">
+													</c:when>
+
+													<c:when test="${boardWriterNumbers.companyNo != ''}">
+														<img
+															src="<c:url value='/company/companyLogoGet?companyNO=${boardWriterNumbers.companyNo}'/>"
+															width="40px" height="40px"
+															style="border-radius: 30px; margin-left: 10px; margin-right: -5px;">
+													</c:when>
+
+												</c:choose>
+
+
+												<span
+													style="display: inline-block; font-size: 14px; font-weight: bold; font-family: sans-serif; margin-left: 15px;">&nbsp;
+													${board.boardWriter} &nbsp;</span>
+												<c:if test="${board.boardWriter eq user.userID }">
+													<span
+														style="background: lightgray; font-size: 13px; color: #202020; padding: 5px; margin-left: 10px;">내가
+														작성한 글</span>
+												</c:if>
+												<c:if test="${board.boardWriter eq company.companyID }">
+													<span
+														style="background: lightgray; font-size: 13px; color: #202020; padding: 5px; margin-left: 10px;">내가
+														작성한 글</span>
+												</c:if>
+											</div>
+											<div
+												style="display: inline-block; float: right; margin-top: 10px; margin-right: 40px; color: gray;">
+												<div style="margin-left: 50px;">
+													<span style="color: black; font-style: bold;">조회수</span>
+													${board.boardViews }
+												</div>
+												<div
+													style="float: right; margin-top: 10px; margin-right: 40px; color: gray;">
+													<fmt:formatDate value="${board.boardDate}"
+														pattern="yyyy-MM-dd HH:mm" />
+												</div>
+
+											</div>
+										</div>
+									</div>
 								</div>
+								<br>
+								<hr>
+
+								<div class="free_content_down"
+									style="min-height: 300px; margin-top: 50px; margin-left: 30px; font-size: 15px; margin-bottom: 30px;">
+
+									${fn:replace(board.boardContent, newLineChar, '<br/>')}</div>
 							</div>
-							<!-- 수정폼 끝. -->
+						
+						</form>
+					</div>
+				</div>
+				<!-- 댓글 입력 부분 -->
+				<div style="background-color: #bbd0e7; height: 120px;">
+					<div
+						style="text-align: left; margin: 10px 10px 10px 10px; padding-top: 10px;">회원만
+						댓글 작성이 가능합니다.</div>
+					<div>
+						<div>
+							<input type="hidden" id="boardNo" name="boardNo"
+								value="${board.boardNo}">
+
+							<c:if test="${user != null}">
+								<input type="hidden" id="boardReplyWriter"
+									name="boardReplyWriter" value="${user.userID}">
+							</c:if>
+
+							<c:if test="${company != null}">
+								<input type="hidden" id="boardReplyWriter"
+									name="boardReplyWriter" value="${company.companyID}">
+							</c:if>
+
+							<c:if test="${user != null || company != null}">
+								<textarea id="boardReplyContent" type="text"
+									class="form-control col-md-8 col-sm-10"
+									placeholder="댓글을 입력하세요." name="boardReplyContent"
+									maxlength="2048"
+									style="float: left; width: 85%; margin-left: 30px; resize: none;"></textarea>
+							</c:if>
+
+							<c:if test="${user == null && company == null}">
+								<textarea id="boardReplyContent" type="text"
+									class="form-control col-md-8 col-sm-10"
+									placeholder="로그인 한 후 댓글을 입력하세요." name="boardReplyContent"
+									maxlength="2048"
+									style="float: left; width: 85%; margin-left: 30px; resize: none;"
+									readonly="readonly"></textarea>
+							</c:if>
+
+						</div>
+						<div
+							style="margin-bottom: 10px; float: right; margin-right: 40px; width: 5%;">
+							<input type="button" id="btn-boardreply-write" class="btn"
+								value="댓글입력" style="height: 54px;">
 						</div>
 					</div>
 				</div>
-			</div><!-- 댓글 수정 모달 끝. -->
-		
-	   
-	   
-	    <%@ include file="../include/footer.jsp" %>
+
+				<!-- 댓글 보여지는 부분 -->
+				<div class="boardreply-List"
+					style="text-align: center; font-size: 12px;">
+					<div>
+						<div style="background-color: #bbd0e7;">
+							<div
+								style="text-align: left; margin-left: 10px; padding-top: 10px;">
+								전체댓글
+								<p id="p-reply-count" style="color: red; display: inline-block;"></p>
+							</div>
+						</div>
+					</div>
+
+					<!-- 댓글 보기 모드 (여기에 댓글 반복이 들어감) -->
+					<div id="boardReplyList"
+						style="background: #FAFAFA; padding: 5px 15px 5px 15px;">
+
+						<!-- ------------------------댓글이 반복됨---------------------------- -->
+						<!-- ------------------------댓글이 반복됨---------------------------- -->
+						<!-- ------------------------댓글이 반복됨---------------------------- -->
+						<!-- ------------------------댓글이 반복됨---------------------------- -->
+						<!-- ------------------------댓글이 반복됨---------------------------- -->
+
+					</div>
+					<button class="form-control" id="moreList">댓글 더보기</button>
+				</div>
+
+				<div class="text-center">
+
+
+					<br>
+					<div style="margin-top: 20px;">
+
+						<button type="submit" class=" mb-2 pull-left">신고하기</button>
+						<c:if
+							test="${board.boardWriter eq user.userID || board.boardWriter eq company.companyID || user.commonCODE == 'ADM002'}">
+							<button type="button" id="btn-board-modify"
+								class="btn btn-info mb-2 pull-right"
+								onclick="location.href='<c:url value="/board/boardModify?boardNo=${board.boardNo}"/>'"
+								style="margin-left: 10px;">수정하기</button>
+						</c:if>
+						<button type="button" id="btn-board-list"
+							class="btn btn-primary mb-2 pull-right"
+							onclick="location.href='free_list'">목록</button>
+					</div>
+					<!-- 날짜${boardReply.boardReplyDate} -->
+
+				</div>
+
+			</div>
+		</section>
+
+
+		<!-- 댓글 수정/삭제 모달 -->
+		<div class="modal fade" id="replyModal" role="dialog">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="btn btn-default pull-right"
+							data-dismiss="modal">닫기</button>
+						<h4 class="modal-title">댓글 수정</h4>
+					</div>
+					<div class="modal-body">
+						<!-- 수정폼 id값을 확인하세요-->
+						<input type="hidden" id="hidden-modal-replyno" name="">
+						<div class="reply-content">
+							<textarea class="form-control" rows="4" id="modalReply"
+								placeholder="내용입력" style="resize: none;">${boardContent.boardContent }</textarea>
+							<div class="reply-group">
+								<button class="right btn btn-info" id="modalModBtn"
+									style="margin-top: 10px;">수정하기</button>
+								<button class="right btn btn-info" id="modalDelBtn">삭제하기</button>
+							</div>
+						</div>
+						<!-- 수정폼 끝. -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 댓글 수정 모달 끝. -->
+
+
+
+		<%@ include file="../include/footer.jsp"%>
 	</div>
-   
-   
-  
+
+
+
 </body>
 </html>
 
@@ -386,7 +436,7 @@
 						
 						var timestamp = boardReplyList[i].boardReplyDate;
 						
-						var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '');
+						var date = new Date(timestamp).toISOString().replace("T", " ").replace(/\..*/, '').slice(0,16);
 						var replyWriter = boardReplyList[i].boardReplyWriter;
 						var replyReader = '';
 						

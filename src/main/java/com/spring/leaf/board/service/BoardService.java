@@ -34,6 +34,16 @@ public class BoardService implements IBoardService {
 	@Override
 	public List<BoardVO> boardList(PageVO vo) {
 		List<BoardVO> list = mapper.boardList(vo);
+		
+		for(int i = 0; i < list.size(); i++) {
+			
+			if(list.get(i).getBoardTitle().length() > 44) {
+				String boardTitle = list.get(i).getBoardTitle().substring(0, 43) + "...";
+				
+				list.get(i).setBoardTitle(boardTitle);
+			}
+		}
+		
 		return list;
 	}
 	

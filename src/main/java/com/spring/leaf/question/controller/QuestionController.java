@@ -119,7 +119,7 @@ public class QuestionController {
 	public String questionDelete(QuestionVO vo, RedirectAttributes ra) {
 			
 		service.questionDelete(vo.getQuestionNo());
-		ra.addFlashAttribute("msg", "deleteSuccess");
+		ra.addFlashAttribute("msg", "성공적으로 삭제되었습니다.");
 		return "redirect:/question/questionList";
 	}
 	

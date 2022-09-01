@@ -49,6 +49,10 @@ import com.spring.leaf.projectapply.command.ApplyVO;
 import com.spring.leaf.projectapply.service.IProjectApplyService;
 import com.spring.leaf.user.command.UserProfileVO;
 import com.spring.leaf.user.command.UserVO;
+import com.spring.leaf.util.PageApplyCreator;
+import com.spring.leaf.util.PageApplyVO;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 
 @Controller
@@ -62,12 +66,139 @@ public class ProjectController {
 	
 	//프로젝트 목록 
 	@GetMapping("/project")
-	public String project(Model model) {
+	public String project(PageApplyVO pvo, Model model) {
 		
-		model.addAttribute("projectlist", service.projectlist());
+		//페이징
+		System.out.println(pvo);
+		PageApplyCreator pc = new PageApplyCreator();
+		pc.setPaging(pvo);
+		pc.setArticleTotalCount(service.getTotal(pvo));
+		System.out.println(pc);
+		
+		model.addAttribute("projectlist", service.projectlist(pvo));
+     	model.addAttribute("pc", pc);
 		
 		return "project/project-list";
 	}
+	
+	
+	// 모집 진행중 목록
+	@GetMapping("/projectNow")
+	public String projectNow(PageApplyVO pvo, Model model) {
+
+		// 페이징
+		System.out.println(pvo);
+		PageApplyCreator pc = new PageApplyCreator();
+		pc.setPaging(pvo);
+		pc.setArticleTotalCount(service.getTotalNow(pvo));
+		System.out.println(pc);
+
+		model.addAttribute("projectlist", service.projectNow(pvo));
+		model.addAttribute("pc", pc);
+		model.addAttribute("check", "check1");
+
+		return "project/project-list";
+	}
+	
+	
+	// 마감 임박 목록
+	@GetMapping("/projectHurry")
+	public String projectHurry(PageApplyVO pvo, Model model) {
+
+		// 페이징
+		System.out.println(pvo);
+		PageApplyCreator pc = new PageApplyCreator();
+		pc.setPaging(pvo);
+		pc.setArticleTotalCount(service.getTotalHurry(pvo));
+		System.out.println(pc);
+
+		model.addAttribute("projectlist", service.projectHurry(pvo));
+		model.addAttribute("pc", pc);
+		model.addAttribute("check", "check2");
+
+		return "project/project-list";
+	}
+	
+
+	// 모집 종료 목록
+	@GetMapping("/projectEnd")
+	public String projectEnd(PageApplyVO pvo, Model model) {
+
+		// 페이징
+		System.out.println(pvo);
+		PageApplyCreator pc = new PageApplyCreator();
+		pc.setPaging(pvo);
+		pc.setArticleTotalCount(service.getTotalEnd(pvo));
+		System.out.println(pc);
+
+		model.addAttribute("projectlist", service.projectEnd(pvo));
+		model.addAttribute("pc", pc);
+		model.addAttribute("check", "check3");
+
+		return "project/project-list";
+	}
+	
+	
+	// 좋아요 누른 프로젝트 목록
+	@GetMapping("/projectLike")
+	public String projectLike(PageApplyVO pvo, Model model, HttpSession session) {
+
+		if(session.getAttribute("user") != null) {
+			
+			UserVO vo = (UserVO) session.getAttribute("user");
+			
+			// 페이징
+			System.out.println(pvo);
+			PageApplyCreator pc = new PageApplyCreator();
+			pc.setPaging(pvo);
+			pc.setArticleTotalCount(service.getTotalLikeUser(vo.getUserNO()));
+			System.out.println(pc);
+
+			model.addAttribute("projectlist", service.projectLikeUser(pvo, vo.getUserNO()));
+			model.addAttribute("pc", pc);
+			model.addAttribute("check", "check4");
+		}
+		
+		if(session.getAttribute("company") != null) {
+			
+			CompanyVO vo = (CompanyVO) session.getAttribute("company");
+			
+			// 페이징
+			System.out.println(pvo);
+			PageApplyCreator pc = new PageApplyCreator();
+			pc.setPaging(pvo);
+			pc.setArticleTotalCount(service.getTotalLikeCompany(vo.getCompanyNO()));
+			System.out.println(pc);
+
+			model.addAttribute("projectlist", service.projectLikeUser(pvo, vo.getCompanyNO()));
+			model.addAttribute("pc", pc);
+			model.addAttribute("check", "check4");
+		}
+		
+
+		return "project/project-list";
+	}
+	
+	
+	// 날짜로 검색한 프로젝트 목록
+	@GetMapping("/projectSearchDate")
+	public String projectSearchDate(PageApplyVO pvo, String date, Model model) {
+
+		// 페이징
+		System.out.println(pvo);
+		PageApplyCreator pc = new PageApplyCreator();
+		pc.setPaging(pvo);
+		pc.setArticleTotalCount(service.getTotalSearchDate(date));
+		System.out.println(pc);
+
+		model.addAttribute("projectlist", service.projectSearchDate(pvo, date));
+		model.addAttribute("pc", pc);
+		model.addAttribute("check", "check5");
+		model.addAttribute("date", date);
+
+		return "project/project-list";
+	}
+		
 	
 	//프로젝트 상세보기
 	@GetMapping("/projectview")
@@ -79,40 +210,26 @@ public class ProjectController {
 			ApplyVO avo = aservice.applyGet(projectNO, vo.getUserNO());
 			
 			model.addAttribute("apply", avo);
+			model.addAttribute("projectLike", service.projectLikeCheck(vo.getUserNO(), projectNO));
 		} 
 		
 		if(session.getAttribute("company") != null) {
 			CompanyVO vo = (CompanyVO) session.getAttribute("company");
 			
 			model.addAttribute("companyNO", vo.getCompanyNO());
+			model.addAttribute("projectLikeCompany", service.projectLikeCheckCompany(vo.getCompanyNO(), projectNO));
 		}
 		
 		model.addAttribute("projectview", service.getContent(projectNO));
 		model.addAttribute("projectPassCount", aservice.applyPassCount(projectNO));
+		
 		
 		// 조회수 증가
 		aservice.projectViewCount(projectNO);
 		
 		return "project/project-view";
 	}
-	
-	
-	// 좋아요 버튼 클릭 처리
-	@PostMapping("/projectview")
-	@ResponseBody
-	public String likeConfirm(@RequestBody ProjectLikeVO vo) {
-		System.out.println(vo.getProjectNO());
-		System.out.println(vo.getUserNo());
-		
-		int result = service.searchLike(vo);
-		if(result == 0) {
-			service.createLike(vo);
-			return "like";
-		} else {
-			service.deleteLike(vo);
-			return "delete";
-		}
-	}
+
 	
 	//기업 - 프로젝트 등록하기
 	@GetMapping("/projectputin")
@@ -129,13 +246,63 @@ public class ProjectController {
 	
 	//프로젝트 관리 창 
 	@GetMapping("/projectadmin")
-	public String project5(HttpSession session, Model model) {
+	public String project5(PageApplyVO pvo, HttpSession session, Model model) {
 		
-		CompanyVO vo = (CompanyVO) session.getAttribute("company");
-		
-		model.addAttribute("projectlist", service.projectadmin(vo.getCompanyNO()));
-		
+		if(session.getAttribute("user") != null) {			
+			// 페이징
+			System.out.println(pvo);
+			PageApplyCreator pc = new PageApplyCreator();
+			pc.setPaging(pvo);
+			pc.setArticleTotalCount(service.getTotalAdminAll(pvo));
+			System.out.println(pc);
+			
+			model.addAttribute("projectadmin", service.projectadminAll(pvo));
+			model.addAttribute("adminCheck", 1);
+			model.addAttribute("pc", pc);
+		}
+
+		if(session.getAttribute("company") != null) {
+			
+			CompanyVO vo = (CompanyVO) session.getAttribute("company");
+			
+			// 페이징
+			System.out.println(pvo);
+			PageApplyCreator pc = new PageApplyCreator();
+			pc.setPaging(pvo);
+			pc.setArticleTotalCount(service.getTotalAdmin(pvo, vo.getCompanyNO()));
+			System.out.println(pc);
+      
+			model.addAttribute("projectadmin", service.projectadmin(pvo, vo.getCompanyNO()));
+			model.addAttribute("adminCheck", 0);
+			model.addAttribute("pc", pc);
+		}
+
 		return "project/project-admin";
+	}
+	
+	//프로젝트 삭제하기 요청
+	@PostMapping("/projectDelete")
+	@ResponseBody
+	public String projectDelete(int projectNO) {
+		
+		service.deleteProject(projectNO);
+
+		return "YesProjectDelete";
+	}
+	
+	
+	//프로젝트 지원자 체크
+	@PostMapping("/projectUserCheck")
+	@ResponseBody
+	public String projectUserCheck(int projectNO) {
+		
+		int check = service.projectUserCheck(projectNO);
+		
+		if(check == 0) {
+			return "CheckZero";
+		} else {
+			return "CheckMany";
+		}
 	}
 	
 	
@@ -304,6 +471,7 @@ public class ProjectController {
 	}
 
 	
+	// 프로젝트 사진 삭제 요청
 	@PostMapping("/projectImageDelete/{projectNO}")
 	@ResponseBody
 	public String projectImageDelete(@PathVariable("projectNO") int projectNO) throws Exception {
@@ -639,4 +807,64 @@ public class ProjectController {
 		}
 		
 	}
+
+	
+	// 일반회원 프로젝트 좋아요 적용
+	@PostMapping("/projectLikeOK")
+	@ResponseBody
+	public String projectLikeOK(int projectNO, int userNO) {
+		service.projectLikeOK(userNO, projectNO);
+		
+		return "YesProjectLikeOK";
+	}
+	
+	
+	// 일반회원 프로젝트 좋아요 취소
+	@PostMapping("/projectLikeCancel")
+	@ResponseBody
+	public String projectLikeCancel(int projectNO, int userNO) {
+		service.projectLikeCancel(userNO, projectNO);
+		
+		return "YesProjectLikeCancel";
+	}
+	
+	
+	// 일반회원 프로젝트 좋아요 적용
+	@PostMapping("/projectLikeCompanyOK")
+	@ResponseBody
+	public String projectLikeCompanyOK(int projectNO, int companyNO) {
+		service.projectLikeCompanyOK(companyNO, projectNO);
+
+		return "YesProjectLikeCompanyOK";
+	}
+
+	
+	// 일반회원 프로젝트 좋아요 취소
+	@PostMapping("/projectLikeCompanyCancel")
+	@ResponseBody
+	public String projectLikeCompanyCancel(int projectNO, int companyNO) {
+		service.projectLikeCompanyCancel(companyNO, projectNO);
+
+		return "YesProjectLikeCompanyCancel";
+	}
+	
+	
+	// 프로젝트 좋아요 수 비동기로 실시간 얻어오기
+	@PostMapping("/projectLikeGet")
+	@ResponseBody
+	public int projectLikeGet(int projectNO) {
+		return service.projectLikeGet(projectNO);
+	}
+	
+	
+	// 프로젝트 상세보기 지도 팝업
+	@GetMapping("/projectMap")
+	public String projectMap(@RequestParam("address") String address, Model model) {
+		
+		model.addAttribute("address", address);
+		
+		return "/popup/popup-map";
+	}
+	
 }
+

@@ -18,6 +18,7 @@ import com.spring.leaf.userlist.service.IUserListService;
 import com.spring.leaf.util.PageApplyCreator;
 import com.spring.leaf.util.PageApplyVO;
 import com.spring.leaf.util.PageCreator;
+import com.spring.leaf.util.PageVO;
 
 @Controller
 @RequestMapping("/userapply")
@@ -40,16 +41,15 @@ public class UserApplyController {
 			System.out.println(pvo);
 			PageApplyCreator pc = new PageApplyCreator();
 			pc.setPaging(pvo);
-			pc.setArticleTotalCount(service.projectApplyCount(vo.getUserNO()));
+			pc.setArticleTotalCount(service.projectApplyCountSearch(vo.getUserNO(), pvo));
 			System.out.println(pc);
 			
 			logger.info("/userapply/applystatus: GET (지원현황 페이지로 이동)");
 			
-			
 			model.addAttribute("applyStatusList", service.applyStatusList(vo.getUserNO(),pvo));
-			model.addAttribute("projectApplyCount", service.projectApplyCount(vo.getUserNO()));
-		model.addAttribute("pc", pc);
-			
+			model.addAttribute("projectApplyCount", service.projectApplyCountSearch(vo.getUserNO(), pvo));
+			model.addAttribute("pc", pc);
+
 			
 			return "user_mypage/user_apply_status";
 		}
@@ -66,13 +66,21 @@ public class UserApplyController {
 
 		// 지원결과 페이지 이동 요청
 		@GetMapping("/applyresult")
-		public String applyResultList(HttpSession session, Model model) {
-			logger.info("/userapply/applyresult: GET (지원결과조회 페이지로 이동)");
+		public String applyResultList(PageVO vo, HttpSession session, Model model) {
+			UserVO uvo = (UserVO) session.getAttribute("user");
 			
-			UserVO vo = (UserVO) session.getAttribute("user");
+			//페이징
+			System.out.println(vo);
+			PageCreator pc = new PageCreator();
+			pc.setPaging(vo);
+			pc.setArticleTotalCount(service.projectApplyCount(uvo.getUserNO()));
+			System.out.println(pc);
+			
+			logger.info("/userapply/applyresult: GET (지원결과조회 페이지로 이동)");
 					
-			model.addAttribute("applyResultList", service.applyResultList(vo.getUserNO()));
-			model.addAttribute("userNO", vo.getUserNO());
+			model.addAttribute("applyResultList", service.applyResultList(uvo.getUserNO(),vo));
+			model.addAttribute("userNO", uvo.getUserNO());
+			model.addAttribute("pc", pc);
 					
 			return "user_mypage/user_apply_result";
 		}

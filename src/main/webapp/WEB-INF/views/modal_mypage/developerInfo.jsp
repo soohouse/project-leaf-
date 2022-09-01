@@ -13,7 +13,7 @@
 						정보</span>
 				</a>
 
-				<div style="display: inline-block; margin-top: 20px;">
+				<div style="display: inline-block; position: relative; top: -20px;">
 					<img id="modal-user-logo" alt="사진" width="160px" height="160px"
 						style="border-radius: 120px;">
 
@@ -60,8 +60,8 @@
 					<div class="form-group">
 						<label for="inputEmail3" class="control-label"
 							style="width: 100px;">소개</label>
-						<p id="modal-user-intro"
-							style="font-size: 13px; display: inline-block; vertical-align: top;">&nbsp;</p>
+						
+						<div id="modal-user-intro" style="width: 240px; height: 70px; font-size: 13px; display: inline-block; vertical-align: top; padding-right: 10px; overflow: auto;"></div>	
 
 					</div>
 					<div class="form-group">
